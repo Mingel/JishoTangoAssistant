@@ -41,35 +41,21 @@ namespace MJapVocab
     class JishoWebAPIClient
     {
         private static readonly HttpClient client = new HttpClient();
-        private static bool running = false;
 
-        public static async Task<string[]> RunAsync(string keyword)
+        public static async Task<JishoDatum[]> RunAsync(string keyword)
         {
-            if (!running)
+            using (var client = new HttpClient())
             {
-                running = true;
-                using (var client = new HttpClient())
-                {
-                    var message = await client.GetStringAsync(String.Format("https://jisho.org/api/v1/search/words?keyword=\"{0}\"", keyword));
+                var message = await client.GetStringAsync(String.Format("https://jisho.org/api/v1/search/words?keyword=\"{0}\"", keyword));
 
-                    var json = JsonConvert.DeserializeObject<JishoMessage>(message);
-                    if (json.meta.status == 200)
-                    {
-                        var result = new string[json.data[0].senses.Length + 2];
-                        result[0] = json.data[0].slug;
-                        result[1] = json.data[0].japanese[0].reading;
-                        for (int i = 0; i < json.data[0].senses.Length; i++)
-                        {
-                            result[i + 2] = String.Join("; ", json.data[0].senses[i].english_definitions);
-                        }
-                        running = false;
-                        return result;
-                    }
+                var json = JsonConvert.DeserializeObject<JishoMessage>(message);
+                if (json.meta.status == 200)
+                {
+                    var result = json.data;
+                    return result;
                 }
-                running = false;
-                return new string[] { };
             }
-            return new string[] { };
+            return null;
         }
     }
 }
