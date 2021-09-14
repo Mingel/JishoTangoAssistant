@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MJapVocab
@@ -16,6 +16,11 @@ namespace MJapVocab
         private static bool running = false;
 
         private JishoDatum[] latestResult;
+
+        public List<Element> addedElements = new List<Element>();
+        public BindingList<Element> bindingAddedElements;
+
+        private bool userMadeChanges = false;
 
         protected void DisposeOutputCheckBoxes(bool disposing)
         {
@@ -36,10 +41,12 @@ namespace MJapVocab
 
         private void MJapVocabForm_Load(object sender, EventArgs e)
         {
-
+            bindingAddedElements = new BindingList<Element>(addedElements);
+            elementsGridView.DataSource = bindingAddedElements;
+            UpdateElementsGridView();
         }
 
-        private async void inputTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -164,6 +171,7 @@ namespace MJapVocab
 
         private void additionalCommentsTextBox_TextChanged(object sender, EventArgs e)
         {
+            elementsGridView.DataSource = addedElements;
             UpdateOutputTextbox();
         }
 
@@ -205,6 +213,161 @@ namespace MJapVocab
         {
             readingOutputLabel.Text = this.latestResult[wordComboBox.SelectedIndex].japanese[otherFormsComboBox.SelectedIndex].reading;
             UpdateOutputTextbox();
+        }
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            if (this.latestResult == null)
+                return;
+            var outputText = String.Empty;
+            var englishDefinitionsString = String.Join("; ", outputCheckBoxes.Where(x => x.Checked).Select(x => x.Text));
+            outputText += englishDefinitionsString;
+            if (!string.IsNullOrWhiteSpace(additionalCommentsTextBox.Text) && !string.IsNullOrWhiteSpace(englishDefinitionsString))
+            {
+                outputText += Environment.NewLine;
+            }
+            outputText += additionalCommentsTextBox.Text;
+            bool showReading = !writeInKanaCheckbox.Checked;
+            var word = showReading ? otherFormsComboBox.SelectedItem.ToString() : readingOutputLabel.Text;
+            Element elem = new Element(word, showReading, readingOutputLabel.Text, outputText);
+            addedElements.Add(elem);
+            elementsGridView.ClearSelection();
+            userMadeChanges = true;
+            UpdateElementsGridView();
+        }
+
+        private void UpdateElementsGridView()
+        {
+            // for some reason, ResetBindings() is not working sometimes TODO
+            //bindingAddedElements.ResetBindings();
+            // alternative:
+            bindingAddedElements = new BindingList<Element>(addedElements);
+            elementsGridView.DataSource = bindingAddedElements;
+
+            elementsGridView.Columns["ShowReading"].Visible = false;
+        }
+
+        private void saveAllButton_Click(object sender, EventArgs e)
+        {
+            save();
+        }
+
+        private void save()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "MJV Files (*.mjv)|*.mjv";
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
+                {
+                    sw.Write(Element.ListToJson(addedElements.ToArray()));
+                    userMadeChanges = false;
+                }
+            }
+        }
+
+        private void deleteSelectionButton_Click(object sender, EventArgs e)
+        {
+            if (elementsGridView.SelectedRows.Count < 1)
+                return;
+            var result = MessageBox.Show("Do you really want to delete your selection?",
+                                          "Deletion Confirmation",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                addedElements.RemoveAt(elementsGridView.SelectedRows[0].Index);
+                userMadeChanges = true;
+                UpdateElementsGridView();
+                elementsGridView.ClearSelection();
+            }
+        }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "MJV Files (*.mjv)|*.mjv";
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var fileStream = openFileDialog.OpenFile();
+                using (StreamReader reader = new StreamReader(fileStream))
+                {
+                    var fileContent = reader.ReadToEnd();
+                    var loadedElements = Element.JsonToList(fileContent);
+                    addedElements.Clear();
+                    addedElements.AddRange(loadedElements);
+                    userMadeChanges = false;
+                    UpdateElementsGridView();
+                    elementsGridView.ClearSelection();
+                }
+            }
+        }
+
+        private void upSelectionButton_Click(object sender, EventArgs e)
+        {
+            if (elementsGridView.SelectedRows.Count < 1)
+                return;
+            var selectedIndex = elementsGridView.SelectedRows[0].Index;
+            if (selectedIndex < 1)
+                return;
+            var tmp = addedElements[selectedIndex - 1];
+            addedElements[selectedIndex - 1] = addedElements[selectedIndex];
+            addedElements[selectedIndex] = tmp;
+            userMadeChanges = true;
+            UpdateElementsGridView();
+            elementsGridView.Rows[selectedIndex - 1].Selected = true;
+        }
+
+        private void downSelectionButton_Click(object sender, EventArgs e)
+        {
+            if (elementsGridView.SelectedRows.Count < 1)
+                return;
+            var selectedIndex = elementsGridView.SelectedRows[0].Index;
+            if (selectedIndex >= elementsGridView.Rows.Count - 1)
+                return;
+            var tmp = addedElements[selectedIndex + 1];
+            addedElements[selectedIndex + 1] = addedElements[selectedIndex];
+            addedElements[selectedIndex] = tmp;
+            userMadeChanges = true;
+            UpdateElementsGridView();
+            elementsGridView.Rows[selectedIndex + 1].Selected = true;
+        }
+
+        private void MJapVocabForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (userMadeChanges)
+            {
+                var result = MessageBox.Show("You have made unsaved changes. Do you want to quit the application?",
+                                          "Unsaved Changes",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Warning);
+                if (result == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void exportCsvJapToEngButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog exportFileDialog = new SaveFileDialog();
+
+            exportFileDialog.Filter = "CSV Files (*.csv)|*.csv";
+            exportFileDialog.RestoreDirectory = true;
+
+            if (exportFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
+                {
+                    sw.Write(Element.ListToJapEng(addedElements.ToArray()));
+                }
+            }
         }
     }
 }

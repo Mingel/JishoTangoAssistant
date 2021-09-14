@@ -31,6 +31,7 @@ namespace MJapVocab
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.inputTextBox = new System.Windows.Forms.TextBox();
             this.inputLabel = new System.Windows.Forms.Label();
             this.outputTextBox = new System.Windows.Forms.TextBox();
@@ -47,7 +48,16 @@ namespace MJapVocab
             this.otherFormsComboBox = new System.Windows.Forms.ComboBox();
             this.otherFormsLabel = new System.Windows.Forms.Label();
             this.enterButton = new System.Windows.Forms.Button();
+            this.saveAllButton = new System.Windows.Forms.Button();
+            this.addButton = new System.Windows.Forms.Button();
+            this.elementsGridView = new System.Windows.Forms.DataGridView();
+            this.deleteSelectionButton = new System.Windows.Forms.Button();
+            this.loadButton = new System.Windows.Forms.Button();
+            this.upSelectionButton = new System.Windows.Forms.Button();
+            this.downSelectionButton = new System.Windows.Forms.Button();
+            this.exportCsvJapToEngButton = new System.Windows.Forms.Button();
             this.englishDefinitionsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.elementsGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // inputTextBox
@@ -163,6 +173,7 @@ namespace MJapVocab
             this.additionalCommentsTextBox.Size = new System.Drawing.Size(774, 49);
             this.additionalCommentsTextBox.TabIndex = 11;
             this.additionalCommentsTextBox.TextChanged += new System.EventHandler(this.additionalCommentsTextBox_TextChanged);
+            this.additionalCommentsTextBox.ScrollBars = ScrollBars.Vertical;
             // 
             // wordComboBox
             // 
@@ -207,11 +218,113 @@ namespace MJapVocab
             this.enterButton.UseVisualStyleBackColor = true;
             this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
             // 
+            // saveAllButton
+            // 
+            this.saveAllButton.Location = new System.Drawing.Point(791, 566);
+            this.saveAllButton.Name = "saveAllButton";
+            this.saveAllButton.Size = new System.Drawing.Size(343, 23);
+            this.saveAllButton.TabIndex = 17;
+            this.saveAllButton.Text = "Save List";
+            this.saveAllButton.UseVisualStyleBackColor = true;
+            this.saveAllButton.Click += new System.EventHandler(this.saveAllButton_Click);
+            // 
+            // addButton
+            // 
+            this.addButton.Location = new System.Drawing.Point(12, 536);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(775, 23);
+            this.addButton.TabIndex = 18;
+            this.addButton.Text = "Add to List";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            // 
+            // elementsGridView
+            // 
+            this.elementsGridView.AllowUserToResizeRows = false;
+            this.elementsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.elementsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.elementsGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            this.elementsGridView.Location = new System.Drawing.Point(791, 6);
+            this.elementsGridView.MultiSelect = false;
+            this.elementsGridView.Name = "elementsGridView";
+            this.elementsGridView.ReadOnly = true;
+            this.elementsGridView.RowHeadersVisible = false;
+            this.elementsGridView.RowTemplate.Height = 25;
+            this.elementsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.elementsGridView.Size = new System.Drawing.Size(343, 495);
+            this.elementsGridView.TabIndex = 19;
+            this.elementsGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            // 
+            // deleteSelectionButton
+            // 
+            this.deleteSelectionButton.Location = new System.Drawing.Point(791, 536);
+            this.deleteSelectionButton.Name = "deleteSelectionButton";
+            this.deleteSelectionButton.Size = new System.Drawing.Size(343, 23);
+            this.deleteSelectionButton.TabIndex = 20;
+            this.deleteSelectionButton.Text = "Delete Selection from List";
+            this.deleteSelectionButton.UseVisualStyleBackColor = true;
+            this.deleteSelectionButton.Click += new System.EventHandler(this.deleteSelectionButton_Click);
+            // 
+            // loadButton
+            // 
+            this.loadButton.Location = new System.Drawing.Point(13, 566);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(774, 23);
+            this.loadButton.TabIndex = 21;
+            this.loadButton.Text = "Load List";
+            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+            // 
+            // upSelectionButton
+            // 
+            this.upSelectionButton.Location = new System.Drawing.Point(794, 508);
+            this.upSelectionButton.Name = "upSelectionButton";
+            this.upSelectionButton.Size = new System.Drawing.Size(176, 23);
+            this.upSelectionButton.TabIndex = 22;
+            this.upSelectionButton.Text = "↑";
+            this.upSelectionButton.UseVisualStyleBackColor = true;
+            this.upSelectionButton.Click += new System.EventHandler(this.upSelectionButton_Click);
+            // 
+            // downSelectionButton
+            // 
+            this.downSelectionButton.Location = new System.Drawing.Point(976, 508);
+            this.downSelectionButton.Name = "downSelectionButton";
+            this.downSelectionButton.Size = new System.Drawing.Size(158, 23);
+            this.downSelectionButton.TabIndex = 23;
+            this.downSelectionButton.Text = "↓";
+            this.downSelectionButton.UseVisualStyleBackColor = true;
+            this.downSelectionButton.Click += new System.EventHandler(this.downSelectionButton_Click);
+            // 
+            // exportCsvJapToEngButton
+            // 
+            this.exportCsvJapToEngButton.Location = new System.Drawing.Point(12, 596);
+            this.exportCsvJapToEngButton.Name = "exportCsvJapToEngButton";
+            this.exportCsvJapToEngButton.Size = new System.Drawing.Size(1122, 23);
+            this.exportCsvJapToEngButton.TabIndex = 24;
+            this.exportCsvJapToEngButton.Text = "Export to .csv (JP → EN)";
+            this.exportCsvJapToEngButton.UseVisualStyleBackColor = true;
+            this.exportCsvJapToEngButton.Click += new System.EventHandler(this.exportCsvJapToEngButton_Click);
+            // 
             // MJapVocabForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 542);
+            this.ClientSize = new System.Drawing.Size(1143, 632);
+            this.Controls.Add(this.exportCsvJapToEngButton);
+            this.Controls.Add(this.downSelectionButton);
+            this.Controls.Add(this.upSelectionButton);
+            this.Controls.Add(this.loadButton);
+            this.Controls.Add(this.deleteSelectionButton);
+            this.Controls.Add(this.elementsGridView);
+            this.Controls.Add(this.addButton);
+            this.Controls.Add(this.saveAllButton);
             this.Controls.Add(this.enterButton);
             this.Controls.Add(this.otherFormsComboBox);
             this.Controls.Add(this.wordComboBox);
@@ -229,8 +342,10 @@ namespace MJapVocab
             this.Controls.Add(this.inputTextBox);
             this.Name = "MJapVocabForm";
             this.Text = "MJapVocab";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MJapVocabForm_FormClosing);
             this.Load += new System.EventHandler(this.MJapVocabForm_Load);
             this.englishDefinitionsGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.elementsGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,6 +369,14 @@ namespace MJapVocab
         private ComboBox otherFormsComboBox;
         private Label otherFormsLabel;
         private Button enterButton;
+        private Button saveAllButton;
+        private Button addButton;
+        private DataGridView elementsGridView;
+        private Button deleteSelectionButton;
+        private Button loadButton;
+        private Button upSelectionButton;
+        private Button downSelectionButton;
+        private Button exportCsvJapToEngButton;
     }
 }
 
