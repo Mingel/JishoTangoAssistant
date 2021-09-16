@@ -231,9 +231,9 @@ namespace MJapVocab
             var word = showReading ? otherFormsComboBox.SelectedItem.ToString() : readingOutputLabel.Text;
             Element elem = new Element(word, showReading, readingOutputLabel.Text, outputText);
             addedElements.Add(elem);
-            elementsGridView.ClearSelection();
             userMadeChanges = true;
             UpdateElementsGridView();
+            elementsGridView.Rows[elementsGridView.Rows.Count - 1].Selected = true;
         }
 
         private void UpdateElementsGridView()
