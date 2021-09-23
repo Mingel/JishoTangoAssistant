@@ -177,7 +177,6 @@ namespace MJapVocab
 
         private void additionalCommentsTextBox_TextChanged(object sender, EventArgs e)
         {
-            elementsGridView.DataSource = addedElements;
             UpdateOutputTextbox();
         }
 
