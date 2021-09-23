@@ -68,8 +68,13 @@ namespace MJapVocab
                 if (result == null || result.Length == 0)
                 {
                     readingOutputLabel.Text = String.Empty;
+                    wordComboBox.Items.Clear();
                     wordComboBox.Enabled = false;
+                    otherFormsComboBox.Items.Clear();
                     otherFormsComboBox.Enabled = false;
+                    additionalCommentsTextBox.Text = String.Empty;
+                    DisposeOutputCheckBoxes(true);
+                    outputTextBox.Text = String.Empty;
                     running = false;
                     return;
                 }
@@ -80,6 +85,7 @@ namespace MJapVocab
                 otherFormsComboBox.Enabled = true;
 
                 wordComboBox.Items.Clear();
+                additionalCommentsTextBox.Text = String.Empty;
 
                 var firstResult = result[0];
                 var firstJapaneseEntry = firstResult.japanese[0];
