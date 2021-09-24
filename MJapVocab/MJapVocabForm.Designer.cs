@@ -32,185 +32,302 @@ namespace MJapVocab
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.inputTextBox = new System.Windows.Forms.TextBox();
+            this.buttonPanel = new System.Windows.Forms.Panel();
+            this.buttonTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.leftButtonsPanel = new System.Windows.Forms.Panel();
+            this.copyToClipboardButton = new System.Windows.Forms.Button();
+            this.loadButton = new System.Windows.Forms.Button();
+            this.addButton = new System.Windows.Forms.Button();
+            this.rightButtonsPanel = new System.Windows.Forms.Panel();
+            this.UpDownButtonsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.downSelectionButton = new System.Windows.Forms.Button();
+            this.upSelectionButton = new System.Windows.Forms.Button();
+            this.saveAllButton = new System.Windows.Forms.Button();
+            this.deleteSelectionButton = new System.Windows.Forms.Button();
+            this.exportCsvJapToEngButton = new System.Windows.Forms.Button();
+            this.userIOTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.userInputPanel = new System.Windows.Forms.Panel();
+            this.inputPanel = new System.Windows.Forms.Panel();
             this.inputLabel = new System.Windows.Forms.Label();
+            this.inputTextBox = new System.Windows.Forms.TextBox();
+            this.enterButton = new System.Windows.Forms.Button();
+            this.parentWordPanel = new System.Windows.Forms.Panel();
+            this.wordTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.otherFormsPanel = new System.Windows.Forms.Panel();
+            this.otherFormsLabel = new System.Windows.Forms.Label();
+            this.otherFormsComboBox = new System.Windows.Forms.ComboBox();
+            this.readingPanel = new System.Windows.Forms.Panel();
+            this.readingOutputLabel = new System.Windows.Forms.Label();
+            this.readingLabel = new System.Windows.Forms.Label();
+            this.wordPanel = new System.Windows.Forms.Panel();
+            this.wordLabel = new System.Windows.Forms.Label();
+            this.wordComboBox = new System.Windows.Forms.ComboBox();
+            this.outputPanel = new System.Windows.Forms.Panel();
+            this.outputGroupBox = new System.Windows.Forms.GroupBox();
             this.outputTextBox = new System.Windows.Forms.TextBox();
-            this.outputLabel = new System.Windows.Forms.Label();
+            this.parentEnglishDefinitionsPanel = new System.Windows.Forms.Panel();
             this.englishDefinitionsGroupBox = new System.Windows.Forms.GroupBox();
             this.englishDefinitionsPanel = new System.Windows.Forms.Panel();
-            this.wordLabel = new System.Windows.Forms.Label();
-            this.readingLabel = new System.Windows.Forms.Label();
-            this.readingOutputLabel = new System.Windows.Forms.Label();
+            this.writeInKanaPanel = new System.Windows.Forms.Panel();
             this.writeInKanaCheckbox = new System.Windows.Forms.CheckBox();
-            this.copyToClipboardButton = new System.Windows.Forms.Button();
+            this.additionalCommentsPanel = new System.Windows.Forms.Panel();
             this.additionalCommentsTextBox = new System.Windows.Forms.TextBox();
-            this.wordComboBox = new System.Windows.Forms.ComboBox();
-            this.otherFormsComboBox = new System.Windows.Forms.ComboBox();
-            this.otherFormsLabel = new System.Windows.Forms.Label();
-            this.enterButton = new System.Windows.Forms.Button();
-            this.saveAllButton = new System.Windows.Forms.Button();
-            this.addButton = new System.Windows.Forms.Button();
+            this.elementsPanel = new System.Windows.Forms.Panel();
             this.elementsGridView = new System.Windows.Forms.DataGridView();
-            this.deleteSelectionButton = new System.Windows.Forms.Button();
-            this.loadButton = new System.Windows.Forms.Button();
-            this.upSelectionButton = new System.Windows.Forms.Button();
-            this.downSelectionButton = new System.Windows.Forms.Button();
-            this.exportCsvJapToEngButton = new System.Windows.Forms.Button();
+            this.windowTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonPanel.SuspendLayout();
+            this.buttonTableLayoutPanel.SuspendLayout();
+            this.leftButtonsPanel.SuspendLayout();
+            this.rightButtonsPanel.SuspendLayout();
+            this.UpDownButtonsTableLayoutPanel.SuspendLayout();
+            this.userIOTableLayoutPanel.SuspendLayout();
+            this.userInputPanel.SuspendLayout();
+            this.inputPanel.SuspendLayout();
+            this.parentWordPanel.SuspendLayout();
+            this.wordTableLayoutPanel.SuspendLayout();
+            this.otherFormsPanel.SuspendLayout();
+            this.readingPanel.SuspendLayout();
+            this.wordPanel.SuspendLayout();
+            this.outputPanel.SuspendLayout();
+            this.outputGroupBox.SuspendLayout();
+            this.parentEnglishDefinitionsPanel.SuspendLayout();
             this.englishDefinitionsGroupBox.SuspendLayout();
+            this.writeInKanaPanel.SuspendLayout();
+            this.additionalCommentsPanel.SuspendLayout();
+            this.elementsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.elementsGridView)).BeginInit();
+            this.windowTableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // inputTextBox
+            // buttonPanel
             // 
-            this.inputTextBox.Location = new System.Drawing.Point(53, 6);
-            this.inputTextBox.Name = "inputTextBox";
-            this.inputTextBox.Size = new System.Drawing.Size(650, 23);
-            this.inputTextBox.TabIndex = 0;
-            this.inputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.inputTextBox_KeyDown);
+            this.buttonPanel.Controls.Add(this.buttonTableLayoutPanel);
+            this.buttonPanel.Controls.Add(this.exportCsvJapToEngButton);
+            this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonPanel.Location = new System.Drawing.Point(3, 521);
+            this.buttonPanel.Name = "buttonPanel";
+            this.buttonPanel.Size = new System.Drawing.Size(978, 137);
+            this.buttonPanel.TabIndex = 31;
+            this.buttonPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonPanel_Paint);
             // 
-            // inputLabel
+            // buttonTableLayoutPanel
             // 
-            this.inputLabel.AutoSize = true;
-            this.inputLabel.Location = new System.Drawing.Point(12, 9);
-            this.inputLabel.Name = "inputLabel";
-            this.inputLabel.Size = new System.Drawing.Size(35, 15);
-            this.inputLabel.TabIndex = 1;
-            this.inputLabel.Text = "Input";
+            this.buttonTableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonTableLayoutPanel.ColumnCount = 2;
+            this.buttonTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.buttonTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.buttonTableLayoutPanel.Controls.Add(this.leftButtonsPanel, 0, 0);
+            this.buttonTableLayoutPanel.Controls.Add(this.rightButtonsPanel, 1, 0);
+            this.buttonTableLayoutPanel.Location = new System.Drawing.Point(0, 3);
+            this.buttonTableLayoutPanel.Name = "buttonTableLayoutPanel";
+            this.buttonTableLayoutPanel.RowCount = 1;
+            this.buttonTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.buttonTableLayoutPanel.Size = new System.Drawing.Size(975, 93);
+            this.buttonTableLayoutPanel.TabIndex = 20;
             // 
-            // outputTextBox
+            // leftButtonsPanel
             // 
-            this.outputTextBox.Location = new System.Drawing.Point(12, 391);
-            this.outputTextBox.Multiline = true;
-            this.outputTextBox.Name = "outputTextBox";
-            this.outputTextBox.ReadOnly = true;
-            this.outputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.outputTextBox.Size = new System.Drawing.Size(775, 110);
-            this.outputTextBox.TabIndex = 2;
-            // 
-            // outputLabel
-            // 
-            this.outputLabel.AutoSize = true;
-            this.outputLabel.Location = new System.Drawing.Point(12, 373);
-            this.outputLabel.Name = "outputLabel";
-            this.outputLabel.Size = new System.Drawing.Size(45, 15);
-            this.outputLabel.TabIndex = 3;
-            this.outputLabel.Text = "Output";
-            // 
-            // englishDefinitionsGroupBox
-            // 
-            this.englishDefinitionsGroupBox.Controls.Add(this.englishDefinitionsPanel);
-            this.englishDefinitionsGroupBox.Location = new System.Drawing.Point(13, 77);
-            this.englishDefinitionsGroupBox.Name = "englishDefinitionsGroupBox";
-            this.englishDefinitionsGroupBox.Size = new System.Drawing.Size(775, 213);
-            this.englishDefinitionsGroupBox.TabIndex = 4;
-            this.englishDefinitionsGroupBox.TabStop = false;
-            this.englishDefinitionsGroupBox.Text = "English Definitions";
-            // 
-            // englishDefinitionsPanel
-            // 
-            this.englishDefinitionsPanel.AutoScroll = true;
-            this.englishDefinitionsPanel.Location = new System.Drawing.Point(6, 23);
-            this.englishDefinitionsPanel.Name = "englishDefinitionsPanel";
-            this.englishDefinitionsPanel.Size = new System.Drawing.Size(763, 184);
-            this.englishDefinitionsPanel.TabIndex = 0;
-            // 
-            // wordLabel
-            // 
-            this.wordLabel.AutoSize = true;
-            this.wordLabel.Location = new System.Drawing.Point(13, 48);
-            this.wordLabel.Name = "wordLabel";
-            this.wordLabel.Size = new System.Drawing.Size(36, 15);
-            this.wordLabel.TabIndex = 5;
-            this.wordLabel.Text = "Word";
-            // 
-            // readingLabel
-            // 
-            this.readingLabel.AutoSize = true;
-            this.readingLabel.Location = new System.Drawing.Point(574, 48);
-            this.readingLabel.Name = "readingLabel";
-            this.readingLabel.Size = new System.Drawing.Size(50, 15);
-            this.readingLabel.TabIndex = 6;
-            this.readingLabel.Text = "Reading";
-            // 
-            // readingOutputLabel
-            // 
-            this.readingOutputLabel.AutoSize = true;
-            this.readingOutputLabel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.readingOutputLabel.Location = new System.Drawing.Point(630, 41);
-            this.readingOutputLabel.Name = "readingOutputLabel";
-            this.readingOutputLabel.Size = new System.Drawing.Size(31, 30);
-            this.readingOutputLabel.TabIndex = 8;
-            this.readingOutputLabel.Text = "   ";
-            // 
-            // writeInKanaCheckbox
-            // 
-            this.writeInKanaCheckbox.AutoSize = true;
-            this.writeInKanaCheckbox.Enabled = false;
-            this.writeInKanaCheckbox.Location = new System.Drawing.Point(13, 351);
-            this.writeInKanaCheckbox.Name = "writeInKanaCheckbox";
-            this.writeInKanaCheckbox.Size = new System.Drawing.Size(96, 19);
-            this.writeInKanaCheckbox.TabIndex = 9;
-            this.writeInKanaCheckbox.Text = "Write in Kana";
-            this.writeInKanaCheckbox.UseVisualStyleBackColor = true;
-            this.writeInKanaCheckbox.CheckedChanged += new System.EventHandler(this.writeInKanaCheckbox_CheckedChanged);
+            this.leftButtonsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.leftButtonsPanel.Controls.Add(this.copyToClipboardButton);
+            this.leftButtonsPanel.Controls.Add(this.loadButton);
+            this.leftButtonsPanel.Controls.Add(this.addButton);
+            this.leftButtonsPanel.Location = new System.Drawing.Point(3, 3);
+            this.leftButtonsPanel.Name = "leftButtonsPanel";
+            this.leftButtonsPanel.Size = new System.Drawing.Size(676, 87);
+            this.leftButtonsPanel.TabIndex = 0;
             // 
             // copyToClipboardButton
             // 
-            this.copyToClipboardButton.Location = new System.Drawing.Point(12, 507);
+            this.copyToClipboardButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyToClipboardButton.Location = new System.Drawing.Point(0, 6);
             this.copyToClipboardButton.Name = "copyToClipboardButton";
-            this.copyToClipboardButton.Size = new System.Drawing.Size(775, 23);
+            this.copyToClipboardButton.Size = new System.Drawing.Size(676, 23);
             this.copyToClipboardButton.TabIndex = 10;
             this.copyToClipboardButton.Text = "Copy Output to Clipboard";
             this.copyToClipboardButton.UseVisualStyleBackColor = true;
             this.copyToClipboardButton.Click += new System.EventHandler(this.copyToClipboardButton_Click);
             // 
-            // additionalCommentsTextBox
+            // loadButton
             // 
-            this.additionalCommentsTextBox.Location = new System.Drawing.Point(13, 296);
-            this.additionalCommentsTextBox.Multiline = true;
-            this.additionalCommentsTextBox.Name = "additionalCommentsTextBox";
-            this.additionalCommentsTextBox.PlaceholderText = "Additional Comments";
-            this.additionalCommentsTextBox.Size = new System.Drawing.Size(774, 49);
-            this.additionalCommentsTextBox.TabIndex = 11;
-            this.additionalCommentsTextBox.TextChanged += new System.EventHandler(this.additionalCommentsTextBox_TextChanged);
-            this.additionalCommentsTextBox.ScrollBars = ScrollBars.Vertical;
+            this.loadButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loadButton.Location = new System.Drawing.Point(0, 64);
+            this.loadButton.Name = "loadButton";
+            this.loadButton.Size = new System.Drawing.Size(676, 23);
+            this.loadButton.TabIndex = 21;
+            this.loadButton.Text = "Load List";
+            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
-            // wordComboBox
+            // addButton
             // 
-            this.wordComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.wordComboBox.Enabled = false;
-            this.wordComboBox.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.wordComboBox.FormattingEnabled = true;
-            this.wordComboBox.Location = new System.Drawing.Point(53, 33);
-            this.wordComboBox.Name = "wordComboBox";
-            this.wordComboBox.Size = new System.Drawing.Size(121, 38);
-            this.wordComboBox.TabIndex = 12;
-            this.wordComboBox.SelectedIndexChanged += new System.EventHandler(this.wordComboBox_SelectedIndexChanged);
+            this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.addButton.Location = new System.Drawing.Point(0, 35);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(676, 23);
+            this.addButton.TabIndex = 18;
+            this.addButton.Text = "Add to List";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
-            // otherFormsComboBox
+            // rightButtonsPanel
             // 
-            this.otherFormsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.otherFormsComboBox.Enabled = false;
-            this.otherFormsComboBox.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.otherFormsComboBox.FormattingEnabled = true;
-            this.otherFormsComboBox.Location = new System.Drawing.Point(350, 33);
-            this.otherFormsComboBox.Name = "otherFormsComboBox";
-            this.otherFormsComboBox.Size = new System.Drawing.Size(121, 38);
-            this.otherFormsComboBox.TabIndex = 14;
-            this.otherFormsComboBox.SelectedIndexChanged += new System.EventHandler(this.otherFormsComboBox_SelectedIndexChanged);
+            this.rightButtonsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rightButtonsPanel.Controls.Add(this.UpDownButtonsTableLayoutPanel);
+            this.rightButtonsPanel.Controls.Add(this.saveAllButton);
+            this.rightButtonsPanel.Controls.Add(this.deleteSelectionButton);
+            this.rightButtonsPanel.Location = new System.Drawing.Point(685, 3);
+            this.rightButtonsPanel.Name = "rightButtonsPanel";
+            this.rightButtonsPanel.Size = new System.Drawing.Size(287, 87);
+            this.rightButtonsPanel.TabIndex = 1;
             // 
-            // otherFormsLabel
+            // UpDownButtonsTableLayoutPanel
             // 
-            this.otherFormsLabel.AutoSize = true;
-            this.otherFormsLabel.Location = new System.Drawing.Point(271, 48);
-            this.otherFormsLabel.Name = "otherFormsLabel";
-            this.otherFormsLabel.Size = new System.Drawing.Size(73, 15);
-            this.otherFormsLabel.TabIndex = 15;
-            this.otherFormsLabel.Text = "Other Forms";
+            this.UpDownButtonsTableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UpDownButtonsTableLayoutPanel.ColumnCount = 2;
+            this.UpDownButtonsTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.UpDownButtonsTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.UpDownButtonsTableLayoutPanel.Controls.Add(this.downSelectionButton, 1, 0);
+            this.UpDownButtonsTableLayoutPanel.Controls.Add(this.upSelectionButton, 0, 0);
+            this.UpDownButtonsTableLayoutPanel.Location = new System.Drawing.Point(2, 3);
+            this.UpDownButtonsTableLayoutPanel.Name = "UpDownButtonsTableLayoutPanel";
+            this.UpDownButtonsTableLayoutPanel.RowCount = 1;
+            this.UpDownButtonsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.UpDownButtonsTableLayoutPanel.Size = new System.Drawing.Size(282, 29);
+            this.UpDownButtonsTableLayoutPanel.TabIndex = 21;
+            // 
+            // downSelectionButton
+            // 
+            this.downSelectionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.downSelectionButton.Location = new System.Drawing.Point(144, 3);
+            this.downSelectionButton.Name = "downSelectionButton";
+            this.downSelectionButton.Size = new System.Drawing.Size(135, 23);
+            this.downSelectionButton.TabIndex = 23;
+            this.downSelectionButton.Text = "↓";
+            this.downSelectionButton.UseVisualStyleBackColor = true;
+            this.downSelectionButton.Click += new System.EventHandler(this.downSelectionButton_Click);
+            // 
+            // upSelectionButton
+            // 
+            this.upSelectionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.upSelectionButton.Location = new System.Drawing.Point(3, 3);
+            this.upSelectionButton.Name = "upSelectionButton";
+            this.upSelectionButton.Size = new System.Drawing.Size(135, 23);
+            this.upSelectionButton.TabIndex = 22;
+            this.upSelectionButton.Text = "↑";
+            this.upSelectionButton.UseVisualStyleBackColor = true;
+            this.upSelectionButton.Click += new System.EventHandler(this.upSelectionButton_Click);
+            // 
+            // saveAllButton
+            // 
+            this.saveAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveAllButton.Location = new System.Drawing.Point(5, 64);
+            this.saveAllButton.Name = "saveAllButton";
+            this.saveAllButton.Size = new System.Drawing.Size(277, 23);
+            this.saveAllButton.TabIndex = 17;
+            this.saveAllButton.Text = "Save List";
+            this.saveAllButton.UseVisualStyleBackColor = true;
+            this.saveAllButton.Click += new System.EventHandler(this.saveAllButton_Click);
+            // 
+            // deleteSelectionButton
+            // 
+            this.deleteSelectionButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteSelectionButton.Location = new System.Drawing.Point(5, 35);
+            this.deleteSelectionButton.Name = "deleteSelectionButton";
+            this.deleteSelectionButton.Size = new System.Drawing.Size(277, 23);
+            this.deleteSelectionButton.TabIndex = 20;
+            this.deleteSelectionButton.Text = "Delete Selection from List";
+            this.deleteSelectionButton.UseVisualStyleBackColor = true;
+            this.deleteSelectionButton.Click += new System.EventHandler(this.deleteSelectionButton_Click);
+            // 
+            // exportCsvJapToEngButton
+            // 
+            this.exportCsvJapToEngButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.exportCsvJapToEngButton.Location = new System.Drawing.Point(3, 99);
+            this.exportCsvJapToEngButton.Name = "exportCsvJapToEngButton";
+            this.exportCsvJapToEngButton.Size = new System.Drawing.Size(964, 23);
+            this.exportCsvJapToEngButton.TabIndex = 24;
+            this.exportCsvJapToEngButton.Text = "Export to .csv (JP → EN)";
+            this.exportCsvJapToEngButton.UseVisualStyleBackColor = true;
+            this.exportCsvJapToEngButton.Click += new System.EventHandler(this.exportCsvJapToEngButton_Click);
+            // 
+            // userIOTableLayoutPanel
+            // 
+            this.userIOTableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.userIOTableLayoutPanel.ColumnCount = 2;
+            this.userIOTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.userIOTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.userIOTableLayoutPanel.Controls.Add(this.userInputPanel, 0, 0);
+            this.userIOTableLayoutPanel.Controls.Add(this.elementsPanel, 1, 0);
+            this.userIOTableLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.userIOTableLayoutPanel.Name = "userIOTableLayoutPanel";
+            this.userIOTableLayoutPanel.RowCount = 1;
+            this.userIOTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.userIOTableLayoutPanel.Size = new System.Drawing.Size(978, 512);
+            this.userIOTableLayoutPanel.TabIndex = 33;
+            this.userIOTableLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.userIOPanel_Paint);
+            // 
+            // userInputPanel
+            // 
+            this.userInputPanel.Controls.Add(this.inputPanel);
+            this.userInputPanel.Controls.Add(this.parentWordPanel);
+            this.userInputPanel.Controls.Add(this.outputPanel);
+            this.userInputPanel.Controls.Add(this.parentEnglishDefinitionsPanel);
+            this.userInputPanel.Controls.Add(this.writeInKanaPanel);
+            this.userInputPanel.Controls.Add(this.additionalCommentsPanel);
+            this.userInputPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userInputPanel.Location = new System.Drawing.Point(3, 3);
+            this.userInputPanel.Name = "userInputPanel";
+            this.userInputPanel.Size = new System.Drawing.Size(678, 506);
+            this.userInputPanel.TabIndex = 20;
+            // 
+            // inputPanel
+            // 
+            this.inputPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.inputPanel.Controls.Add(this.inputLabel);
+            this.inputPanel.Controls.Add(this.inputTextBox);
+            this.inputPanel.Controls.Add(this.enterButton);
+            this.inputPanel.Location = new System.Drawing.Point(3, 3);
+            this.inputPanel.Name = "inputPanel";
+            this.inputPanel.Size = new System.Drawing.Size(672, 23);
+            this.inputPanel.TabIndex = 25;
+            // 
+            // inputLabel
+            // 
+            this.inputLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.inputLabel.AutoSize = true;
+            this.inputLabel.Location = new System.Drawing.Point(2, 3);
+            this.inputLabel.Name = "inputLabel";
+            this.inputLabel.Size = new System.Drawing.Size(35, 15);
+            this.inputLabel.TabIndex = 1;
+            this.inputLabel.Text = "Input";
+            // 
+            // inputTextBox
+            // 
+            this.inputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.inputTextBox.Location = new System.Drawing.Point(41, 0);
+            this.inputTextBox.Name = "inputTextBox";
+            this.inputTextBox.Size = new System.Drawing.Size(551, 23);
+            this.inputTextBox.TabIndex = 0;
+            this.inputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.inputTextBox_KeyDown);
             // 
             // enterButton
             // 
-            this.enterButton.Location = new System.Drawing.Point(709, 6);
+            this.enterButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.enterButton.Location = new System.Drawing.Point(598, 0);
             this.enterButton.Name = "enterButton";
             this.enterButton.Size = new System.Drawing.Size(75, 23);
             this.enterButton.TabIndex = 16;
@@ -218,30 +335,275 @@ namespace MJapVocab
             this.enterButton.UseVisualStyleBackColor = true;
             this.enterButton.Click += new System.EventHandler(this.enterButton_Click);
             // 
-            // saveAllButton
+            // parentWordPanel
             // 
-            this.saveAllButton.Location = new System.Drawing.Point(791, 566);
-            this.saveAllButton.Name = "saveAllButton";
-            this.saveAllButton.Size = new System.Drawing.Size(343, 23);
-            this.saveAllButton.TabIndex = 17;
-            this.saveAllButton.Text = "Save List";
-            this.saveAllButton.UseVisualStyleBackColor = true;
-            this.saveAllButton.Click += new System.EventHandler(this.saveAllButton_Click);
+            this.parentWordPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.parentWordPanel.Controls.Add(this.wordTableLayoutPanel);
+            this.parentWordPanel.Location = new System.Drawing.Point(3, 32);
+            this.parentWordPanel.Name = "parentWordPanel";
+            this.parentWordPanel.Size = new System.Drawing.Size(672, 49);
+            this.parentWordPanel.TabIndex = 26;
             // 
-            // addButton
+            // wordTableLayoutPanel
             // 
-            this.addButton.Location = new System.Drawing.Point(12, 536);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(775, 23);
-            this.addButton.TabIndex = 18;
-            this.addButton.Text = "Add to List";
-            this.addButton.UseVisualStyleBackColor = true;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            this.wordTableLayoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.wordTableLayoutPanel.ColumnCount = 3;
+            this.wordTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.wordTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.wordTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.wordTableLayoutPanel.Controls.Add(this.otherFormsPanel, 1, 0);
+            this.wordTableLayoutPanel.Controls.Add(this.readingPanel, 2, 0);
+            this.wordTableLayoutPanel.Controls.Add(this.wordPanel, 0, 0);
+            this.wordTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.wordTableLayoutPanel.Name = "wordTableLayoutPanel";
+            this.wordTableLayoutPanel.RowCount = 1;
+            this.wordTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.wordTableLayoutPanel.Size = new System.Drawing.Size(672, 49);
+            this.wordTableLayoutPanel.TabIndex = 0;
+            // 
+            // otherFormsPanel
+            // 
+            this.otherFormsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.otherFormsPanel.Controls.Add(this.otherFormsLabel);
+            this.otherFormsPanel.Controls.Add(this.otherFormsComboBox);
+            this.otherFormsPanel.Location = new System.Drawing.Point(224, 0);
+            this.otherFormsPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.otherFormsPanel.Name = "otherFormsPanel";
+            this.otherFormsPanel.Size = new System.Drawing.Size(224, 49);
+            this.otherFormsPanel.TabIndex = 1;
+            // 
+            // otherFormsLabel
+            // 
+            this.otherFormsLabel.AutoSize = true;
+            this.otherFormsLabel.Location = new System.Drawing.Point(3, 17);
+            this.otherFormsLabel.Name = "otherFormsLabel";
+            this.otherFormsLabel.Size = new System.Drawing.Size(73, 15);
+            this.otherFormsLabel.TabIndex = 15;
+            this.otherFormsLabel.Text = "Other Forms";
+            // 
+            // otherFormsComboBox
+            // 
+            this.otherFormsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.otherFormsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.otherFormsComboBox.Enabled = false;
+            this.otherFormsComboBox.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.otherFormsComboBox.FormattingEnabled = true;
+            this.otherFormsComboBox.Location = new System.Drawing.Point(82, 5);
+            this.otherFormsComboBox.Name = "otherFormsComboBox";
+            this.otherFormsComboBox.Size = new System.Drawing.Size(75, 38);
+            this.otherFormsComboBox.TabIndex = 14;
+            this.otherFormsComboBox.SelectedIndexChanged += new System.EventHandler(this.otherFormsComboBox_SelectedIndexChanged);
+            // 
+            // readingPanel
+            // 
+            this.readingPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.readingPanel.Controls.Add(this.readingOutputLabel);
+            this.readingPanel.Controls.Add(this.readingLabel);
+            this.readingPanel.Location = new System.Drawing.Point(448, 0);
+            this.readingPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.readingPanel.Name = "readingPanel";
+            this.readingPanel.Size = new System.Drawing.Size(224, 49);
+            this.readingPanel.TabIndex = 2;
+            // 
+            // readingOutputLabel
+            // 
+            this.readingOutputLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.readingOutputLabel.AutoSize = true;
+            this.readingOutputLabel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.readingOutputLabel.Location = new System.Drawing.Point(59, 8);
+            this.readingOutputLabel.Name = "readingOutputLabel";
+            this.readingOutputLabel.Size = new System.Drawing.Size(31, 30);
+            this.readingOutputLabel.TabIndex = 8;
+            this.readingOutputLabel.Text = "   ";
+            // 
+            // readingLabel
+            // 
+            this.readingLabel.AutoSize = true;
+            this.readingLabel.Location = new System.Drawing.Point(3, 17);
+            this.readingLabel.Name = "readingLabel";
+            this.readingLabel.Size = new System.Drawing.Size(50, 15);
+            this.readingLabel.TabIndex = 6;
+            this.readingLabel.Text = "Reading";
+            // 
+            // wordPanel
+            // 
+            this.wordPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.wordPanel.Controls.Add(this.wordLabel);
+            this.wordPanel.Controls.Add(this.wordComboBox);
+            this.wordPanel.Location = new System.Drawing.Point(0, 0);
+            this.wordPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.wordPanel.Name = "wordPanel";
+            this.wordPanel.Size = new System.Drawing.Size(224, 49);
+            this.wordPanel.TabIndex = 0;
+            // 
+            // wordLabel
+            // 
+            this.wordLabel.AutoSize = true;
+            this.wordLabel.Location = new System.Drawing.Point(3, 17);
+            this.wordLabel.Name = "wordLabel";
+            this.wordLabel.Size = new System.Drawing.Size(36, 15);
+            this.wordLabel.TabIndex = 5;
+            this.wordLabel.Text = "Word";
+            // 
+            // wordComboBox
+            // 
+            this.wordComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.wordComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.wordComboBox.Enabled = false;
+            this.wordComboBox.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.wordComboBox.FormattingEnabled = true;
+            this.wordComboBox.Location = new System.Drawing.Point(45, 5);
+            this.wordComboBox.Name = "wordComboBox";
+            this.wordComboBox.Size = new System.Drawing.Size(69, 38);
+            this.wordComboBox.TabIndex = 12;
+            this.wordComboBox.SelectedIndexChanged += new System.EventHandler(this.wordComboBox_SelectedIndexChanged);
+            // 
+            // outputPanel
+            // 
+            this.outputPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.outputPanel.Controls.Add(this.outputGroupBox);
+            this.outputPanel.Location = new System.Drawing.Point(3, 364);
+            this.outputPanel.Name = "outputPanel";
+            this.outputPanel.Size = new System.Drawing.Size(675, 139);
+            this.outputPanel.TabIndex = 30;
+            // 
+            // outputGroupBox
+            // 
+            this.outputGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.outputGroupBox.Controls.Add(this.outputTextBox);
+            this.outputGroupBox.Location = new System.Drawing.Point(5, 3);
+            this.outputGroupBox.Name = "outputGroupBox";
+            this.outputGroupBox.Size = new System.Drawing.Size(667, 136);
+            this.outputGroupBox.TabIndex = 20;
+            this.outputGroupBox.TabStop = false;
+            this.outputGroupBox.Text = "Output";
+            // 
+            // outputTextBox
+            // 
+            this.outputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.outputTextBox.Location = new System.Drawing.Point(3, 19);
+            this.outputTextBox.Multiline = true;
+            this.outputTextBox.Name = "outputTextBox";
+            this.outputTextBox.ReadOnly = true;
+            this.outputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.outputTextBox.Size = new System.Drawing.Size(658, 114);
+            this.outputTextBox.TabIndex = 2;
+            // 
+            // parentEnglishDefinitionsPanel
+            // 
+            this.parentEnglishDefinitionsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.parentEnglishDefinitionsPanel.Controls.Add(this.englishDefinitionsGroupBox);
+            this.parentEnglishDefinitionsPanel.Location = new System.Drawing.Point(3, 84);
+            this.parentEnglishDefinitionsPanel.Name = "parentEnglishDefinitionsPanel";
+            this.parentEnglishDefinitionsPanel.Size = new System.Drawing.Size(672, 185);
+            this.parentEnglishDefinitionsPanel.TabIndex = 27;
+            // 
+            // englishDefinitionsGroupBox
+            // 
+            this.englishDefinitionsGroupBox.Controls.Add(this.englishDefinitionsPanel);
+            this.englishDefinitionsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.englishDefinitionsGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.englishDefinitionsGroupBox.Name = "englishDefinitionsGroupBox";
+            this.englishDefinitionsGroupBox.Size = new System.Drawing.Size(672, 185);
+            this.englishDefinitionsGroupBox.TabIndex = 4;
+            this.englishDefinitionsGroupBox.TabStop = false;
+            this.englishDefinitionsGroupBox.Text = "English Definitions";
+            // 
+            // englishDefinitionsPanel
+            // 
+            this.englishDefinitionsPanel.AutoScroll = true;
+            this.englishDefinitionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.englishDefinitionsPanel.Location = new System.Drawing.Point(3, 19);
+            this.englishDefinitionsPanel.Name = "englishDefinitionsPanel";
+            this.englishDefinitionsPanel.Size = new System.Drawing.Size(666, 163);
+            this.englishDefinitionsPanel.TabIndex = 0;
+            this.englishDefinitionsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.englishDefinitionsPanel_Paint);
+            // 
+            // writeInKanaPanel
+            // 
+            this.writeInKanaPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.writeInKanaPanel.Controls.Add(this.writeInKanaCheckbox);
+            this.writeInKanaPanel.Location = new System.Drawing.Point(3, 336);
+            this.writeInKanaPanel.Name = "writeInKanaPanel";
+            this.writeInKanaPanel.Size = new System.Drawing.Size(675, 25);
+            this.writeInKanaPanel.TabIndex = 29;
+            // 
+            // writeInKanaCheckbox
+            // 
+            this.writeInKanaCheckbox.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.writeInKanaCheckbox.AutoSize = true;
+            this.writeInKanaCheckbox.Enabled = false;
+            this.writeInKanaCheckbox.Location = new System.Drawing.Point(3, 3);
+            this.writeInKanaCheckbox.Name = "writeInKanaCheckbox";
+            this.writeInKanaCheckbox.Size = new System.Drawing.Size(96, 19);
+            this.writeInKanaCheckbox.TabIndex = 9;
+            this.writeInKanaCheckbox.Text = "Write in Kana";
+            this.writeInKanaCheckbox.UseVisualStyleBackColor = true;
+            this.writeInKanaCheckbox.CheckedChanged += new System.EventHandler(this.writeInKanaCheckbox_CheckedChanged);
+            // 
+            // additionalCommentsPanel
+            // 
+            this.additionalCommentsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.additionalCommentsPanel.Controls.Add(this.additionalCommentsTextBox);
+            this.additionalCommentsPanel.Location = new System.Drawing.Point(3, 275);
+            this.additionalCommentsPanel.Name = "additionalCommentsPanel";
+            this.additionalCommentsPanel.Size = new System.Drawing.Size(675, 58);
+            this.additionalCommentsPanel.TabIndex = 28;
+            // 
+            // additionalCommentsTextBox
+            // 
+            this.additionalCommentsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.additionalCommentsTextBox.Location = new System.Drawing.Point(0, 0);
+            this.additionalCommentsTextBox.Multiline = true;
+            this.additionalCommentsTextBox.Name = "additionalCommentsTextBox";
+            this.additionalCommentsTextBox.PlaceholderText = "Additional Comments";
+            this.additionalCommentsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.additionalCommentsTextBox.Size = new System.Drawing.Size(675, 58);
+            this.additionalCommentsTextBox.TabIndex = 11;
+            this.additionalCommentsTextBox.TextChanged += new System.EventHandler(this.additionalCommentsTextBox_TextChanged);
+            // 
+            // elementsPanel
+            // 
+            this.elementsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.elementsPanel.Controls.Add(this.elementsGridView);
+            this.elementsPanel.Location = new System.Drawing.Point(687, 3);
+            this.elementsPanel.Name = "elementsPanel";
+            this.elementsPanel.Size = new System.Drawing.Size(288, 506);
+            this.elementsPanel.TabIndex = 32;
             // 
             // elementsGridView
             // 
             this.elementsGridView.AllowUserToResizeRows = false;
+            this.elementsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.elementsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.elementsGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.elementsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
@@ -251,132 +613,120 @@ namespace MJapVocab
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.elementsGridView.DefaultCellStyle = dataGridViewCellStyle1;
-            this.elementsGridView.Location = new System.Drawing.Point(791, 6);
+            this.elementsGridView.Location = new System.Drawing.Point(3, 3);
             this.elementsGridView.MultiSelect = false;
             this.elementsGridView.Name = "elementsGridView";
             this.elementsGridView.ReadOnly = true;
             this.elementsGridView.RowHeadersVisible = false;
             this.elementsGridView.RowTemplate.Height = 25;
             this.elementsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.elementsGridView.Size = new System.Drawing.Size(343, 495);
+            this.elementsGridView.Size = new System.Drawing.Size(282, 500);
             this.elementsGridView.TabIndex = 19;
-            this.elementsGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             // 
-            // deleteSelectionButton
+            // windowTableLayoutPanel
             // 
-            this.deleteSelectionButton.Location = new System.Drawing.Point(791, 536);
-            this.deleteSelectionButton.Name = "deleteSelectionButton";
-            this.deleteSelectionButton.Size = new System.Drawing.Size(343, 23);
-            this.deleteSelectionButton.TabIndex = 20;
-            this.deleteSelectionButton.Text = "Delete Selection from List";
-            this.deleteSelectionButton.UseVisualStyleBackColor = true;
-            this.deleteSelectionButton.Click += new System.EventHandler(this.deleteSelectionButton_Click);
-            // 
-            // loadButton
-            // 
-            this.loadButton.Location = new System.Drawing.Point(13, 566);
-            this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(774, 23);
-            this.loadButton.TabIndex = 21;
-            this.loadButton.Text = "Load List";
-            this.loadButton.UseVisualStyleBackColor = true;
-            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
-            // 
-            // upSelectionButton
-            // 
-            this.upSelectionButton.Location = new System.Drawing.Point(794, 508);
-            this.upSelectionButton.Name = "upSelectionButton";
-            this.upSelectionButton.Size = new System.Drawing.Size(176, 23);
-            this.upSelectionButton.TabIndex = 22;
-            this.upSelectionButton.Text = "↑";
-            this.upSelectionButton.UseVisualStyleBackColor = true;
-            this.upSelectionButton.Click += new System.EventHandler(this.upSelectionButton_Click);
-            // 
-            // downSelectionButton
-            // 
-            this.downSelectionButton.Location = new System.Drawing.Point(976, 508);
-            this.downSelectionButton.Name = "downSelectionButton";
-            this.downSelectionButton.Size = new System.Drawing.Size(158, 23);
-            this.downSelectionButton.TabIndex = 23;
-            this.downSelectionButton.Text = "↓";
-            this.downSelectionButton.UseVisualStyleBackColor = true;
-            this.downSelectionButton.Click += new System.EventHandler(this.downSelectionButton_Click);
-            // 
-            // exportCsvJapToEngButton
-            // 
-            this.exportCsvJapToEngButton.Location = new System.Drawing.Point(12, 596);
-            this.exportCsvJapToEngButton.Name = "exportCsvJapToEngButton";
-            this.exportCsvJapToEngButton.Size = new System.Drawing.Size(1122, 23);
-            this.exportCsvJapToEngButton.TabIndex = 24;
-            this.exportCsvJapToEngButton.Text = "Export to .csv (JP → EN)";
-            this.exportCsvJapToEngButton.UseVisualStyleBackColor = true;
-            this.exportCsvJapToEngButton.Click += new System.EventHandler(this.exportCsvJapToEngButton_Click);
+            this.windowTableLayoutPanel.ColumnCount = 1;
+            this.windowTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.windowTableLayoutPanel.Controls.Add(this.userIOTableLayoutPanel, 0, 0);
+            this.windowTableLayoutPanel.Controls.Add(this.buttonPanel, 0, 1);
+            this.windowTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.windowTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.windowTableLayoutPanel.Name = "windowTableLayoutPanel";
+            this.windowTableLayoutPanel.RowCount = 2;
+            this.windowTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.windowTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
+            this.windowTableLayoutPanel.Size = new System.Drawing.Size(984, 661);
+            this.windowTableLayoutPanel.TabIndex = 34;
             // 
             // MJapVocabForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1143, 632);
-            this.Controls.Add(this.exportCsvJapToEngButton);
-            this.Controls.Add(this.downSelectionButton);
-            this.Controls.Add(this.upSelectionButton);
-            this.Controls.Add(this.loadButton);
-            this.Controls.Add(this.deleteSelectionButton);
-            this.Controls.Add(this.elementsGridView);
-            this.Controls.Add(this.addButton);
-            this.Controls.Add(this.saveAllButton);
-            this.Controls.Add(this.enterButton);
-            this.Controls.Add(this.otherFormsComboBox);
-            this.Controls.Add(this.wordComboBox);
-            this.Controls.Add(this.otherFormsLabel);
-            this.Controls.Add(this.additionalCommentsTextBox);
-            this.Controls.Add(this.copyToClipboardButton);
-            this.Controls.Add(this.writeInKanaCheckbox);
-            this.Controls.Add(this.readingOutputLabel);
-            this.Controls.Add(this.readingLabel);
-            this.Controls.Add(this.wordLabel);
-            this.Controls.Add(this.englishDefinitionsGroupBox);
-            this.Controls.Add(this.outputTextBox);
-            this.Controls.Add(this.outputLabel);
-            this.Controls.Add(this.inputLabel);
-            this.Controls.Add(this.inputTextBox);
+            this.ClientSize = new System.Drawing.Size(984, 661);
+            this.Controls.Add(this.windowTableLayoutPanel);
+            this.MinimumSize = new System.Drawing.Size(1000, 700);
             this.Name = "MJapVocabForm";
             this.Text = "MJapVocab";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MJapVocabForm_FormClosing);
             this.Load += new System.EventHandler(this.MJapVocabForm_Load);
+            this.buttonPanel.ResumeLayout(false);
+            this.buttonTableLayoutPanel.ResumeLayout(false);
+            this.leftButtonsPanel.ResumeLayout(false);
+            this.rightButtonsPanel.ResumeLayout(false);
+            this.UpDownButtonsTableLayoutPanel.ResumeLayout(false);
+            this.userIOTableLayoutPanel.ResumeLayout(false);
+            this.userInputPanel.ResumeLayout(false);
+            this.inputPanel.ResumeLayout(false);
+            this.inputPanel.PerformLayout();
+            this.parentWordPanel.ResumeLayout(false);
+            this.wordTableLayoutPanel.ResumeLayout(false);
+            this.otherFormsPanel.ResumeLayout(false);
+            this.otherFormsPanel.PerformLayout();
+            this.readingPanel.ResumeLayout(false);
+            this.readingPanel.PerformLayout();
+            this.wordPanel.ResumeLayout(false);
+            this.wordPanel.PerformLayout();
+            this.outputPanel.ResumeLayout(false);
+            this.outputGroupBox.ResumeLayout(false);
+            this.outputGroupBox.PerformLayout();
+            this.parentEnglishDefinitionsPanel.ResumeLayout(false);
             this.englishDefinitionsGroupBox.ResumeLayout(false);
+            this.writeInKanaPanel.ResumeLayout(false);
+            this.writeInKanaPanel.PerformLayout();
+            this.additionalCommentsPanel.ResumeLayout(false);
+            this.additionalCommentsPanel.PerformLayout();
+            this.elementsPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.elementsGridView)).EndInit();
+            this.windowTableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox inputTextBox;
-        private System.Windows.Forms.Label inputLabel;
-        private System.Windows.Forms.TextBox outputTextBox;
-        private System.Windows.Forms.Label outputLabel;
-        private GroupBox englishDefinitionsGroupBox;
-        private Panel englishDefinitionsPanel;
+        private Panel buttonPanel;
+        private TableLayoutPanel buttonTableLayoutPanel;
+        private Panel leftButtonsPanel;
+        private Button copyToClipboardButton;
+        private Button loadButton;
+        private Button addButton;
+        private Panel rightButtonsPanel;
+        private TableLayoutPanel UpDownButtonsTableLayoutPanel;
+        private Button downSelectionButton;
+        private Button upSelectionButton;
+        private Button saveAllButton;
+        private Button deleteSelectionButton;
+        private Button exportCsvJapToEngButton;
+        private TableLayoutPanel userIOTableLayoutPanel;
+        private Panel elementsPanel;
+        private DataGridView elementsGridView;
+        private Panel userInputPanel;
+        private Panel inputPanel;
+        private Label inputLabel;
+        private TextBox inputTextBox;
+        private Button enterButton;
+        private Panel parentWordPanel;
         private Label wordLabel;
         private Label readingLabel;
         private Label readingOutputLabel;
-        private CheckBox writeInKanaCheckbox;
-        private Button copyToClipboardButton;
-        private TextBox additionalCommentsTextBox;
+        private Label otherFormsLabel;
         private ComboBox wordComboBox;
         private ComboBox otherFormsComboBox;
-        private Label otherFormsLabel;
-        private Button enterButton;
-        private Button saveAllButton;
-        private Button addButton;
-        private DataGridView elementsGridView;
-        private Button deleteSelectionButton;
-        private Button loadButton;
-        private Button upSelectionButton;
-        private Button downSelectionButton;
-        private Button exportCsvJapToEngButton;
+        private Panel outputPanel;
+        private GroupBox outputGroupBox;
+        private TextBox outputTextBox;
+        private Panel parentEnglishDefinitionsPanel;
+        private GroupBox englishDefinitionsGroupBox;
+        private Panel englishDefinitionsPanel;
+        private Panel writeInKanaPanel;
+        private CheckBox writeInKanaCheckbox;
+        private Panel additionalCommentsPanel;
+        private TextBox additionalCommentsTextBox;
+        private TableLayoutPanel windowTableLayoutPanel;
+        private TableLayoutPanel wordTableLayoutPanel;
+        private Panel otherFormsPanel;
+        private Panel readingPanel;
+        private Panel wordPanel;
     }
 }
 

@@ -374,5 +374,20 @@ namespace MJapVocab
                 }
             }
         }
+
+        private void userIOPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void buttonPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void englishDefinitionsPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
