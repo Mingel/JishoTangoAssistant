@@ -360,5 +360,21 @@ namespace MJapVocab
                 }
             }
         }
+
+        private void exportCsvEngToJapButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog exportFileDialog = new SaveFileDialog();
+
+            exportFileDialog.Filter = "CSV Files (*.csv)|*.csv";
+            exportFileDialog.RestoreDirectory = true;
+
+            if (exportFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
+                {
+                    sw.Write(VocabularyItem.ListToJapEng(CurrentSession.addedVocabularyItems.ToArray()));
+                }
+            }
+        }
     }
 }

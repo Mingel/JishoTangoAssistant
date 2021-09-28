@@ -75,6 +75,7 @@ namespace MJapVocab
             this.vocabularyItemsPanel = new System.Windows.Forms.Panel();
             this.vocabularyItemsGridView = new System.Windows.Forms.DataGridView();
             this.windowTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.exportCsvEngToJapButton = new System.Windows.Forms.Button();
             this.buttonPanel.SuspendLayout();
             this.buttonTableLayoutPanel.SuspendLayout();
             this.leftButtonsPanel.SuspendLayout();
@@ -101,12 +102,13 @@ namespace MJapVocab
             // 
             // buttonPanel
             // 
+            this.buttonPanel.Controls.Add(this.exportCsvEngToJapButton);
             this.buttonPanel.Controls.Add(this.buttonTableLayoutPanel);
             this.buttonPanel.Controls.Add(this.exportCsvJapToEngButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonPanel.Location = new System.Drawing.Point(3, 521);
+            this.buttonPanel.Location = new System.Drawing.Point(3, 494);
             this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Size = new System.Drawing.Size(978, 137);
+            this.buttonPanel.Size = new System.Drawing.Size(978, 164);
             this.buttonPanel.TabIndex = 31;
             // 
             // buttonTableLayoutPanel
@@ -230,7 +232,7 @@ namespace MJapVocab
             | System.Windows.Forms.AnchorStyles.Right)));
             this.saveAllButton.Location = new System.Drawing.Point(5, 64);
             this.saveAllButton.Name = "saveAllButton";
-            this.saveAllButton.Size = new System.Drawing.Size(277, 23);
+            this.saveAllButton.Size = new System.Drawing.Size(276, 23);
             this.saveAllButton.TabIndex = 17;
             this.saveAllButton.Text = "Save List";
             this.saveAllButton.UseVisualStyleBackColor = true;
@@ -242,7 +244,7 @@ namespace MJapVocab
             | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteSelectionButton.Location = new System.Drawing.Point(5, 35);
             this.deleteSelectionButton.Name = "deleteSelectionButton";
-            this.deleteSelectionButton.Size = new System.Drawing.Size(277, 23);
+            this.deleteSelectionButton.Size = new System.Drawing.Size(276, 23);
             this.deleteSelectionButton.TabIndex = 20;
             this.deleteSelectionButton.Text = "Delete Selection from List";
             this.deleteSelectionButton.UseVisualStyleBackColor = true;
@@ -254,7 +256,7 @@ namespace MJapVocab
             | System.Windows.Forms.AnchorStyles.Right)));
             this.exportCsvJapToEngButton.Location = new System.Drawing.Point(3, 99);
             this.exportCsvJapToEngButton.Name = "exportCsvJapToEngButton";
-            this.exportCsvJapToEngButton.Size = new System.Drawing.Size(964, 23);
+            this.exportCsvJapToEngButton.Size = new System.Drawing.Size(963, 23);
             this.exportCsvJapToEngButton.TabIndex = 24;
             this.exportCsvJapToEngButton.Text = "Export to .csv (JP → EN)";
             this.exportCsvJapToEngButton.UseVisualStyleBackColor = true;
@@ -274,7 +276,7 @@ namespace MJapVocab
             this.userIOTableLayoutPanel.Name = "userIOTableLayoutPanel";
             this.userIOTableLayoutPanel.RowCount = 1;
             this.userIOTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.userIOTableLayoutPanel.Size = new System.Drawing.Size(978, 512);
+            this.userIOTableLayoutPanel.Size = new System.Drawing.Size(978, 485);
             this.userIOTableLayoutPanel.TabIndex = 33;
             // 
             // userInputPanel
@@ -288,7 +290,7 @@ namespace MJapVocab
             this.userInputPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.userInputPanel.Location = new System.Drawing.Point(3, 3);
             this.userInputPanel.Name = "userInputPanel";
-            this.userInputPanel.Size = new System.Drawing.Size(678, 506);
+            this.userInputPanel.Size = new System.Drawing.Size(678, 479);
             this.userInputPanel.TabIndex = 20;
             // 
             // inputPanel
@@ -473,7 +475,7 @@ namespace MJapVocab
             this.outputPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.outputPanel.Controls.Add(this.outputGroupBox);
-            this.outputPanel.Location = new System.Drawing.Point(3, 364);
+            this.outputPanel.Location = new System.Drawing.Point(3, 337);
             this.outputPanel.Name = "outputPanel";
             this.outputPanel.Size = new System.Drawing.Size(675, 139);
             this.outputPanel.TabIndex = 30;
@@ -512,7 +514,7 @@ namespace MJapVocab
             this.parentEnglishDefinitionsPanel.Controls.Add(this.englishDefinitionsGroupBox);
             this.parentEnglishDefinitionsPanel.Location = new System.Drawing.Point(3, 84);
             this.parentEnglishDefinitionsPanel.Name = "parentEnglishDefinitionsPanel";
-            this.parentEnglishDefinitionsPanel.Size = new System.Drawing.Size(672, 185);
+            this.parentEnglishDefinitionsPanel.Size = new System.Drawing.Size(672, 158);
             this.parentEnglishDefinitionsPanel.TabIndex = 27;
             // 
             // englishDefinitionsGroupBox
@@ -521,7 +523,7 @@ namespace MJapVocab
             this.englishDefinitionsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.englishDefinitionsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.englishDefinitionsGroupBox.Name = "englishDefinitionsGroupBox";
-            this.englishDefinitionsGroupBox.Size = new System.Drawing.Size(672, 185);
+            this.englishDefinitionsGroupBox.Size = new System.Drawing.Size(672, 158);
             this.englishDefinitionsGroupBox.TabIndex = 4;
             this.englishDefinitionsGroupBox.TabStop = false;
             this.englishDefinitionsGroupBox.Text = "English Definitions";
@@ -532,7 +534,7 @@ namespace MJapVocab
             this.englishDefinitionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.englishDefinitionsPanel.Location = new System.Drawing.Point(3, 19);
             this.englishDefinitionsPanel.Name = "englishDefinitionsPanel";
-            this.englishDefinitionsPanel.Size = new System.Drawing.Size(666, 163);
+            this.englishDefinitionsPanel.Size = new System.Drawing.Size(666, 136);
             this.englishDefinitionsPanel.TabIndex = 0;
             // 
             // writeInKanaPanel
@@ -540,7 +542,7 @@ namespace MJapVocab
             this.writeInKanaPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.writeInKanaPanel.Controls.Add(this.writeInKanaCheckbox);
-            this.writeInKanaPanel.Location = new System.Drawing.Point(3, 336);
+            this.writeInKanaPanel.Location = new System.Drawing.Point(3, 309);
             this.writeInKanaPanel.Name = "writeInKanaPanel";
             this.writeInKanaPanel.Size = new System.Drawing.Size(675, 25);
             this.writeInKanaPanel.TabIndex = 29;
@@ -563,7 +565,7 @@ namespace MJapVocab
             this.additionalCommentsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.additionalCommentsPanel.Controls.Add(this.additionalCommentsTextBox);
-            this.additionalCommentsPanel.Location = new System.Drawing.Point(3, 275);
+            this.additionalCommentsPanel.Location = new System.Drawing.Point(3, 248);
             this.additionalCommentsPanel.Name = "additionalCommentsPanel";
             this.additionalCommentsPanel.Size = new System.Drawing.Size(675, 58);
             this.additionalCommentsPanel.TabIndex = 28;
@@ -590,7 +592,7 @@ namespace MJapVocab
             this.vocabularyItemsPanel.Controls.Add(this.vocabularyItemsGridView);
             this.vocabularyItemsPanel.Location = new System.Drawing.Point(687, 3);
             this.vocabularyItemsPanel.Name = "vocabularyItemsPanel";
-            this.vocabularyItemsPanel.Size = new System.Drawing.Size(288, 506);
+            this.vocabularyItemsPanel.Size = new System.Drawing.Size(288, 479);
             this.vocabularyItemsPanel.TabIndex = 32;
             // 
             // vocabularyItemsGridView
@@ -617,7 +619,7 @@ namespace MJapVocab
             this.vocabularyItemsGridView.RowHeadersVisible = false;
             this.vocabularyItemsGridView.RowTemplate.Height = 25;
             this.vocabularyItemsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.vocabularyItemsGridView.Size = new System.Drawing.Size(282, 500);
+            this.vocabularyItemsGridView.Size = new System.Drawing.Size(282, 473);
             this.vocabularyItemsGridView.TabIndex = 19;
             // 
             // windowTableLayoutPanel
@@ -631,9 +633,21 @@ namespace MJapVocab
             this.windowTableLayoutPanel.Name = "windowTableLayoutPanel";
             this.windowTableLayoutPanel.RowCount = 2;
             this.windowTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.windowTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 143F));
+            this.windowTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 170F));
             this.windowTableLayoutPanel.Size = new System.Drawing.Size(984, 661);
             this.windowTableLayoutPanel.TabIndex = 34;
+            // 
+            // exportCsvEngToJapButton
+            // 
+            this.exportCsvEngToJapButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.exportCsvEngToJapButton.Location = new System.Drawing.Point(3, 128);
+            this.exportCsvEngToJapButton.Name = "exportCsvEngToJapButton";
+            this.exportCsvEngToJapButton.Size = new System.Drawing.Size(963, 23);
+            this.exportCsvEngToJapButton.TabIndex = 25;
+            this.exportCsvEngToJapButton.Text = "Export to .csv (EN → JP)";
+            this.exportCsvEngToJapButton.UseVisualStyleBackColor = true;
+            this.exportCsvEngToJapButton.Click += new System.EventHandler(this.exportCsvEngToJapButton_Click);
             // 
             // MJapVocabForm
             // 
@@ -724,6 +738,7 @@ namespace MJapVocab
         private Panel otherFormsPanel;
         private Panel readingPanel;
         private Panel wordPanel;
+        private Button exportCsvEngToJapButton;
     }
 }
 

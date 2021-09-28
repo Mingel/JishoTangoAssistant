@@ -36,5 +36,25 @@ namespace MJapVocab
             }
             return sb.ToString().TrimEnd();
         }
+
+        public static string ListToEngJap(VocabularyItem[] items)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in items)
+            {
+                sb.Append("\"");
+                sb.Append(item.Output.Replace("\"", "\"\""));
+                sb.Append("\";\"");
+                sb.Append(item.Word);
+                if (item.ShowReading)
+                {
+                    sb.Append(Environment.NewLine);
+                    sb.Append(item.Reading.Replace("\"", "\"\""));
+                }
+                sb.Append("\"");
+                sb.Append(Environment.NewLine);
+            }
+            return sb.ToString().TrimEnd();
+        }
     }
 }
