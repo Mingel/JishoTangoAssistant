@@ -13,16 +13,10 @@ namespace MJapVocab
     public partial class MJapVocabForm : Form
     {
         private List<CheckBox> outputCheckBoxes = new List<CheckBox>();
-        private static bool running = false;
 
-        private JishoDatum[] latestResult;
+        public static BindingList<VocabularyItem> bindingAddedVocabularyItems = null;
 
-        public List<Element> addedElements = new List<Element>();
-        public BindingList<Element> bindingAddedElements;
-
-        private bool userMadeChanges = false;
-
-        protected void DisposeOutputCheckBoxes(bool disposing)
+        private void DisposeOutputCheckBoxes(bool disposing)
         {
             if (disposing && (outputCheckBoxes != null))
             {
@@ -41,9 +35,9 @@ namespace MJapVocab
 
         private void MJapVocabForm_Load(object sender, EventArgs e)
         {
-            bindingAddedElements = new BindingList<Element>(addedElements);
-            elementsGridView.DataSource = bindingAddedElements;
-            UpdateElementsGridView();
+            MJapVocabForm.bindingAddedVocabularyItems = new BindingList<VocabularyItem>(CurrentSession.addedVocabularyItems);
+            vocabularyItemsGridView.DataSource = MJapVocabForm.bindingAddedVocabularyItems;
+            UpdateVocabularyItemsGridView();
         }
 
         private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -60,11 +54,11 @@ namespace MJapVocab
 
         private async void ProcessInput()
         {
-            if (!running)
+            if (!CurrentSession.running)
             {
-                running = true;
+                CurrentSession.running = true;
 
-                var result = await JishoWebAPIClient.RunAsync(inputTextBox.Text);
+                var result = await JishoWebAPIClient.GetResultJsonAsync(inputTextBox.Text);
                 if (result == null || result.Length == 0)
                 {
                     readingOutputLabel.Text = String.Empty;
@@ -75,11 +69,11 @@ namespace MJapVocab
                     additionalCommentsTextBox.Text = String.Empty;
                     DisposeOutputCheckBoxes(true);
                     outputTextBox.Text = String.Empty;
-                    running = false;
+                    CurrentSession.running = false;
                     return;
                 }
 
-                latestResult = result;
+                CurrentSession.latestResult = result;
 
                 wordComboBox.Enabled = true;
                 otherFormsComboBox.Enabled = true;
@@ -109,7 +103,7 @@ namespace MJapVocab
                     || firstJapaneseEntry.word == null;
                 UpdateOutputTextbox();
                 CreateEnglishDefinitionsCheckBoxes(firstResult);
-                running = false;
+                CurrentSession.running = false;
             }
         }
 
@@ -185,7 +179,7 @@ namespace MJapVocab
             writeInKanaCheckbox.Enabled = true;
 
             otherFormsComboBox.Items.Clear();
-            var selectedDatum = this.latestResult[wordComboBox.SelectedIndex];
+            var selectedDatum = CurrentSession.latestResult[wordComboBox.SelectedIndex];
             foreach (var japItem in selectedDatum.japanese)
             {
                 if (japItem.word != null)
@@ -216,13 +210,13 @@ namespace MJapVocab
 
         private void otherFormsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            readingOutputLabel.Text = this.latestResult[wordComboBox.SelectedIndex].japanese[otherFormsComboBox.SelectedIndex].reading;
+            readingOutputLabel.Text = CurrentSession.latestResult[wordComboBox.SelectedIndex].japanese[otherFormsComboBox.SelectedIndex].reading;
             UpdateOutputTextbox();
         }
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            if (this.latestResult == null)
+            if (CurrentSession.latestResult == null)
                 return;
             var outputText = String.Empty;
             var englishDefinitionsString = String.Join("; ", outputCheckBoxes.Where(x => x.Checked).Select(x => x.Text));
@@ -234,30 +228,22 @@ namespace MJapVocab
             outputText += additionalCommentsTextBox.Text;
             bool showReading = !writeInKanaCheckbox.Checked;
             var word = showReading ? otherFormsComboBox.SelectedItem.ToString() : readingOutputLabel.Text;
-            Element elem = new Element(word, showReading, readingOutputLabel.Text, outputText);
-            addedElements.Add(elem);
-            userMadeChanges = true;
-            UpdateElementsGridView();
-            elementsGridView.Rows[elementsGridView.Rows.Count - 1].Selected = true;
+            VocabularyItem elem = new VocabularyItem(word, showReading, readingOutputLabel.Text, outputText);
+            CurrentSession.addedVocabularyItems.Add(elem);
+            CurrentSession.userMadeChanges = true;
+            UpdateVocabularyItemsGridView();
+            vocabularyItemsGridView.Rows[vocabularyItemsGridView.Rows.Count - 1].Selected = true;
         }
 
-        private void UpdateElementsGridView()
+        private void UpdateVocabularyItemsGridView()
         {
-            // for some reason, ResetBindings() is not working sometimes TODO
-            //bindingAddedElements.ResetBindings();
-            // alternative:
-            bindingAddedElements = new BindingList<Element>(addedElements);
-            elementsGridView.DataSource = bindingAddedElements;
+            MJapVocabForm.bindingAddedVocabularyItems = new BindingList<VocabularyItem>(CurrentSession.addedVocabularyItems);
+            vocabularyItemsGridView.DataSource = MJapVocabForm.bindingAddedVocabularyItems;
 
-            elementsGridView.Columns["ShowReading"].Visible = false;
+            vocabularyItemsGridView.Columns["ShowReading"].Visible = false;
         }
 
         private void saveAllButton_Click(object sender, EventArgs e)
-        {
-            save();
-        }
-
-        private void save()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
@@ -268,15 +254,15 @@ namespace MJapVocab
             {
                 using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
                 {
-                    sw.Write(Element.ListToJson(addedElements.ToArray()));
-                    userMadeChanges = false;
+                    sw.Write(VocabularyItemHandler.ListToJson(CurrentSession.addedVocabularyItems.ToArray()));
+                    CurrentSession.userMadeChanges = false;
                 }
             }
         }
 
         private void deleteSelectionButton_Click(object sender, EventArgs e)
         {
-            if (elementsGridView.SelectedRows.Count < 1)
+            if (vocabularyItemsGridView.SelectedRows.Count < 1)
                 return;
             var result = MessageBox.Show("Do you really want to delete your selection?",
                                           "Deletion Confirmation",
@@ -284,10 +270,10 @@ namespace MJapVocab
                                           MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                addedElements.RemoveAt(elementsGridView.SelectedRows[0].Index);
-                userMadeChanges = true;
-                UpdateElementsGridView();
-                elementsGridView.ClearSelection();
+                CurrentSession.addedVocabularyItems.RemoveAt(vocabularyItemsGridView.SelectedRows[0].Index);
+                CurrentSession.userMadeChanges = true;
+                UpdateVocabularyItemsGridView();
+                vocabularyItemsGridView.ClearSelection();
             }
         }
 
@@ -304,49 +290,49 @@ namespace MJapVocab
                 using (StreamReader reader = new StreamReader(fileStream))
                 {
                     var fileContent = reader.ReadToEnd();
-                    var loadedElements = Element.JsonToList(fileContent);
-                    addedElements.Clear();
-                    addedElements.AddRange(loadedElements);
-                    userMadeChanges = false;
-                    UpdateElementsGridView();
-                    elementsGridView.ClearSelection();
+                    var loadedVocabularyItems = VocabularyItemHandler.JsonToList(fileContent);
+                    CurrentSession.addedVocabularyItems.Clear();
+                    CurrentSession.addedVocabularyItems.AddRange(loadedVocabularyItems);
+                    CurrentSession.userMadeChanges = false;
+                    UpdateVocabularyItemsGridView();
+                    vocabularyItemsGridView.ClearSelection();
                 }
             }
         }
 
         private void upSelectionButton_Click(object sender, EventArgs e)
         {
-            if (elementsGridView.SelectedRows.Count < 1)
+            if (vocabularyItemsGridView.SelectedRows.Count < 1)
                 return;
-            var selectedIndex = elementsGridView.SelectedRows[0].Index;
+            var selectedIndex = vocabularyItemsGridView.SelectedRows[0].Index;
             if (selectedIndex < 1)
                 return;
-            var tmp = addedElements[selectedIndex - 1];
-            addedElements[selectedIndex - 1] = addedElements[selectedIndex];
-            addedElements[selectedIndex] = tmp;
-            userMadeChanges = true;
-            UpdateElementsGridView();
-            elementsGridView.Rows[selectedIndex - 1].Selected = true;
+            var tmp = CurrentSession.addedVocabularyItems[selectedIndex - 1];
+            CurrentSession.addedVocabularyItems[selectedIndex - 1] = CurrentSession.addedVocabularyItems[selectedIndex];
+            CurrentSession.addedVocabularyItems[selectedIndex] = tmp;
+            CurrentSession.userMadeChanges = true;
+            UpdateVocabularyItemsGridView();
+            vocabularyItemsGridView.Rows[selectedIndex - 1].Selected = true;
         }
 
         private void downSelectionButton_Click(object sender, EventArgs e)
         {
-            if (elementsGridView.SelectedRows.Count < 1)
+            if (vocabularyItemsGridView.SelectedRows.Count < 1)
                 return;
-            var selectedIndex = elementsGridView.SelectedRows[0].Index;
-            if (selectedIndex >= elementsGridView.Rows.Count - 1)
+            var selectedIndex = vocabularyItemsGridView.SelectedRows[0].Index;
+            if (selectedIndex >= vocabularyItemsGridView.Rows.Count - 1)
                 return;
-            var tmp = addedElements[selectedIndex + 1];
-            addedElements[selectedIndex + 1] = addedElements[selectedIndex];
-            addedElements[selectedIndex] = tmp;
-            userMadeChanges = true;
-            UpdateElementsGridView();
-            elementsGridView.Rows[selectedIndex + 1].Selected = true;
+            var tmp = CurrentSession.addedVocabularyItems[selectedIndex + 1];
+            CurrentSession.addedVocabularyItems[selectedIndex + 1] = CurrentSession.addedVocabularyItems[selectedIndex];
+            CurrentSession.addedVocabularyItems[selectedIndex] = tmp;
+            CurrentSession.userMadeChanges = true;
+            UpdateVocabularyItemsGridView();
+            vocabularyItemsGridView.Rows[selectedIndex + 1].Selected = true;
         }
 
         private void MJapVocabForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (userMadeChanges)
+            if (CurrentSession.userMadeChanges)
             {
                 var result = MessageBox.Show("You have made unsaved changes. Do you want to quit the application?",
                                           "Unsaved Changes",
@@ -370,24 +356,9 @@ namespace MJapVocab
             {
                 using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
                 {
-                    sw.Write(Element.ListToJapEng(addedElements.ToArray()));
+                    sw.Write(VocabularyItem.ListToJapEng(CurrentSession.addedVocabularyItems.ToArray()));
                 }
             }
-        }
-
-        private void userIOPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void buttonPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void englishDefinitionsPanel_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

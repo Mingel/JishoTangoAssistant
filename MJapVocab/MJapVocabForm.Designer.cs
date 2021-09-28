@@ -72,8 +72,8 @@ namespace MJapVocab
             this.writeInKanaCheckbox = new System.Windows.Forms.CheckBox();
             this.additionalCommentsPanel = new System.Windows.Forms.Panel();
             this.additionalCommentsTextBox = new System.Windows.Forms.TextBox();
-            this.elementsPanel = new System.Windows.Forms.Panel();
-            this.elementsGridView = new System.Windows.Forms.DataGridView();
+            this.vocabularyItemsPanel = new System.Windows.Forms.Panel();
+            this.vocabularyItemsGridView = new System.Windows.Forms.DataGridView();
             this.windowTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.buttonPanel.SuspendLayout();
             this.buttonTableLayoutPanel.SuspendLayout();
@@ -94,8 +94,8 @@ namespace MJapVocab
             this.englishDefinitionsGroupBox.SuspendLayout();
             this.writeInKanaPanel.SuspendLayout();
             this.additionalCommentsPanel.SuspendLayout();
-            this.elementsPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.elementsGridView)).BeginInit();
+            this.vocabularyItemsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.vocabularyItemsGridView)).BeginInit();
             this.windowTableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,7 +108,6 @@ namespace MJapVocab
             this.buttonPanel.Name = "buttonPanel";
             this.buttonPanel.Size = new System.Drawing.Size(978, 137);
             this.buttonPanel.TabIndex = 31;
-            this.buttonPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonPanel_Paint);
             // 
             // buttonTableLayoutPanel
             // 
@@ -270,14 +269,13 @@ namespace MJapVocab
             this.userIOTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
             this.userIOTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.userIOTableLayoutPanel.Controls.Add(this.userInputPanel, 0, 0);
-            this.userIOTableLayoutPanel.Controls.Add(this.elementsPanel, 1, 0);
+            this.userIOTableLayoutPanel.Controls.Add(this.vocabularyItemsPanel, 1, 0);
             this.userIOTableLayoutPanel.Location = new System.Drawing.Point(3, 3);
             this.userIOTableLayoutPanel.Name = "userIOTableLayoutPanel";
             this.userIOTableLayoutPanel.RowCount = 1;
             this.userIOTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.userIOTableLayoutPanel.Size = new System.Drawing.Size(978, 512);
             this.userIOTableLayoutPanel.TabIndex = 33;
-            this.userIOTableLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.userIOPanel_Paint);
             // 
             // userInputPanel
             // 
@@ -536,7 +534,6 @@ namespace MJapVocab
             this.englishDefinitionsPanel.Name = "englishDefinitionsPanel";
             this.englishDefinitionsPanel.Size = new System.Drawing.Size(666, 163);
             this.englishDefinitionsPanel.TabIndex = 0;
-            this.englishDefinitionsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.englishDefinitionsPanel_Paint);
             // 
             // writeInKanaPanel
             // 
@@ -585,26 +582,26 @@ namespace MJapVocab
             this.additionalCommentsTextBox.TabIndex = 11;
             this.additionalCommentsTextBox.TextChanged += new System.EventHandler(this.additionalCommentsTextBox_TextChanged);
             // 
-            // elementsPanel
+            // vocabularyItemsPanel
             // 
-            this.elementsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.vocabularyItemsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.elementsPanel.Controls.Add(this.elementsGridView);
-            this.elementsPanel.Location = new System.Drawing.Point(687, 3);
-            this.elementsPanel.Name = "elementsPanel";
-            this.elementsPanel.Size = new System.Drawing.Size(288, 506);
-            this.elementsPanel.TabIndex = 32;
+            this.vocabularyItemsPanel.Controls.Add(this.vocabularyItemsGridView);
+            this.vocabularyItemsPanel.Location = new System.Drawing.Point(687, 3);
+            this.vocabularyItemsPanel.Name = "vocabularyItemsPanel";
+            this.vocabularyItemsPanel.Size = new System.Drawing.Size(288, 506);
+            this.vocabularyItemsPanel.TabIndex = 32;
             // 
-            // elementsGridView
+            // vocabularyItemsGridView
             // 
-            this.elementsGridView.AllowUserToResizeRows = false;
-            this.elementsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.vocabularyItemsGridView.AllowUserToResizeRows = false;
+            this.vocabularyItemsGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.elementsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.elementsGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.elementsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.vocabularyItemsGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.vocabularyItemsGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.vocabularyItemsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -612,16 +609,16 @@ namespace MJapVocab
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.elementsGridView.DefaultCellStyle = dataGridViewCellStyle1;
-            this.elementsGridView.Location = new System.Drawing.Point(3, 3);
-            this.elementsGridView.MultiSelect = false;
-            this.elementsGridView.Name = "elementsGridView";
-            this.elementsGridView.ReadOnly = true;
-            this.elementsGridView.RowHeadersVisible = false;
-            this.elementsGridView.RowTemplate.Height = 25;
-            this.elementsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.elementsGridView.Size = new System.Drawing.Size(282, 500);
-            this.elementsGridView.TabIndex = 19;
+            this.vocabularyItemsGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            this.vocabularyItemsGridView.Location = new System.Drawing.Point(3, 3);
+            this.vocabularyItemsGridView.MultiSelect = false;
+            this.vocabularyItemsGridView.Name = "vocabularyItemsGridView";
+            this.vocabularyItemsGridView.ReadOnly = true;
+            this.vocabularyItemsGridView.RowHeadersVisible = false;
+            this.vocabularyItemsGridView.RowTemplate.Height = 25;
+            this.vocabularyItemsGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.vocabularyItemsGridView.Size = new System.Drawing.Size(282, 500);
+            this.vocabularyItemsGridView.TabIndex = 19;
             // 
             // windowTableLayoutPanel
             // 
@@ -675,8 +672,8 @@ namespace MJapVocab
             this.writeInKanaPanel.PerformLayout();
             this.additionalCommentsPanel.ResumeLayout(false);
             this.additionalCommentsPanel.PerformLayout();
-            this.elementsPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.elementsGridView)).EndInit();
+            this.vocabularyItemsPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.vocabularyItemsGridView)).EndInit();
             this.windowTableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -698,8 +695,8 @@ namespace MJapVocab
         private Button deleteSelectionButton;
         private Button exportCsvJapToEngButton;
         private TableLayoutPanel userIOTableLayoutPanel;
-        private Panel elementsPanel;
-        private DataGridView elementsGridView;
+        private Panel vocabularyItemsPanel;
+        private DataGridView vocabularyItemsGridView;
         private Panel userInputPanel;
         private Panel inputPanel;
         private Label inputLabel;
