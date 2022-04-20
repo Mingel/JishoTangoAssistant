@@ -33,6 +33,7 @@ namespace MJapVocab
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.buttonPanel = new System.Windows.Forms.Panel();
+            this.exportCsvEngToJapButton = new System.Windows.Forms.Button();
             this.buttonTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.leftButtonsPanel = new System.Windows.Forms.Panel();
             this.copyToClipboardButton = new System.Windows.Forms.Button();
@@ -75,7 +76,6 @@ namespace MJapVocab
             this.vocabularyItemsPanel = new System.Windows.Forms.Panel();
             this.vocabularyItemsGridView = new System.Windows.Forms.DataGridView();
             this.windowTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.exportCsvEngToJapButton = new System.Windows.Forms.Button();
             this.buttonPanel.SuspendLayout();
             this.buttonTableLayoutPanel.SuspendLayout();
             this.leftButtonsPanel.SuspendLayout();
@@ -110,6 +110,18 @@ namespace MJapVocab
             this.buttonPanel.Name = "buttonPanel";
             this.buttonPanel.Size = new System.Drawing.Size(978, 164);
             this.buttonPanel.TabIndex = 31;
+            // 
+            // exportCsvEngToJapButton
+            // 
+            this.exportCsvEngToJapButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.exportCsvEngToJapButton.Location = new System.Drawing.Point(3, 128);
+            this.exportCsvEngToJapButton.Name = "exportCsvEngToJapButton";
+            this.exportCsvEngToJapButton.Size = new System.Drawing.Size(963, 23);
+            this.exportCsvEngToJapButton.TabIndex = 25;
+            this.exportCsvEngToJapButton.Text = "Export to .csv (EN → JP)";
+            this.exportCsvEngToJapButton.UseVisualStyleBackColor = true;
+            this.exportCsvEngToJapButton.Click += new System.EventHandler(this.exportCsvEngToJapButton_Click);
             // 
             // buttonTableLayoutPanel
             // 
@@ -396,7 +408,7 @@ namespace MJapVocab
             this.otherFormsComboBox.FormattingEnabled = true;
             this.otherFormsComboBox.Location = new System.Drawing.Point(82, 5);
             this.otherFormsComboBox.Name = "otherFormsComboBox";
-            this.otherFormsComboBox.Size = new System.Drawing.Size(75, 38);
+            this.otherFormsComboBox.Size = new System.Drawing.Size(139, 38);
             this.otherFormsComboBox.TabIndex = 14;
             this.otherFormsComboBox.SelectedIndexChanged += new System.EventHandler(this.otherFormsComboBox_SelectedIndexChanged);
             // 
@@ -466,7 +478,7 @@ namespace MJapVocab
             this.wordComboBox.FormattingEnabled = true;
             this.wordComboBox.Location = new System.Drawing.Point(45, 5);
             this.wordComboBox.Name = "wordComboBox";
-            this.wordComboBox.Size = new System.Drawing.Size(69, 38);
+            this.wordComboBox.Size = new System.Drawing.Size(176, 38);
             this.wordComboBox.TabIndex = 12;
             this.wordComboBox.SelectedIndexChanged += new System.EventHandler(this.wordComboBox_SelectedIndexChanged);
             // 
@@ -636,18 +648,6 @@ namespace MJapVocab
             this.windowTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 170F));
             this.windowTableLayoutPanel.Size = new System.Drawing.Size(984, 661);
             this.windowTableLayoutPanel.TabIndex = 34;
-            // 
-            // exportCsvEngToJapButton
-            // 
-            this.exportCsvEngToJapButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.exportCsvEngToJapButton.Location = new System.Drawing.Point(3, 128);
-            this.exportCsvEngToJapButton.Name = "exportCsvEngToJapButton";
-            this.exportCsvEngToJapButton.Size = new System.Drawing.Size(963, 23);
-            this.exportCsvEngToJapButton.TabIndex = 25;
-            this.exportCsvEngToJapButton.Text = "Export to .csv (EN → JP)";
-            this.exportCsvEngToJapButton.UseVisualStyleBackColor = true;
-            this.exportCsvEngToJapButton.Click += new System.EventHandler(this.exportCsvEngToJapButton_Click);
             // 
             // MJapVocabForm
             // 
