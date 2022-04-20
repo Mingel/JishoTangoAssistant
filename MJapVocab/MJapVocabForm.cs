@@ -61,6 +61,7 @@ namespace MJapVocab
                 var result = await JishoWebAPIClient.GetResultJsonAsync(inputTextBox.Text);
                 if (result == null || result.Length == 0)
                 {
+
                     readingOutputLabel.Text = String.Empty;
                     wordComboBox.Items.Clear();
                     wordComboBox.Enabled = false;
@@ -70,6 +71,14 @@ namespace MJapVocab
                     DisposeOutputCheckBoxes(true);
                     outputTextBox.Text = String.Empty;
                     CurrentSession.running = false;
+
+                    if (result == null) // Application could not retrieve information from Jisho
+                    {
+                        var messageBoxResult = MessageBox.Show("Information could not be retrieved!",
+                                                    "Error",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Error);
+                    }
                     return;
                 }
 
