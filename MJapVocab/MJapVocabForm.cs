@@ -40,6 +40,11 @@ namespace MJapVocab
             UpdateVocabularyItemsGridView();
         }
 
+        private void MJapVocabForm_Activated(object sender, EventArgs e)
+        {
+            inputTextBox.Focus();
+        }
+
         private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -70,6 +75,8 @@ namespace MJapVocab
                     additionalCommentsTextBox.Text = String.Empty;
                     DisposeOutputCheckBoxes(true);
                     outputTextBox.Text = String.Empty;
+                    writeInKanaCheckbox.Enabled = false;
+                    writeInKanaCheckbox.Checked = false;
                     CurrentSession.running = false;
 
                     if (result == null) // Application could not retrieve information from Jisho
@@ -100,14 +107,13 @@ namespace MJapVocab
                         wordComboBox.Items.Add(res.japanese[0].reading);
                 }
                 if (wordComboBox.Items.Count > 0)
-                {
                     wordComboBox.SelectedIndex = 0;
-                }
+
                 wordComboBox.Text = wordComboBox.SelectedItem.ToString();
                 
                 readingOutputLabel.Text = firstJapaneseEntry.reading;
 
-                writeInKanaCheckbox.Enabled = firstJapaneseEntry.word != null;
+                writeInKanaCheckbox.Enabled = true;
                 writeInKanaCheckbox.Checked = firstResult.senses.Where(x => x.tags.Contains("Usually written using kana alone")).Any() 
                     || firstJapaneseEntry.word == null;
                 UpdateOutputTextbox();
@@ -175,7 +181,8 @@ namespace MJapVocab
 
         private void copyToClipboardButton_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(outputTextBox.Text);
+            if (CurrentSession.running) // in this case: outputText.Box.Text != null
+                Clipboard.SetText(outputTextBox.Text);
         }
 
         private void additionalCommentsTextBox_TextChanged(object sender, EventArgs e)
@@ -381,7 +388,8 @@ namespace MJapVocab
             {
                 using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
                 {
-                    sw.Write(VocabularyItem.ListToJapEng(CurrentSession.addedVocabularyItems.ToArray()));
+                    var vocabItems = CurrentSession.addedVocabularyItems.ToArray();
+                    sw.Write(VocabularyItem.ListToJapEng(vocabItems));
                 }
             }
         }
