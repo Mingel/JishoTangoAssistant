@@ -1,0 +1,106 @@
+﻿<Window x:Class="MJapVocab.MJapVocabWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MJapVocab" d:DataContext="{d:DesignInstance Type=local:MJapVocabViewModel}"
+        mc:Ignorable="d"
+        Title="MJapVocab" Height="597" Width="1096">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" x:Name="userIOTableLayoutPanel">
+            <StackPanel x:Name="userInputPanel" Margin="0,0,0,0" Width="550">
+                <Grid x:Name="inputGrid" Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" MinWidth="75"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" x:Name="inputLabel" Content="Input"/>
+                    <TextBox Grid.Column="1" x:Name="inputTextBox" TextWrapping="Wrap" Text="" Height="23" VerticalContentAlignment="Center" Margin="10,0,10,0"/>
+                    <Button Grid.Column="2" x:Name="enterButton" Content="Enter" Margin="0,1,0,2"/>
+                </Grid>
+                <Grid Height="Auto" MinHeight="44">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="3.3*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="3.3*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="3.3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" x:Name="wordLabel" VerticalAlignment="Center" Content="Word"/>
+                    <ComboBox Grid.Column="1" x:Name="wordComboBox" VerticalAlignment="Center" Width="120"/>
+                    <Label Grid.Column="2" x:Name="otherFormsLabel" VerticalAlignment="Center" Content="Label"/>
+                    <ComboBox Grid.Column="3" x:Name="otherFormsComboBox" VerticalAlignment="Center" Width="120"/>
+                    <Label Grid.Column="4" x:Name="readingLabel" VerticalAlignment="Center" Content="Reading"/>
+                    <Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Width="Auto"/>
+                </Grid>
+                <GroupBox x:Name="englishDefinitionsGroupBox" Height="100" Header="English Definitions">
+                    <StackPanel x:Name="englishDefinitionsPanel"/>
+                </GroupBox>
+                <TextBox x:Name="additionalCommentsTextBox" TextWrapping="Wrap" Text="Additional Comments" Width="Auto" Height="70" MinHeight="27"/>
+                <StackPanel x:Name="writeInKanaPanel" Height="19">
+                    <CheckBox x:Name="writeInKanaCheckBox" Content="Write in Kana"/>
+                </StackPanel>
+                <StackPanel x:Name="outputPanel" Height="109">
+                    <GroupBox x:Name="outputGroupBox" Height="100" Header="Output"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="vocabularyItemsPanel" Width="450">
+                <DataGrid x:Name="vocabularyItemsDataGrid" Width="Auto" Height="300" ItemsSource="{Binding VocabList}" />
+            </StackPanel>
+            
+        </DockPanel>
+        <StackPanel Grid.Row="1" x:Name="buttonPanel" Width="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" x:Name="leftButtonsGrid" Width="Auto">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0" x:Name="copyToClipboardButton" Content="Copy Output to Clipboard"/>
+                    <Button Grid.Row="1" x:Name="addButton" Content="Add to List"/>
+                    <Button Grid.Row="2" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="Load List" Click="loadButton_Click"/>
+                </Grid>
+                <Grid Grid.Column="1" x:Name="rightButtonsGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" x:Name="upDownButtonsTableLayoutGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" x:Name="upButton" Content="↑"/>
+                        <Button Grid.Column="1" x:Name="downButton" Content="↓"/>
+                    </Grid>
+
+                    <Button Grid.Row="1" x:Name="deleteSelectionButton" Content="Delete Selection from List"/>
+                    <Button Grid.Row="2" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="Save List"/>
+                </Grid>
+            </Grid>
+
+            <Button Grid.Row="1" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → EN)"/>
+            <Button Grid.Row="2" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP)"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

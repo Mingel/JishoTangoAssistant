@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace MJapVocab
@@ -9,7 +10,7 @@ namespace MJapVocab
 
         public static JishoDatum[] latestResult = null;
 
-        public static List<VocabularyItem> addedVocabularyItems = new List<VocabularyItem>();
+        public static ObservableCollection<VocabularyItem> addedVocabularyItems = new ObservableCollection<VocabularyItem>();
 
         public static bool userMadeChanges = false;
     }
