@@ -8,7 +8,7 @@ namespace MJapVocab
     {
         public static bool running = false;
 
-        public static JishoDatum[] latestResult = null;
+        public static JishoDatum[]? latestResult = null;
 
         public static ObservableCollection<VocabularyItem> addedVocabularyItems = new ObservableCollection<VocabularyItem>();
 

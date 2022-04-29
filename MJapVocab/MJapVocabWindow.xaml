@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" x:Name="userIOTableLayoutPanel">
-            <StackPanel x:Name="userInputPanel" Margin="0,0,0,0" Width="550">
+            <StackPanel x:Name="userInputPanel" Margin="10,0,0,0" Width="550">
                 <Grid x:Name="inputGrid" Height="Auto">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -22,8 +22,13 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" x:Name="inputLabel" Content="Input"/>
-                    <TextBox Grid.Column="1" x:Name="inputTextBox" TextWrapping="Wrap" Text="" Height="23" VerticalContentAlignment="Center" Margin="10,0,10,0"/>
-                    <Button Grid.Column="2" x:Name="enterButton" Content="Enter" Margin="0,1,0,2"/>
+                    <TextBox Grid.Column="1" x:Name="inputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="23" VerticalContentAlignment="Center" Margin="10,0,10,0" KeyUp="inputTextBox_KeyUp">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding Path=ProcessInputCommand}" Key="Enter" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+
+                    <Button Grid.Column="2" x:Name="enterButton" Command="{Binding Path=ProcessInputCommand}" Content="Enter" Margin="0,1,0,2"/>
                 </Grid>
                 <Grid Height="Auto" MinHeight="44">
                     <Grid.ColumnDefinitions>
@@ -36,27 +41,31 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" x:Name="wordLabel" VerticalAlignment="Center" Content="Word"/>
-                    <ComboBox Grid.Column="1" x:Name="wordComboBox" VerticalAlignment="Center" Width="120"/>
+                    <ComboBox Grid.Column="1" x:Name="wordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" ItemsSource="{Binding Words}" FontSize="23" VerticalAlignment="Center" Width="120" Height="36" Margin="10,0,10,0"/>
                     <Label Grid.Column="2" x:Name="otherFormsLabel" VerticalAlignment="Center" Content="Label"/>
-                    <ComboBox Grid.Column="3" x:Name="otherFormsComboBox" VerticalAlignment="Center" Width="120"/>
+                    <ComboBox Grid.Column="3" x:Name="otherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" ItemsSource="{Binding OtherForms}" FontSize="23" VerticalAlignment="Center" Width="120" Height="36" Margin="10,0,10,0"/>
                     <Label Grid.Column="4" x:Name="readingLabel" VerticalAlignment="Center" Content="Reading"/>
-                    <Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Width="Auto"/>
+                    <Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" Width="Auto" Height="36" Margin="5,0,0,0"/>
                 </Grid>
-                <GroupBox x:Name="englishDefinitionsGroupBox" Height="100" Header="English Definitions">
-                    <StackPanel x:Name="englishDefinitionsPanel"/>
+                <GroupBox x:Name="englishDefinitionsGroupBox" Height="187" Header="English Definitions">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Grid x:Name="englishDefinitionsGrid"/>
+                    </ScrollViewer>
                 </GroupBox>
-                <TextBox x:Name="additionalCommentsTextBox" TextWrapping="Wrap" Text="Additional Comments" Width="Auto" Height="70" MinHeight="27"/>
-                <StackPanel x:Name="writeInKanaPanel" Height="19">
+                <GroupBox Header="Additional Comments">
+                    <TextBox x:Name="additionalCommentsTextBox" Text="{Binding AdditionalComments, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="Auto" Height="70" MinHeight="27" HorizontalAlignment="Stretch"/>
+                </GroupBox>
+                    <StackPanel x:Name="writeInKanaPanel" Height="19">
                     <CheckBox x:Name="writeInKanaCheckBox" Content="Write in Kana"/>
                 </StackPanel>
                 <StackPanel x:Name="outputPanel" Height="109">
-                    <GroupBox x:Name="outputGroupBox" Height="100" Header="Output"/>
+                    <GroupBox x:Name="outputGroupBox" Height="100" Header="Output" Content="{Binding OutputText}"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel x:Name="vocabularyItemsPanel" Width="450">
-                <DataGrid x:Name="vocabularyItemsDataGrid" Width="Auto" Height="300" ItemsSource="{Binding VocabList}" />
+            <StackPanel x:Name="vocabularyItemsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <DataGrid x:Name="vocabularyItemsDataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding VocabList}" />
             </StackPanel>
-            
+
         </DockPanel>
         <StackPanel Grid.Row="1" x:Name="buttonPanel" Width="Auto">
             <Grid>
@@ -72,9 +81,9 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="0" x:Name="copyToClipboardButton" Content="Copy Output to Clipboard"/>
-                    <Button Grid.Row="1" x:Name="addButton" Content="Add to List"/>
-                    <Button Grid.Row="2" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="Load List" Click="loadButton_Click"/>
+                    <Button Grid.Row="0" x:Name="copyToClipboardButton" Command="{Binding Path=CopyToClipboardCommand}" Content="Copy Output to Clipboard"/>
+                    <Button Grid.Row="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="Add to List"/>
+                    <Button Grid.Row="2" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="Load List"/>
                 </Grid>
                 <Grid Grid.Column="1" x:Name="rightButtonsGrid">
                     <Grid.RowDefinitions>

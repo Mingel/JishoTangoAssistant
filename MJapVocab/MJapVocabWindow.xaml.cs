@@ -1,20 +1,10 @@
 ﻿
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MJapVocab
 {
@@ -23,38 +13,65 @@ namespace MJapVocab
     /// </summary>
     public partial class MJapVocabWindow : Window
     {
-        MJapVocabViewModel viewModel;
+        private MJapVocabViewModel viewModel;
 
         public MJapVocabWindow()
         {
             viewModel = new MJapVocabViewModel();
             DataContext = viewModel;
+
+            viewModel.CheckBoxEvent += OnInputLoaded;
+
             InitializeComponent();
         }
 
-        private void loadButton_Click(object sender, RoutedEventArgs e)
+        private void OnInputLoaded(int dataLength, List<int> englishDefinitionsLengths, List<string> flattenedEnglishDefinitions)//JishoDatum datum)
         {
-            /*OpenFileDialog openFileDialog = new OpenFileDialog();
+            var startLocationX = 12;
+            var totalStepLocationX = 0; // variable
+            var startLocationY = 12;
+            var stepLocationY = 25;
 
-            openFileDialog.Filter = "MJV Files (*.mjv)|*.mjv";
-            openFileDialog.RestoreDirectory = true;
+            int tmpCounter = 0;
 
-            if (openFileDialog.ShowDialog() == true)
+            this.englishDefinitionsGrid.Children.Clear();
+            for (int i = 0; i < dataLength; i++)
             {
-                var fileStream = openFileDialog.OpenFile();
-                using (StreamReader reader = new StreamReader(fileStream))
+                for (int j = 0; j < englishDefinitionsLengths[i]; j++)
                 {
-                    var fileContent = reader.ReadToEnd();
-                    var loadedVocabularyItems = VocabularyItemHandler.JsonToList(fileContent);
-                    CurrentSession.addedVocabularyItems.Clear();
-                    CurrentSession.addedVocabularyItems.AddRange(loadedVocabularyItems);
-                    CurrentSession.userMadeChanges = false;
-                    //UpdateVocabularyItemsGridView();
-                    //vocabularyItemsGridView.ClearSelection();
-                    vocabularyItemsDataGrid.Items.Refresh();
+                    EnglishDefinitionCheckBox checkBox = new EnglishDefinitionCheckBox();
+
+                    checkBox.EnglishDefinitionsRow = i;
+                    checkBox.EnglishDefinitionsColumn = j;
+
+                    checkBox.Margin = new Thickness(startLocationX + totalStepLocationX, startLocationY + i * stepLocationY, 0, 0);
+                    checkBox.Name = String.Format("outputCheckBox{0}_{1}", i, j);
+                    checkBox.Content = flattenedEnglishDefinitions[tmpCounter];
+                    checkBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    totalStepLocationX = (int)Math.Ceiling(checkBox.DesiredSize.Width);
+                    checkBox.Checked += (_, _) => viewModel.UpdateOutputText();
+                    englishDefinitionsGrid.Children.Add(checkBox);
+
+                    checkBox.IsEnabledChanged += (_, _) => viewModel.AddSelectedIndicesOfEnglishDefinitions(tmpCounter);
+
+                    tmpCounter++;
                 }
-            }*/
-            //vocabularyItemsDataGrid.Items.Refresh();
+                totalStepLocationX = 0;
+            }
+            
+        }
+
+        private void inputTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                TextBox input = (TextBox)sender;
+                DependencyProperty property = TextBox.TextProperty;
+
+                var binding = BindingOperations.GetBindingExpression(input, property);
+                if (binding != null) 
+                    binding.UpdateSource();
+            }
         }
     }
 }
