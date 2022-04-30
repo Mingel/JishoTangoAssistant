@@ -5,7 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MJapVocab" d:DataContext="{d:DesignInstance Type=local:MJapVocabViewModel}"
         mc:Ignorable="d"
-        Title="MJapVocab" Height="597" Width="1096">
+        Title="MJapVocab" Height="600" Width="1000">
+
+    <Window.DataContext>
+        <local:MJapVocabViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate x:Key="JapaneseInputTemplate" DataType="{x:Type local:MJapVocabViewModel}">
+            <local:JapaneseUserInput />
+        </DataTemplate>
+        <DataTemplate x:Key="VocabularyListTemplate" DataType="{x:Type local:MJapVocabViewModel}">
+            <local:VocabularyListView />
+        </DataTemplate>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -13,105 +27,26 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" x:Name="userIOTableLayoutPanel">
-            <StackPanel x:Name="userInputPanel" Margin="10,0,0,0" Width="550">
-                <Grid x:Name="inputGrid" Height="Auto">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto" MinWidth="75"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Label Grid.Column="0" x:Name="inputLabel" Content="Input"/>
-                    <TextBox Grid.Column="1" x:Name="inputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="23" VerticalContentAlignment="Center" Margin="10,0,10,0" KeyUp="inputTextBox_KeyUp">
-                        <TextBox.InputBindings>
-                            <KeyBinding Command="{Binding Path=ProcessInputCommand}" Key="Enter" />
-                        </TextBox.InputBindings>
-                    </TextBox>
-
-                    <Button Grid.Column="2" x:Name="enterButton" Command="{Binding Path=ProcessInputCommand}" Content="Enter" Margin="0,1,0,2"/>
-                </Grid>
-                <Grid Height="Auto" MinHeight="44">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="3.3*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="3.3*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="3.3*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Label Grid.Column="0" x:Name="wordLabel" VerticalAlignment="Center" Content="Word"/>
-                    <ComboBox Grid.Column="1" x:Name="wordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" ItemsSource="{Binding Words}" FontSize="23" VerticalAlignment="Center" Width="120" Height="36" Margin="10,0,10,0"/>
-                    <Label Grid.Column="2" x:Name="otherFormsLabel" VerticalAlignment="Center" Content="Label"/>
-                    <ComboBox Grid.Column="3" x:Name="otherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" ItemsSource="{Binding OtherForms}" FontSize="23" VerticalAlignment="Center" Width="120" Height="36" Margin="10,0,10,0"/>
-                    <Label Grid.Column="4" x:Name="readingLabel" VerticalAlignment="Center" Content="Reading"/>
-                    <Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" Width="Auto" Height="36" Margin="5,0,0,0"/>
-                </Grid>
-                <GroupBox x:Name="englishDefinitionsGroupBox" Height="187" Header="English Definitions">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <Grid x:Name="englishDefinitionsGrid"/>
-                    </ScrollViewer>
-                </GroupBox>
-                <GroupBox Header="Additional Comments">
-                    <TextBox x:Name="additionalCommentsTextBox" Text="{Binding AdditionalComments, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="Auto" Height="70" MinHeight="27" HorizontalAlignment="Stretch"/>
-                </GroupBox>
-                <StackPanel x:Name="writeInKanaPanel" Height="19">
-                    <CheckBox x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
-                </StackPanel>
-                <StackPanel x:Name="outputPanel" Height="109">
-                    <GroupBox x:Name="outputGroupBox" Height="100" Header="Output" Content="{Binding OutputText}"/>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel x:Name="vocabularyItemsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <GroupBox Header="Vocabulary List" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <DataGrid x:Name="vocabularyItemsDataGrid" ItemsSource="{Binding VocabList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False" Loaded="vocabularyItemsDataGrid_Loaded" ColumnWidth="*" Height="451"/>
-                </GroupBox>
-            </StackPanel>
-
+            <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TabItem Header="Input">
+                    <ContentControl Content="{Binding }">
+                        <ContentControl.Style>
+                            <Style TargetType="{x:Type ContentControl}">
+                                <Setter Property="ContentTemplate" Value="{StaticResource JapaneseInputTemplate}" />
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </TabItem>
+                <TabItem Header="Vocabulary List">
+                    <ContentControl Content="{Binding }">
+                        <ContentControl.Style>
+                            <Style TargetType="{x:Type ContentControl}">
+                                <Setter Property="ContentTemplate" Value="{StaticResource VocabularyListTemplate}" />
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </TabItem>
+            </TabControl>
         </DockPanel>
-        <StackPanel Grid.Row="1" x:Name="buttonPanel" Width="Auto">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0" x:Name="leftButtonsGrid" Width="Auto">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Button Grid.Row="0" x:Name="copyToClipboardButton" Command="{Binding Path=CopyToClipboardCommand}" Content="Copy Output to Clipboard"/>
-                    <Button Grid.Row="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="Add to List"/>
-                    <Button Grid.Row="2" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="Load List"/>
-                </Grid>
-                <Grid Grid.Column="1" x:Name="rightButtonsGrid">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.Row="0" x:Name="upDownButtonsTableLayoutGrid">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition Width="4*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Button Grid.Column="0" x:Name="upButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}"/>
-                        <Button Grid.Column="1" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}"/>
-                    </Grid>
-
-                    <Button Grid.Row="1" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="Delete Selection from List"/>
-                    <Button Grid.Row="2" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="Save List"/>
-                </Grid>
-            </Grid>
-
-            <Button Grid.Row="1" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → EN)"/>
-            <Button Grid.Row="2" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP)"/>
-        </StackPanel>
-
     </Grid>
 </Window>

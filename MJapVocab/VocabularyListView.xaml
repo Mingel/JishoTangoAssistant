@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="MJapVocab.VocabularyListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MJapVocab" d:DataContext="{d:DesignInstance Type=local:VocabularyListViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" x:Name="vocabularyItemsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <GroupBox Header="Vocabulary List" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="300"/>
+                        <RowDefinition MinHeight="20"/>
+                        <RowDefinition MinHeight="20"/>
+                    </Grid.RowDefinitions>
+                    
+                    <DataGrid Grid.Row="0" x:Name="vocabularyItemsDataGrid" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False" Loaded="vocabularyItemsDataGrid_Loaded" ColumnWidth="*"/>
+
+                    <Grid Grid.Row="1" x:Name="upDownButtonsTableLayoutGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" x:Name="upButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}"/>
+                        <Button Grid.Column="1" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}"/>
+                    </Grid>
+
+                    <Button Grid.Row="2" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="Delete Selection from List"/>
+
+                </Grid>
+            </GroupBox>
+        </StackPanel>
+
+        <Grid Grid.Row="1" x:Name="rightButtonsGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="Load List"/>
+            <Button Grid.Row="2" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="Save List"/>
+            <Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → EN)"/>
+            <Button Grid.Row="4" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP)"/>
+        </Grid>
+    </Grid>
+</UserControl>
