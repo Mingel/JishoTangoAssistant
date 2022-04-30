@@ -55,15 +55,17 @@
                 <GroupBox Header="Additional Comments">
                     <TextBox x:Name="additionalCommentsTextBox" Text="{Binding AdditionalComments, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="Auto" Height="70" MinHeight="27" HorizontalAlignment="Stretch"/>
                 </GroupBox>
-                    <StackPanel x:Name="writeInKanaPanel" Height="19">
-                    <CheckBox x:Name="writeInKanaCheckBox" Content="Write in Kana"/>
+                <StackPanel x:Name="writeInKanaPanel" Height="19">
+                    <CheckBox x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
                 </StackPanel>
                 <StackPanel x:Name="outputPanel" Height="109">
                     <GroupBox x:Name="outputGroupBox" Height="100" Header="Output" Content="{Binding OutputText}"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel x:Name="vocabularyItemsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <DataGrid x:Name="vocabularyItemsDataGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding VocabList}" />
+                <GroupBox Header="Vocabulary List" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <DataGrid x:Name="vocabularyItemsDataGrid" ItemsSource="{Binding VocabList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False" Loaded="vocabularyItemsDataGrid_Loaded" ColumnWidth="*" Height="451"/>
+                </GroupBox>
             </StackPanel>
 
         </DockPanel>
@@ -98,11 +100,11 @@
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0" x:Name="upButton" Content="↑"/>
-                        <Button Grid.Column="1" x:Name="downButton" Content="↓"/>
+                        <Button Grid.Column="0" x:Name="upButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}"/>
+                        <Button Grid.Column="1" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}"/>
                     </Grid>
 
-                    <Button Grid.Row="1" x:Name="deleteSelectionButton" Content="Delete Selection from List"/>
+                    <Button Grid.Row="1" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="Delete Selection from List"/>
                     <Button Grid.Row="2" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="Save List"/>
                 </Grid>
             </Grid>

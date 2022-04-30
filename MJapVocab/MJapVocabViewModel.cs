@@ -24,6 +24,7 @@ namespace MJapVocab
         private ObservableCollection<string> _otherForms = new ObservableCollection<string>();
         private int _selectedIndexOfOtherForms = -1;
         private string _readingOutput = String.Empty;
+        private int _selectedVocabItemIndex = -1;
 
         private readonly DelegateCommand _loadListCommand;
         private readonly DelegateCommand _saveListCommand;
@@ -32,6 +33,9 @@ namespace MJapVocab
         private readonly DelegateCommand _addToListCommand;
         private readonly DelegateCommand _copyToClipboardCommand;
         private readonly DelegateCommand _processInputCommand;
+        private readonly DelegateCommand _deleteFromListCommand;
+        private readonly DelegateCommand _goUpCommand;
+        private readonly DelegateCommand _goDownCommand;
 
         public ICommand SaveListCommand => _saveListCommand;
         public ICommand LoadListCommand => _loadListCommand;
@@ -40,10 +44,13 @@ namespace MJapVocab
         public ICommand AddToListCommand => _addToListCommand;
         public ICommand CopyToClipboardCommand => _copyToClipboardCommand;
         public ICommand ProcessInputCommand => _processInputCommand;
+        public ICommand DeleteFromListCommand => _deleteFromListCommand;
+        public ICommand GoUpCommand => _goUpCommand;
+        public ICommand GoDownCommand => _goDownCommand;
 
         //public event EventHandler CheckBoxEvent;
 
-        public delegate void CheckBoxEventHandler(int dataLength, List<int> englishDefinitionsLengths, List<string> flattenedEnglishDefinitions);
+        public delegate void CheckBoxEventHandler(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions);
         public event CheckBoxEventHandler CheckBoxEvent;
 
         public MJapVocabViewModel() {
@@ -55,6 +62,9 @@ namespace MJapVocab
             _addToListCommand = new DelegateCommand(OnAddToList, _ => true);
             _copyToClipboardCommand = new DelegateCommand(OnCopyToClipboard, _ => true);
             _processInputCommand = new DelegateCommand(ProcessInput, _ => true);
+            _deleteFromListCommand = new DelegateCommand(OnDeleteFromList, _ => true);
+            _goUpCommand = new DelegateCommand(OnGoUp, _ => true);
+            _goDownCommand = new DelegateCommand(OnGoDown, _ => true);
 
             SelectedIndicesOfEnglishDefinitions.CollectionChanged += (_, _) => ChangeReadingOutput();
         }
@@ -64,7 +74,7 @@ namespace MJapVocab
             get
             {
                 var outputText = String.Empty;
-                var englishDefinitionsString = String.Join("; ", _englishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
+                var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
                 if (!WriteInKana)
                 {
                     outputText += ReadingOutput;
@@ -80,6 +90,15 @@ namespace MJapVocab
                     outputText += AdditionalComments;
                 }
                 return outputText;
+            }
+        }
+
+        public int SelectedVocabItemIndex
+        {
+            get => _selectedVocabItemIndex;
+            set
+            {
+                SetProperty(ref _selectedVocabItemIndex, value);
             }
         }
 
@@ -135,6 +154,16 @@ namespace MJapVocab
             set
             {
                 SetProperty(ref _writeInKana, value);
+                UpdateOutputText();
+            }
+        }
+
+        public ObservableCollection<string> EnglishDefinitions
+        {
+            get => _englishDefinitions;
+            set
+            {
+                SetProperty(ref _englishDefinitions, value);
             }
         }
 
@@ -258,7 +287,7 @@ namespace MJapVocab
             if (CurrentSession.latestResult == null)
                 return;
             var outputText = String.Empty;
-            var englishDefinitionsString = String.Join("; ", _englishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
+            var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
             outputText += englishDefinitionsString;
             if (!string.IsNullOrWhiteSpace(AdditionalComments) && !string.IsNullOrWhiteSpace(englishDefinitionsString))
             {
@@ -278,6 +307,24 @@ namespace MJapVocab
         {
             if (CurrentSession.running) // in this case: outputText.Box.Text != null
                 Clipboard.SetText(OutputText);
+        }
+
+        private void OnDeleteFromList(object commandParameter)
+        {
+            if (0 <= SelectedVocabItemIndex && SelectedVocabItemIndex < CurrentSession.addedVocabularyItems.Count)
+                CurrentSession.addedVocabularyItems.RemoveAt(SelectedVocabItemIndex);
+        }
+
+        private void OnGoUp(object commandParameter)
+        {
+            if (SelectedVocabItemIndex > 0)
+                SelectedVocabItemIndex--;
+        }
+
+        private void OnGoDown(object commandParameter)
+        {
+            if (SelectedVocabItemIndex < CurrentSession.addedVocabularyItems.Count - 1)
+                SelectedVocabItemIndex++;
         }
 
         public ObservableCollection<VocabularyItem> VocabList
@@ -351,7 +398,7 @@ namespace MJapVocab
                 //WriteInKanaCheckbox.Enabled = true;
                 WriteInKana = firstResult.senses.Where(x => x.tags.Contains("Usually written using kana alone")).Any()
                     || firstJapaneseEntry.word == null;
-                //UpdateOutputTextbox();
+                UpdateOutputText();
                 //CreateEnglishDefinitionsCheckBoxes(firstResult);
                 CurrentSession.running = false;
             }
@@ -383,36 +430,33 @@ namespace MJapVocab
 
             ReadingOutput = selectedDatum.japanese[0].reading;
 
-            CreateEnglishDefinitionsCheckBoxes(selectedDatum);
+            StoreEnglishDefinitions(selectedDatum);
 
-            //writeInKanaCheckbox.Enabled = selectedDatum.japanese[0].word != null;
             WriteInKana = selectedDatum.senses.Where(x => x.tags.Contains("Usually written using kana alone")).Any()
                 || selectedDatum.japanese[0].word == null;
-
-            //UpdateOutputTextbox();
         }
 
         private void ChangeReadingOutput()
         {
             var latestResult = CurrentSession.latestResult;
+
             if (latestResult == null)
                 return;
+
             ReadingOutput = latestResult[SelectedIndexOfWords].japanese[SelectedIndexOfOtherForms].reading;
         }
 
-        private void CreateEnglishDefinitionsCheckBoxes(JishoDatum datum)
+        private void StoreEnglishDefinitions(JishoDatum datum)
         {
-            List<string> englishDefinitions = new List<string>();
-
             foreach (var sense in datum.senses)
             {
                 foreach (var englishDefinition in sense.english_definitions)
                 {
-                    englishDefinitions.Add(englishDefinition);
+                    EnglishDefinitions.Add(englishDefinition);
                 }
             }
 
-            CheckBoxEvent?.Invoke(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), englishDefinitions);
+            CheckBoxEvent?.Invoke(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), EnglishDefinitions);
         }
 
         public void UpdateOutputText()
@@ -425,9 +469,13 @@ namespace MJapVocab
             SelectedIndicesOfEnglishDefinitions.Clear();
         }
 
-        public void AddSelectedIndicesOfEnglishDefinitions(int i)
+        public void ChangeSelectedIndicesOfEnglishDefinitions(int i, bool isSelected)
         {
-            SelectedIndicesOfEnglishDefinitions.Add(i);
+            if (isSelected)
+                SelectedIndicesOfEnglishDefinitions.Add(i);
+            else
+                SelectedIndicesOfEnglishDefinitions.Remove(i);
+            UpdateOutputText();
         }
     }
 }

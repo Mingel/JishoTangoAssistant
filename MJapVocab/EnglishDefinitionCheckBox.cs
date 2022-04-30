@@ -12,5 +12,7 @@ namespace MJapVocab
         public int EnglishDefinitionsRow { get; set; }
 
         public int EnglishDefinitionsColumn { get; set; }
+
+        public int EnglishDefinitionsFlattenedIndex { get; set; }
     }
 }
