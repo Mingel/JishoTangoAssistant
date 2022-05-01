@@ -18,13 +18,13 @@ namespace MJapVocab
     /// <summary>
     /// Interaktionslogik für JapaneseUserInput.xaml
     /// </summary>
-    public partial class JapaneseUserInput : UserControl
+    public partial class JapaneseUserInputView : UserControl
     {
         private JapaneseUserInputViewModel _japaneseUserInputviewModel;
 
         public JapaneseUserInputViewModel JapaneseUserInputViewModel { get; set; }
 
-        public JapaneseUserInput()
+        public JapaneseUserInputView()
         {
             InitializeComponent();
             _japaneseUserInputviewModel = new JapaneseUserInputViewModel();

@@ -193,7 +193,7 @@ namespace MJapVocab
 
         private void OnCopyToClipboard(Object commandParameter)
         {
-            if (CurrentSession.running) // in this case: outputText.Box.Text != null
+            if (OutputText != String.Empty) // in this case: outputText.Box.Text != null
                 Clipboard.SetText(OutputText);
         }
 
@@ -253,6 +253,7 @@ namespace MJapVocab
                 WriteInKana = firstResult.senses.Where(x => x.tags.Contains("Usually written using kana alone")).Any()
                     || firstJapaneseEntry.word == null;
                 UpdateOutputText();
+                CurrentSession.running = false;
             }
         }
 
