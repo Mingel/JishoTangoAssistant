@@ -229,7 +229,10 @@ namespace MJapVocab
 
                 CurrentSession.latestResult = result;
 
+                EnglishDefinitions.Clear();
+
                 Words.Clear();
+                OtherForms.Clear();
 
                 SelectedIndexOfWords = -1;
                 SelectedIndexOfOtherForms = -1;
