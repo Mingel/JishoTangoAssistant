@@ -302,6 +302,7 @@ namespace MJapVocab
 
         private void StoreEnglishDefinitions(JishoDatum datum)
         {
+            EnglishDefinitions.Clear();
             foreach (var sense in datum.senses)
             {
                 foreach (var englishDefinition in sense.english_definitions)
