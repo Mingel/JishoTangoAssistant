@@ -29,7 +29,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0" x:Name="inputLabel" Content="Input"/>
-                <TextBox Grid.Column="1" x:Name="inputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="23" VerticalContentAlignment="Center" Margin="10,0,10,0" KeyUp="inputTextBox_KeyUp">
+                <TextBox Grid.Column="1" x:Name="inputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="23" VerticalContentAlignment="Center" Margin="10,0,10,0" KeyUp="inputTextBox_KeyUp" FontSize="16">
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding Path=ProcessInputCommand}" Key="Enter" />
                     </TextBox.InputBindings>
@@ -66,7 +66,9 @@
                 <CheckBox x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
             </StackPanel>
             <StackPanel Grid.Row="5" x:Name="outputPanel" Height="109">
-                <GroupBox x:Name="outputGroupBox" Height="100" Header="Output" Content="{Binding OutputText}"/>
+                <GroupBox x:Name="outputGroupBox" Height="100" Header="Output">
+                    <TextBlock Text="{Binding OutputText}" FontSize="16"/>
+                </GroupBox>
             </StackPanel>
         </Grid>
 

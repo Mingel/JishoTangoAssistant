@@ -39,10 +39,10 @@ namespace MJapVocab
             if (1 < vocabularyItemsDataGrid.Columns.Count)
                 vocabularyItemsDataGrid.Columns[1].Visibility = Visibility.Hidden;
 
-            vocabularyItemsDataGrid.Columns[0].MinWidth = 70;
-            vocabularyItemsDataGrid.Columns[2].MinWidth = 70;
-            vocabularyItemsDataGrid.Columns[0].Width = 70;
-            vocabularyItemsDataGrid.Columns[2].Width = 70;
+            vocabularyItemsDataGrid.Columns[0].MinWidth = 100;
+            vocabularyItemsDataGrid.Columns[2].MinWidth = 100;
+            vocabularyItemsDataGrid.Columns[0].Width = 100;
+            vocabularyItemsDataGrid.Columns[2].Width = 100;
         }
 
         private void upButton_Click(object sender, RoutedEventArgs e)
