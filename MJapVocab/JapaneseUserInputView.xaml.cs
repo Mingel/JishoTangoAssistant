@@ -20,17 +20,17 @@ namespace MJapVocab
     /// </summary>
     public partial class JapaneseUserInputView : UserControl
     {
-        private JapaneseUserInputViewModel _japaneseUserInputviewModel;
+        private JapaneseUserInputViewModel _japaneseUserInputViewModel;
 
         public JapaneseUserInputViewModel JapaneseUserInputViewModel { get; set; }
 
         public JapaneseUserInputView()
         {
             InitializeComponent();
-            _japaneseUserInputviewModel = new JapaneseUserInputViewModel();
-            DataContext = _japaneseUserInputviewModel;
+            _japaneseUserInputViewModel = new JapaneseUserInputViewModel();
+            DataContext = _japaneseUserInputViewModel;
 
-            _japaneseUserInputviewModel.CheckBoxEvent += OnInputLoaded;
+            _japaneseUserInputViewModel.CheckBoxEvent += OnInputLoaded;
         }
 
         private void OnInputLoaded(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions)
@@ -43,7 +43,7 @@ namespace MJapVocab
             int flattenedIndex = 0;
 
             this.englishDefinitionsGrid.Children.Clear();
-            _japaneseUserInputviewModel.ClearSelectedIndicesOfEnglishDefinitions();
+            _japaneseUserInputViewModel.ClearSelectedIndicesOfEnglishDefinitions();
             for (int i = 0; i < dataLength; i++)
             {
                 for (int j = 0; j < englishDefinitionsLengths[i]; j++)
@@ -59,10 +59,10 @@ namespace MJapVocab
                     checkBox.Content = flattenedEnglishDefinitions[flattenedIndex];
                     checkBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     totalStepLocationX = (int)Math.Ceiling(checkBox.DesiredSize.Width);
-                    checkBox.Checked += (_, _) => _japaneseUserInputviewModel.UpdateOutputText();
+                    checkBox.Checked += (_, _) => _japaneseUserInputViewModel.UpdateOutputText();
                     englishDefinitionsGrid.Children.Add(checkBox);
 
-                    checkBox.Click += (_, _) => { _japaneseUserInputviewModel.ChangeSelectedIndicesOfEnglishDefinitions(checkBox.EnglishDefinitionsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
+                    checkBox.Click += (_, _) => { _japaneseUserInputViewModel.ChangeSelectedIndicesOfEnglishDefinitions(checkBox.EnglishDefinitionsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
 
                     flattenedIndex++;
                 }

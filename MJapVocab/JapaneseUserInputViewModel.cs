@@ -22,6 +22,9 @@ namespace MJapVocab
         private int _selectedIndexOfOtherForms = -1;
         private string _readingOutput = String.Empty;
         private int _selectedVocabItemIndex = -1;
+        private string _notificationText = String.Empty;
+
+        private int _sameNotificationCounter = 1; // count the initial notification number, too
 
         private readonly DelegateCommand _addToListCommand;
         private readonly DelegateCommand _copyToClipboardCommand;
@@ -172,6 +175,27 @@ namespace MJapVocab
             }
         }
 
+        public string NotificationText {
+            get => _notificationText;
+            set
+            {
+                if (value != String.Empty && _notificationText.StartsWith(value))
+                {
+                    _sameNotificationCounter++;
+                } 
+                else
+                {
+                    _sameNotificationCounter = 1;
+                }
+
+                var appendNotificationCounter = String.Empty;
+                if (_sameNotificationCounter > 1)
+                    appendNotificationCounter = String.Concat(" (", _sameNotificationCounter, "x)");
+
+                SetProperty(ref _notificationText, value + appendNotificationCounter);
+            }
+        }
+
         private void OnAddToList(Object commandParameter)
         {
             if (CurrentSession.latestResult == null)
@@ -189,12 +213,16 @@ namespace MJapVocab
             VocabularyItem item = new VocabularyItem(word, showReading, ReadingOutput, outputText);
             CurrentSession.addedVocabularyItems.Add(item);
             CurrentSession.userMadeChanges = true;
+            NotificationText = String.Concat("Added ", word, " to the vocabulary list!");
         }
 
         private void OnCopyToClipboard(Object commandParameter)
         {
             if (OutputText != String.Empty) // in this case: outputText.Box.Text != null
+            {
                 Clipboard.SetText(OutputText);
+                NotificationText = "Copied output to the clipboard!";
+            }
         }
 
         private async void ProcessInput(Object commandParameter)
@@ -206,6 +234,10 @@ namespace MJapVocab
                 var result = await JishoWebAPIClient.GetResultJsonAsync(Input);
                 if (result == null || result.Length == 0)
                 {
+                    if (result == null)
+                        NotificationText = "An error occured!";
+                    else
+                        NotificationText = "No results have been found!";
                     ReadingOutput = String.Empty;
                     Words.Clear();
                     OtherForms.Clear();
@@ -256,6 +288,7 @@ namespace MJapVocab
                 WriteInKana = firstResult.senses.Where(x => x.tags.Contains("Usually written using kana alone")).Any()
                     || firstJapaneseEntry.word == null;
                 UpdateOutputText();
+                NotificationText = String.Empty;
                 CurrentSession.running = false;
             }
         }
