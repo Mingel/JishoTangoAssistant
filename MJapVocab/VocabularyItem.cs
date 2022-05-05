@@ -56,5 +56,19 @@ namespace MJapVocab
             }
             return sb.ToString().TrimEnd();
         }
+
+        public override bool Equals(object? obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                VocabularyItem item = (VocabularyItem)obj;
+                return (Word.Equals(item.Word)) && (Reading.Equals(item.Reading))
+                    && (ShowReading.Equals(item.ShowReading)) && (Output.Equals(item.Output));
+            }
+        }
     }
 }

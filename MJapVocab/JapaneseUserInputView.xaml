@@ -34,6 +34,9 @@
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding Path=ProcessInputCommand}" Key="Enter" />
                     </TextBox.InputBindings>
+                    <TextBox.Background>
+                        <SolidColorBrush Color="{Binding TextInputBackground}" />
+                    </TextBox.Background>
                 </TextBox>
 
                 <Button Grid.Column="2" x:Name="enterButton" Command="{Binding Path=ProcessInputCommand}" Content="Enter" Margin="0,1,0,2"/>

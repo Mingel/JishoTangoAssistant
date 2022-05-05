@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MJapVocab
 {
     public class JapaneseUserInputViewModel : MJapVocabViewModelBase
     {
+        #region attributes
         private string _input = String.Empty;
         private bool _writeInKana = false;
         private ObservableCollection<string> _englishDefinitions = new ObservableCollection<string>();
@@ -24,7 +24,9 @@ namespace MJapVocab
         private int _selectedVocabItemIndex = -1;
         private string _notificationText = String.Empty;
 
-        private int _sameNotificationCounter = 1; // count the initial notification number, too
+        private int _sameNotificationCounter = 1; // count the initial notification number as well
+
+        private Color _textInputBackground;
 
         private readonly DelegateCommand _addToListCommand;
         private readonly DelegateCommand _copyToClipboardCommand;
@@ -36,6 +38,7 @@ namespace MJapVocab
 
         public delegate void CheckBoxEventHandler(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions);
         public event CheckBoxEventHandler CheckBoxEvent;
+        #endregion
 
         public JapaneseUserInputViewModel()
         {
@@ -45,6 +48,8 @@ namespace MJapVocab
 
             SelectedIndicesOfEnglishDefinitions.CollectionChanged += (_, _) => ChangeReadingOutput();
         }
+
+        #region auto-properties
 
         public string OutputText
         {
@@ -56,9 +61,7 @@ namespace MJapVocab
                 {
                     outputText += ReadingOutput;
                     if (!string.IsNullOrWhiteSpace(englishDefinitionsString))
-                    {
                         outputText += Environment.NewLine;
-                    }
                 }
                 outputText += englishDefinitionsString;
                 if (!string.IsNullOrWhiteSpace(AdditionalComments))
@@ -73,46 +76,31 @@ namespace MJapVocab
         public int SelectedVocabItemIndex
         {
             get => _selectedVocabItemIndex;
-            set
-            {
-                SetProperty(ref _selectedVocabItemIndex, value);
-            }
+            set { SetProperty(ref _selectedVocabItemIndex, value); UpdateTextInputBackground(); }
         }
 
         public string Input
         {
             get => _input;
-            set
-            {
-                SetProperty(ref _input, value);
-            }
+            set { SetProperty(ref _input, value); UpdateTextInputBackground(); }
         }
 
         public string ReadingOutput
         {
             get => _readingOutput;
-            set
-            {
-                SetProperty(ref _readingOutput, value);
-            }
-        }
+            set { SetProperty(ref _readingOutput, value); UpdateTextInputBackground(); }
+}
 
         public ObservableCollection<string> Words
         {
             get => _words;
-            set
-            {
-                SetProperty(ref _words, value);
-            }
+            set => SetProperty(ref _words, value);
         }
 
         public ObservableCollection<string> OtherForms
         {
             get => _otherForms;
-            set
-            {
-                SetProperty(ref _otherForms, value);
-            }
+            set => SetProperty(ref _otherForms, value);
         }
 
         public string AdditionalComments
@@ -122,6 +110,7 @@ namespace MJapVocab
             {
                 SetProperty(ref _additionalComments, value);
                 UpdateOutputText();
+                UpdateTextInputBackground();
             }
         }
 
@@ -132,16 +121,14 @@ namespace MJapVocab
             {
                 SetProperty(ref _writeInKana, value);
                 UpdateOutputText();
+                UpdateTextInputBackground();
             }
         }
 
         public ObservableCollection<string> EnglishDefinitions
         {
             get => _englishDefinitions;
-            set
-            {
-                SetProperty(ref _englishDefinitions, value);
-            }
+            set => SetProperty(ref _englishDefinitions, value);
         }
 
         public int SelectedIndexOfWords
@@ -151,7 +138,10 @@ namespace MJapVocab
             {
                 SetProperty(ref _selectedIndexOfWords, value);
                 if (SelectedIndexOfWords >= 0)
+                {
                     ChangeOtherForms();
+                    UpdateTextInputBackground();
+                }
             }
         }
 
@@ -162,17 +152,17 @@ namespace MJapVocab
             {
                 SetProperty(ref _selectedIndexOfOtherForms, value);
                 if (SelectedIndexOfOtherForms >= 0)
+                {
                     ChangeReadingOutput();
+                    UpdateTextInputBackground();
+                }
             }
         }
 
         public ObservableCollection<int> SelectedIndicesOfEnglishDefinitions
         {
             get => _selectedIndicesOfEnglishDefinitions;
-            set
-            {
-                SetProperty(ref _selectedIndicesOfEnglishDefinitions, value);
-            }
+            set { SetProperty(ref _selectedIndicesOfEnglishDefinitions, value); UpdateTextInputBackground(); }
         }
 
         public string NotificationText {
@@ -180,13 +170,9 @@ namespace MJapVocab
             set
             {
                 if (value != String.Empty && _notificationText.StartsWith(value))
-                {
                     _sameNotificationCounter++;
-                } 
                 else
-                {
                     _sameNotificationCounter = 1;
-                }
 
                 var appendNotificationCounter = String.Empty;
                 if (_sameNotificationCounter > 1)
@@ -196,24 +182,20 @@ namespace MJapVocab
             }
         }
 
+        public Color TextInputBackground { get => _textInputBackground; set => SetProperty(ref _textInputBackground, value); }
+
+        #endregion
+
         private void OnAddToList(Object commandParameter)
         {
             if (CurrentSession.latestResult == null)
                 return;
-            var outputText = String.Empty;
-            var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
-            outputText += englishDefinitionsString;
-            if (!string.IsNullOrWhiteSpace(AdditionalComments) && !string.IsNullOrWhiteSpace(englishDefinitionsString))
-            {
-                outputText += Environment.NewLine;
-            }
-            outputText += AdditionalComments;
-            bool showReading = !WriteInKana;
-            var word = showReading ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput;
-            VocabularyItem item = new VocabularyItem(word, showReading, ReadingOutput, outputText);
-            CurrentSession.addedVocabularyItems.Add(item);
+
+            VocabularyItem addedItem = CreateVocabularyItemFromCurrentUserInput();
+            CurrentSession.addedVocabularyItems.Add(addedItem);
             CurrentSession.userMadeChanges = true;
-            NotificationText = String.Concat("Added ", word, " to the vocabulary list!");
+            NotificationText = String.Concat("Added ", addedItem.Word, " to the vocabulary list!");
+            UpdateTextInputBackground();
         }
 
         private void OnCopyToClipboard(Object commandParameter)
@@ -311,9 +293,7 @@ namespace MJapVocab
                     OtherForms.Add(japItem.reading);
             }
             if (OtherForms.Count > 0)
-            {
                 SelectedIndexOfOtherForms = 0;
-            }
 
             ReadingOutput = selectedDatum.japanese[0].reading;
 
@@ -349,7 +329,7 @@ namespace MJapVocab
 
         public void UpdateOutputText()
         {
-            InvokePropertyChanged("OutputText");
+            InvokePropertyChanged(nameof(OutputText));
         }
 
         public void ClearSelectedIndicesOfEnglishDefinitions()
@@ -364,6 +344,50 @@ namespace MJapVocab
             else
                 SelectedIndicesOfEnglishDefinitions.Remove(i);
             UpdateOutputText();
+        }
+
+        private VocabularyItem CreateVocabularyItemFromCurrentUserInput()
+        {
+            if (SelectedIndexOfOtherForms < 0) // nothing has been searched (or no search results found)
+                return null;
+            var outputText = String.Empty;
+            var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
+            outputText += englishDefinitionsString;
+            if (!string.IsNullOrWhiteSpace(AdditionalComments) && !string.IsNullOrWhiteSpace(englishDefinitionsString))
+            {
+                outputText += Environment.NewLine;
+            }
+            outputText += AdditionalComments;
+            bool showReading = !WriteInKana;
+            var word = showReading ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput;
+            return new VocabularyItem(word, showReading, ReadingOutput, outputText);
+        }
+
+        private void UpdateTextInputBackground()
+        {
+            TextInputBackground = (Color)ColorConverter.ConvertFromString("White");
+            var itemFromCurrentUserInput = CreateVocabularyItemFromCurrentUserInput();
+
+            if (itemFromCurrentUserInput == null)
+                return;
+
+            // TODO optimize
+            foreach (var item in CurrentSession.addedVocabularyItems)
+            {
+                if (itemFromCurrentUserInput.Word.Equals(item.Word))
+                {
+                    if (itemFromCurrentUserInput.Equals(item))
+                    {
+                        TextInputBackground = (Color)ColorConverter.ConvertFromString("DarkSalmon");
+                        return;
+                    }
+                    else
+                    {
+                        if (itemFromCurrentUserInput.ShowReading)
+                            TextInputBackground = (Color)ColorConverter.ConvertFromString("LightGoldenrodYellow");
+                    }
+                }   
+            }
         }
     }
 }
