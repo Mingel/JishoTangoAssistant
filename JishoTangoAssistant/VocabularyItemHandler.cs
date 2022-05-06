@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
     class VocabularyItemHandler
     {

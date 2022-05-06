@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MJapVocab", "MJapVocab\MJapVocab.csproj", "{E0D618EC-A617-4A2E-9990-86D643AEED4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant", "JishoTangoAssistant\JishoTangoAssistant.csproj", "{E0D618EC-A617-4A2E-9990-86D643AEED4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

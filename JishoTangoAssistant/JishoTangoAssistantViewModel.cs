@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
-    public class MJapVocabViewModel : MJapVocabViewModelBase
+    public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
     {
     }
 }

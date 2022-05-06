@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
     public class EnglishDefinitionCheckBox : CheckBox
     {

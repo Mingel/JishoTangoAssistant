@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
     public class DelegateCommand : ICommand
     {

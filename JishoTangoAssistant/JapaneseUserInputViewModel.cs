@@ -6,9 +6,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
-    public class JapaneseUserInputViewModel : MJapVocabViewModelBase
+    public class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBase
     {
         #region attributes
         private string _input = String.Empty;

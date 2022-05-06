@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
     public class VocabularyItem
     {

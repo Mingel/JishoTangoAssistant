@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
     class JishoWebAPIClient
     {
@@ -14,7 +14,7 @@ namespace MJapVocab
         {
             // caching
             var tmpPath = Path.GetTempPath();
-            var tmpAppPath = Path.Combine(tmpPath, "mjapvocab");
+            var tmpAppPath = Path.Combine(tmpPath, "JishoTangoAssistant");
             var tmpWordFilename = string.Join("_", keyword.Split(Path.GetInvalidFileNameChars())) + ".json";
             var tmpWordFilePath = Path.Combine(tmpAppPath, tmpWordFilename);
 

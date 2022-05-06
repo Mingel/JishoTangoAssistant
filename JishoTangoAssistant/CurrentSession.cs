@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
     class CurrentSession
     {

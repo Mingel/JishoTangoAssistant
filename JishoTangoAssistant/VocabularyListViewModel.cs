@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
-    public class VocabularyListViewModel : MJapVocabViewModelBase
+    public class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     {
         private int _selectedVocabItemIndex = -1;
 

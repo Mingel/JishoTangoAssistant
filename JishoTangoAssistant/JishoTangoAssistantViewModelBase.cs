@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
-    public abstract class MJapVocabViewModelBase : INotifyPropertyChanged
+    public abstract class JishoTangoAssistantViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

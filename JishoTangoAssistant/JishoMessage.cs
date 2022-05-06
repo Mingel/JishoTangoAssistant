@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
     class JishoMessage
     {

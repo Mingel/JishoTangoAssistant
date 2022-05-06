@@ -1,8 +1,8 @@
-﻿<Application x:Class="MJapVocab.App"
+﻿<Application x:Class="JishoTangoAssistant.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MJapVocab"
-             StartupUri="MJapVocabWindow.xaml">
+             xmlns:local="clr-namespace:JishoTangoAssistant"
+             StartupUri="JishoTangoAssistantWindow.xaml">
     <Application.Resources>
          
     </Application.Resources>

@@ -6,14 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace MJapVocab
+namespace JishoTangoAssistant
 {
     /// <summary>
-    /// Interaction logic for MJapVocabWindow.xaml
+    /// Interaction logic for JishoTangoAssistantWindow.xaml
     /// </summary>
-    public partial class MJapVocabWindow : Window
+    public partial class JishoTangoAssistantWindow : Window
     {
-        public MJapVocabWindow()
+        public JishoTangoAssistantWindow()
         {
             InitializeComponent();
         }
