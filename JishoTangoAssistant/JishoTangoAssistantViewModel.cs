@@ -1,18 +1,21 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
 
 namespace JishoTangoAssistant
 {
     public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
     {
+        public bool OnClosingWindow()
+        {
+            if (CurrentSession.userMadeChanges)
+            {
+                var messageBox = MessageBox.Show("You have made unsaved changes. Do you really want to close the application?",
+                                                    "Warning",
+                                                    MessageBoxButton.YesNo,
+                                                    MessageBoxImage.Warning);
+                if (messageBox.Equals(MessageBoxResult.No))
+                    return false;
+            }
+            return true;
+        }
     }
 }

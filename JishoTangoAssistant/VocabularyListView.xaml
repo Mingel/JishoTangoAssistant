@@ -36,7 +36,7 @@
                     <Button Grid.Column="2" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}"/>
                 </Grid>
 
-                <Button Grid.Row="4" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="Delete Selection from List"/>
+                <Button Grid.Row="4" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="Delete Selected Item from Vocabulary List"/>
 
             </Grid>
         </GroupBox>
@@ -54,8 +54,8 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="Load List"/>
-            <Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="Save List"/>
+            <Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="Load Vocabulary List"/>
+            <Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="Save Vocabulary List"/>
             <Button Grid.Row="5" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → EN)"/>
             <Button Grid.Row="7" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP)"/>
         </Grid>

@@ -10,7 +10,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" x:Name="userInputPanel" HorizontalAlignment="Stretch">
@@ -83,12 +82,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
-            
-            <Button Grid.Row="0" Grid.Column="1" x:Name="copyToClipboardButton" Command="{Binding Path=CopyToClipboardCommand}" Content="Copy Output to Clipboard"/>
-            <Button Grid.Row="2" Grid.Column="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="Add to List"/>
-        </Grid>
 
-        <Label Grid.Row="2" Content="{Binding NotificationText}"/>
+            <Button Grid.Row="2" Grid.Column="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="Add to Vocabulary List"/>
+        </Grid>
 
     </Grid>
 </UserControl>

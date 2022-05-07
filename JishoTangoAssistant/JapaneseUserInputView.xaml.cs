@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace JishoTangoAssistant
 {
@@ -22,15 +17,19 @@ namespace JishoTangoAssistant
     {
         private JapaneseUserInputViewModel _japaneseUserInputViewModel;
 
-        public JapaneseUserInputViewModel JapaneseUserInputViewModel { get; set; }
-
         public JapaneseUserInputView()
         {
             InitializeComponent();
             _japaneseUserInputViewModel = new JapaneseUserInputViewModel();
             DataContext = _japaneseUserInputViewModel;
 
-            _japaneseUserInputViewModel.CheckBoxEvent += OnInputLoaded;
+            _japaneseUserInputViewModel.UpdateCheckBoxesEvent += OnInputLoaded;
+            _japaneseUserInputViewModel.ClearCheckBoxesEvent += OnClearEnglishDefinitions;
+        }
+
+        private void OnClearEnglishDefinitions()
+        {
+            this.englishDefinitionsGrid.Children.Clear();
         }
 
         private void OnInputLoaded(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions)

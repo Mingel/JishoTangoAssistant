@@ -22,28 +22,25 @@ namespace JishoTangoAssistant
         private int _selectedIndexOfOtherForms = -1;
         private string _readingOutput = String.Empty;
         private int _selectedVocabItemIndex = -1;
-        private string _notificationText = String.Empty;
 
-        private int _sameNotificationCounter = 1; // count the initial notification number as well
-
-        private Color _textInputBackground;
+        private Color _textInputBackground = (Color)ColorConverter.ConvertFromString("White");
 
         private readonly DelegateCommand _addToListCommand;
-        private readonly DelegateCommand _copyToClipboardCommand;
         private readonly DelegateCommand _processInputCommand;
 
         public ICommand AddToListCommand => _addToListCommand;
-        public ICommand CopyToClipboardCommand => _copyToClipboardCommand;
         public ICommand ProcessInputCommand => _processInputCommand;
 
-        public delegate void CheckBoxEventHandler(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions);
-        public event CheckBoxEventHandler CheckBoxEvent;
         #endregion
+        public delegate void UpdateCheckBoxesEventHandler(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions);
+        public event UpdateCheckBoxesEventHandler UpdateCheckBoxesEvent;
+
+        public delegate void ClearCheckBoxesEventHandler();
+        public event ClearCheckBoxesEventHandler ClearCheckBoxesEvent;
 
         public JapaneseUserInputViewModel()
         {
             _addToListCommand = new DelegateCommand(OnAddToList, _ => true);
-            _copyToClipboardCommand = new DelegateCommand(OnCopyToClipboard, _ => true);
             _processInputCommand = new DelegateCommand(ProcessInput, _ => true);
 
             SelectedIndicesOfEnglishDefinitions.CollectionChanged += (_, _) => ChangeReadingOutput();
@@ -165,23 +162,6 @@ namespace JishoTangoAssistant
             set { SetProperty(ref _selectedIndicesOfEnglishDefinitions, value); UpdateTextInputBackground(); }
         }
 
-        public string NotificationText {
-            get => _notificationText;
-            set
-            {
-                if (value != String.Empty && _notificationText.StartsWith(value))
-                    _sameNotificationCounter++;
-                else
-                    _sameNotificationCounter = 1;
-
-                var appendNotificationCounter = String.Empty;
-                if (_sameNotificationCounter > 1)
-                    appendNotificationCounter = String.Concat(" (", _sameNotificationCounter, "x)");
-
-                SetProperty(ref _notificationText, value + appendNotificationCounter);
-            }
-        }
-
         public Color TextInputBackground { get => _textInputBackground; set => SetProperty(ref _textInputBackground, value); }
 
         #endregion
@@ -191,20 +171,14 @@ namespace JishoTangoAssistant
             if (CurrentSession.latestResult == null)
                 return;
 
-            VocabularyItem addedItem = CreateVocabularyItemFromCurrentUserInput();
+            VocabularyItem? addedItem = CreateVocabularyItemFromCurrentUserInput();
+
+            if (addedItem == null)
+                return;
+
             CurrentSession.addedVocabularyItems.Add(addedItem);
             CurrentSession.userMadeChanges = true;
-            NotificationText = String.Concat("Added ", addedItem.Word, " to the vocabulary list!");
             UpdateTextInputBackground();
-        }
-
-        private void OnCopyToClipboard(Object commandParameter)
-        {
-            if (OutputText != String.Empty) // in this case: outputText.Box.Text != null
-            {
-                Clipboard.SetText(OutputText);
-                NotificationText = "Copied output to the clipboard!";
-            }
         }
 
         private async void ProcessInput(Object commandParameter)
@@ -216,42 +190,29 @@ namespace JishoTangoAssistant
                 var result = await JishoWebAPIClient.GetResultJsonAsync(Input);
                 if (result == null || result.Length == 0)
                 {
-                    if (result == null)
-                        NotificationText = "An error occured!";
-                    else
-                        NotificationText = "No results have been found!";
-                    ReadingOutput = String.Empty;
-                    Words.Clear();
-                    OtherForms.Clear();
-
-                    SelectedIndexOfWords = -1;
-                    SelectedIndexOfOtherForms = -1;
-
-                    AdditionalComments = String.Empty;
-                    WriteInKana = false;
+                    ClearUserInputResults();
                     CurrentSession.running = false;
 
                     if (result == null) // Application could not retrieve information from Jisho
                     {
-                        var messageBoxResult = MessageBox.Show("Information could not be retrieved!",
+                        MessageBox.Show("Information could not be retrieved!",
                                                     "Error",
                                                     MessageBoxButton.OK,
                                                     MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No results have been found!",
+                                                    "Information",
+                                                    MessageBoxButton.OK,
+                                                    MessageBoxImage.None);
                     }
                     return;
                 }
 
                 CurrentSession.latestResult = result;
 
-                EnglishDefinitions.Clear();
-
-                Words.Clear();
-                OtherForms.Clear();
-
-                SelectedIndexOfWords = -1;
-                SelectedIndexOfOtherForms = -1;
-
-                AdditionalComments = String.Empty;
+                ClearUserInputResults();
 
                 var firstResult = result[0];
                 var firstJapaneseEntry = firstResult.japanese[0];
@@ -270,9 +231,26 @@ namespace JishoTangoAssistant
                 WriteInKana = firstResult.senses.Where(x => x.tags.Contains("Usually written using kana alone")).Any()
                     || firstJapaneseEntry.word == null;
                 UpdateOutputText();
-                NotificationText = String.Empty;
                 CurrentSession.running = false;
             }
+        }
+
+        private void ClearUserInputResults()
+        {
+            EnglishDefinitions.Clear();
+            ReadingOutput = String.Empty;
+            Words.Clear();
+            OtherForms.Clear();
+
+            SelectedIndexOfWords = -1;
+            SelectedIndexOfOtherForms = -1;
+
+            AdditionalComments = String.Empty;
+            WriteInKana = false;
+
+            ClearCheckBoxesEvent?.Invoke();
+
+            UpdateOutputText();
         }
 
         private void ChangeOtherForms()
@@ -324,7 +302,7 @@ namespace JishoTangoAssistant
                 }
             }
 
-            CheckBoxEvent?.Invoke(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), EnglishDefinitions);
+            UpdateCheckBoxesEvent?.Invoke(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), EnglishDefinitions);
         }
 
         public void UpdateOutputText()
@@ -346,7 +324,7 @@ namespace JishoTangoAssistant
             UpdateOutputText();
         }
 
-        private VocabularyItem CreateVocabularyItemFromCurrentUserInput()
+        private VocabularyItem? CreateVocabularyItemFromCurrentUserInput()
         {
             if (SelectedIndexOfOtherForms < 0) // nothing has been searched (or no search results found)
                 return null;
