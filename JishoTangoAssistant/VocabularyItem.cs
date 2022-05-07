@@ -70,5 +70,10 @@ namespace JishoTangoAssistant
                     && (ShowReading.Equals(item.ShowReading)) && (Output.Equals(item.Output));
             }
         }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Word, this.Reading, this.ShowReading, this.Output);
+        }
     }
 }

@@ -23,7 +23,14 @@
                     <RowDefinition Height="5"/>
                 </Grid.RowDefinitions>
 
-                <DataGrid Grid.Row="0" x:Name="vocabularyItemsDataGrid" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False" Loaded="vocabularyItemsDataGrid_Loaded" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16"/>
+                <DataGrid Grid.Row="0" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Word" Binding="{Binding Word}" MinWidth="100" Width="100"/>
+                        <DataGridTextColumn Header="ShowReading" Binding="{Binding ShowReading}" Visibility="Hidden"/>
+                        <DataGridTextColumn Header="Reading" Binding="{Binding Reading}" MinWidth="100" Width="100"/>
+                        <DataGridTextColumn Header="Output" Binding="{Binding Output}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
 
                 <Grid Grid.Row="2" x:Name="upDownButtonsTableLayoutGrid">
                     <Grid.ColumnDefinitions>

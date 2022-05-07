@@ -28,7 +28,7 @@ namespace JishoTangoAssistant
         public ICommand GoUpCommand => _goUpCommand;
         public ICommand GoDownCommand => _goDownCommand;
 
-        public ObservableCollection<VocabularyItem> VocabularyList
+        public ObservableVocabularyDictionaryList VocabularyList
         {
             get => CurrentSession.addedVocabularyItems;
             set
@@ -48,7 +48,6 @@ namespace JishoTangoAssistant
 
         public VocabularyListViewModel()
         {
-
             _loadListCommand = new DelegateCommand(OnLoadList, _ => true);
             _saveListCommand = new DelegateCommand(OnSaveList, _ => true);
             _exportCsvJapToEngCommand = new DelegateCommand(OnExportCsvJapToEng, _ => true);

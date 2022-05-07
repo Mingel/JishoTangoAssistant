@@ -18,21 +18,6 @@ namespace JishoTangoAssistant
             DataContext = _vocabularyListViewModel;
         }
 
-
-        private void vocabularyItemsDataGrid_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (vocabularyItemsDataGrid.Columns.Count <= 0)
-                return;
-
-            if (1 < vocabularyItemsDataGrid.Columns.Count)
-                vocabularyItemsDataGrid.Columns[1].Visibility = Visibility.Hidden;
-
-            vocabularyItemsDataGrid.Columns[0].MinWidth = 100;
-            vocabularyItemsDataGrid.Columns[2].MinWidth = 100;
-            vocabularyItemsDataGrid.Columns[0].Width = 100;
-            vocabularyItemsDataGrid.Columns[2].Width = 100;
-        }
-
         private void upButton_Click(object sender, RoutedEventArgs e)
         {
             vocabularyItemsDataGrid.Focus();

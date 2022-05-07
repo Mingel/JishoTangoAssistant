@@ -38,6 +38,11 @@ namespace JishoTangoAssistant
         public delegate void ClearCheckBoxesEventHandler();
         public event ClearCheckBoxesEventHandler ClearCheckBoxesEvent;
 
+        private const string InputTextColorNoDuplicate = "White";
+        private const string InputTextColorDifferentMeaning = "LightGoldenrodYellow";
+        private const string InputTextColorSameMeaning = "DarkSalmon";
+
+
         public JapaneseUserInputViewModel()
         {
             _addToListCommand = new DelegateCommand(OnAddToList, _ => true);
@@ -343,29 +348,16 @@ namespace JishoTangoAssistant
 
         private void UpdateTextInputBackground()
         {
-            TextInputBackground = (Color)ColorConverter.ConvertFromString("White");
+            var color = InputTextColorNoDuplicate;
             var itemFromCurrentUserInput = CreateVocabularyItemFromCurrentUserInput();
-
-            if (itemFromCurrentUserInput == null)
-                return;
-
-            // TODO optimize
-            foreach (var item in CurrentSession.addedVocabularyItems)
+            if (itemFromCurrentUserInput != null && CurrentSession.addedVocabularyItems.ContainsWord(itemFromCurrentUserInput.Word))
             {
-                if (itemFromCurrentUserInput.Word.Equals(item.Word))
-                {
-                    if (itemFromCurrentUserInput.Equals(item))
-                    {
-                        TextInputBackground = (Color)ColorConverter.ConvertFromString("DarkSalmon");
-                        return;
-                    }
-                    else
-                    {
-                        if (itemFromCurrentUserInput.ShowReading)
-                            TextInputBackground = (Color)ColorConverter.ConvertFromString("LightGoldenrodYellow");
-                    }
-                }   
+                if (CurrentSession.addedVocabularyItems.Contains(itemFromCurrentUserInput))
+                    color = InputTextColorSameMeaning;
+                else
+                    color = InputTextColorDifferentMeaning;
             }
+            TextInputBackground = (Color)ColorConverter.ConvertFromString(color);
         }
     }
 }
