@@ -71,15 +71,17 @@ namespace JishoTangoAssistant
 
         private void inputTextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                TextBox input = (TextBox)sender;
-                DependencyProperty property = TextBox.TextProperty;
+            TextBox input = (TextBox)sender;
+            DependencyProperty property = TextBox.TextProperty;
 
-                var binding = BindingOperations.GetBindingExpression(input, property);
-                if (binding != null)
-                    binding.UpdateSource();
-            }
+            var binding = BindingOperations.GetBindingExpression(input, property);
+            if (binding != null)
+                binding.UpdateSource();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            inputTextBox.Focus();
         }
     }
 }
