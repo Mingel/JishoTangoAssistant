@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 
 namespace JishoTangoAssistant
 {
@@ -24,9 +21,7 @@ namespace JishoTangoAssistant
             // Let ViewModel handle closing because the view model knows if the user has saved before
             bool shouldClose = _jishoTangoAssistantViewModel.OnClosingWindow();
             if (!shouldClose)
-            {
                 e.Cancel = true;
-            }
         }
     }
 }

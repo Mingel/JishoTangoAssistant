@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Linq;
 
 namespace JishoTangoAssistant
 {
-    public partial class ObservableVocabularyDictionaryList : IList<VocabularyItem>, INotifyCollectionChanged
+    public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCollectionChanged
     {
-        public List<VocabularyItem> _vocabularyList;
-        public Dictionary<string, List<VocabularyItem>> _vocabularyDictionary; // word -> vocab item
+        private List<VocabularyItem> _vocabularyList;
+        private Dictionary<string, List<VocabularyItem>> _vocabularyDictionary; // word -> vocab item
+
+        private bool _suppressNotification = false;
 
         #region methods-interfaces
         public int Count => _vocabularyList.Count;
@@ -18,7 +21,7 @@ namespace JishoTangoAssistant
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        public ObservableVocabularyDictionaryList()
+        public ObservableVocabularyList()
         {
             _vocabularyList = new List<VocabularyItem>();
             _vocabularyDictionary = new Dictionary<string, List<VocabularyItem>>();
@@ -43,7 +46,7 @@ namespace JishoTangoAssistant
         private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
         {
             var handler = CollectionChanged;
-            if (handler != null)
+            if (handler != null && !_suppressNotification)
                 handler(this, args);
         }
 
@@ -135,6 +138,21 @@ namespace JishoTangoAssistant
         public bool ContainsWord(string word)
         {
             return _vocabularyDictionary.ContainsKey(word) && _vocabularyDictionary[word].Count > 0;
+        }
+
+        public void AddRange(IEnumerable<VocabularyItem> items)
+        {
+            if (items == null)
+                throw new ArgumentNullException($"{nameof(items)} is null");
+
+            _suppressNotification = true;
+
+            foreach (var item in items)
+                _vocabularyList.Add(item);
+
+            _suppressNotification = false;
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
         }
     }
 }

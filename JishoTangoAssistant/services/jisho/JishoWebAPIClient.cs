@@ -8,7 +8,7 @@ namespace JishoTangoAssistant
 {
     class JishoWebAPIClient
     {
-        public static async Task<JishoDatum[]> GetResultJsonAsync(string keyword)
+        public static async Task<JishoDatum[]?> GetResultJsonAsync(string keyword)
         {
             // caching
             var tmpPath = Path.GetTempPath();
@@ -24,6 +24,10 @@ namespace JishoTangoAssistant
             if (File.Exists(tmpWordFilePath))
             {
                 var json = JsonConvert.DeserializeObject<JishoMessage>(System.IO.File.ReadAllText(tmpWordFilePath));
+
+                if (json == null) 
+                    return null;
+
                 var result = json.data;
                 return result;
             }
@@ -37,6 +41,10 @@ namespace JishoTangoAssistant
                 {
                     var message = await response.Content.ReadAsStringAsync();
                     var json = JsonConvert.DeserializeObject<JishoMessage>(message.ToString());
+
+                    if (json == null)
+                        return null;
+
                     File.WriteAllText(tmpWordFilePath, message);
                     var result = json.data;
                     return result;

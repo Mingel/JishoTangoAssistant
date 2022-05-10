@@ -42,6 +42,7 @@ namespace JishoTangoAssistant
         private const string InputTextColorDifferentMeaning = "LightGoldenrodYellow";
         private const string InputTextColorSameMeaning = "DarkSalmon";
 
+        private const string JishoTagUsuallyInKanaAlone = "Usually written using kana alone";
 
         public JapaneseUserInputViewModel()
         {
@@ -235,7 +236,7 @@ namespace JishoTangoAssistant
 
                 ReadingOutput = firstJapaneseEntry.reading;
 
-                WriteInKana = firstResult.senses.Where(x => x.tags.Contains("Usually written using kana alone")).Any()
+                WriteInKana = firstResult.senses.Where(x => x.tags.Contains(JishoTagUsuallyInKanaAlone)).Any()
                     || firstJapaneseEntry.word == null;
                 UpdateOutputText();
                 CurrentSession.running = false;
@@ -284,7 +285,7 @@ namespace JishoTangoAssistant
 
             StoreEnglishDefinitions(selectedDatum);
 
-            WriteInKana = selectedDatum.senses.Where(x => x.tags.Contains("Usually written using kana alone")).Any()
+            WriteInKana = selectedDatum.senses.Where(x => x.tags.Contains(JishoTagUsuallyInKanaAlone)).Any()
                 || selectedDatum.japanese[0].word == null;
         }
 
@@ -339,9 +340,7 @@ namespace JishoTangoAssistant
             var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
             outputText += englishDefinitionsString;
             if (!string.IsNullOrWhiteSpace(AdditionalComments) && !string.IsNullOrWhiteSpace(englishDefinitionsString))
-            {
                 outputText += Environment.NewLine;
-            }
             outputText += AdditionalComments;
             bool showReading = !WriteInKana;
             var word = showReading ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput;

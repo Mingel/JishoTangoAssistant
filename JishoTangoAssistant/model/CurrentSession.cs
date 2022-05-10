@@ -8,7 +8,7 @@ namespace JishoTangoAssistant
 
         public static JishoDatum[]? latestResult = null;
 
-        public static ObservableVocabularyDictionaryList addedVocabularyItems = new ObservableVocabularyDictionaryList();
+        public static ObservableVocabularyList addedVocabularyItems = new ObservableVocabularyList();
 
         public static bool userMadeChanges = false;
     }

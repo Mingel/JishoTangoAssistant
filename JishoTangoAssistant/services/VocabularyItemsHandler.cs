@@ -2,14 +2,14 @@
 
 namespace JishoTangoAssistant
 {
-    class VocabularyItemHandler
+    class VocabularyItemsHandler
     {
-        public static string ListToJson(VocabularyItem[] items)
+        public static string VocabularyListToJson(VocabularyItem[] items)
         {
             return JsonConvert.SerializeObject(items, Formatting.Indented);
         }
 
-        public static VocabularyItem[] JsonToList(string json)
+        public static VocabularyItem[]? JsonToVocabularyList(string json)
         {
             return JsonConvert.DeserializeObject<VocabularyItem[]>(json);
         }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace JishoTangoAssistant
@@ -28,7 +29,7 @@ namespace JishoTangoAssistant
         public ICommand GoUpCommand => _goUpCommand;
         public ICommand GoDownCommand => _goDownCommand;
 
-        public ObservableVocabularyDictionaryList VocabularyList
+        public ObservableVocabularyList VocabularyList
         {
             get => CurrentSession.addedVocabularyItems;
             set
@@ -59,6 +60,16 @@ namespace JishoTangoAssistant
 
         private void OnLoadList(Object commandParameter)
         {
+            if (CurrentSession.userMadeChanges)
+            {
+                var messageBox = MessageBox.Show("You have made unsaved changes. Do you really want to overwrite your current vocabulary list?",
+                                                    "Warning",
+                                                    MessageBoxButton.YesNo,
+                                                    MessageBoxImage.Warning);
+                if (messageBox.Equals(MessageBoxResult.No))
+                    return;
+            }
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             openFileDialog.Filter = "MJV Files (*.mjv)|*.mjv";
@@ -70,13 +81,13 @@ namespace JishoTangoAssistant
                 using (StreamReader reader = new StreamReader(fileStream))
                 {
                     var fileContent = reader.ReadToEnd();
-                    var loadedVocabularyItems = VocabularyItemHandler.JsonToList(fileContent);
-                    VocabularyList.Clear();
+                    var loadedVocabularyItems = VocabularyItemsHandler.JsonToVocabularyList(fileContent);
 
-                    foreach (var item in loadedVocabularyItems) // TODO optimize
-                    {
-                        VocabularyList.Add(item);
-                    }
+                    if (loadedVocabularyItems == null)
+                        throw new ArgumentNullException($"{nameof(loadedVocabularyItems)} is null");
+
+                    VocabularyList.Clear();
+                    VocabularyList.AddRange(loadedVocabularyItems);
 
                     CurrentSession.userMadeChanges = false;
                 }
@@ -94,7 +105,7 @@ namespace JishoTangoAssistant
             {
                 using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
                 {
-                    sw.Write(VocabularyItemHandler.ListToJson(VocabularyList.ToArray()));
+                    sw.Write(VocabularyItemsHandler.VocabularyListToJson(VocabularyList.ToArray()));
                     CurrentSession.userMadeChanges = false;
                 }
             }
@@ -133,14 +144,11 @@ namespace JishoTangoAssistant
             }
         }
 
-
         private void OnDeleteFromList(object commandParameter)
         {
             if (0 <= SelectedVocabItemIndex && SelectedVocabItemIndex < VocabularyList.Count)
                 VocabularyList.RemoveAt(SelectedVocabItemIndex);
         }
-
-
 
         private void OnGoUp(object commandParameter)
         {
