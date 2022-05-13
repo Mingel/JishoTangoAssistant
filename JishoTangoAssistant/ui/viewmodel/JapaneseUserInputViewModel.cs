@@ -193,7 +193,7 @@ namespace JishoTangoAssistant
             {
                 CurrentSession.running = true;
 
-                Input = RomajiHiraganaConverter.Convert(Input);
+                Input = RomajiKanaConverter.Convert(Input);
 
                 var result = await JishoWebAPIClient.GetResultJsonAsync(Input);
                 if (result == null || result.Length == 0)

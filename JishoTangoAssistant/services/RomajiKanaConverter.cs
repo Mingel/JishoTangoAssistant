@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JishoTangoAssistant
 {
-    public static class RomajiHiraganaConverter
+    public static class RomajiKanaConverter
     {
         #region conversion-list
         private static readonly Dictionary<string, string> _romajiToHiraganaDictionary = new Dictionary<string, string>()
@@ -65,71 +65,74 @@ namespace JishoTangoAssistant
         private static readonly List<string> _noConversionToSokuon = new List<string>() { "a", "e", "i", "o", "u", "n", "va", "vyi", "vu", "vye", "vo", "vya", "vyu", "vyo", "-", "?" };
         private static readonly List<string> _vowels = new List<string>() { "a", "e", "i", "o", "u" };
 
-        // Converts based on the search query's conversion to hiragana in jisho.org
+        // Converts based on the search query's conversion to hiragana/katakana in jisho.org
         public static string Convert(string romajiInput)
         {
             var romajiOutput = "";
             var toMatch = "";
-            bool forceHiraganaLetterFromNaRow = false;
+            bool forceNextKanaLetterFromNaRow = false;
+            bool forceNextKatakanaLetter = false;
             for (int i = 0; i < romajiInput.Length; i++)
             {
                 char c = romajiInput[i];
-                char lowerCaseChar = Char.ToLower(c);
 
-                if (!IsRomajiCharacter(lowerCaseChar))
+                if (!IsRomajiCharacter(c))
                     return romajiInput;
                 
-                toMatch += lowerCaseChar;
+                toMatch += c;
 
-                if (_vowels.Contains(toMatch) && forceHiraganaLetterFromNaRow)
+                if (_vowels.Contains(toMatch.ToLower()) && forceNextKanaLetterFromNaRow)
                 {
                     // things to consider for this case:
-                    // - _vowels is a subset of _romajiToHiraganaDictionary.Keys
+                    // - _vowels is a subset of _romajiToKanaDictionary.Keys
                     // -> toMatch must be a single vowel
-                    // - forceHiraganaLetterFromNaRow can only be true if:
+                    // - forceKanaLetterFromNaRow can only be true if:
                     //   - the input processed until now ended with the substring "nn"
                     //   -> therefore, e.g. (already processed) "nn" + "a" (to be processed) should output "んな", not "んあ"
-                    romajiOutput += _romajiToHiraganaDictionary[$"n{toMatch}"];
+                    var firstNKana = forceNextKatakanaLetter ? "N" : "n";
+                    var secondNKana = toMatch;
+                    romajiOutput += ToKanaLetter(String.Concat(firstNKana, secondNKana));
                     toMatch = String.Empty;
 
-                    forceHiraganaLetterFromNaRow = false;
+                    forceNextKanaLetterFromNaRow = forceNextKatakanaLetter = false;
                 }
-                else if (_romajiToHiraganaDictionary.ContainsKey(toMatch) && !VowelOrLetterNAfterLetterN(romajiInput, toMatch, i)) // consider look ahead: special case 'n'
+                else if (_romajiToHiraganaDictionary.ContainsKey(toMatch.ToLower()) && !VowelOrLetterNAfterLetterN(romajiInput, toMatch.ToLower(), i)) // consider look ahead: special case 'n'
                 {
-                    romajiOutput += _romajiToHiraganaDictionary[toMatch];
+                    romajiOutput += ToKanaLetter(toMatch);
                     toMatch = String.Empty;
                 }
                 // "nn" -> "ん"
-                else if (toMatch.Equals("nn"))
+                else if (toMatch.ToLower().Equals("nn"))
                 {
-                    romajiOutput += "ん";
+                    romajiOutput += Char.IsLower(c) ? "ん" : ToKatakana("ん");
                     toMatch = String.Empty;
 
-                    forceHiraganaLetterFromNaRow = VowelAfterNN(romajiInput, i + 1);
+                    forceNextKanaLetterFromNaRow = VowelAfterNN(romajiInput, i + 1);
+                    forceNextKatakanaLetter = Char.IsUpper(c);
                 }
                 // special case: 'p' or 'b' after 'm' (e.g. "sempai" -> "せんぱい"; "gambare" -> "がんばれ")
                 else if (LetterPOrLetterBAfterLetterM(romajiInput, toMatch, i))
                 {
-                    romajiOutput += "ん";
+                    romajiOutput += Char.IsLower(c) ? "ん" : ToKatakana("ん");
                     toMatch = String.Empty;
                 }
                 // small tsu/sokuon
                 // sokuon match: e.g. "kki" should be converted to "っき"
-                else if (DoubleConsonantsAt(toMatch, toMatch.Length - 2) && OnlySameConsonantsBeforeIndex(toMatch, toMatch.Length - 1))
+                else if (DoubleConsonantsAt(toMatch.ToLower(), toMatch.Length - 2) && OnlySameConsonantsBeforeIndex(toMatch.ToLower(), toMatch.Length - 1))
                 {
-                    var smallTsus = new String('っ', toMatch.Length - 2);
-                    var hiraganaOfMatchedLastLetters = _romajiToHiraganaDictionary[toMatch.Substring(toMatch.Length - 2)];
+                    var smallTsus = DetermineSokuons(toMatch.Substring(0, toMatch.Length - 2));
+                    var kanaOfMatchedLastLetters = ToKanaLetter(toMatch.Substring(toMatch.Length - 2));
 
-                    romajiOutput += String.Concat(smallTsus, hiraganaOfMatchedLastLetters);
+                    romajiOutput += String.Concat(smallTsus, kanaOfMatchedLastLetters);
                     toMatch = String.Empty;
                 }
                 // sokuon match: e.g. "kkya" should be converted to "っきゃ"
-                else if (DoubleConsonantsAt(toMatch, toMatch.Length - 3) && OnlySameConsonantsBeforeIndex(toMatch, toMatch.Length - 2))
+                else if (DoubleConsonantsAt(toMatch.ToLower(), toMatch.Length - 3) && OnlySameConsonantsBeforeIndex(toMatch.ToLower(), toMatch.Length - 2))
                 {
-                    var smallTsus = new String('っ', toMatch.Length - 3);
-                    var hiraganaOfMatchedLastLetters = _romajiToHiraganaDictionary[toMatch.Substring(toMatch.Length - 3)];
+                    var smallTsus = DetermineSokuons(toMatch.Substring(0, toMatch.Length - 3));
+                    var kanaOfMatchedLastRomajiLetters = ToKanaLetter(toMatch.Substring(toMatch.Length - 3));
 
-                    romajiOutput += String.Concat(smallTsus, hiraganaOfMatchedLastLetters);
+                    romajiOutput += String.Concat(smallTsus, kanaOfMatchedLastRomajiLetters);
                     toMatch = String.Empty;
                 }
             }
@@ -139,6 +142,35 @@ namespace JishoTangoAssistant
                 return romajiInput;
 
             return romajiOutput;
+        }
+
+        private static string DetermineSokuons(string romajiLettersToBeConvertedToSokuons)
+        {
+            char[] smallTsuArray = romajiLettersToBeConvertedToSokuons.Select(c => Char.IsLower(c) ? 'っ' : ToKatakana('っ')).ToArray();
+            return new string(smallTsuArray);
+        }
+
+        private static string ToKanaLetter(string romajiSyllable)
+        {
+            var kanaLetter = _romajiToHiraganaDictionary[romajiSyllable.ToLower()];
+
+            if (romajiSyllable.Equals('?') || romajiSyllable.Equals('-'))
+                return kanaLetter;
+
+            // Rule: If first letter of romaji syllable is uppercase, then the kana letter is in katakana, otherwise hiragana
+            if (!String.IsNullOrEmpty(romajiSyllable) && romajiSyllable.Length > 0 && Char.IsUpper(romajiSyllable.First()))
+                kanaLetter = ToKatakana(kanaLetter).ToString();
+            return kanaLetter;
+        }
+
+        private static char ToKatakana(char hiraganaLetter)
+        {
+            return (char)(hiraganaLetter + 96);
+        }
+
+        private static char ToKatakana(string hiraganaLetter)
+        {
+            return ToKatakana(char.Parse(hiraganaLetter));
         }
 
         private static bool VowelAfterNN(string romajiInput, int vowelIndex)
