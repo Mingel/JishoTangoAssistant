@@ -16,6 +16,7 @@
         public string slug;
         public JishoJapaneseItem[] japanese;
         public JishoSense[] senses;
+        public JishoAttribution attribution;
     }
 
     class JishoJapaneseItem
@@ -27,6 +28,14 @@
     class JishoSense
     {
         public string[] english_definitions;
+        public string[] parts_of_speech;
         public string[] tags;
+    }
+
+    class JishoAttribution
+    {
+        public bool jmdict;
+        public bool jmnedict;
+        public string dbpedia;
     }
 }

@@ -51,7 +51,7 @@ namespace JishoTangoAssistant
                     checkBox.EnglishDefinitionsFlattenedIndex = flattenedIndex;
 
                     checkBox.Margin = new Thickness(startLocationX + totalStepLocationX, startLocationY + i * stepLocationY, 0, 0);
-                    checkBox.Name = String.Format("outputCheckBox{0}_{1}", i, j);
+                    checkBox.Name = $"outputCheckBox{i}_{j}";
                     checkBox.Content = flattenedEnglishDefinitions[flattenedIndex];
                     checkBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     totalStepLocationX = (int)Math.Ceiling(checkBox.DesiredSize.Width);
