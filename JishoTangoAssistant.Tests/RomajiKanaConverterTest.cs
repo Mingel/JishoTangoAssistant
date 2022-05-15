@@ -98,10 +98,10 @@ namespace JishoTangoAssistant.Tests
         [Test]
         public void TestHiraganaN()
         {
-            /*Assert.AreEqual("ん", RomajiKanaConverter.Convert("n"));
+            Assert.AreEqual("ん", RomajiKanaConverter.Convert("n"));
             Assert.AreEqual("ん", RomajiKanaConverter.Convert("nn"));
             Assert.AreEqual("んん", RomajiKanaConverter.Convert("nnn"));
-            Assert.AreEqual("んん", RomajiKanaConverter.Convert("nnnn"));*/
+            Assert.AreEqual("んん", RomajiKanaConverter.Convert("nnnn"));
 
             Assert.AreEqual("んな", RomajiKanaConverter.Convert("nna"));
             Assert.AreEqual("んの", RomajiKanaConverter.Convert("nno"));
@@ -123,6 +123,32 @@ namespace JishoTangoAssistant.Tests
 
             Assert.AreEqual("？", RomajiKanaConverter.Convert("?"));
             Assert.AreEqual("？？", RomajiKanaConverter.Convert("??"));
+        }
+
+        [Test]
+        public void TestKatakana()
+        {
+            Assert.AreEqual("パーティ", RomajiKanaConverter.Convert("PA-TEXI"));
+            Assert.AreEqual("ヂスコ", RomajiKanaConverter.Convert("DISUKO"));
+
+            Assert.AreEqual("スペイン", RomajiKanaConverter.Convert("SUPEIN"));
+            Assert.AreEqual("ドイツ", RomajiKanaConverter.Convert("DOITSU"));
+
+            Assert.AreEqual("パーティ", RomajiKanaConverter.Convert("Pa-TeXi"));
+            Assert.AreEqual("ヂスコ", RomajiKanaConverter.Convert("DiSuKo"));
+
+            Assert.AreEqual("スペイン", RomajiKanaConverter.Convert("SuPeIN"));
+            Assert.AreEqual("ドイツ", RomajiKanaConverter.Convert("DoITsu"));
+        }
+
+        [Test]
+        public void TestMixedKana()
+        {
+            Assert.AreEqual("アか", RomajiKanaConverter.Convert("AkA"));
+            Assert.AreEqual("ヂすコ", RomajiKanaConverter.Convert("DIsuKo"));
+
+            Assert.AreEqual("すペイん", RomajiKanaConverter.Convert("sUPEIn"));
+            Assert.AreEqual("ドイつ", RomajiKanaConverter.Convert("DoItSU"));
         }
     }
 }
