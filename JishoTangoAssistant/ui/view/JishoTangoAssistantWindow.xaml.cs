@@ -23,5 +23,14 @@ namespace JishoTangoAssistant
             if (!shouldClose)
                 e.Cancel = true;
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var about = "Made by Minh Bang Vu (2022)\n" +
+                "\n" + 
+                "Thanks to the team from jisho.org for making this possible!\n" +
+                "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.";
+            MessageBox.Show(about, "About");
+        }
     }
 }
