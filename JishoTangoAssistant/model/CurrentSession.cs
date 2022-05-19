@@ -11,5 +11,7 @@ namespace JishoTangoAssistant
         public static ObservableVocabularyList addedVocabularyItems = new ObservableVocabularyList();
 
         public static bool userMadeChanges = false;
+
+        public static int customFontSize = -1;
     }
 }

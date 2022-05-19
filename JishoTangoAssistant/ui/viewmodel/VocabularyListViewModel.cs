@@ -47,6 +47,12 @@ namespace JishoTangoAssistant
             }
         }
 
+        public int FontSize
+        {
+            get => CurrentSession.customFontSize; 
+            set => SetProperty(ref CurrentSession.customFontSize, value);
+        }
+
         public VocabularyListViewModel()
         {
             _loadListCommand = new DelegateCommand(OnLoadList, _ => true);
@@ -123,6 +129,7 @@ namespace JishoTangoAssistant
                 using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
                 {
                     sw.Write(VocabularyItem.ListToJapEng(VocabularyList.ToArray()));
+                    ShowHtmlMessageBox();
                 }
             }
         }
@@ -140,6 +147,7 @@ namespace JishoTangoAssistant
                 {
                     var vocabItems = VocabularyList.ToArray();
                     sw.Write(VocabularyItem.ListToJapEng(vocabItems));
+                    ShowHtmlMessageBox();
                 }
             }
         }
@@ -172,6 +180,14 @@ namespace JishoTangoAssistant
                 VocabularyList[SelectedVocabItemIndex] = tmpItem; // this line makes tmpIndex necessary because this line resets SelectedVocabItemIndex to -1
                 SelectedVocabItemIndex = tmpIndex + 1;
             }
+        }
+
+        private void ShowHtmlMessageBox()
+        {
+            MessageBox.Show("Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
+                            "Information",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Information);
         }
     }
 }

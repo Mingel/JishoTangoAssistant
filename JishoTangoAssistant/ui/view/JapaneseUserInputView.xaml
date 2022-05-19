@@ -65,9 +65,13 @@
             <GroupBox Grid.Row="3" Header="Additional Comments">
                 <TextBox x:Name="additionalCommentsTextBox" Text="{Binding AdditionalComments, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="Auto" Height="70" MinHeight="27" HorizontalAlignment="Stretch"/>
             </GroupBox>
-            <StackPanel Grid.Row="4" x:Name="writeInKanaPanel" Height="19">
-                <CheckBox x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
-            </StackPanel>
+            <Grid Grid.Row="4" x:Name="writeInKanaPanel" Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Grid.Column="0" x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
+            </Grid>
             <StackPanel Grid.Row="5" x:Name="outputPanel" Height="109">
                 <GroupBox x:Name="outputGroupBox" Height="100" Header="Output">
                     <TextBlock Text="{Binding OutputText}" FontSize="16"/>
