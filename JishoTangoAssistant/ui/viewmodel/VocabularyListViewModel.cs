@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -57,8 +58,8 @@ namespace JishoTangoAssistant
         {
             _loadListCommand = new DelegateCommand(OnLoadList, _ => true);
             _saveListCommand = new DelegateCommand(OnSaveList, _ => true);
-            _exportCsvJapToEngCommand = new DelegateCommand(OnExportCsvJapToEng, _ => true);
-            _exportCsvEngToJapCommand = new DelegateCommand(OnExportCsvEngToJap, _ => true);
+            _exportCsvJapToEngCommand = new DelegateCommand(OnExportCsvJapeneseToEnglish, _ => true);
+            _exportCsvEngToJapCommand = new DelegateCommand(OnExportCsvEnglishToJapanese, _ => true);
             _deleteFromListCommand = new DelegateCommand(OnDeleteFromList, _ => true);
             _goUpCommand = new DelegateCommand(OnGoUp, _ => true);
             _goDownCommand = new DelegateCommand(OnGoDown, _ => true);
@@ -87,7 +88,7 @@ namespace JishoTangoAssistant
                 using (StreamReader reader = new StreamReader(fileStream))
                 {
                     var fileContent = reader.ReadToEnd();
-                    var loadedVocabularyItems = VocabularyItemsHandler.JsonToVocabularyList(fileContent);
+                    var loadedVocabularyItems = JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
 
                     if (loadedVocabularyItems == null)
                         throw new ArgumentNullException($"{nameof(loadedVocabularyItems)} is null");
@@ -111,13 +112,14 @@ namespace JishoTangoAssistant
             {
                 using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
                 {
-                    sw.Write(VocabularyItemsHandler.VocabularyListToJson(VocabularyList.ToArray()));
+                    var json = JsonConvert.SerializeObject(VocabularyList.ToArray(), Formatting.Indented);
+                    sw.Write(json);
                     CurrentSession.userMadeChanges = false;
                 }
             }
         }
 
-        private void OnExportCsvJapToEng(Object commandParameter)
+        private void OnExportCsvJapeneseToEnglish(Object commandParameter)
         {
             SaveFileDialog exportFileDialog = new SaveFileDialog();
 
@@ -128,13 +130,13 @@ namespace JishoTangoAssistant
             {
                 using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
                 {
-                    sw.Write(VocabularyItem.ListToJapEng(VocabularyList.ToArray()));
+                    sw.Write(VocabularyListExporter.JapaneseToEnglish(VocabularyList));
                     ShowHtmlMessageBox();
                 }
             }
         }
 
-        private void OnExportCsvEngToJap(Object commandParameter)
+        private void OnExportCsvEnglishToJapanese(Object commandParameter)
         {
             SaveFileDialog exportFileDialog = new SaveFileDialog();
 
@@ -146,7 +148,7 @@ namespace JishoTangoAssistant
                 using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
                 {
                     var vocabItems = VocabularyList.ToArray();
-                    sw.Write(VocabularyItem.ListToJapEng(vocabItems));
+                    sw.Write(VocabularyListExporter.EnglishToJapanese(VocabularyList));
                     ShowHtmlMessageBox();
                 }
             }
