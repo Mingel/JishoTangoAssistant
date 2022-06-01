@@ -13,6 +13,8 @@ namespace JishoTangoAssistant
         #region attributes
         private string _input = String.Empty;
         private bool _writeInKana = false;
+        private bool _japaneseToEnglishDirection = true;
+        private bool _showFrontSide = true;
         private ObservableCollection<string> _englishDefinitions = new ObservableCollection<string>();
         private ObservableCollection<int> _selectedIndicesOfEnglishDefinitions = new ObservableCollection<int>();
         private string _additionalComments = String.Empty;
@@ -59,20 +61,89 @@ namespace JishoTangoAssistant
             get
             {
                 var outputText = String.Empty;
-                var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
-                if (!WriteInKana)
+
+                if (JapaneseToEnglishDirection && ShowFrontSide)
                 {
-                    outputText += ReadingOutput;
-                    if (!string.IsNullOrWhiteSpace(englishDefinitionsString))
-                        outputText += Environment.NewLine;
+                    if (SelectedIndexOfOtherForms >= 0)
+                        outputText += !WriteInKana ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput;
                 }
-                outputText += englishDefinitionsString;
-                if (!string.IsNullOrWhiteSpace(AdditionalComments))
+                else if (JapaneseToEnglishDirection && ShowBackSide)
                 {
-                    outputText += Environment.NewLine;
-                    outputText += AdditionalComments;
+                    var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
+                    if (!WriteInKana)
+                    {
+                        outputText += ReadingOutput;
+                        if (!string.IsNullOrWhiteSpace(englishDefinitionsString))
+                            outputText += Environment.NewLine;
+                    }
+                    outputText += englishDefinitionsString;
+                    if (!string.IsNullOrWhiteSpace(AdditionalComments))
+                    {
+                        outputText += Environment.NewLine;
+                        outputText += AdditionalComments;
+                    }
+                }
+                else if (EnglishToJapaneseDirection && ShowFrontSide)
+                {
+                    var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
+                    outputText += englishDefinitionsString;
+                    if (!string.IsNullOrWhiteSpace(AdditionalComments))
+                    {
+                        outputText += Environment.NewLine;
+                        outputText += AdditionalComments;
+                    }
+                }
+                else //  (EnglishToJapaneseDirection && ShowBackSide)
+                {
+                    if (SelectedIndexOfOtherForms >= 0)
+                        outputText += !WriteInKana ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput;
+                    if (!WriteInKana)
+                    {
+                        outputText += Environment.NewLine;
+                        outputText += ReadingOutput;
+                    }
                 }
                 return outputText;
+            }
+        }
+
+        public bool JapaneseToEnglishDirection
+        {
+            get => _japaneseToEnglishDirection;
+            set
+            {
+                SetProperty(ref _japaneseToEnglishDirection, value);
+                UpdateOutputText();
+            }
+        }
+
+        public bool EnglishToJapaneseDirection
+        {
+            get => !_japaneseToEnglishDirection;
+            set
+            {
+                SetProperty(ref _japaneseToEnglishDirection, !value);
+                UpdateOutputText();
+            }
+        }
+
+        public bool ShowFrontSide
+        {
+            get => _showFrontSide;
+            set
+            {
+                SetProperty(ref _showFrontSide, value);
+                UpdateOutputText();
+            }
+        }
+
+        public bool ShowBackSide
+        {
+            get => !_showFrontSide;
+            set
+            {
+                SetProperty(ref _showFrontSide, !value);
+                UpdateOutputText();
             }
         }
 

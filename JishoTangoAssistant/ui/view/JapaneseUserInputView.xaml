@@ -28,8 +28,8 @@
                     <ColumnDefinition Width="Auto" MinWidth="75"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" x:Name="inputLabel" Content="Input"/>
-                <TextBox Grid.Column="1" x:Name="inputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="23" VerticalContentAlignment="Center" Margin="10,0,10,0" KeyUp="inputTextBox_KeyUp" FontSize="16">
+                <Label Grid.Column="0" x:Name="searchLabel" Content="Search"/>
+                <TextBox Grid.Column="1" x:Name="inputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="23" VerticalContentAlignment="Center" Margin="3,0,10,0" KeyUp="inputTextBox_KeyUp" FontSize="16">
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding Path=ProcessInputCommand}" Key="Enter" />
                     </TextBox.InputBindings>
@@ -38,7 +38,7 @@
                     </TextBox.Background>
                 </TextBox>
 
-                <Button Grid.Column="2" x:Name="enterButton" Command="{Binding Path=ProcessInputCommand}" Content="Enter" Margin="0,1,0,2"/>
+                <Button Grid.Column="2" x:Name="enterButton" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2"/>
             </Grid>
             <Grid Grid.Row="1" MinHeight="44">
                 <Grid.ColumnDefinitions>
@@ -72,9 +72,37 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox Grid.Column="0" x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
             </Grid>
-            <StackPanel Grid.Row="5" x:Name="outputPanel" Height="109">
-                <GroupBox x:Name="outputGroupBox" Height="100" Header="Output">
-                    <TextBlock Text="{Binding OutputText}" FontSize="16"/>
+            <StackPanel Grid.Row="5" x:Name="outputPanel" Height="159">
+                <GroupBox x:Name="outputGroupBox" Height="150" Header="Resulting Card">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Front → Back:"/>
+                            <RadioButton Margin="0,7,0,0" Grid.Column="2" GroupName="cardDirection" IsChecked="{Binding JapaneseToEnglishDirection}" Content="JP → Reading + EN"/>
+                            <RadioButton Margin="0,7,0,0" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}" Content="EN → JP + Reading"/>
+                        </Grid>
+                        <Separator/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="15"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="Show Side:"/>
+                            <RadioButton Margin="15,7,0,0" Grid.Column="2" GroupName="resultingCardSide" IsChecked="{Binding ShowFrontSide}" Content="Front"/>
+                            <RadioButton Margin="73,7,0,0" Grid.Column="4" GroupName="resultingCardSide" IsChecked="{Binding ShowBackSide}" Content="Back"/>
+                        </Grid>
+                        <Separator/>
+                        <TextBlock Text="{Binding OutputText}" FontSize="16"/>
+                    </StackPanel>
                 </GroupBox>
             </StackPanel>
         </Grid>
@@ -87,7 +115,7 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="2" Grid.Column="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="Add to Vocabulary List"/>
+            <Button Grid.Row="2" Grid.Column="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List"/>
         </Grid>
 
     </Grid>

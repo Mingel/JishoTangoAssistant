@@ -30,10 +30,10 @@
 
                 <DataGrid Grid.Row="0" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Word" Binding="{Binding Word}" MinWidth="100" Width="100"/>
-                        <DataGridTextColumn Header="ShowReading" Binding="{Binding ShowReading}" Visibility="Hidden"/>
+                        <DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="100" Width="100"/>
+                        <DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" Visibility="Hidden"/>
                         <DataGridTextColumn Header="Reading" Binding="{Binding Reading}" MinWidth="100" Width="100"/>
-                        <DataGridTextColumn Header="Output" Binding="{Binding Output}" Width="*"/>
+                        <DataGridTextColumn Header="English Definitions &amp; Comments" Binding="{Binding Output}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -48,7 +48,7 @@
                     <Button Grid.Column="2" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}"/>
                 </Grid>
 
-                <Button Grid.Row="4" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="Delete Selected Item from Vocabulary List"/>
+                <Button Grid.Row="4" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection"/>
 
             </Grid>
         </GroupBox>
@@ -64,8 +64,8 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="Load Vocabulary List"/>
-            <Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="Save Vocabulary List"/>
+            <Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List"/>
+            <Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List"/>
             <GroupBox Grid.Row="5" Header="Export" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -84,8 +84,8 @@
                         <CheckBox Grid.Column="0" x:Name="fontSizeCheckBox" Margin="0,1,0,0" Content="Font Size (JP): " Checked="fontSizeCheckBox_Checked" Unchecked="fontSizeCheckBox_Checked"/>
                         <TextBox Grid.Column="1" x:Name="fontSizeTextBox" MinWidth="30" Width="35" IsEnabled="False" Text="{Binding FontSize, Converter={StaticResource FontSizeValueConverter}}" PreviewTextInput="fontSizeTextBox_PreviewTextInput"></TextBox>
                     </Grid>
-                    <Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → EN)"/>
-                    <Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP)"/>
+                    <Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → Reading + EN)"/>
+                    <Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP + Reading)"/>
                 </Grid>
             </GroupBox>
         </Grid>
