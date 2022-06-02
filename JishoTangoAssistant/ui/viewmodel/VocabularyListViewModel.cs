@@ -67,17 +67,28 @@ namespace JishoTangoAssistant
 
         private void OnLoadList(Object commandParameter)
         {
-            if (CurrentSession.userMadeChanges)
+            bool? performOverwriting = null;
+            if (CurrentSession.addedVocabularyItems.Count > 0)
             {
-                var messageBox = MessageBox.Show("You have made unsaved changes. Do you really want to overwrite your current vocabulary list?",
+                var messageBox = MessageBox.Show("Your vocabulary list is not empty. Do you want to overwrite your current vocabulary list?\n\n" +
+                                                    "Press Yes, if you want to overwrite your list\n" +
+                                                    "Press No, if you want to merge into your current list\n",
                                                     "Warning",
-                                                    MessageBoxButton.YesNo,
+                                                    MessageBoxButton.YesNoCancel,
                                                     MessageBoxImage.Warning);
-                if (messageBox.Equals(MessageBoxResult.No))
+                if (messageBox.Equals(MessageBoxResult.Cancel))
                     return;
+                performOverwriting = messageBox.Equals(MessageBoxResult.Yes);
             }
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (performOverwriting == true)
+                openFileDialog.Title = "Open file to load vocabulary list (Overwriting)";
+            else if (performOverwriting == false)
+                openFileDialog.Title = "Open file to load vocabulary list (Merging)";
+            else
+                openFileDialog.Title = "Open file to load vocabulary list";
 
             openFileDialog.Filter = "MJV Files (*.mjv)|*.mjv";
             openFileDialog.RestoreDirectory = true;
@@ -93,7 +104,8 @@ namespace JishoTangoAssistant
                     if (loadedVocabularyItems == null)
                         throw new ArgumentNullException($"{nameof(loadedVocabularyItems)} is null");
 
-                    VocabularyList.Clear();
+                    if (performOverwriting == true)
+                        VocabularyList.Clear();
                     VocabularyList.AddRange(loadedVocabularyItems);
 
                     CurrentSession.userMadeChanges = false;
@@ -104,6 +116,8 @@ namespace JishoTangoAssistant
         private void OnSaveList(Object commandParameter)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Title = "Save vocabulary list as";
 
             saveFileDialog.Filter = "MJV Files (*.mjv)|*.mjv";
             saveFileDialog.RestoreDirectory = true;
