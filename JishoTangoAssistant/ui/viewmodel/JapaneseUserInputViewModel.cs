@@ -307,7 +307,7 @@ namespace JishoTangoAssistant
 
                 ReadingOutput = firstJapaneseEntry.reading;
 
-                WriteInKana = firstResult.senses.Where(x => x.tags.Contains(JishoTagUsuallyInKanaAlone)).Any()
+                WriteInKana = firstResult.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
                     || firstJapaneseEntry.word == null;
                 UpdateOutputText();
                 CurrentSession.running = false;
@@ -356,7 +356,7 @@ namespace JishoTangoAssistant
 
             StoreEnglishDefinitions(selectedDatum);
 
-            WriteInKana = selectedDatum.senses.Where(x => x.tags.Contains(JishoTagUsuallyInKanaAlone)).Any()
+            WriteInKana = selectedDatum.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
                 || selectedDatum.japanese[0].word == null;
         }
 

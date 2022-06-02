@@ -15,7 +15,7 @@ namespace JishoTangoAssistant
         private VocabularyListViewModel _vocabularyListViewModel;
         public VocabularyListViewModel VocabularyListViewModel { get; set; }
 
-        private const int defaultFontSize = 28;
+        private const int DefaultFontSize = 28;
         public VocabularyListView()
         {
             InitializeComponent();
@@ -41,7 +41,7 @@ namespace JishoTangoAssistant
                 fontSizeTextBox.Focus();
 
                 if (fontSizeTextBox.Text.Equals(String.Empty))
-                    fontSizeTextBox.Text = defaultFontSize.ToString();
+                    fontSizeTextBox.Text = DefaultFontSize.ToString();
 
                 fontSizeTextBox.Select(fontSizeTextBox.Text.Length, 0);
             }
