@@ -1,0 +1,85 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		x:Class="JishoTangoAssistant.ui.view.VocabularyListView"
+        Title="Window1">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition MinHeight="100" Height="*"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
+				</Grid.RowDefinitions>
+
+				<DataGrid Grid.Row="0" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="100" Width="100"/>
+						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}"/>
+						<DataGridTextColumn Header="Reading" Binding="{Binding Reading}" MinWidth="100" Width="100"/>
+						<DataGridTextColumn Header="English Definitions &amp; Comments" Binding="{Binding Output}" Width="*"/>
+					</DataGrid.Columns>
+				</DataGrid>
+
+				<Grid Grid.Row="2" x:Name="upDownButtonsTableLayoutGrid">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="5"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+
+					<Button Grid.Column="0" x:Name="upButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}"/>
+					<Button Grid.Column="2" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}"/>
+				</Grid>
+
+				<Button Grid.Row="4" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection"/>
+
+			</Grid>
+
+		<Grid Grid.Row="1" x:Name="rightButtonsGrid">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="5"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="5"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="5"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="5"/>
+			</Grid.RowDefinitions>
+
+			<Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List"/>
+			<Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List"/>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<Grid Grid.Row="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="Auto"/>
+						</Grid.ColumnDefinitions>
+						<CheckBox Grid.Column="0" x:Name="fontSizeCheckBox" Margin="0,1,0,0" Content="Font Size (JP): " Checked="fontSizeCheckBox_Checked" Unchecked="fontSizeCheckBox_Checked"/>
+						<TextBox Grid.Column="1" x:Name="fontSizeTextBox" MinWidth="30" Width="35" IsEnabled="False" Text="{Binding FontSize}"></TextBox>
+					</Grid>
+					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → Reading + EN)"/>
+					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP + Reading)"/>
+				</Grid>
+		</Grid>
+	</Grid>
+
+</Window>
