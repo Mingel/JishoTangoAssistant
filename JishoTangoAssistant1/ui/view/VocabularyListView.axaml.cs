@@ -5,7 +5,7 @@ using Avalonia.Markup.Xaml;
 
 namespace JishoTangoAssistant.ui.view
 {
-    public partial class VocabularyListView : Window
+    public partial class VocabularyListView : UserControl
     {
         private VocabularyListViewModel _vocabularyListViewModel;
         public VocabularyListViewModel VocabularyListViewModel { get; set; }

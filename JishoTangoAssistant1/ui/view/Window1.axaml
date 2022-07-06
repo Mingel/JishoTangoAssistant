@@ -5,5 +5,9 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="JishoTangoAssistant.ui.view.Window1"
         Title="Window1">
-  TEST
+	<StackPanel>
+		<Label>Hi.</Label>
+        <TextBox Width="500" />
+		<Label>Test</Label>
+	</StackPanel>
 </Window>

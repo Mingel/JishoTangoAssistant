@@ -11,7 +11,7 @@ namespace JishoTangoAssistant.ui.view
     /// <summary>
     /// Interaktionslogik für JapaneseUserInput.xaml
     /// </summary>
-    public partial class JapaneseUserInputView : UserControl
+    public partial class JapaneseUserInputView : Window
     {
         private JapaneseUserInputViewModel _japaneseUserInputViewModel;
 
@@ -27,7 +27,7 @@ namespace JishoTangoAssistant.ui.view
 
         private void OnClearEnglishDefinitions()
         {
-            //this.englishDefinitionsGrid.Children.Clear();
+            this.englishDefinitionsGrid.Children.Clear();
         }
 
         private void OnInputLoaded(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions)
@@ -39,7 +39,7 @@ namespace JishoTangoAssistant.ui.view
 
             int flattenedIndex = 0;
 
-            //this.englishDefinitionsGrid.Children.Clear();
+            this.englishDefinitionsGrid.Children.Clear();
             _japaneseUserInputViewModel.ClearSelectedIndicesOfEnglishDefinitions();
             for (int i = 0; i < dataLength; i++)
             {
@@ -57,7 +57,7 @@ namespace JishoTangoAssistant.ui.view
                     checkBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     totalStepLocationX = (int)Math.Ceiling(checkBox.DesiredSize.Width);
                     checkBox.Checked += (_, _) => _japaneseUserInputViewModel.UpdateOutputText();
-                    //englishDefinitionsGrid.Children.Add(checkBox);
+                    englishDefinitionsGrid.Children.Add(checkBox);
 
                     checkBox.Click += (_, _) => { _japaneseUserInputViewModel.ChangeSelectedIndicesOfEnglishDefinitions(checkBox.EnglishDefinitionsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
 
@@ -69,17 +69,12 @@ namespace JishoTangoAssistant.ui.view
 
         private void inputTextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            //TextBox input = (TextBox)sender;
-            //DependencyProperty property = TextBox.TextProperty;
-
-            //var binding = BindingOperations.GetBindingExpression(input, property);
-            //if (binding != null)
-            //    binding.UpdateSource();
+            // ?????
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //inputTextBox.Focus();
+            inputTextBox.Focus();
         }
         private void InitializeComponent()
         {

@@ -25,6 +25,9 @@ namespace JishoTangoAssistant
         private string _readingOutput = String.Empty;
         private int _selectedVocabItemIndex = -1;
 
+        private bool _blockAutomaticWriteInKanaUpdate = true;
+        private EnglishDefinitionsExtraInfo _englishDefinitionsExtraInfo;
+
         private Color _textInputBackground = (Color)ColorConverter.ConvertFromString("White");
 
         private readonly DelegateCommand _addToListCommand;
@@ -34,7 +37,7 @@ namespace JishoTangoAssistant
         public ICommand ProcessInputCommand => _processInputCommand;
 
         #endregion
-        public delegate void UpdateCheckBoxesEventHandler(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions);
+        public delegate void UpdateCheckBoxesEventHandler(EnglishDefinitionsExtraInfo englishDefinitionsExtraInfo);
         public event UpdateCheckBoxesEventHandler UpdateCheckBoxesEvent;
 
         public delegate void ClearCheckBoxesEventHandler();
@@ -193,6 +196,7 @@ namespace JishoTangoAssistant
             get => _writeInKana;
             set
             {
+                _blockAutomaticWriteInKanaUpdate = true;
                 SetProperty(ref _writeInKana, value);
                 UpdateOutputText();
                 UpdateTextInputBackground();
@@ -309,6 +313,7 @@ namespace JishoTangoAssistant
 
                 WriteInKana = firstResult.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
                     || firstJapaneseEntry.word == null;
+                _blockAutomaticWriteInKanaUpdate = false;
                 UpdateOutputText();
                 CurrentSession.running = false;
             }
@@ -358,6 +363,7 @@ namespace JishoTangoAssistant
 
             WriteInKana = selectedDatum.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
                 || selectedDatum.japanese[0].word == null;
+            _blockAutomaticWriteInKanaUpdate = false;
         }
 
         private void ChangeReadingOutput()
@@ -381,12 +387,19 @@ namespace JishoTangoAssistant
                 }
             }
 
-            UpdateCheckBoxesEvent?.Invoke(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), EnglishDefinitions);
+            _englishDefinitionsExtraInfo = new EnglishDefinitionsExtraInfo(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), EnglishDefinitions);
+
+            UpdateCheckBoxesEvent?.Invoke(_englishDefinitionsExtraInfo);
         }
 
         public void UpdateOutputText()
         {
             InvokePropertyChanged(nameof(OutputText));
+        }
+
+        public void UpdateWriteInKana()
+        {
+            InvokePropertyChanged(nameof(WriteInKana));
         }
 
         public void ClearSelectedIndicesOfEnglishDefinitions()
@@ -397,9 +410,13 @@ namespace JishoTangoAssistant
         public void ChangeSelectedIndicesOfEnglishDefinitions(int i, bool isSelected)
         {
             if (isSelected)
+            {
                 SelectedIndicesOfEnglishDefinitions.Add(i);
+            }
             else
+            {
                 SelectedIndicesOfEnglishDefinitions.Remove(i);
+            }
             UpdateOutputText();
         }
 

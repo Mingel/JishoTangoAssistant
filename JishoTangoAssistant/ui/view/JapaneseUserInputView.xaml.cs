@@ -29,8 +29,12 @@ namespace JishoTangoAssistant
             this.englishDefinitionsGrid.Children.Clear();
         }
 
-        private void OnInputLoaded(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions)
+        private void OnInputLoaded(EnglishDefinitionsExtraInfo englishDefinitionsExtraInfo)
         {
+            var dataLength = englishDefinitionsExtraInfo.DataLength;
+            var englishDefinitionsLengths = englishDefinitionsExtraInfo.EnglishDefinitionsLengths;
+            var flattenedEnglishDefinitions = englishDefinitionsExtraInfo.FlattenedEnglishDefinitions;
+
             var startLocationX = 12;
             var totalStepLocationX = 0; // variable
             var startLocationY = 12;
