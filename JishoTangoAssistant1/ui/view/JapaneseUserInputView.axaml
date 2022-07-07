@@ -1,11 +1,11 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		x:Class="JishoTangoAssistant.ui.view.JapaneseUserInputView">
 
-	<Window.Styles>
+	<UserControl.Styles>
 		<Style Selector="HeaderedContentControl">
 			<Setter Property="Template">
 				<Setter.Value>
@@ -32,7 +32,7 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-	</Window.Styles>
+	</UserControl.Styles>
 
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		<Grid.RowDefinitions>
@@ -63,7 +63,7 @@
 						<SolidColorBrush Color="{Binding TextInputBackground}" />
 					</TextBox.Background>
 				</TextBox>
-				<Button Grid.Column="2" x:Name="enterButton" IsDefault="True" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2"/>
+				<Button Grid.Column="2" x:Name="enterButton" IsDefault="True" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 			</Grid>
 			<Grid Grid.Row="1" MinHeight="44">
 				<Grid.ColumnDefinitions>
@@ -76,16 +76,16 @@
 				</Grid.ColumnDefinitions>
 
 				<Label Grid.Column="0" x:Name="wordLabel" VerticalAlignment="Center" Content="Word"/>
-				<ComboBox Grid.Column="1" x:Name="wordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" Items="{Binding Words}" FontSize="23" VerticalAlignment="Center" Height="36" HorizontalAlignment="Stretch" Margin="10,0,10,0"/>
+				<ComboBox Grid.Column="1" x:Name="wordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" Items="{Binding Words}" FontSize="20" VerticalAlignment="Center" Height="36" HorizontalAlignment="Stretch" Margin="10,0,10,0"/>
 				<Label Grid.Column="2" x:Name="otherFormsLabel" VerticalAlignment="Center" Content="Form"/>
-				<ComboBox Grid.Column="3" x:Name="otherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" Items="{Binding OtherForms}" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="36" Margin="10,0,10,0"/>
+				<ComboBox Grid.Column="3" x:Name="otherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" Items="{Binding OtherForms}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="36" Margin="10,0,10,0"/>
 				<Label Grid.Column="4" x:Name="readingLabel" VerticalAlignment="Center" Content="Reading"/>
-				<Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="36" Margin="10,0,10,0"/>
+				<Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="20" HorizontalAlignment="Stretch" Height="36" Margin="10,0,10,0"/>
 			</Grid>
 
 			<HeaderedContentControl Grid.Row="2" Header="English Definitions" Background="Black" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<Grid x:Name="englishDefinitionsGrid"/>
+					<Grid x:Name="englishDefinitionsGrid" />
 				</ScrollViewer>
 			</HeaderedContentControl>
 			<HeaderedContentControl Grid.Row="3" Header="Additional Comments" Background="Black">
@@ -141,7 +141,7 @@
 				<RowDefinition Height="5"/>
 			</Grid.RowDefinitions>
 
-			<Button Grid.Row="2" Grid.Column="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List" Width="NaN"/>
+			<Button Grid.Row="2" Grid.Column="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 		</Grid>
 	</Grid>
-</Window>
+</UserControl>

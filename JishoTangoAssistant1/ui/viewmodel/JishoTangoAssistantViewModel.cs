@@ -1,7 +1,7 @@
 ﻿using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.ui.viewmodel
 {
     public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
     {
@@ -16,8 +16,8 @@ namespace JishoTangoAssistant
                     Icon = MessageBox.Avalonia.Enums.Icon.Warning,
                     ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.YesNo
                 });
-                msgBox.Show();
-                if (msgBox.Equals(MessageBox.Avalonia.Enums.ButtonResult.No))
+                var userButtonInput = msgBox.Show();
+                if (userButtonInput.Equals(MessageBox.Avalonia.Enums.ButtonResult.No))
                     return false;
             }
             return true;

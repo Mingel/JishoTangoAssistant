@@ -81,11 +81,11 @@ namespace JishoTangoAssistant
                     Icon = MessageBox.Avalonia.Enums.Icon.Warning,
                     ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.YesNoCancel
                 });
-                msgBox.Show();
+                var userButtonInput = await msgBox.Show();
 
-                if (msgBox.Equals(MessageBox.Avalonia.Enums.ButtonResult.Cancel))
+                if (userButtonInput.Equals(MessageBox.Avalonia.Enums.ButtonResult.Cancel))
                     return;
-                performOverwriting = msgBox.Equals(MessageBox.Avalonia.Enums.ButtonResult.Yes);
+                performOverwriting = userButtonInput.Equals(MessageBox.Avalonia.Enums.ButtonResult.Yes);
             }
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -100,7 +100,7 @@ namespace JishoTangoAssistant
             openFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
             //openFileDialog.RestoreDirectory = true;
 
-            var result = await openFileDialog.ShowAsync(MainWindow.Instance);
+            var result = await openFileDialog.ShowAsync(ui.view.JishoTangoAssisantWindow.Instance);
 
             if (result != null)
             {
@@ -131,7 +131,7 @@ namespace JishoTangoAssistant
             saveFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
             //saveFileDialog.RestoreDirectory = true;
 
-            var result = await saveFileDialog.ShowAsync(MainWindow.Instance);
+            var result = await saveFileDialog.ShowAsync(ui.view.JishoTangoAssisantWindow.Instance);
 
             if (result != null)
             {
@@ -151,7 +151,7 @@ namespace JishoTangoAssistant
             exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
             //exportFileDialog.RestoreDirectory = true;
 
-            var result = await exportFileDialog.ShowAsync(MainWindow.Instance);
+            var result = await exportFileDialog.ShowAsync(ui.view.JishoTangoAssisantWindow.Instance);
 
             if (result != null)
             {
@@ -170,7 +170,7 @@ namespace JishoTangoAssistant
             exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
             //exportFileDialog.RestoreDirectory = true;
 
-            var result = await exportFileDialog.ShowAsync(MainWindow.Instance);
+            var result = await exportFileDialog.ShowAsync(ui.view.JishoTangoAssisantWindow.Instance);
 
             if (result != null)
             {
@@ -213,7 +213,7 @@ namespace JishoTangoAssistant
             }
         }
 
-        private void ShowHtmlMessageBox()
+        private async void ShowHtmlMessageBox()
         {
             var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
             {
@@ -222,7 +222,7 @@ namespace JishoTangoAssistant
                 Icon = MessageBox.Avalonia.Enums.Icon.Info,
                 ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok
             });
-            msgBox.Show();
+            await msgBox.Show();
         }
     }
 }

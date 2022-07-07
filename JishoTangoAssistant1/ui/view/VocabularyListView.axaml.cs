@@ -62,10 +62,5 @@ namespace JishoTangoAssistant.ui.view
 
         e.Handled = !regex.IsMatch(newText);
     }*/
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
     }
 }

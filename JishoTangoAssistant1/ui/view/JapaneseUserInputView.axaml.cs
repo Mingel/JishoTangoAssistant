@@ -9,9 +9,9 @@ using Avalonia.Markup.Xaml;
 namespace JishoTangoAssistant.ui.view
 {
     /// <summary>
-    /// Interaktionslogik für JapaneseUserInput.xaml
+    /// Interaktionslogik für JapaneseUserInputView.xaml
     /// </summary>
-    public partial class JapaneseUserInputView : Window
+    public partial class JapaneseUserInputView : UserControl
     {
         private JapaneseUserInputViewModel _japaneseUserInputViewModel;
 
@@ -75,10 +75,6 @@ namespace JishoTangoAssistant.ui.view
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             inputTextBox.Focus();
-        }
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
         }
     }
 }

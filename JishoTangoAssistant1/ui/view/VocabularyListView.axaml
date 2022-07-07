@@ -3,7 +3,41 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:local="clr-namespace:JishoTangoAssistant.ui.value_converter"
 		x:Class="JishoTangoAssistant.ui.view.VocabularyListView">
+
+	<UserControl.Resources>
+		<local:FontSizeValueConverter x:Key="FontSizeValueConverter" />
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+		<Style Selector="HeaderedContentControl">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate>
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="*"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Border ZIndex="1" Padding="5,0,5,0" Background="White" Margin="5,0,0,0">
+								<TextBlock TextBlock.FontWeight="Bold" Text="{TemplateBinding Header}" />
+							</Border>
+							<Border Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,15,0,0"
+								BorderBrush="{TemplateBinding Background}"
+								BorderThickness="1">
+								<ContentPresenter Content="{TemplateBinding Content}" />
+							</Border>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</UserControl.Styles>
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -11,7 +45,8 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-			<Grid>
+		<HeaderedContentControl Grid.Row="0" Header="Vocabulary List" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<Grid Height="NaN">
 				<Grid.RowDefinitions>
 					<RowDefinition MinHeight="100" Height="*"/>
 					<RowDefinition Height="5"/>
@@ -21,7 +56,7 @@
 					<RowDefinition Height="5"/>
 				</Grid.RowDefinitions>
 
-				<DataGrid Grid.Row="0" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+				<DataGrid Grid.Row="0" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" Items="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="100" Width="100"/>
 						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}"/>
@@ -37,13 +72,14 @@
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 
-					<Button Grid.Column="0" x:Name="upButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}"/>
-					<Button Grid.Column="2" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}"/>
+					<Button Grid.Column="0" x:Name="upButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Column="2" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 				</Grid>
 
-				<Button Grid.Row="4" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection"/>
+				<Button Grid.Row="4" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 
 			</Grid>
+		</HeaderedContentControl>
 
 		<Grid Grid.Row="1" x:Name="rightButtonsGrid">
 			<Grid.RowDefinitions>
@@ -56,8 +92,9 @@
 				<RowDefinition Height="5"/>
 			</Grid.RowDefinitions>
 
-			<Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List"/>
-			<Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List"/>
+			<Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<HeaderedContentControl Grid.Row="5" Header="Export" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="5"/>
@@ -75,9 +112,10 @@
 						<CheckBox Grid.Column="0" x:Name="fontSizeCheckBox" Margin="0,1,0,0" Content="Font Size (JP): " Checked="fontSizeCheckBox_Checked" Unchecked="fontSizeCheckBox_Checked"/>
 						<TextBox Grid.Column="1" x:Name="fontSizeTextBox" MinWidth="30" Width="35" IsEnabled="False" Text="{Binding FontSize}"></TextBox>
 					</Grid>
-					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → Reading + EN)"/>
-					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP + Reading)"/>
+					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 				</Grid>
+			</HeaderedContentControl>
 		</Grid>
 	</Grid>
 

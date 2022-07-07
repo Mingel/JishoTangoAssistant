@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using JishoTangoAssistant.ui.viewmodel;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 
@@ -9,9 +11,11 @@ namespace JishoTangoAssistant.ui.view
     public partial class JishoTangoAssisantWindow : Window
     {
         private JishoTangoAssistantViewModel _jishoTangoAssistantViewModel;
+        public static JishoTangoAssisantWindow Instance;
 
         public JishoTangoAssisantWindow()
         {
+            Instance = this;
             InitializeComponent();
             _jishoTangoAssistantViewModel = new JishoTangoAssistantViewModel();
             DataContext = _jishoTangoAssistantViewModel;
@@ -25,7 +29,7 @@ namespace JishoTangoAssistant.ui.view
                 e.Cancel = true;
         }
 
-        private void MenuItem_Click(object sender)
+        private void MenuItem_Click(object sender, RoutedEventArgs args)
         {
             var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
             {
@@ -36,11 +40,6 @@ namespace JishoTangoAssistant.ui.view
                 "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict."
             });
             msgBox.Show();
-        }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
         }
     }
 }
