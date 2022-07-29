@@ -3,9 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		xmlns:local="clr-namespace:JishoTangoAssistant.ui.viewmodel"
-		xmlns:uc="clr-namespace:JishoTangoAssistant.ui.view;assembly=JishoTangoAssistant"
-		x:Class="JishoTangoAssistant.ui.view.JishoTangoAssisantWindow"
+		xmlns:local="clr-namespace:JishoTangoAssistant.UI.ViewModel"
+		xmlns:uc="clr-namespace:JishoTangoAssistant.UI.View;assembly=JishoTangoAssistant"
+		x:Class="JishoTangoAssistant.UI.View.JishoTangoAssisantWindow"
         Title="JishoTangoAssisantWindow">
 
 	

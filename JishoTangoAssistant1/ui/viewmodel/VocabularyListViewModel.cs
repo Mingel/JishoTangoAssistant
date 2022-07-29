@@ -1,16 +1,20 @@
 ﻿using Avalonia.Controls;
-using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 using System.Windows.Input;
+using JishoTangoAssistant.Services.Commands;
+using JishoTangoAssistant.Model;
+using JishoTangoAssistant.UI.View;
+using JishoTangoAssistant.Services;
+using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.UI.ViewModel
 {
     public class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     {
@@ -50,10 +54,16 @@ namespace JishoTangoAssistant
             }
         }
 
+        [Range(1, 99, ErrorMessage = "Value must be between 1 and 99, currently set to default value")]
         public int FontSize
         {
-            get => CurrentSession.customFontSize; 
-            set => SetProperty(ref CurrentSession.customFontSize, value);
+            get => CurrentSession.customFontSize;
+            set
+            {
+                if (value < 1 || 99 < value)
+                    SetProperty(ref CurrentSession.customFontSize, CurrentSession.DefaultFontSize);
+                SetProperty(ref CurrentSession.customFontSize, value);
+            }
         }
 
         public VocabularyListViewModel()
@@ -100,7 +110,7 @@ namespace JishoTangoAssistant
             openFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
             //openFileDialog.RestoreDirectory = true;
 
-            var result = await openFileDialog.ShowAsync(ui.view.JishoTangoAssisantWindow.Instance);
+            var result = await openFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
             if (result != null)
             {
@@ -131,7 +141,7 @@ namespace JishoTangoAssistant
             saveFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
             //saveFileDialog.RestoreDirectory = true;
 
-            var result = await saveFileDialog.ShowAsync(ui.view.JishoTangoAssisantWindow.Instance);
+            var result = await saveFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
             if (result != null)
             {
@@ -151,7 +161,7 @@ namespace JishoTangoAssistant
             exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
             //exportFileDialog.RestoreDirectory = true;
 
-            var result = await exportFileDialog.ShowAsync(ui.view.JishoTangoAssisantWindow.Instance);
+            var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
             if (result != null)
             {
@@ -170,7 +180,7 @@ namespace JishoTangoAssistant
             exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
             //exportFileDialog.RestoreDirectory = true;
 
-            var result = await exportFileDialog.ShowAsync(ui.view.JishoTangoAssisantWindow.Instance);
+            var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
             if (result != null)
             {

@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using JishoTangoAssistant.ui.view;
+using JishoTangoAssistant.UI.View;
 
 namespace JishoTangoAssistant
 {

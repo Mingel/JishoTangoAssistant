@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using JishoTangoAssistant.ui.viewmodel;
+using JishoTangoAssistant.UI.ViewModel;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 
-namespace JishoTangoAssistant.ui.view
+namespace JishoTangoAssistant.UI.View
 {
     public partial class JishoTangoAssisantWindow : Window
     {

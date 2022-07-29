@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.UI.ViewModel
 {
     public abstract class JishoTangoAssistantViewModelBase : INotifyPropertyChanged
     {

@@ -6,8 +6,10 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using JishoTangoAssistant.UI.Elements;
+using JishoTangoAssistant.UI.ViewModel;
 
-namespace JishoTangoAssistant.ui.view
+namespace JishoTangoAssistant.UI.View
 {
     /// <summary>
     /// Interaktionslogik für JapaneseUserInputView.xaml

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using JishoTangoAssistant.Model;
+using System;
 using System.Text;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.Services
 {
     public static class VocabularyListExporter
     {

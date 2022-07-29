@@ -6,10 +6,14 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Media;
+using JishoTangoAssistant.Model;
+using JishoTangoAssistant.Services;
+using JishoTangoAssistant.Services.Commands;
+using JishoTangoAssistant.Services.Jisho;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.UI.ViewModel
 {
     public class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBase
     {

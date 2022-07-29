@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using JishoTangoAssistant.Services.Jisho;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.Model
 {
     class CurrentSession
     {
@@ -12,6 +12,8 @@ namespace JishoTangoAssistant
 
         public static bool userMadeChanges = false;
 
-        public static int customFontSize = -1;
+        public const int DefaultFontSize = 28;
+
+        public static int customFontSize = DefaultFontSize;
     }
 }

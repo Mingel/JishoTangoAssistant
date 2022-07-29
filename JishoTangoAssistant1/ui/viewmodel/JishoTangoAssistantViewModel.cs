@@ -1,7 +1,8 @@
-﻿using MessageBox.Avalonia;
+﻿using JishoTangoAssistant.Model;
+using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 
-namespace JishoTangoAssistant.ui.viewmodel
+namespace JishoTangoAssistant.UI.ViewModel
 {
     public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
     {

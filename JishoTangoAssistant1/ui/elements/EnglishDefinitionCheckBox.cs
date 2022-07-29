@@ -2,7 +2,7 @@
 using Avalonia.Styling;
 using System;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.UI.Elements
 {
     public class EnglishDefinitionCheckBox : CheckBox, IStyleable
     {

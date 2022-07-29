@@ -1,4 +1,4 @@
-﻿namespace JishoTangoAssistant
+﻿namespace JishoTangoAssistant.Services.Jisho
 {
     class JishoMessage
     {

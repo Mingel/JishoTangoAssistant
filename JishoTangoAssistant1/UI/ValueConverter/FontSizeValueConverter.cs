@@ -2,7 +2,7 @@
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace JishoTangoAssistant.ui.value_converter
+namespace JishoTangoAssistant.UI.ValueConverter
 {
     public class FontSizeValueConverter : IValueConverter
     {
