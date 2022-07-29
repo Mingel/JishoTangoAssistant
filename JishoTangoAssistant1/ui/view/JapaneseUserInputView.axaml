@@ -85,7 +85,8 @@
 
 			<HeaderedContentControl Grid.Row="2" Header="English Definitions" Background="Black" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<Grid x:Name="englishDefinitionsGrid" />
+					<Grid x:Name="englishDefinitionsGrid">
+					</Grid>
 				</ScrollViewer>
 			</HeaderedContentControl>
 			<HeaderedContentControl Grid.Row="3" Header="Additional Comments" Background="Black">
@@ -98,8 +99,8 @@
 				</Grid.ColumnDefinitions>
 				<CheckBox Grid.Column="0" x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
 			</Grid>
-			<StackPanel Grid.Row="5" x:Name="outputPanel" Height="159">
-				<HeaderedContentControl Height="150" Header="Resulting Card" Background="Black">
+			<StackPanel Grid.Row="5" x:Name="outputPanel" Height="170">
+				<HeaderedContentControl Height="160" Header="Resulting Card" Background="Black">
 					<StackPanel>
 						<Grid>
 							<Grid.ColumnDefinitions>

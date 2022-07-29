@@ -1,9 +1,13 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Styling;
+using System;
 
 namespace JishoTangoAssistant
 {
-    public class EnglishDefinitionCheckBox : CheckBox
+    public class EnglishDefinitionCheckBox : CheckBox, IStyleable
     {
+        Type IStyleable.StyleKey => typeof(CheckBox);
+
         public int EnglishDefinitionsRow { get; set; }
 
         public int EnglishDefinitionsColumn { get; set; }

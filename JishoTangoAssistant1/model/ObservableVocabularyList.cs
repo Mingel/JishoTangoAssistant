@@ -150,9 +150,11 @@ namespace JishoTangoAssistant
             foreach (var item in items)
                 _vocabularyList.Add(item);
 
+
             _suppressNotification = false;
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }
 }

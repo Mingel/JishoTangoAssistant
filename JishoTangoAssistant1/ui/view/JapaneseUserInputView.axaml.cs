@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media;
 
 namespace JishoTangoAssistant.ui.view
 {
@@ -51,12 +52,38 @@ namespace JishoTangoAssistant.ui.view
                     checkBox.EnglishDefinitionsColumn = j;
                     checkBox.EnglishDefinitionsFlattenedIndex = flattenedIndex;
 
+                    
                     checkBox.Margin = new Thickness(startLocationX + totalStepLocationX, startLocationY + i * stepLocationY, 0, 0);
                     checkBox.Name = $"outputCheckBox{i}_{j}";
                     checkBox.Content = flattenedEnglishDefinitions[flattenedIndex];
-                    checkBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                    totalStepLocationX = (int)Math.Ceiling(checkBox.DesiredSize.Width);
+
+                    FormattedText formattedText = new FormattedText
+                    {
+                        Text = flattenedEnglishDefinitions[flattenedIndex],
+                        Typeface = new Typeface(FontFamily),
+                        FontSize = FontSize,
+                        TextAlignment = TextAlignment.Left,
+                        TextWrapping = TextWrapping.NoWrap,
+                        Constraint = Size.Infinity
+                    };
+
+
+                    checkBox.MaxWidth = formattedText.Bounds.Width + 50;
+                    checkBox.MaxHeight = formattedText.Bounds.Height;
+
+                    totalStepLocationX += (int)Math.Ceiling(checkBox.MaxWidth);
                     checkBox.Checked += (_, _) => _japaneseUserInputViewModel.UpdateOutputText();
+
+
+                    checkBox.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left;
+                    checkBox.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top;
+                    
+                    checkBox.Background = SolidColorBrush.Parse("Transparent");
+                    checkBox.BorderBrush = SolidColorBrush.Parse("Transparent");
+                    checkBox.CornerRadius = new CornerRadius(3, 3, 3, 3);
+                    checkBox.Foreground = SolidColorBrush.Parse("Black");
+                    checkBox.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Left;
+                    
                     englishDefinitionsGrid.Children.Add(checkBox);
 
                     checkBox.Click += (_, _) => { _japaneseUserInputViewModel.ChangeSelectedIndicesOfEnglishDefinitions(checkBox.EnglishDefinitionsFlattenedIndex, isSelected: checkBox.IsChecked == true); };

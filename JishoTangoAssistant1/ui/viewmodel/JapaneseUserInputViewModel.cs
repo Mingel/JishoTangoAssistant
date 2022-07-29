@@ -291,7 +291,7 @@ namespace JishoTangoAssistant
                         var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
                         {
                             ContentTitle = "Information",
-                            ContentMessage = "No results have been found!",
+                            ContentMessage = "No results were found!",
                             Icon = MessageBox.Avalonia.Enums.Icon.Info,
                             ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok
                         });
