@@ -109,8 +109,8 @@
 							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
-						<CheckBox Grid.Column="0" x:Name="fontSizeCheckBox" Margin="0,1,0,0" Content="Font Size (JP): " Checked="fontSizeCheckBox_Checked" Unchecked="fontSizeCheckBox_Checked"/>
-						<TextBox Grid.Column="1" x:Name="fontSizeTextBox" MinWidth="30" Width="35" IsEnabled="False" Text="{Binding FontSize}"></TextBox>
+						<Label Grid.Column="0" x:Name="fontSizeLabel" Margin="10,4,0,0" Content="Font Size (JP): "/>
+						<NumericUpDown Grid.Column="1" x:Name="fontSizeNumericUpDown" MinWidth="110" Width="100" Value="{Binding FontSize}" Minimum="6" Maximum="96"/>
 					</Grid>
 					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
