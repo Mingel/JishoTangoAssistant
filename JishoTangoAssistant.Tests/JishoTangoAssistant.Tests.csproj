@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JishoTangoAssistant1\JishoTangoAssistant.csproj" />
+    <ProjectReference Include="..\JishoTangoAssistant\JishoTangoAssistant.csproj" />
   </ItemGroup>
 
 </Project>

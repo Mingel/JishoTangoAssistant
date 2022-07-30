@@ -1,14 +1,20 @@
-﻿using Microsoft.Win32;
+﻿using Avalonia.Controls;
 using Newtonsoft.Json;
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows;
+using MessageBox.Avalonia;
+using MessageBox.Avalonia.DTO;
 using System.Windows.Input;
+using JishoTangoAssistant.Services.Commands;
+using JishoTangoAssistant.Model;
+using JishoTangoAssistant.UI.View;
+using JishoTangoAssistant.Services;
+using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.UI.ViewModel
 {
     public class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     {
@@ -48,10 +54,16 @@ namespace JishoTangoAssistant
             }
         }
 
+        [Range(1, 99, ErrorMessage = "Value must be between 1 and 99, currently set to default value")]
         public int FontSize
         {
-            get => CurrentSession.customFontSize; 
-            set => SetProperty(ref CurrentSession.customFontSize, value);
+            get => CurrentSession.customFontSize;
+            set
+            {
+                if (value < 1 || 99 < value)
+                    SetProperty(ref CurrentSession.customFontSize, CurrentSession.DefaultFontSize);
+                SetProperty(ref CurrentSession.customFontSize, value);
+            }
         }
 
         public VocabularyListViewModel()
@@ -65,20 +77,25 @@ namespace JishoTangoAssistant
             _goDownCommand = new DelegateCommand(OnGoDown, _ => true);
         }
 
-        private void OnLoadList(Object commandParameter)
+        private async void OnLoadList(Object commandParameter)
         {
             bool? performOverwriting = null;
             if (CurrentSession.addedVocabularyItems.Count > 0)
             {
-                var messageBox = MessageBox.Show("Your vocabulary list is not empty. Do you want to overwrite your current vocabulary list?\n\n" +
+                var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
+                {
+                    ContentTitle = "Warning",
+                    ContentMessage = "Your vocabulary list is not empty. Do you want to overwrite your current vocabulary list?\n\n" +
                                                     "Press Yes, if you want to overwrite your list\n" +
                                                     "Press No, if you want to merge into your current list\n",
-                                                    "Warning",
-                                                    MessageBoxButton.YesNoCancel,
-                                                    MessageBoxImage.Warning);
-                if (messageBox.Equals(MessageBoxResult.Cancel))
+                    Icon = MessageBox.Avalonia.Enums.Icon.Warning,
+                    ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.YesNoCancel
+                });
+                var userButtonInput = await msgBox.Show();
+
+                if (userButtonInput.Equals(MessageBox.Avalonia.Enums.ButtonResult.Cancel))
                     return;
-                performOverwriting = messageBox.Equals(MessageBoxResult.Yes);
+                performOverwriting = userButtonInput.Equals(MessageBox.Avalonia.Enums.ButtonResult.Yes);
             }
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -90,13 +107,15 @@ namespace JishoTangoAssistant
             else
                 openFileDialog.Title = "Open file to load vocabulary list";
 
-            openFileDialog.Filter = "MJV Files (*.mjv)|*.mjv";
-            openFileDialog.RestoreDirectory = true;
+            openFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
+            //openFileDialog.RestoreDirectory = true;
 
-            if (openFileDialog.ShowDialog() == true)
+            var result = await openFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
+
+            if (result != null)
             {
-                var fileStream = openFileDialog.OpenFile();
-                using (StreamReader reader = new StreamReader(fileStream))
+                var filename = result[0];
+                using (StreamReader reader = new StreamReader(filename))
                 {
                     var fileContent = reader.ReadToEnd();
                     var loadedVocabularyItems = JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
@@ -113,18 +132,20 @@ namespace JishoTangoAssistant
             }
         }
 
-        private void OnSaveList(Object commandParameter)
+        private async void OnSaveList(Object commandParameter)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.Title = "Save vocabulary list as";
 
-            saveFileDialog.Filter = "MJV Files (*.mjv)|*.mjv";
-            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
+            //saveFileDialog.RestoreDirectory = true;
 
-            if (saveFileDialog.ShowDialog() == true)
+            var result = await saveFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
+
+            if (result != null)
             {
-                using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
+                using (StreamWriter sw = new StreamWriter(result, false, Encoding.UTF8))
                 {
                     var json = JsonConvert.SerializeObject(VocabularyList.ToArray(), Formatting.Indented);
                     sw.Write(json);
@@ -133,16 +154,18 @@ namespace JishoTangoAssistant
             }
         }
 
-        private void OnExportCsvJapeneseToEnglish(Object commandParameter)
+        private async void OnExportCsvJapeneseToEnglish(Object commandParameter)
         {
             SaveFileDialog exportFileDialog = new SaveFileDialog();
 
-            exportFileDialog.Filter = "CSV Files (*.csv)|*.csv";
-            exportFileDialog.RestoreDirectory = true;
+            exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
+            //exportFileDialog.RestoreDirectory = true;
 
-            if (exportFileDialog.ShowDialog() == true)
+            var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
+
+            if (result != null)
             {
-                using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
+                using (StreamWriter sw = new StreamWriter(result, false, Encoding.UTF8))
                 {
                     sw.Write(VocabularyListExporter.JapaneseToEnglish(VocabularyList));
                     ShowHtmlMessageBox();
@@ -150,16 +173,18 @@ namespace JishoTangoAssistant
             }
         }
 
-        private void OnExportCsvEnglishToJapanese(Object commandParameter)
+        private async void OnExportCsvEnglishToJapanese(Object commandParameter)
         {
             SaveFileDialog exportFileDialog = new SaveFileDialog();
 
-            exportFileDialog.Filter = "CSV Files (*.csv)|*.csv";
-            exportFileDialog.RestoreDirectory = true;
+            exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
+            //exportFileDialog.RestoreDirectory = true;
 
-            if (exportFileDialog.ShowDialog() == true)
+            var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
+
+            if (result != null)
             {
-                using (StreamWriter sw = new StreamWriter(exportFileDialog.FileName, false, Encoding.UTF8))
+                using (StreamWriter sw = new StreamWriter(result, false, Encoding.UTF8))
                 {
                     var vocabItems = VocabularyList.ToArray();
                     sw.Write(VocabularyListExporter.EnglishToJapanese(VocabularyList));
@@ -198,12 +223,16 @@ namespace JishoTangoAssistant
             }
         }
 
-        private void ShowHtmlMessageBox()
+        private async void ShowHtmlMessageBox()
         {
-            MessageBox.Show("Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
-                            "Information",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Information);
+            var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
+            {
+                ContentTitle = "Information",
+                ContentMessage = "Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
+                Icon = MessageBox.Avalonia.Enums.Icon.Info,
+                ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok
+            });
+            await msgBox.Show();
         }
     }
 }

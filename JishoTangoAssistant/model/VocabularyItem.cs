@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Text;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.Model
 {
     public class VocabularyItem
     {

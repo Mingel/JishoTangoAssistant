@@ -3,9 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Linq;
 
-namespace JishoTangoAssistant
+namespace JishoTangoAssistant.Model
 {
     public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCollectionChanged
     {
@@ -150,9 +149,11 @@ namespace JishoTangoAssistant
             foreach (var item in items)
                 _vocabularyList.Add(item);
 
+
             _suppressNotification = false;
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }
 }

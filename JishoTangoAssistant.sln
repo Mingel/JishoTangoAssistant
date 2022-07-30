@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant.Tests", "JishoTangoAssistant.Tests\JishoTangoAssistant.Tests.csproj", "{190435E5-25A0-464A-86A5-405EC3E3DA85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant", "JishoTangoAssistant1\JishoTangoAssistant.csproj", "{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant", "JishoTangoAssistant\JishoTangoAssistant.csproj", "{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
