@@ -59,19 +59,10 @@ namespace JishoTangoAssistant.UI.View
                     checkBox.Name = $"outputCheckBox{i}_{j}";
                     checkBox.Content = flattenedEnglishDefinitions[flattenedIndex];
 
-                    FormattedText formattedText = new FormattedText
-                    {
-                        Text = flattenedEnglishDefinitions[flattenedIndex],
-                        Typeface = new Typeface(FontFamily),
-                        FontSize = FontSize,
-                        TextAlignment = TextAlignment.Left,
-                        TextWrapping = TextWrapping.NoWrap,
-                        Constraint = Size.Infinity
-                    };
+                    FormattedText formattedText = new FormattedText(flattenedEnglishDefinitions[flattenedIndex], System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily), FontSize, null);
 
-
-                    checkBox.MaxWidth = formattedText.Bounds.Width + 50;
-                    checkBox.MaxHeight = formattedText.Bounds.Height;
+                    checkBox.MaxWidth = formattedText.Width + 50;
+                    checkBox.MaxHeight = formattedText.Height;
 
                     totalStepLocationX += (int)Math.Ceiling(checkBox.MaxWidth);
                     checkBox.Checked += (_, _) => _japaneseUserInputViewModel.UpdateOutputText();
