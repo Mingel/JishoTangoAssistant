@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Avalonia;
-using Avalonia.Input;
 using Avalonia.Media;
 using JishoTangoAssistant.Model;
 using JishoTangoAssistant.Services;

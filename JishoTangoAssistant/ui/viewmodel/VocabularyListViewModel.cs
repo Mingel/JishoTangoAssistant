@@ -11,7 +11,6 @@ using JishoTangoAssistant.Services.Commands;
 using JishoTangoAssistant.Model;
 using JishoTangoAssistant.UI.View;
 using JishoTangoAssistant.Services;
-using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
 
 namespace JishoTangoAssistant.UI.ViewModel
@@ -54,13 +53,13 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        [Range(1, 99, ErrorMessage = "Value must be between 1 and 99, currently set to default value")]
+        [Range(6, 96, ErrorMessage = "Value must be between 6 and 96, currently set to default value")]
         public int FontSize
         {
             get => CurrentSession.customFontSize;
             set
             {
-                if (value < 1 || 99 < value)
+                if (value < 6 || 96 < value)
                     SetProperty(ref CurrentSession.customFontSize, CurrentSession.DefaultFontSize);
                 SetProperty(ref CurrentSession.customFontSize, value);
             }

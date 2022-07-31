@@ -2,13 +2,10 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:c="clr-namespace:JishoTangoAssistant.UI.ValueConverter"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		xmlns:local="clr-namespace:JishoTangoAssistant.UI.ValueConverter"
 		x:Class="JishoTangoAssistant.UI.View.VocabularyListView">
-
-	<UserControl.Resources>
-		<local:FontSizeValueConverter x:Key="FontSizeValueConverter" />
-	</UserControl.Resources>
 
 	<UserControl.Styles>
 		<Style Selector="HeaderedContentControl">
@@ -110,7 +107,7 @@
 							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
 						<Label Grid.Column="0" x:Name="fontSizeLabel" Margin="10,4,0,0" Content="Font Size (JP): "/>
-						<NumericUpDown Grid.Column="1" x:Name="fontSizeNumericUpDown" MinWidth="110" Width="100" Value="{Binding FontSize}" Minimum="6" Maximum="96"/>
+						<NumericUpDown Grid.Column="1" x:Name="fontSizeNumericUpDown" MinWidth="110" Width="100" Text="{Binding FontSize}" FormatString="{}{0:#,0}" Value="28" Minimum="6" Maximum="96"/>
 					</Grid>
 					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>

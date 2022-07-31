@@ -1,11 +1,6 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using JishoTangoAssistant.Model;
 using JishoTangoAssistant.UI.ViewModel;
-using System;
-using System.Text.RegularExpressions;
 
 namespace JishoTangoAssistant.UI.View
 {
