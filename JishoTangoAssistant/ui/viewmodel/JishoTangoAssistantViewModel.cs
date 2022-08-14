@@ -1,24 +1,17 @@
 ﻿using JishoTangoAssistant.Model;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
+using System.Threading.Tasks;
 
 namespace JishoTangoAssistant.UI.ViewModel
 {
     public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
     {
-        public bool OnClosingWindow()
+        public async Task<bool> OnClosingWindowAsync()
         {
             if (CurrentSession.userMadeChanges)
             {
-                var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                {
-                    ContentTitle = "Warning",
-                    ContentMessage = "You have made unsaved changes. Do you really want to close the application?",
-                    Icon = MessageBox.Avalonia.Enums.Icon.Warning,
-                    ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.YesNo
-                });
-                var userButtonInput = msgBox.Show();
-                if (userButtonInput.Equals(MessageBox.Avalonia.Enums.ButtonResult.No))
+                var msgBoxResult = await View.MessageBox.Show(null, "Warning", "You have made unsaved changes. Do you really want to close the application?",
+                    View.MessageBox.MessageBoxButtons.YesNo);
+                if (msgBoxResult.Equals(View.MessageBox.MessageBoxResult.No))
                     return false;
             }
             return true;

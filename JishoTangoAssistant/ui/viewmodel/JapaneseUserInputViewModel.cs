@@ -8,8 +8,6 @@ using JishoTangoAssistant.Model;
 using JishoTangoAssistant.Services;
 using JishoTangoAssistant.Services.Commands;
 using JishoTangoAssistant.Services.Jisho;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
 
 namespace JishoTangoAssistant.UI.ViewModel
 {
@@ -279,25 +277,11 @@ namespace JishoTangoAssistant.UI.ViewModel
 
                     if (result == null) // Application could not retrieve information from Jisho
                     {
-                        var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                        {
-                            ContentTitle = "Error",
-                            ContentMessage = "Information could not be retrieved!",
-                            Icon = MessageBox.Avalonia.Enums.Icon.Error,
-                            ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok
-                        });
-                        await msgBox.Show();
+                        await View.MessageBox.Show(null, "Error", "Information could not be retrieved!", View.MessageBox.MessageBoxButtons.Ok);
                     }
                     else
                     {
-                        var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                        {
-                            ContentTitle = "Information",
-                            ContentMessage = "No results were found!",
-                            Icon = MessageBox.Avalonia.Enums.Icon.Info,
-                            ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok
-                        });
-                        await msgBox.Show();
+                        await View.MessageBox.Show(null, "Information", "No results were found!", View.MessageBox.MessageBoxButtons.Ok);
                     }
                     return;
                 }
