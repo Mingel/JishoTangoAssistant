@@ -10,6 +10,7 @@ using JishoTangoAssistant.Model;
 using JishoTangoAssistant.UI.View;
 using JishoTangoAssistant.Services;
 using System.ComponentModel.DataAnnotations;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace JishoTangoAssistant.UI.ViewModel
 {
@@ -79,7 +80,8 @@ namespace JishoTangoAssistant.UI.ViewModel
             bool? performOverwriting = null;
             if (CurrentSession.addedVocabularyItems.Count > 0)
             {
-                var msgBoxResult = await MessageBox.Show(null, "Warning", "Your vocabulary list is not empty. Do you want to overwrite your current vocabulary list?\n\n" +
+                var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+                var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "Your vocabulary list is not empty. Do you want to overwrite your current vocabulary list?\n\n" +
                                                     "Press Yes, if you want to overwrite your list\n" +
                                                     "Press No, if you want to merge into your current list\n",
                                                     MessageBox.MessageBoxButtons.YesNoCancel);
@@ -216,7 +218,8 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void ShowHtmlMessageBox()
         {
-            MessageBox.Show(null, "Information", "Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
+            var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+            MessageBox.Show(mainWindow, "Information", "Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
                 MessageBox.MessageBoxButtons.Ok);
         }
     }

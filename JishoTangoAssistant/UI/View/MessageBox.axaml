@@ -2,18 +2,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="200"
         x:Class="JishoTangoAssistant.UI.View.MessageBox"
 		SizeToContent="WidthAndHeight" CanResize="False">
-	<StackPanel HorizontalAlignment="Center">
-		<TextBlock HorizontalAlignment="Center" Name="Text"/>
-		<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
-			<StackPanel.Styles>
-				<Style Selector="Button">
-					<Setter Property="Margin" Value="5"/>
-				</Style>
-			</StackPanel.Styles>
-
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="10"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="10"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="10"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="10"/>
+		</Grid.ColumnDefinitions>
+		
+		<StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+			<TextBlock HorizontalAlignment="Center" Name="Text"/>
+			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
+				<StackPanel.Styles>
+					<Style Selector="Button">
+						<Setter Property="Margin" Value="5"/>
+					</Style>
+				</StackPanel.Styles>
+			</StackPanel>
 		</StackPanel>
-	</StackPanel>
+	</Grid>
 </Window>

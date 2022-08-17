@@ -1,4 +1,5 @@
-﻿using JishoTangoAssistant.Model;
+﻿using Avalonia.Controls.ApplicationLifetimes;
+using JishoTangoAssistant.Model;
 using System.Threading.Tasks;
 
 namespace JishoTangoAssistant.UI.ViewModel
@@ -9,7 +10,8 @@ namespace JishoTangoAssistant.UI.ViewModel
         {
             if (CurrentSession.userMadeChanges)
             {
-                var msgBoxResult = await View.MessageBox.Show(null, "Warning", "You have made unsaved changes. Do you really want to close the application?",
+                var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+                var msgBoxResult = await View.MessageBox.Show(mainWindow, "Warning", "You have made unsaved changes. Do you really want to close the application?",
                     View.MessageBox.MessageBoxButtons.YesNo);
                 if (msgBoxResult.Equals(View.MessageBox.MessageBoxResult.No))
                     return false;
