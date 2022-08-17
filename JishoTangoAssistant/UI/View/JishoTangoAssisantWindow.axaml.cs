@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.ViewModel;
 
 namespace JishoTangoAssistant.UI.View
@@ -31,7 +32,7 @@ namespace JishoTangoAssistant.UI.View
                 "\n" +
                 "Thanks to the team from jisho.org for making this possible!\n" +
                 "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.",
-                MessageBox.MessageBoxButtons.Ok);
+                MessageBoxButtons.Ok);
         }
     }
 }

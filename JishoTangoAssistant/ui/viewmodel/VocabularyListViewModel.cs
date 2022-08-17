@@ -7,9 +7,11 @@ using System.Text;
 using System.Windows.Input;
 using JishoTangoAssistant.Services.Commands;
 using JishoTangoAssistant.Model;
+using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.View;
 using JishoTangoAssistant.Services;
 using System.ComponentModel.DataAnnotations;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace JishoTangoAssistant.UI.ViewModel
 {
@@ -79,14 +81,15 @@ namespace JishoTangoAssistant.UI.ViewModel
             bool? performOverwriting = null;
             if (CurrentSession.addedVocabularyItems.Count > 0)
             {
-                var msgBoxResult = await MessageBox.Show(null, "Warning", "Your vocabulary list is not empty. Do you want to overwrite your current vocabulary list?\n\n" +
+                var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+                var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "Your vocabulary list is not empty. Do you want to overwrite your current vocabulary list?\n\n" +
                                                     "Press Yes, if you want to overwrite your list\n" +
                                                     "Press No, if you want to merge into your current list\n",
-                                                    MessageBox.MessageBoxButtons.YesNoCancel);
+                                                    MessageBoxButtons.YesNoCancel);
 
-                if (msgBoxResult.Equals(MessageBox.MessageBoxResult.Cancel))
+                if (msgBoxResult.Equals(MessageBoxResult.Cancel))
                     return;
-                performOverwriting = msgBoxResult.Equals(MessageBox.MessageBoxResult.Yes);
+                performOverwriting = msgBoxResult.Equals(MessageBoxResult.Yes);
             }
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -216,8 +219,9 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void ShowHtmlMessageBox()
         {
-            MessageBox.Show(null, "Information", "Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
-                MessageBox.MessageBoxButtons.Ok);
+            var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+            MessageBox.Show(mainWindow, "Information", "Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
+                MessageBoxButtons.Ok);
         }
     }
 }

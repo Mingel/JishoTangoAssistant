@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using JishoTangoAssistant.Model;
 using JishoTangoAssistant.Services;
 using JishoTangoAssistant.Services.Commands;
 using JishoTangoAssistant.Services.Jisho;
+using JishoTangoAssistant.UI.Elements;
+using JishoTangoAssistant.UI.View;
 
 namespace JishoTangoAssistant.UI.ViewModel
 {
@@ -277,11 +280,13 @@ namespace JishoTangoAssistant.UI.ViewModel
 
                     if (result == null) // Application could not retrieve information from Jisho
                     {
-                        await View.MessageBox.Show(null, "Error", "Information could not be retrieved!", View.MessageBox.MessageBoxButtons.Ok);
+                        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+                        await MessageBox.Show(mainWindow, "Error", "Information could not be retrieved!", MessageBoxButtons.Ok);
                     }
                     else
                     {
-                        await View.MessageBox.Show(null, "Information", "No results were found!", View.MessageBox.MessageBoxButtons.Ok);
+                        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+                        await MessageBox.Show(mainWindow, "Information", "No results were found!", MessageBoxButtons.Ok);
                     }
                     return;
                 }

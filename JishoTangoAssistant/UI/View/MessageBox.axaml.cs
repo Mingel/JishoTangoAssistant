@@ -1,73 +1,71 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using JishoTangoAssistant.UI.Elements;
 
 namespace JishoTangoAssistant.UI.View
 {
     public partial class MessageBox : Window
     {
-        public enum MessageBoxButtons
-        {
-            Ok,
-            OkCancel,
-            YesNo,
-            YesNoCancel
-        }
-
-        public enum MessageBoxResult
-        {
-            Ok,
-            Cancel,
-            Yes,
-            No
-        }
+        private MessageBoxResult selectedResult = MessageBoxResult.Ok;
 
         public MessageBox()
         {
             InitializeComponent();
         }
 
-        public static Task<MessageBoxResult> Show(Window parent, string title, string text, MessageBoxButtons buttons)
+        public MessageBox(MessageBoxButtons buttons = MessageBoxButtons.Ok)
         {
-            var msgbox = new MessageBox()
-            {
-                Title = title
-            };
-            msgbox.FindControl<TextBlock>("Text").Text = text;
-            var buttonPanel = msgbox.FindControl<StackPanel>("Buttons");
-
-            var res = MessageBoxResult.Ok;
-
-            void AddButton(string caption, MessageBoxResult r, bool def = false)
-            {
-                var btn = new Button { Content = caption };
-                btn.Click += (_, __) => {
-                    res = r;
-                    msgbox.Close();
-                };
-                buttonPanel.Children.Add(btn);
-                if (def)
-                    res = r;
-            }
+            InitializeComponent();
 
             if (buttons == MessageBoxButtons.Ok || buttons == MessageBoxButtons.OkCancel)
-                AddButton("Ok", MessageBoxResult.Ok, true);
+                this.AddButton("OK", MessageBoxResult.Ok, true);
             if (buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.YesNoCancel)
             {
-                AddButton("Yes", MessageBoxResult.Yes);
-                AddButton("No", MessageBoxResult.No, true);
+                this.AddButton("Yes", MessageBoxResult.Yes);
+                this.AddButton("No", MessageBoxResult.No, true);
             }
 
             if (buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNoCancel)
-                AddButton("Cancel", MessageBoxResult.Cancel, true);
+                this.AddButton("Cancel", MessageBoxResult.Cancel, true);
+        }
 
+        private void AddButton(string caption, MessageBoxResult result, bool isDefault = false)
+        {
+            var buttonsStackPanel = this.FindControl<StackPanel>("buttonsStackPanel");
 
-            var tcs = new TaskCompletionSource<MessageBoxResult>();
-            msgbox.Closed += delegate { tcs.TrySetResult(res); };
+            if (buttonsStackPanel == null)
+                throw new System.InvalidOperationException("buttonsStackPanel is null");
+
+            var button = new Button { Content = caption };
+            button.Click += (_, _) => {
+                selectedResult = result;
+                this.Close();
+            };
+            buttonsStackPanel.Children.Add(button);
+            if (isDefault)
+                selectedResult = result;
+        }
+
+        public static Task<MessageBoxResult> Show(Window parent, string title, string text, MessageBoxButtons buttons)
+        {
+            var messageBox = new MessageBox(buttons);
+            messageBox.Title = title;
+
+            var messageBoxTextBlock = messageBox.FindControl<TextBlock>("messageBoxTextBlock");
+            if (messageBoxTextBlock == null)
+                throw new System.InvalidOperationException("messageBoxTextBlock is null");
+            messageBoxTextBlock.Text = text;
+
+            var taskCompletionSource = new TaskCompletionSource<MessageBoxResult>();
+            messageBox.Closed += (_, _) => taskCompletionSource.SetResult(messageBox.selectedResult);
+
             if (parent != null)
-                msgbox.ShowDialog(parent);
-            else msgbox.Show();
-            return tcs.Task;
+                messageBox.ShowDialog(parent);
+            else
+                messageBox.Show();
+
+            return taskCompletionSource.Task;
         }
 
         private void InitializeComponent()
