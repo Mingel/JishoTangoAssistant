@@ -86,11 +86,6 @@ namespace JishoTangoAssistant.UI.View
             }
         }
 
-        private void inputTextBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            // ?????
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             inputTextBox.Focus();
