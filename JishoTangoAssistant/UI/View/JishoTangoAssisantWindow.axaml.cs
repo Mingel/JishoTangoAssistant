@@ -1,8 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.ViewModel;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
 
 namespace JishoTangoAssistant.UI.View
 {
@@ -22,22 +21,18 @@ namespace JishoTangoAssistant.UI.View
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // Let ViewModel handle closing because the view model knows if the user has saved before
-            bool shouldClose = _jishoTangoAssistantViewModel.OnClosingWindow();
+            bool shouldClose = _jishoTangoAssistantViewModel.OnClosingWindowAsync().Result;
             if (!shouldClose)
                 e.Cancel = true;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs args)
         {
-            var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-            {
-                ContentTitle = "About",
-                ContentMessage = "Made by Minh Bang Vu (2022)\n" +
+            MessageBox.Show(this, "About", "Made by Minh Bang Vu (2022)\n" +
                 "\n" +
                 "Thanks to the team from jisho.org for making this possible!\n" +
-                "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict."
-            });
-            msgBox.Show();
+                "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.",
+                MessageBoxButtons.Ok);
         }
     }
 }

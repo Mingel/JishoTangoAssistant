@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using JishoTangoAssistant.Model;
 using JishoTangoAssistant.Services;
 using JishoTangoAssistant.Services.Commands;
 using JishoTangoAssistant.Services.Jisho;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.DTO;
+using JishoTangoAssistant.UI.Elements;
+using JishoTangoAssistant.UI.View;
 
 namespace JishoTangoAssistant.UI.ViewModel
 {
@@ -279,25 +280,13 @@ namespace JishoTangoAssistant.UI.ViewModel
 
                     if (result == null) // Application could not retrieve information from Jisho
                     {
-                        var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                        {
-                            ContentTitle = "Error",
-                            ContentMessage = "Information could not be retrieved!",
-                            Icon = MessageBox.Avalonia.Enums.Icon.Error,
-                            ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok
-                        });
-                        await msgBox.Show();
+                        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+                        await MessageBox.Show(mainWindow, "Error", "Information could not be retrieved!", MessageBoxButtons.Ok);
                     }
                     else
                     {
-                        var msgBox = MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
-                        {
-                            ContentTitle = "Information",
-                            ContentMessage = "No results were found!",
-                            Icon = MessageBox.Avalonia.Enums.Icon.Info,
-                            ButtonDefinitions = MessageBox.Avalonia.Enums.ButtonEnum.Ok
-                        });
-                        await msgBox.Show();
+                        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+                        await MessageBox.Show(mainWindow, "Information", "No results were found!", MessageBoxButtons.Ok);
                     }
                     return;
                 }
