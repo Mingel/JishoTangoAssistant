@@ -37,7 +37,7 @@ namespace JishoTangoAssistant.UI.View
             var startLocationX = 12;
             var totalStepLocationX = 0; // variable
             var startLocationY = 12;
-            var stepLocationY = 28;
+            var stepLocationY = 30;
 
             int flattenedIndex = 0;
 
