@@ -197,11 +197,11 @@ namespace JishoTangoAssistant.UI.ViewModel
         {
             if (SelectedVocabItemIndex > 0)
             {
-                var tmpIndex = SelectedVocabItemIndex;
-                var tmpItem = VocabularyList[SelectedVocabItemIndex - 1];
-                VocabularyList[SelectedVocabItemIndex - 1] = VocabularyList[SelectedVocabItemIndex];
-                VocabularyList[SelectedVocabItemIndex] = tmpItem; // this line makes tmpIndex necessary because this line resets SelectedVocabItemIndex to -1
-                SelectedVocabItemIndex = tmpIndex - 1;
+                var currentIndex = SelectedVocabItemIndex;
+                var tmpItem = VocabularyList[currentIndex - 1];
+                VocabularyList[currentIndex - 1] = VocabularyList[currentIndex];
+                VocabularyList[currentIndex] = tmpItem; // this line makes tmpIndex necessary because this line resets SelectedVocabItemIndex to -1
+                SelectedVocabItemIndex = currentIndex - 1;
             }
         }
 
@@ -209,11 +209,11 @@ namespace JishoTangoAssistant.UI.ViewModel
         {
             if (SelectedVocabItemIndex < CurrentSession.addedVocabularyItems.Count - 1)
             {
-                var tmpIndex = SelectedVocabItemIndex;
-                var tmpItem = VocabularyList[SelectedVocabItemIndex + 1];
-                VocabularyList[SelectedVocabItemIndex + 1] = VocabularyList[SelectedVocabItemIndex];
-                VocabularyList[SelectedVocabItemIndex] = tmpItem; // this line makes tmpIndex necessary because this line resets SelectedVocabItemIndex to -1
-                SelectedVocabItemIndex = tmpIndex + 1;
+                var currentIndex = SelectedVocabItemIndex;
+                var tmpItem = VocabularyList[currentIndex + 1];
+                VocabularyList[currentIndex + 1] = VocabularyList[currentIndex];
+                VocabularyList[currentIndex] = tmpItem; // this line makes tmpIndex necessary because this line resets SelectedVocabItemIndex to -1
+                SelectedVocabItemIndex = currentIndex + 1;
             }
         }
 
