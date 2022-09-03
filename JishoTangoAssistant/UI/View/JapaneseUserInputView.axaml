@@ -19,7 +19,7 @@
 								<ColumnDefinition Width="Auto"/>
 								<ColumnDefinition Width="*"/>
 							</Grid.ColumnDefinitions>
-							<Border ZIndex="1" Padding="5,0,5,0" Background="White" Margin="5,0,0,0">
+							<Border ZIndex="1" Padding="5,0,5,0" Margin="5,0,0,0">
 								<TextBlock TextBlock.FontWeight="Bold" Text="{TemplateBinding Header}" />
 							</Border>
 							<Border Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,15,0,0"

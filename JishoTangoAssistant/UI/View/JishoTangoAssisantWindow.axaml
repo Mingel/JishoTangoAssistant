@@ -8,7 +8,9 @@
 		x:Class="JishoTangoAssistant.UI.View.JishoTangoAssisantWindow"
         Title="JishoTangoAssisantWindow"
 		MinHeight="650" MinWidth="600"
-		Height="650" Width="800">
+		Height="650" Width="800"
+		TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent">
 
 	
 	<DockPanel>
