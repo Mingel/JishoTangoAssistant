@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using JishoTangoAssistant.UI.Elements;
@@ -73,7 +72,6 @@ namespace JishoTangoAssistant.UI.View
                     checkBox.Background = SolidColorBrush.Parse("Transparent");
                     checkBox.BorderBrush = SolidColorBrush.Parse("Transparent");
                     checkBox.CornerRadius = new CornerRadius(3, 3, 3, 3);
-                    checkBox.Foreground = SolidColorBrush.Parse("Black");
                     checkBox.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Left;
                     
                     englishDefinitionsGrid.Children.Add(checkBox);
