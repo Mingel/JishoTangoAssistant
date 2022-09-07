@@ -31,7 +31,7 @@ namespace JishoTangoAssistant.UI.ViewModel
         private string _readingOutput = String.Empty;
         private int _selectedVocabItemIndex = -1;
 
-        private Color _textInputBackground = Color.Parse("White");
+        private Color _textInputBackground = App.UsesFluentDarkMode() ? Color.Parse("Black") : Color.Parse("White");
 
         private readonly DelegateCommand _addToListCommand;
         private readonly DelegateCommand _processInputCommand;
@@ -45,10 +45,6 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         public delegate void ClearCheckBoxesEventHandler();
         public event ClearCheckBoxesEventHandler ClearCheckBoxesEvent;
-
-        private const string InputTextColorNoDuplicate = "White";
-        private const string InputTextColorDifferentMeaning = "LightGoldenrodYellow";
-        private const string InputTextColorSameMeaning = "DarkSalmon";
 
         private const string JishoTagUsuallyInKanaAlone = "Usually written using kana alone";
 
@@ -422,16 +418,38 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void UpdateTextInputBackground()
         {
-            var color = InputTextColorNoDuplicate;
+            var color = InputTextColorNoDuplicate();
             var itemFromCurrentUserInput = CreateVocabularyItemFromCurrentUserInput();
             if (itemFromCurrentUserInput != null && CurrentSession.addedVocabularyItems.ContainsWord(itemFromCurrentUserInput.Word))
             {
                 if (CurrentSession.addedVocabularyItems.Contains(itemFromCurrentUserInput))
-                    color = InputTextColorSameMeaning;
+                    color = InputTextColorSameMeaning();
                 else
-                    color = InputTextColorDifferentMeaning;
+                    color = InputTextColorDifferentMeaning();
             }
             TextInputBackground = Color.Parse(color);
+        }
+        private string InputTextColorNoDuplicate()
+        {
+            if (App.UsesFluentDarkMode())
+                return "Black";
+            else
+                return "White";
+        }
+
+        private string InputTextColorDifferentMeaning()
+        {
+            if (App.UsesFluentDarkMode())
+                return "#7d7d69";
+            else
+                return "LightGoldenrodYellow";
+        }
+        private string InputTextColorSameMeaning()
+        {
+            if (App.UsesFluentDarkMode())
+                return "#744b3d";
+            else
+                return "DarkSalmon";
         }
     }
 }
