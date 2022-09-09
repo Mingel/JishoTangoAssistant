@@ -31,7 +31,7 @@ namespace JishoTangoAssistant.UI.ViewModel
         private string _readingOutput = String.Empty;
         private int _selectedVocabItemIndex = -1;
 
-        private Color _textInputBackground = App.UsesFluentDarkMode() ? Color.Parse("Black") : Color.Parse("White");
+        private Color _textInputBackground = App.UsesFluentDarkMode() ? Color.Parse("#66000000") : Color.Parse("#66ffffff");
 
         private readonly DelegateCommand _addToListCommand;
         private readonly DelegateCommand _processInputCommand;
@@ -432,24 +432,24 @@ namespace JishoTangoAssistant.UI.ViewModel
         private string InputTextColorNoDuplicate()
         {
             if (App.UsesFluentDarkMode())
-                return "Black";
+                return "#66000000";
             else
-                return "White";
+                return "#66ffffff";
         }
 
         private string InputTextColorDifferentMeaning()
         {
             if (App.UsesFluentDarkMode())
-                return "#7d7d69";
+                return "#667d7d69";
             else
-                return "LightGoldenrodYellow";
+                return "#66fafad2";
         }
         private string InputTextColorSameMeaning()
         {
             if (App.UsesFluentDarkMode())
-                return "#744b3d";
+                return "#66744b3d";
             else
-                return "DarkSalmon";
+                return "#66e9967a";
         }
     }
 }
