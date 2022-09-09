@@ -207,7 +207,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void OnGoDown(object commandParameter)
         {
-            if (SelectedVocabItemIndex < CurrentSession.addedVocabularyItems.Count - 1)
+            if (SelectedVocabItemIndex > -1 && SelectedVocabItemIndex < CurrentSession.addedVocabularyItems.Count - 1)
             {
                 var currentIndex = SelectedVocabItemIndex;
                 var tmpItem = VocabularyList[currentIndex + 1];

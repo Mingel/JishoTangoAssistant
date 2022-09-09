@@ -108,6 +108,13 @@ namespace JishoTangoAssistant.Model
         public void CopyTo(VocabularyItem[] array, int arrayIndex)
         {
             _vocabularyList.CopyTo(array, arrayIndex);
+
+            for (int i = arrayIndex; i < array.Length; i++)
+            {
+                var item = array[i];
+                _vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
+                _vocabularyDictionary[item.Word].Add(item);
+            }
         }
 
         public bool Remove(VocabularyItem item)
@@ -147,8 +154,11 @@ namespace JishoTangoAssistant.Model
             _suppressNotification = true;
 
             foreach (var item in items)
+            {
                 _vocabularyList.Add(item);
-
+                _vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
+                _vocabularyDictionary[item.Word].Add(item);
+            }
 
             _suppressNotification = false;
 
