@@ -26,6 +26,29 @@ namespace JishoTangoAssistant.UI.View
                 e.Cancel = true;
         }
 
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((sender as TabControl).SelectedItem == null)
+                return;
+
+            string tabItem = ((sender as TabControl).SelectedItem as TabItem).Header as string;
+
+            switch (tabItem)
+            {
+                case "Vocabulary List":
+                    // TEMPORARY FIX: Because without the fix, the data grid does not update when adding new items,
+                    //                we force an update by re-assigning the vocabulary list to the data grid...
+                    var gridItems = vocabularyListView.vocabularyItemsDataGrid.Items;
+                    vocabularyListView.vocabularyItemsDataGrid.Items = null;
+                    vocabularyListView.vocabularyItemsDataGrid.Items = gridItems;
+                    break;
+                case "Dictionary":
+                    break;
+                default:
+                    return;
+            }
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs args)
         {
             MessageBox.Show(this, "About", "Made by Minh Bang Vu (2022)\n" +

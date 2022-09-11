@@ -31,7 +31,7 @@
 			</Grid.ColumnDefinitions>
 
 			<DockPanel Grid.Row="1" Grid.Column="1" x:Name="userIOTableLayoutPanel">
-				<TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+				<TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged">
 					<TabItem Header="Dictionary">
 						<Grid>
 							<Grid.RowDefinitions>
@@ -44,7 +44,7 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1"/>
+							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="japaneseUserInputView"/>
 						</Grid>
 					</TabItem>
 					<TabItem Header="Vocabulary List">
@@ -59,7 +59,7 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:VocabularyListView Grid.Row="1" Grid.Column="1"/>
+							<uc:VocabularyListView Grid.Row="1" Grid.Column="1" x:Name="vocabularyListView"/>
 						</Grid>
 					</TabItem>
 				</TabControl>
