@@ -27,7 +27,19 @@
 							<Border Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,15,0,0"
 								BorderBrush="{TemplateBinding Background}"
 								BorderThickness="1">
-								<ContentPresenter Content="{TemplateBinding Content}" />
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="5"/>
+										<RowDefinition Height="*"/>
+										<RowDefinition Height="5"/>
+									</Grid.RowDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="5"/>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="5"/>
+									</Grid.ColumnDefinitions>
+									<ContentPresenter Grid.Column="1" Grid.Row="1" Content="{TemplateBinding Content}" />
+								</Grid>
 							</Border>
 						</Grid>
 					</ControlTemplate>
@@ -42,7 +54,7 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<HeaderedContentControl Grid.Row="0" Header="Vocabulary List" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<HeaderedContentControl Grid.Row="0" Header="Vocabulary List" Background="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<Grid Height="NaN">
 				<Grid.RowDefinitions>
 					<RowDefinition MinHeight="100" Height="*"/>
@@ -53,7 +65,7 @@
 					<RowDefinition Height="5"/>
 				</Grid.RowDefinitions>
 
-				<DataGrid Grid.Row="0" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" Items="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+				<DataGrid Grid.Row="0" Background="#FF333333" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" Items="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="110" Width="100" CanUserSort="False"/>
 						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" CanUserSort="False" CanUserReorder="False" CanUserResize="False" Width="0" MaxWidth="0" IsVisible="False"/>
@@ -91,7 +103,7 @@
 
 			<Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 			<Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-			<HeaderedContentControl Grid.Row="5" Header="Export" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<HeaderedContentControl Grid.Row="5" Header="Export" Background="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="5"/>
@@ -106,7 +118,7 @@
 							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
-						<Label Grid.Column="0" x:Name="fontSizeLabel" Margin="10,4,0,0" Content="Font Size (JP): "/>
+						<Label Grid.Column="0" x:Name="fontSizeLabel" Margin="5,4,0,0" Content="Font Size (JP): "/>
 						<NumericUpDown Grid.Column="1" x:Name="fontSizeNumericUpDown" MinWidth="110" Width="100" Text="{Binding FontSize}" FormatString="{}{0:#,0}" Value="28" Minimum="6" Maximum="96"/>
 					</Grid>
 					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>

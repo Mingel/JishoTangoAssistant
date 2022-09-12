@@ -25,7 +25,19 @@
 							<Border Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,15,0,0"
 								BorderBrush="{TemplateBinding Background}"
 								BorderThickness="1">
-								<ContentPresenter Content="{TemplateBinding Content}" />
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="5"/>
+										<RowDefinition Height="*"/>
+										<RowDefinition Height="5"/>
+									</Grid.RowDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="5"/>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="5"/>
+									</Grid.ColumnDefinitions>
+									<ContentPresenter Grid.Column="1" Grid.Row="1" Content="{TemplateBinding Content}" />
+								</Grid>
 							</Border>
 						</Grid>
 					</ControlTemplate>
@@ -93,13 +105,13 @@
 				<Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
 			</Grid>
 
-			<HeaderedContentControl Grid.Row="4" Header="English Definitions" Background="Black" Height="NaN">
+			<HeaderedContentControl Grid.Row="4" Header="English Definitions" Background="DarkGray" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<Grid x:Name="englishDefinitionsGrid">
 					</Grid>
 				</ScrollViewer>
 			</HeaderedContentControl>
-			<HeaderedContentControl Grid.Row="6" Header="Additional Comments" Background="Black">
+			<HeaderedContentControl Grid.Row="6" Header="Additional Comments" Background="DarkGray">
 				<TextBox x:Name="additionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
 			</HeaderedContentControl>
 			<Grid Grid.Row="8" x:Name="writeInKanaPanel" Height="NaN">
@@ -110,36 +122,43 @@
 				<CheckBox Grid.Column="0" x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
 			</Grid>
 			<StackPanel Grid.Row="10" x:Name="outputPanel" Height="170">
-				<HeaderedContentControl Height="160" Header="Resulting Card" Background="Black">
-					<StackPanel>
-						<Grid>
+				<HeaderedContentControl Height="160" Header="Resulting Card" Background="DarkGray">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+						<Grid Grid.Row="0">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="100"/>
+								<ColumnDefinition Width="110"/>
 								<ColumnDefinition Width="10"/>
 								<ColumnDefinition Width="175"/>
 								<ColumnDefinition Width="15"/>
 								<ColumnDefinition Width="Auto"/>
 							</Grid.ColumnDefinitions>
-							<Label Grid.Column="0" Margin="0,12,0,0" Content="Front → Back:"/>
-							<RadioButton Margin="0,7,0,0" Grid.Column="2" GroupName="cardDirection" IsChecked="{Binding JapaneseToEnglishDirection}" Content="JP → Reading + EN"/>
-							<RadioButton Margin="0,7,0,0" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}" Content="EN → JP + Reading"/>
+							<Label Grid.Column="0" Margin="5,7,0,1" Content="Front → Back:"/>
+							<RadioButton Margin="0,1,0,1" Grid.Column="2" GroupName="cardDirection" IsChecked="{Binding JapaneseToEnglishDirection}" Content="JP → Reading + EN"/>
+							<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}" Content="EN → JP + Reading"/>
 						</Grid>
-						<Rectangle HorizontalAlignment="Stretch" Fill="Black" Height="1"/>
-						<Grid>
+						<Rectangle Grid.Row="1" HorizontalAlignment="Stretch" Fill="DarkGray" Height="1"/>
+						<Grid Grid.Row="2">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="100"/>
+								<ColumnDefinition Width="110"/>
 								<ColumnDefinition Width="10"/>
 								<ColumnDefinition Width="175"/>
 								<ColumnDefinition Width="15"/>
 								<ColumnDefinition Width="Auto"/>
 							</Grid.ColumnDefinitions>
-							<Label Grid.Column="0" Margin="0,12,0,0" Content="Show Side:"/>
-							<RadioButton Margin="0,7,0,0" Grid.Column="2" GroupName="resultingCardSide" IsChecked="{Binding ShowFrontSide}" Content="Front"/>
-							<RadioButton Margin="0,7,0,0" Grid.Column="4" GroupName="resultingCardSide" IsChecked="{Binding ShowBackSide}" Content="Back"/>
+							<Label Grid.Column="0" Margin="5,7,0,1" Content="Show Side:"/>
+							<RadioButton Margin="0,1,0,1" Grid.Column="2" GroupName="resultingCardSide" IsChecked="{Binding ShowFrontSide}" Content="Front"/>
+							<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="resultingCardSide" IsChecked="{Binding ShowBackSide}" Content="Back"/>
 						</Grid>
-						<Rectangle HorizontalAlignment="Stretch" Fill="Black" Height="2"/>
-						<TextBlock Text="{Binding OutputText}" FontSize="16"/>
-					</StackPanel>
+						<Rectangle Grid.Row="3" HorizontalAlignment="Stretch" Fill="DarkGray" Height="1"/>
+						<TextBlock Grid.Row="4" Background="#FF333333" Margin="5,7,0,1" Text="{Binding OutputText}" FontSize="16"/>
+					</Grid>
 				</HeaderedContentControl>
 			</StackPanel>
 		</Grid>

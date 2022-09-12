@@ -4,10 +4,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="200"
         x:Class="JishoTangoAssistant.UI.View.MessageBox"
-		SizeToContent="WidthAndHeight" CanResize="False"
-        TransparencyLevelHint="AcrylicBlur"
-        Background="Transparent">
-	<Grid>
+		SizeToContent="WidthAndHeight" CanResize="False">
+	<Grid Background="#FF2A2A2A">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="10"/>
 			<RowDefinition Height="*"/>

@@ -133,7 +133,6 @@ namespace JishoTangoAssistant.UI.ViewModel
             saveFileDialog.Title = "Save vocabulary list as";
 
             saveFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
-            //saveFileDialog.RestoreDirectory = true;
 
             var result = await saveFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
@@ -153,7 +152,6 @@ namespace JishoTangoAssistant.UI.ViewModel
             SaveFileDialog exportFileDialog = new SaveFileDialog();
 
             exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
-            //exportFileDialog.RestoreDirectory = true;
 
             var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
@@ -172,7 +170,6 @@ namespace JishoTangoAssistant.UI.ViewModel
             SaveFileDialog exportFileDialog = new SaveFileDialog();
 
             exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
-            //exportFileDialog.RestoreDirectory = true;
 
             var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 

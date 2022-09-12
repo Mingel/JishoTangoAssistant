@@ -434,22 +434,22 @@ namespace JishoTangoAssistant.UI.ViewModel
             if (App.UsesFluentDarkMode())
                 return "#66000000";
             else
-                return "#66ffffff";
+                return "#66FFFFFF";
         }
 
         private string InputTextColorDifferentMeaning()
         {
             if (App.UsesFluentDarkMode())
-                return "#667d7d69";
+                return "#667D7D69";
             else
-                return "#66fafad2";
+                return "#66FAFAD2";
         }
         private string InputTextColorSameMeaning()
         {
             if (App.UsesFluentDarkMode())
-                return "#66744b3d";
+                return "#66744B3D";
             else
-                return "#66e9967a";
+                return "#66E9967A";
         }
     }
 }

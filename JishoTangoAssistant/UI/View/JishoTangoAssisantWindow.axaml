@@ -8,12 +8,10 @@
 		x:Class="JishoTangoAssistant.UI.View.JishoTangoAssisantWindow"
         Title="JishoTangoAssisantWindow"
 		MinHeight="650" MinWidth="600"
-		Height="650" Width="800"
-		TransparencyLevelHint="AcrylicBlur"
-        Background="Transparent">
+		Height="650" Width="800">
 
-	
-	<DockPanel>
+
+	<DockPanel Background="#FF2A2A2A">
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="About" Click="MenuItem_Click"/>
 		</Menu>

@@ -33,9 +33,9 @@ namespace JishoTangoAssistant.UI.View
 
         private void OnInputLoaded(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions)
         {
-            var startLocationX = 12;
+            var startLocationX = 7;
             var totalStepLocationX = 0; // variable
-            var startLocationY = 12;
+            var startLocationY = 4;
             var stepLocationY = 30;
 
             int flattenedIndex = 0;
