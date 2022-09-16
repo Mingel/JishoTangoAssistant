@@ -8,44 +8,7 @@
 		x:Class="JishoTangoAssistant.UI.View.VocabularyListView">
 
 	<UserControl.Styles>
-		<Style Selector="HeaderedContentControl">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate>
-						<Grid>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="*"/>
-							</Grid.RowDefinitions>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition Width="*"/>
-							</Grid.ColumnDefinitions>
-							<Border ZIndex="1" Padding="5,0,5,0" Margin="5,0,0,0">
-								<TextBlock TextBlock.FontWeight="Bold" Text="{TemplateBinding Header}" />
-							</Border>
-							<Border Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,15,0,0"
-								BorderBrush="{TemplateBinding Background}"
-								BorderThickness="1">
-								<Grid>
-									<Grid.RowDefinitions>
-										<RowDefinition Height="5"/>
-										<RowDefinition Height="*"/>
-										<RowDefinition Height="5"/>
-									</Grid.RowDefinitions>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="5"/>
-										<ColumnDefinition Width="*"/>
-										<ColumnDefinition Width="5"/>
-									</Grid.ColumnDefinitions>
-									<ContentPresenter Grid.Column="1" Grid.Row="1" Content="{TemplateBinding Content}" />
-								</Grid>
-							</Border>
-						</Grid>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
+		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
 	</UserControl.Styles>
 
 	<Grid>
