@@ -9,6 +9,7 @@
 
 	<UserControl.Styles>
 		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
+		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/DataGridCellNoVisibleCellSelection.axaml"/>
 	</UserControl.Styles>
 
 	<Grid>
