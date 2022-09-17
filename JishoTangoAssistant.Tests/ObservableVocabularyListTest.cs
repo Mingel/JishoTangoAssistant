@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using JishoTangoAssistant.Model;
 
 namespace JishoTangoAssistant.Tests
 {

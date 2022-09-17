@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:local="clr-namespace:JishoTangoAssistant.UI.ViewModel"
+		xmlns:uc="clr-namespace:JishoTangoAssistant.UI.View;assembly=JishoTangoAssistant"
+		x:Class="JishoTangoAssistant.UI.View.JishoTangoAssisantWindow"
+        Title="JishoTangoAssisantWindow"
+		MinHeight="650" MinWidth="600"
+		Height="650" Width="800">
+
+
+	<DockPanel Background="#FF2A2A2A">
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="About" Click="MenuItem_Click"/>
+		</Menu>
+
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="5"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="5"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="5"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="5"/>
+			</Grid.ColumnDefinitions>
+
+			<DockPanel Grid.Row="1" Grid.Column="1" x:Name="userIOTableLayoutPanel">
+				<TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged">
+					<TabItem Header="Dictionary">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="5"/>
+								<RowDefinition Height="*"/>
+								<RowDefinition Height="5"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="5"/>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="5"/>
+							</Grid.ColumnDefinitions>
+							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="japaneseUserInputView"/>
+						</Grid>
+					</TabItem>
+					<TabItem Header="Vocabulary List">
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="5"/>
+								<RowDefinition Height="*"/>
+								<RowDefinition Height="5"/>
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="5"/>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="5"/>
+							</Grid.ColumnDefinitions>
+							<uc:VocabularyListView Grid.Row="1" Grid.Column="1" x:Name="vocabularyListView"/>
+						</Grid>
+					</TabItem>
+				</TabControl>
+			</DockPanel>
+		</Grid>
+	</DockPanel>
+
+</Window>

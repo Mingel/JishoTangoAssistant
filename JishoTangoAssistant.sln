@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant", "JishoTangoAssistant\JishoTangoAssistant.csproj", "{E0D618EC-A617-4A2E-9990-86D643AEED4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant.Tests", "JishoTangoAssistant.Tests\JishoTangoAssistant.Tests.csproj", "{190435E5-25A0-464A-86A5-405EC3E3DA85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JishoTangoAssistant.Tests", "JishoTangoAssistant.Tests\JishoTangoAssistant.Tests.csproj", "{190435E5-25A0-464A-86A5-405EC3E3DA85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant", "JishoTangoAssistant\JishoTangoAssistant.csproj", "{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E0D618EC-A617-4A2E-9990-86D643AEED4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0D618EC-A617-4A2E-9990-86D643AEED4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0D618EC-A617-4A2E-9990-86D643AEED4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0D618EC-A617-4A2E-9990-86D643AEED4E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{190435E5-25A0-464A-86A5-405EC3E3DA85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{190435E5-25A0-464A-86A5-405EC3E3DA85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{190435E5-25A0-464A-86A5-405EC3E3DA85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{190435E5-25A0-464A-86A5-405EC3E3DA85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

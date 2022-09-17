@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using JishoTangoAssistant.Services;
+using NUnit.Framework;
 
 namespace JishoTangoAssistant.Tests
 {
