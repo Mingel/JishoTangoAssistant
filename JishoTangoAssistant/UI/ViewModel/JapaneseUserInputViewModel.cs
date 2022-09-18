@@ -21,8 +21,8 @@ namespace JishoTangoAssistant.UI.ViewModel
         private bool _writeInKana = false;
         private bool _japaneseToEnglishDirection = true;
         private bool _showFrontSide = true;
-        private ObservableCollection<string> _englishDefinitions = new ObservableCollection<string>();
-        private ObservableCollection<int> _selectedIndicesOfEnglishDefinitions = new ObservableCollection<int>();
+        private ObservableCollection<string> _meanings = new ObservableCollection<string>();
+        private ObservableCollection<int> _selectedIndicesOfMeanings = new ObservableCollection<int>();
         private string _additionalComments = String.Empty;
         private ObservableCollection<string> _words = new ObservableCollection<string>();
         private int _selectedIndexOfWords = -1;
@@ -40,7 +40,7 @@ namespace JishoTangoAssistant.UI.ViewModel
         public ICommand ProcessInputCommand => _processInputCommand;
 
         #endregion
-        public delegate void UpdateCheckBoxesEventHandler(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions);
+        public delegate void UpdateCheckBoxesEventHandler(int dataLength, IList<int> meaningsLengths, IList<string> flattenedMeanings);
         public event UpdateCheckBoxesEventHandler UpdateCheckBoxesEvent;
 
         public delegate void ClearCheckBoxesEventHandler();
@@ -53,7 +53,7 @@ namespace JishoTangoAssistant.UI.ViewModel
             _addToListCommand = new DelegateCommand(OnAddToList, _ => true);
             _processInputCommand = new DelegateCommand(ProcessInput, _ => true);
 
-            SelectedIndicesOfEnglishDefinitions.CollectionChanged += (_, _) => ChangeReadingOutput();
+            SelectedIndicesOfMeanings.CollectionChanged += (_, _) => ChangeReadingOutput();
         }
 
         #region auto-properties
@@ -71,14 +71,14 @@ namespace JishoTangoAssistant.UI.ViewModel
                 }
                 else if (JapaneseToEnglishDirection && ShowBackSide)
                 {
-                    var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
+                    var meaningsString = String.Join("; ", Meanings.Where((x, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
                     if (!WriteInKana)
                     {
                         outputText += ReadingOutput;
-                        if (!string.IsNullOrWhiteSpace(englishDefinitionsString))
+                        if (!string.IsNullOrWhiteSpace(meaningsString))
                             outputText += Environment.NewLine;
                     }
-                    outputText += englishDefinitionsString;
+                    outputText += meaningsString;
                     if (!string.IsNullOrWhiteSpace(AdditionalComments))
                     {
                         outputText += Environment.NewLine;
@@ -87,8 +87,8 @@ namespace JishoTangoAssistant.UI.ViewModel
                 }
                 else if (EnglishToJapaneseDirection && ShowFrontSide)
                 {
-                    var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
-                    outputText += englishDefinitionsString;
+                    var meaningsString = String.Join("; ", Meanings.Where((x, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
+                    outputText += meaningsString;
                     if (!string.IsNullOrWhiteSpace(AdditionalComments))
                     {
                         outputText += Environment.NewLine;
@@ -201,10 +201,10 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        public ObservableCollection<string> EnglishDefinitions
+        public ObservableCollection<string> Meanings
         {
-            get => _englishDefinitions;
-            set => SetProperty(ref _englishDefinitions, value);
+            get => _meanings;
+            set => SetProperty(ref _meanings, value);
         }
 
         public int SelectedIndexOfWords
@@ -235,10 +235,10 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        public ObservableCollection<int> SelectedIndicesOfEnglishDefinitions
+        public ObservableCollection<int> SelectedIndicesOfMeanings
         {
-            get => _selectedIndicesOfEnglishDefinitions;
-            set { SetProperty(ref _selectedIndicesOfEnglishDefinitions, value); UpdateTextInputBackground(); }
+            get => _selectedIndicesOfMeanings;
+            set { SetProperty(ref _selectedIndicesOfMeanings, value); UpdateTextInputBackground(); }
         }
 
         public Color TextInputBackground { get => _textInputBackground; set => SetProperty(ref _textInputBackground, value); }
@@ -314,7 +314,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void ClearUserInputResults()
         {
-            EnglishDefinitions.Clear();
+            Meanings.Clear();
             ReadingOutput = String.Empty;
             Words.Clear();
             OtherForms.Clear();
@@ -352,7 +352,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
             ReadingOutput = selectedDatum.japanese[0].reading;
 
-            StoreEnglishDefinitions(selectedDatum);
+            StoreMeanings(selectedDatum);
 
             WriteInKana = selectedDatum.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
                 || selectedDatum.japanese[0].word == null;
@@ -368,18 +368,18 @@ namespace JishoTangoAssistant.UI.ViewModel
             ReadingOutput = latestResult[SelectedIndexOfWords].japanese[SelectedIndexOfOtherForms].reading;
         }
 
-        private void StoreEnglishDefinitions(JishoDatum datum)
+        private void StoreMeanings(JishoDatum datum)
         {
-            EnglishDefinitions.Clear();
+            Meanings.Clear();
             foreach (var sense in datum.senses)
             {
-                foreach (var englishDefinition in sense.english_definitions)
+                foreach (var meaning in sense.english_definitions)
                 {
-                    EnglishDefinitions.Add(englishDefinition);
+                    Meanings.Add(meaning);
                 }
             }
 
-            UpdateCheckBoxesEvent?.Invoke(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), EnglishDefinitions);
+            UpdateCheckBoxesEvent?.Invoke(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), Meanings);
         }
 
         public void UpdateOutputText()
@@ -387,17 +387,17 @@ namespace JishoTangoAssistant.UI.ViewModel
             InvokePropertyChanged(nameof(OutputText));
         }
 
-        public void ClearSelectedIndicesOfEnglishDefinitions()
+        public void ClearSelectedIndicesOfMeanings()
         {
-            SelectedIndicesOfEnglishDefinitions.Clear();
+            SelectedIndicesOfMeanings.Clear();
         }
 
-        public void ChangeSelectedIndicesOfEnglishDefinitions(int i, bool isSelected)
+        public void ChangeSelectedIndicesOfMeanings(int i, bool isSelected)
         {
             if (isSelected)
-                SelectedIndicesOfEnglishDefinitions.Add(i);
+                SelectedIndicesOfMeanings.Add(i);
             else
-                SelectedIndicesOfEnglishDefinitions.Remove(i);
+                SelectedIndicesOfMeanings.Remove(i);
             UpdateOutputText();
         }
 
@@ -406,9 +406,9 @@ namespace JishoTangoAssistant.UI.ViewModel
             if (SelectedIndexOfOtherForms < 0) // nothing has been searched (or no search results found)
                 return null;
             var outputText = String.Empty;
-            var englishDefinitionsString = String.Join("; ", EnglishDefinitions.Where((x, i) => SelectedIndicesOfEnglishDefinitions.Contains(i))); // TODO optimize
-            outputText += englishDefinitionsString;
-            if (!string.IsNullOrWhiteSpace(AdditionalComments) && !string.IsNullOrWhiteSpace(englishDefinitionsString))
+            var meaningsString = String.Join("; ", Meanings.Where((x, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
+            outputText += meaningsString;
+            if (!string.IsNullOrWhiteSpace(AdditionalComments) && !string.IsNullOrWhiteSpace(meaningsString))
                 outputText += Environment.NewLine;
             outputText += AdditionalComments;
             bool showReading = !WriteInKana;

@@ -34,7 +34,7 @@
 						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="110" Width="100" CanUserSort="False"/>
 						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" CanUserSort="False" CanUserReorder="False" CanUserResize="False" Width="0" MaxWidth="0" IsVisible="False"/>
 						<DataGridTextColumn Header="Reading" Binding="{Binding Reading}" MinWidth="100" Width="100" CanUserSort="False"/>
-						<DataGridTextColumn Header="English Definitions &amp; Comments" Binding="{Binding Output}" Width="*" CanUserSort="False"/>
+						<DataGridTextColumn Header="Meaning &amp; Comments" Binding="{Binding Output}" Width="*" CanUserSort="False"/>
 					</DataGrid.Columns>
 				</DataGrid>
 

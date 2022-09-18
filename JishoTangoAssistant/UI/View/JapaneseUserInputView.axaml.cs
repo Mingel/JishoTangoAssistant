@@ -23,15 +23,15 @@ namespace JishoTangoAssistant.UI.View
             DataContext = _japaneseUserInputViewModel;
 
             _japaneseUserInputViewModel.UpdateCheckBoxesEvent += OnInputLoaded;
-            _japaneseUserInputViewModel.ClearCheckBoxesEvent += OnClearEnglishDefinitions;
+            _japaneseUserInputViewModel.ClearCheckBoxesEvent += OnClearMeanings;
         }
 
-        private void OnClearEnglishDefinitions()
+        private void OnClearMeanings()
         {
-            this.englishDefinitionsGrid.Children.Clear();
+            this.meaningGrid.Children.Clear();
         }
 
-        private void OnInputLoaded(int dataLength, IList<int> englishDefinitionsLengths, IList<string> flattenedEnglishDefinitions)
+        private void OnInputLoaded(int dataLength, IList<int> meaningsLengths, IList<string> flattenedMeanings)
         {
             var startLocationX = 7;
             var totalStepLocationX = 0; // variable
@@ -40,24 +40,24 @@ namespace JishoTangoAssistant.UI.View
 
             int flattenedIndex = 0;
 
-            this.englishDefinitionsGrid.Children.Clear();
-            _japaneseUserInputViewModel.ClearSelectedIndicesOfEnglishDefinitions();
+            this.meaningGrid.Children.Clear();
+            _japaneseUserInputViewModel.ClearSelectedIndicesOfMeanings();
             for (int i = 0; i < dataLength; i++)
             {
-                for (int j = 0; j < englishDefinitionsLengths[i]; j++)
+                for (int j = 0; j < meaningsLengths[i]; j++)
                 {
-                    EnglishDefinitionCheckBox checkBox = new EnglishDefinitionCheckBox();
+                    MeaningCheckBox checkBox = new MeaningCheckBox();
 
-                    checkBox.EnglishDefinitionsRow = i;
-                    checkBox.EnglishDefinitionsColumn = j;
-                    checkBox.EnglishDefinitionsFlattenedIndex = flattenedIndex;
+                    checkBox.MeaningsRow = i;
+                    checkBox.MeaningsColumn = j;
+                    checkBox.MeaningsFlattenedIndex = flattenedIndex;
 
                     
                     checkBox.Margin = new Thickness(startLocationX + totalStepLocationX, startLocationY + i * stepLocationY, 0, 0);
                     checkBox.Name = $"outputCheckBox{i}_{j}";
-                    checkBox.Content = flattenedEnglishDefinitions[flattenedIndex];
+                    checkBox.Content = flattenedMeanings[flattenedIndex];
 
-                    FormattedText formattedText = new FormattedText(flattenedEnglishDefinitions[flattenedIndex], System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily), FontSize, null);
+                    FormattedText formattedText = new FormattedText(flattenedMeanings[flattenedIndex], System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily), FontSize, null);
 
                     checkBox.MaxWidth = formattedText.Width + 50;
                     checkBox.MaxHeight = formattedText.Height;
@@ -74,9 +74,9 @@ namespace JishoTangoAssistant.UI.View
                     checkBox.CornerRadius = new CornerRadius(3, 3, 3, 3);
                     checkBox.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Left;
                     
-                    englishDefinitionsGrid.Children.Add(checkBox);
+                    meaningGrid.Children.Add(checkBox);
 
-                    checkBox.Click += (_, _) => { _japaneseUserInputViewModel.ChangeSelectedIndicesOfEnglishDefinitions(checkBox.EnglishDefinitionsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
+                    checkBox.Click += (_, _) => { _japaneseUserInputViewModel.ChangeSelectedIndicesOfMeanings(checkBox.MeaningsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
 
                     flattenedIndex++;
                 }

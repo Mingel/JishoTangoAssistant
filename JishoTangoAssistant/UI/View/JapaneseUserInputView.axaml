@@ -68,9 +68,9 @@
 				<Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
 			</Grid>
 
-			<HeaderedContentControl Grid.Row="4" Header="English Definitions" Background="DarkGray" Height="NaN">
+			<HeaderedContentControl Grid.Row="4" Header="Meaning" Background="DarkGray" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<Grid x:Name="englishDefinitionsGrid">
+					<Grid x:Name="meaningGrid">
 					</Grid>
 				</ScrollViewer>
 			</HeaderedContentControl>
