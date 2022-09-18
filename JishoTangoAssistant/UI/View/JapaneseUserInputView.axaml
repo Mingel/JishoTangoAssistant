@@ -84,8 +84,8 @@
 				</Grid.ColumnDefinitions>
 				<CheckBox Grid.Column="0" x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
 			</Grid>
-			<StackPanel Grid.Row="10" x:Name="outputPanel" Height="170">
-				<HeaderedContentControl Height="160" Header="Resulting Card" Background="DarkGray">
+			<StackPanel Grid.Row="10" x:Name="outputPanel" Height="165">
+				<HeaderedContentControl Height="165" Header="Resulting Card Preview" Background="DarkGray">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"/>
@@ -120,7 +120,9 @@
 							<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="resultingCardSide" IsChecked="{Binding ShowBackSide}" Content="Back"/>
 						</Grid>
 						<Rectangle Grid.Row="3" HorizontalAlignment="Stretch" Fill="DarkGray" Height="1"/>
-						<TextBlock Grid.Row="4" Background="#FF333333" Margin="5,7,0,1" Text="{Binding OutputText}" FontSize="16"/>
+						<ScrollViewer Grid.Row="4" >
+							<TextBlock Background="#FF333333" Margin="5,7,0,1" Text="{Binding OutputText}" FontSize="16"/>
+						</ScrollViewer>
 					</Grid>
 				</HeaderedContentControl>
 			</StackPanel>
