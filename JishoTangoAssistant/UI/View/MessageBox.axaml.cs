@@ -28,6 +28,13 @@ namespace JishoTangoAssistant.UI.View
 
             if (buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNoCancel)
                 this.AddButton("Cancel", MessageBoxResult.Cancel, true);
+
+            if (buttons == MessageBoxButtons.MergeOverwriteCancel)
+            {
+                this.AddButton("Merge", MessageBoxResult.Merge);
+                this.AddButton("Overwrite", MessageBoxResult.Overwrite);
+                this.AddButton("Cancel", MessageBoxResult.Cancel, true);
+            }
         }
 
         private void AddButton(string caption, MessageBoxResult result, bool isDefault = false)

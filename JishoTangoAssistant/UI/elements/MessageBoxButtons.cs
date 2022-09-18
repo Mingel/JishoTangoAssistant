@@ -5,6 +5,7 @@
         Ok,
         OkCancel,
         YesNo,
-        YesNoCancel
+        YesNoCancel,
+        MergeOverwriteCancel,
     }
 }

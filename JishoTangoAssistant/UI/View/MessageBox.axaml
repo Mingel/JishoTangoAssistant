@@ -18,14 +18,22 @@
 		</Grid.ColumnDefinitions>
 		
 		<StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
-			<TextBlock x:Name="messageBoxTextBlock" HorizontalAlignment="Center" Name="Text"/>
-			<StackPanel x:Name="buttonsStackPanel" HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
-				<StackPanel.Styles>
-					<Style Selector="Button">
-						<Setter Property="Margin" Value="5"/>
-					</Style>
-				</StackPanel.Styles>
-			</StackPanel>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				
+				<TextBlock Grid.Row="0" x:Name="messageBoxTextBlock" HorizontalAlignment="Center" Name="Text"/>
+				<StackPanel Grid.Row="2" x:Name="buttonsStackPanel" HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
+					<StackPanel.Styles>
+						<Style Selector="Button">
+							<Setter Property="Margin" Value="5"/>
+						</Style>
+					</StackPanel.Styles>
+				</StackPanel>
+			</Grid>
 		</StackPanel>
 	</Grid>
 </Window>

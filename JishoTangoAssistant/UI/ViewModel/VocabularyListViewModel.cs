@@ -82,27 +82,24 @@ namespace JishoTangoAssistant.UI.ViewModel
             if (CurrentSession.addedVocabularyItems.Count > 0)
             {
                 var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
-                var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "Your vocabulary list is not empty. Do you want to overwrite your current vocabulary list?\n\n" +
-                                                    "Press Yes, if you want to overwrite your list\n" +
-                                                    "Press No, if you want to merge into your current list\n",
-                                                    MessageBoxButtons.YesNoCancel);
+                var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "Your vocabulary list is not empty.\nDo you want to overwrite or merge into your current vocabulary list?",
+                                                    MessageBoxButtons.MergeOverwriteCancel);
 
                 if (msgBoxResult.Equals(MessageBoxResult.Cancel))
                     return;
-                performOverwriting = msgBoxResult.Equals(MessageBoxResult.Yes);
+                performOverwriting = msgBoxResult.Equals(MessageBoxResult.Overwrite);
             }
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             if (performOverwriting == true)
-                openFileDialog.Title = "Open file to load vocabulary list (Overwriting)";
+                openFileDialog.Title = "Open file to load vocabulary list (Overwrite)";
             else if (performOverwriting == false)
-                openFileDialog.Title = "Open file to load vocabulary list (Merging)";
+                openFileDialog.Title = "Open file to load vocabulary list (Merge)";
             else
                 openFileDialog.Title = "Open file to load vocabulary list";
 
             openFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
-            //openFileDialog.RestoreDirectory = true;
 
             var result = await openFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 

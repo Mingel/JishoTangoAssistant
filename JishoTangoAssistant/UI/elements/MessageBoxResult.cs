@@ -5,6 +5,8 @@
         Ok,
         Cancel,
         Yes,
-        No
+        No,
+        Merge,
+        Overwrite
     }
 }
