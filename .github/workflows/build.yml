@@ -1,0 +1,81 @@
+name: JishoTangoAssistant Build
+
+on: 
+  push:
+    branches:
+      - "master"
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/build.yml"
+      - ".gitignore"
+      - ".gitattributes"
+      - "LICENSE"
+      - "README.md"
+  pull_request:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/build.yml"
+      - ".gitignore"
+      - ".gitattributes"
+      - "LICENSE"
+      - "README.md"
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ "ubuntu-latest", "windows-latest" ]
+        dotnet-version: ['6.0']
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build JishoTangoAssistant --no-restore --configuration Release -o build/JishoTangoAssistant
+      - name: Test
+        run: dotnet test --no-restore --configuration Release --verbosity normal -o build/tests
+      - name: Packaging workflow data as artifacts
+        run: mkdir deploy && cp -r build/JishoTangoAssistant deploy/ && ls ./deploy/JishoTangoAssistant
+      - name: Upload to artifact (Windows)
+        uses: actions/upload-artifact@v3
+        with:
+          name: JishoTangoAssistant-${{ matrix.os }}
+          path: |
+            ./deploy/JishoTangoAssistant/**
+            !./deploy/JishoTangoAssistant/runtimes/unix
+            !./deploy/JishoTangoAssistant/runtimes/osx
+            !./deploy/JishoTangoAssistant/runtimes/linux-arm
+            !./deploy/JishoTangoAssistant/runtimes/linux-arm64
+            !./deploy/JishoTangoAssistant/runtimes/linux-musl-x64
+            !./deploy/JishoTangoAssistant/runtimes/linux-x64
+        if: matrix.os == 'windows-latest'
+      - name: Upload to artifact (Linux)
+        uses: actions/upload-artifact@v3
+        with:
+          name: JishoTangoAssistant-${{ matrix.os }}
+          path: |
+            ./deploy/JishoTangoAssistant/**
+            !./deploy/JishoTangoAssistant/runtimes/osx
+            !./deploy/JishoTangoAssistant/runtimes/win
+            !./deploy/JishoTangoAssistant/runtimes/win7-x64
+            !./deploy/JishoTangoAssistant/runtimes/win7-x86
+            !./deploy/JishoTangoAssistant/runtimes/win-arm64
+            !./deploy/JishoTangoAssistant/runtimes/win-x64
+            !./deploy/JishoTangoAssistant/runtimes/win-x86
+            !./deploy/JishoTangoAssistant/runtimes/osx/**
+            !./deploy/JishoTangoAssistant/runtimes/win/**
+            !./deploy/JishoTangoAssistant/runtimes/win7-x64/**
+            !./deploy/JishoTangoAssistant/runtimes/win7-x86/**
+            !./deploy/JishoTangoAssistant/runtimes/win-arm64/**
+            !./deploy/JishoTangoAssistant/runtimes/win-x64/**
+            !./deploy/JishoTangoAssistant/runtimes/win-x86/**
+        if: matrix.os == 'ubuntu-latest'
