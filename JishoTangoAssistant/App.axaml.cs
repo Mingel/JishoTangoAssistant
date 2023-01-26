@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Themes.Fluent;
 using JishoTangoAssistant.UI.View;
 
 namespace JishoTangoAssistant
@@ -25,7 +24,7 @@ namespace JishoTangoAssistant
 
         public static bool UsesFluentDarkMode()
         {
-            return ((FluentTheme)Current!.Styles[0]).Mode == FluentThemeMode.Dark;
+            return ((Avalonia.Themes.Simple.SimpleTheme)(Current!.Styles[0])).Mode == Avalonia.Themes.Simple.SimpleThemeMode.Dark;
         }
     }
 }
