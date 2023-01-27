@@ -3,5 +3,6 @@
              x:Class="JishoTangoAssistant.App">
 	<Application.Styles>
 		<SimpleTheme Mode="Dark" />
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>
 	</Application.Styles>
 </Application>
