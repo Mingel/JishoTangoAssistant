@@ -3,9 +3,8 @@
 JishoTangoAssistant is an application which can create custom vocabulary lists for Japanese study purposes with the help of the [jisho.org API](https://jisho.org/forum/54fefc1f6e73340b1f160000-is-there-any-kind-of-search-api). These list can then be exported to Anki (via CSV files).
 
 ## Screenshots
-![image](https://user-images.githubusercontent.com/46728839/195469359-0258e6dd-7800-4847-bbbb-f83f35c42408.png)
-![image](https://user-images.githubusercontent.com/46728839/195469549-1d94e6de-8581-4459-a9da-3a06a3264673.png)
-
+![image](https://user-images.githubusercontent.com/46728839/214991881-f010e411-fd4f-4ae5-95d7-4c2391499a20.png)
+![image](https://user-images.githubusercontent.com/46728839/214991961-be0e5158-b9ac-4f1e-a3f0-3aec29aba89a.png)
 
 ## Build
 [.NET 6 SDK](https://dotnet.microsoft.com/download) must be installed.
@@ -15,7 +14,7 @@ To build and run the application, use the following commands from the root folde
 cd JishoTangoAssistant
 dotnet run
 ```
-Alternatively, you can use an IDE like e.g. [Visual Studio](https://visualstudio.microsoft.com/vs/) to build and run the application, or for further development.
+Alternatively, you can use an IDE like e.g. [Visual Studio](https://visualstudio.microsoft.com/vs/) to build and run the application.
 
 ## Credits
 Thanks to the team from [jisho.org](https://jisho.org/) for making this possible!
