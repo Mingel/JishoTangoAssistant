@@ -2,16 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace JishoTangoAssistant.Model
 {
-    public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCollectionChanged
+    public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         private List<VocabularyItem> _vocabularyList;
         private Dictionary<string, List<VocabularyItem>> _vocabularyDictionary; // word -> vocab item
 
         private bool _suppressNotification = false;
+
+        private const string CountString = "Count";
+        private const string IndexerName = "Item[]";
 
         #region methods-interfaces
         public int Count => _vocabularyList.Count;
@@ -19,6 +23,32 @@ namespace JishoTangoAssistant.Model
         public bool IsReadOnly => ((ICollection<VocabularyItem>)_vocabularyList).IsReadOnly;
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+        protected virtual event PropertyChangedEventHandler PropertyChanged;
+
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        {
+            add
+            {
+                PropertyChanged += value;
+            }
+            remove
+            {
+                PropertyChanged -= value;
+            }
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, e);
+            }
+        }
 
         public ObservableVocabularyList()
         {
@@ -38,6 +68,8 @@ namespace JishoTangoAssistant.Model
                     throw new IndexOutOfRangeException("index is out of range");
                 var oldItem = _vocabularyList[index];
                 _vocabularyList[index] = value;
+                OnPropertyChanged(CountString);
+                OnPropertyChanged(IndexerName);
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, oldItem, index));
             }
         }
@@ -61,6 +93,8 @@ namespace JishoTangoAssistant.Model
             _vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
             _vocabularyDictionary[item.Word].Add(item);
 
+            OnPropertyChanged(CountString);
+            OnPropertyChanged(IndexerName);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
         }
 
@@ -76,6 +110,8 @@ namespace JishoTangoAssistant.Model
             if (containedInDictionary)
                 wordList.Remove(oldItem);
 
+            OnPropertyChanged(CountString);
+            OnPropertyChanged(IndexerName);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, index));
         }
 
@@ -86,6 +122,8 @@ namespace JishoTangoAssistant.Model
             _vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
             _vocabularyDictionary[item.Word].Add(item);
 
+            OnPropertyChanged(CountString);
+            OnPropertyChanged(IndexerName);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
         }
 
@@ -95,6 +133,8 @@ namespace JishoTangoAssistant.Model
 
             _vocabularyDictionary.Clear();
 
+            OnPropertyChanged(CountString);
+            OnPropertyChanged(IndexerName);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
@@ -126,6 +166,8 @@ namespace JishoTangoAssistant.Model
             if (containedInDictionary)
                 wordList.Remove(item);
 
+            OnPropertyChanged(CountString);
+            OnPropertyChanged(IndexerName);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
             return wasInList;
         }
@@ -162,7 +204,8 @@ namespace JishoTangoAssistant.Model
 
             _suppressNotification = false;
 
-
+            OnPropertyChanged(CountString);
+            OnPropertyChanged(IndexerName);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }

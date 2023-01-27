@@ -21,6 +21,7 @@
 		<HeaderedContentControl Grid.Row="0" Header="Vocabulary List" Background="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<Grid Height="NaN">
 				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
 					<RowDefinition MinHeight="100" Height="*"/>
 					<RowDefinition Height="5"/>
 					<RowDefinition MinHeight="20" Height="Auto"/>
@@ -29,7 +30,9 @@
 					<RowDefinition Height="5"/>
 				</Grid.RowDefinitions>
 
-				<DataGrid Grid.Row="0" Background="#FF333333" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" Items="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+				<TextBlock Text="{Binding VocabularyList.Count, StringFormat='Number of entries: {0}', Mode=OneWay}"/>
+
+				<DataGrid Grid.Row="1" Background="#FF333333" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" Items="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="110" Width="100" CanUserSort="False"/>
 						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" CanUserSort="False" CanUserReorder="False" CanUserResize="False" Width="0" MaxWidth="0" IsVisible="False"/>
@@ -38,7 +41,7 @@
 					</DataGrid.Columns>
 				</DataGrid>
 
-				<Grid Grid.Row="2" x:Name="upDownButtonsTableLayoutGrid">
+				<Grid Grid.Row="3" x:Name="upDownButtonsTableLayoutGrid">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*"/>
 						<ColumnDefinition Width="5"/>
@@ -49,7 +52,7 @@
 					<Button Grid.Column="2" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 				</Grid>
 
-				<Button Grid.Row="4" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+				<Button Grid.Row="5" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 
 			</Grid>
 		</HeaderedContentControl>

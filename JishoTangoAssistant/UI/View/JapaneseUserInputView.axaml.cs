@@ -60,7 +60,7 @@ namespace JishoTangoAssistant.UI.View
                     FormattedText formattedText = new FormattedText(flattenedMeanings[flattenedIndex], System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily), FontSize, null);
 
                     checkBox.MaxWidth = formattedText.Width + 50;
-                    checkBox.MaxHeight = formattedText.Height + 1;
+                    checkBox.MaxHeight = formattedText.Height + 2;
 
                     totalStepLocationX += (int)Math.Ceiling(checkBox.MaxWidth);
                     checkBox.Checked += (_, _) => _japaneseUserInputViewModel.UpdateOutputText();

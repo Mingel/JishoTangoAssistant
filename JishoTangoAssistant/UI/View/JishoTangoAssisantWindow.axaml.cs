@@ -38,6 +38,7 @@ namespace JishoTangoAssistant.UI.View
                 case "Vocabulary List":
                     // TEMPORARY FIX: Because without the fix, the data grid does not update when adding new items,
                     //                we force an update by re-assigning the vocabulary list to the data grid...
+                    //                ...might be related to https://github.com/AvaloniaUI/Avalonia/issues/9527
                     var gridItems = vocabularyListView.vocabularyItemsDataGrid.Items;
                     vocabularyListView.vocabularyItemsDataGrid.Items = null;
                     vocabularyListView.vocabularyItemsDataGrid.Items = gridItems;
