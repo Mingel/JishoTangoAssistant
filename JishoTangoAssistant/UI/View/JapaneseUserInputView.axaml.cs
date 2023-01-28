@@ -82,6 +82,9 @@ namespace JishoTangoAssistant.UI.View
                 }
                 totalStepLocationX = 0;
             }
+
+            if (meaningGrid.Children.Count == 1 && meaningGrid.Children[0] is MeaningCheckBox)
+                ((MeaningCheckBox)meaningGrid.Children[0]).IsChecked = true;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
