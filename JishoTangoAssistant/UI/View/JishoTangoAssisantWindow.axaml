@@ -6,7 +6,7 @@
 		xmlns:local="clr-namespace:JishoTangoAssistant.UI.ViewModel"
 		xmlns:uc="clr-namespace:JishoTangoAssistant.UI.View;assembly=JishoTangoAssistant"
 		x:Class="JishoTangoAssistant.UI.View.JishoTangoAssisantWindow"
-        Title="JishoTangoAssisantWindow"
+        Title="JishoTangoAssisant"
 		MinHeight="650" MinWidth="600"
 		Height="650" Width="800">
 
