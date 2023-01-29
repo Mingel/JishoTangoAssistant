@@ -26,6 +26,7 @@ namespace JishoTangoAssistant.UI.ViewModel
         private readonly DelegateCommand _deleteFromListCommand;
         private readonly DelegateCommand _goUpCommand;
         private readonly DelegateCommand _goDownCommand;
+        private readonly DelegateCommand _undoOperationOnVocabularyListCommand;
 
         public ICommand SaveListCommand => _saveListCommand;
         public ICommand LoadListCommand => _loadListCommand;
@@ -34,6 +35,7 @@ namespace JishoTangoAssistant.UI.ViewModel
         public ICommand DeleteFromListCommand => _deleteFromListCommand;
         public ICommand GoUpCommand => _goUpCommand;
         public ICommand GoDownCommand => _goDownCommand;
+        public ICommand UndoOperationOnVocabularyListCommand => _undoOperationOnVocabularyListCommand;
 
         public ObservableVocabularyList VocabularyList
         {
@@ -74,6 +76,7 @@ namespace JishoTangoAssistant.UI.ViewModel
             _deleteFromListCommand = new DelegateCommand(OnDeleteFromList, _ => true);
             _goUpCommand = new DelegateCommand(OnGoUp, _ => true);
             _goDownCommand = new DelegateCommand(OnGoDown, _ => true);
+            _undoOperationOnVocabularyListCommand = new DelegateCommand(OnUndoOperationOnVocabularyList, _ => true);
         }
 
         private async void OnLoadList(Object commandParameter)
@@ -103,7 +106,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
             var result = await openFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
-            if (result != null)
+            if (result != null && result.Length > 0)
             {
                 var filename = result[0];
                 using (StreamReader reader = new StreamReader(filename))
@@ -209,6 +212,11 @@ namespace JishoTangoAssistant.UI.ViewModel
                 VocabularyList[currentIndex] = tmpItem; // this line makes tmpIndex necessary because this line resets SelectedVocabItemIndex to -1
                 SelectedVocabItemIndex = currentIndex + 1;
             }
+        }
+
+        private void OnUndoOperationOnVocabularyList(Object commandParameter)
+        {
+            CurrentSession.addedVocabularyItems.Undo();
         }
 
         private void ShowHtmlMessageBox()

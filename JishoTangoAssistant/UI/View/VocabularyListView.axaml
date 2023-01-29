@@ -28,6 +28,8 @@
 					<RowDefinition Height="5"/>
 					<RowDefinition MinHeight="20" Height="Auto"/>
 					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
 				</Grid.RowDefinitions>
 
 				<TextBlock Text="{Binding VocabularyList.Count, StringFormat='Number of entries: {0}', Mode=OneWay}"/>
@@ -53,6 +55,7 @@
 				</Grid>
 
 				<Button Grid.Row="5" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+				<Button Grid.Row="7" x:Name="undoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" Content="↻ Undo Last Action" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Alt+Z"/>
 
 			</Grid>
 		</HeaderedContentControl>

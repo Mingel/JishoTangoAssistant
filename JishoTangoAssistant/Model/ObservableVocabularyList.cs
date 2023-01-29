@@ -100,7 +100,7 @@ namespace JishoTangoAssistant.Model
 
         public void Clear()
         {
-            this.Clear(true);
+            this.Clear(false);
         }
 
         public bool Contains(VocabularyItem item)
@@ -171,7 +171,7 @@ namespace JishoTangoAssistant.Model
             }
         }
 
-        private void Clear(bool pushListOperationToUndoStack)
+        private void Clear(bool pushListOperationToUndoStack = false)
         {
             if (pushListOperationToUndoStack)
                 _undoOperationStack.Push(new ClearListOperation<VocabularyItem>(new List<VocabularyItem>(this)));
@@ -317,9 +317,11 @@ namespace JishoTangoAssistant.Model
         private void UndoClear(IList<VocabularyItem> copy)
         {
             VocabularyItem[] copyArray = new VocabularyItem[copy.Count];
+            copy.CopyTo(copyArray, 0);
+            
+            this.CopyTo(copyArray, 0, false);
             _vocabularyList.Clear();
             _vocabularyDictionary.Clear();
-            this.CopyTo(copyArray, 0, false);
         }
 
         private void UndoCopyTo(IList<VocabularyItem> replacedItems, int arrayIndex)

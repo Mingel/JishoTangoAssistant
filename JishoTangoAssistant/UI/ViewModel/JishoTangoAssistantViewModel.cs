@@ -11,19 +11,6 @@ namespace JishoTangoAssistant.UI.ViewModel
 {
     public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
     {
-        private readonly DelegateCommand _undoOperationOnVocabularyList;
-        public ICommand UndoOperationOnVocabularyList => _undoOperationOnVocabularyList;
-
-        public JishoTangoAssistantViewModel()
-        {
-            _undoOperationOnVocabularyList = new DelegateCommand(OnUndoOperationOnVocabularyList, _ => true);
-        }
-
-        private void OnUndoOperationOnVocabularyList(Object commandParameter)
-        {
-            CurrentSession.addedVocabularyItems.Undo();
-        }
-
         public async Task<bool> OnClosingWindowAsync()
         {
             if (CurrentSession.userMadeChanges)
