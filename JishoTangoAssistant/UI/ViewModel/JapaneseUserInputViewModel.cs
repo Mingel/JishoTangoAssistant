@@ -54,6 +54,7 @@ namespace JishoTangoAssistant.UI.ViewModel
             _processInputCommand = new DelegateCommand(ProcessInput, _ => true);
 
             SelectedIndicesOfMeanings.CollectionChanged += (_, _) => ChangeReadingOutput();
+            CurrentSession.addedVocabularyItems.CollectionChanged += (_, _) => UpdateTextInputBackground();
         }
 
         #region auto-properties
@@ -247,7 +248,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void OnAddToList(Object commandParameter)
         {
-            if (CurrentSession.lastResult == null)
+            if (CurrentSession.lastRetrievedResults == null)
                 return;
 
             VocabularyItem? addedItem = CreateVocabularyItemFromCurrentUserInput();
@@ -257,7 +258,6 @@ namespace JishoTangoAssistant.UI.ViewModel
 
             CurrentSession.addedVocabularyItems.Add(addedItem);
             CurrentSession.userMadeChanges = true;
-            UpdateTextInputBackground();
         }
 
         private async void ProcessInput(Object commandParameter)
@@ -287,7 +287,7 @@ namespace JishoTangoAssistant.UI.ViewModel
                     return;
                 }
 
-                CurrentSession.lastResult = allResults;
+                CurrentSession.lastRetrievedResults = allResults;
 
                 ClearUserInputResults();
 
@@ -378,7 +378,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
             SelectedIndexOfOtherForms = -1;
 
-            var latestResult = CurrentSession.lastResult;
+            var latestResult = CurrentSession.lastRetrievedResults;
             if (latestResult == null)
                 return;
             var selectedDatum = latestResult[SelectedIndexOfWords];
@@ -402,7 +402,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void ChangeReadingOutput()
         {
-            var latestResult = CurrentSession.lastResult;
+            var latestResult = CurrentSession.lastRetrievedResults;
 
             if (latestResult == null)
                 return;

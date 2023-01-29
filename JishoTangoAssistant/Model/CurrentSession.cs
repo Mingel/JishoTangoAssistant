@@ -6,7 +6,7 @@ namespace JishoTangoAssistant.Model
     {
         public static bool running = false;
 
-        public static JishoDatum[]? lastResult = null;
+        public static JishoDatum[]? lastRetrievedResults = null;
 
         public static ObservableVocabularyList addedVocabularyItems = new ObservableVocabularyList();
 
