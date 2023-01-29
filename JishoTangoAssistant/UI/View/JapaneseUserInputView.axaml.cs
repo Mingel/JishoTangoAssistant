@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using JishoTangoAssistant.UI.Elements;
@@ -73,7 +74,10 @@ namespace JishoTangoAssistant.UI.View
                     checkBox.BorderBrush = SolidColorBrush.Parse("White");
                     checkBox.CornerRadius = new CornerRadius(3, 3, 3, 3);
                     checkBox.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Left;
-                    
+
+                    if (flattenedIndex < 10)
+                        checkBox.HotKey = KeyGesture.Parse("Ctrl+D" + ((flattenedIndex + 1) % 10));
+
                     meaningGrid.Children.Add(checkBox);
 
                     checkBox.Click += (_, _) => { _japaneseUserInputViewModel.ChangeSelectedIndicesOfMeanings(checkBox.MeaningsFlattenedIndex, isSelected: checkBox.IsChecked == true); };

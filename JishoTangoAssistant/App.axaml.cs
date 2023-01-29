@@ -22,7 +22,7 @@ namespace JishoTangoAssistant
             base.OnFrameworkInitializationCompleted();
         }
 
-        public static bool UsesFluentDarkMode()
+        public static bool UsesDarkMode()
         {
             return ((Avalonia.Themes.Simple.SimpleTheme)(Current!.Styles[0])).Mode == Avalonia.Themes.Simple.SimpleThemeMode.Dark;
         }
