@@ -247,7 +247,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void OnAddToList(Object commandParameter)
         {
-            if (CurrentSession.latestResult == null)
+            if (CurrentSession.lastResult == null)
                 return;
 
             VocabularyItem? addedItem = CreateVocabularyItemFromCurrentUserInput();
@@ -266,15 +266,15 @@ namespace JishoTangoAssistant.UI.ViewModel
             {
                 CurrentSession.running = true;
 
-                Input = RomajiKanaConverter.Convert(Input);
+                Input = RomajiKanaConverter.Convert(Input.Trim());
 
-                var result = await JishoWebAPIClient.GetResultJsonAsync(Input);
-                if (result == null || result.Length == 0)
+                var allResults = await JishoWebAPIClient.GetResultJsonAsync(Input);
+                if (allResults == null || allResults.Length == 0)
                 {
                     ClearUserInputResults();
                     CurrentSession.running = false;
 
-                    if (result == null) // Application could not retrieve information from Jisho
+                    if (allResults == null) // Application could not retrieve information from Jisho
                     {
                         var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
                         await MessageBox.Show(mainWindow, "Error", "Information could not be retrieved!", MessageBoxButtons.Ok);
@@ -287,28 +287,63 @@ namespace JishoTangoAssistant.UI.ViewModel
                     return;
                 }
 
-                CurrentSession.latestResult = result;
+                CurrentSession.lastResult = allResults;
 
                 ClearUserInputResults();
 
-                var firstResult = result[0];
-                var firstJapaneseEntry = firstResult.japanese[0];
-                foreach (var res in result)
+                int resultIndex = 0;
+                int entryIndex = 0;
+
+                if (CheckWritingSystem.ContainsKanji(Input))
+                    GetIndicesOfInputInResult(allResults, ref resultIndex, ref entryIndex);
+
+                var result = allResults[resultIndex];
+                var japaneseEntry = result.japanese[entryIndex];
+
+                foreach (var res in allResults)
                 {
                     if (res.japanese[0].word != null)
                         Words.Add(res.japanese[0].word);
                     else
                         Words.Add(res.japanese[0].reading);
                 }
+
                 if (Words.Count > 0)
-                    SelectedIndexOfWords = 0;
+                {
+                    SelectedIndexOfWords = resultIndex;
+                    if (OtherForms.Count > 0)
+                        SelectedIndexOfOtherForms = entryIndex;
+                }
 
-                ReadingOutput = firstJapaneseEntry.reading;
+                ReadingOutput = japaneseEntry.reading;
 
-                WriteInKana = firstResult.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
-                    || firstJapaneseEntry.word == null;
+                WriteInKana = result.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
+                    || japaneseEntry.word == null;
                 UpdateOutputText();
                 CurrentSession.running = false;
+            }
+        }
+
+
+        private void GetIndicesOfInputInResult(JishoDatum[]? result, ref int resultIndex, ref int entryIndex)
+        {
+            // default to index 0 if no result was found
+            resultIndex = 0;
+            entryIndex = 0;
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                var res = result[i];
+                for (int j = 0; j < res.japanese.Length; j++)
+                {
+                    var entry = res.japanese[j].word;
+                    if (Input.Equals(entry) && i >= resultIndex) // prefer result over entry of a prev result
+                    {
+                        resultIndex = i;
+                        entryIndex = j;
+                        break; // only take the first entry in the result
+                    }
+                }
             }
         }
 
@@ -336,7 +371,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
             SelectedIndexOfOtherForms = -1;
 
-            var latestResult = CurrentSession.latestResult;
+            var latestResult = CurrentSession.lastResult;
             if (latestResult == null)
                 return;
             var selectedDatum = latestResult[SelectedIndexOfWords];
@@ -360,7 +395,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void ChangeReadingOutput()
         {
-            var latestResult = CurrentSession.latestResult;
+            var latestResult = CurrentSession.lastResult;
 
             if (latestResult == null)
                 return;
