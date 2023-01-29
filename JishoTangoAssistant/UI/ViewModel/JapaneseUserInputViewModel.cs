@@ -327,9 +327,8 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         private void GetIndicesOfInputInResult(JishoDatum[]? result, ref int resultIndex, ref int entryIndex)
         {
-            // default to index 0 if no result was found
-            resultIndex = 0;
-            entryIndex = 0;
+            resultIndex = -1;
+            entryIndex = -1;
 
             for (int i = 0; i < result.Length; i++)
             {
@@ -337,14 +336,22 @@ namespace JishoTangoAssistant.UI.ViewModel
                 for (int j = 0; j < res.japanese.Length; j++)
                 {
                     var entry = res.japanese[j].word;
-                    if (Input.Equals(entry) && i >= resultIndex) // prefer result over entry of a prev result
+                    if (Input.Equals(entry))
                     {
                         resultIndex = i;
                         entryIndex = j;
+
+                        if (entryIndex == 0) // take result over entry of a prev result
+                            return;
+
                         break; // only take the first entry in the result
                     }
                 }
             }
+
+            // default to index 0 if no result was found
+            resultIndex = Math.Max(resultIndex, 0);
+            entryIndex = Math.Max(entryIndex, 0);
         }
 
         private void ClearUserInputResults()
