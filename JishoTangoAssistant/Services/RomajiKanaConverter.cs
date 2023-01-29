@@ -168,9 +168,9 @@ namespace JishoTangoAssistant.Services
             return (char)(hiraganaLetter + 96);
         }
 
-        private static char ToKatakana(string hiraganaLetter)
+        private static string ToKatakana(string hiraganaLetters)
         {
-            return ToKatakana(char.Parse(hiraganaLetter));
+            return string.Join("", hiraganaLetters.Select(hiraganaLetter => ToKatakana(hiraganaLetter)));
         }
 
         private static bool VowelAfterNN(string romajiInput, int vowelIndex)
