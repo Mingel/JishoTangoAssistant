@@ -30,9 +30,9 @@ namespace JishoTangoAssistant.UI.ViewModel
         private int _selectedIndexOfOtherForms = -1;
         private string _readingOutput = String.Empty;
         private int _selectedVocabItemIndex = -1;
+        private bool _itemAdditionPossible = false;
 
         private Color _textInputBackground = App.UsesDarkMode() ? Color.Parse("#66000000") : Color.Parse("#66ffffff");
-
         private readonly DelegateCommand _addToListCommand;
         private readonly DelegateCommand _processInputCommand;
 
@@ -107,6 +107,15 @@ namespace JishoTangoAssistant.UI.ViewModel
                     }
                 }
                 return outputText;
+            }
+        }
+
+        public bool ItemAdditionPossible
+        {
+            get => _itemAdditionPossible;
+            set
+            {
+                SetProperty(ref _itemAdditionPossible, value);
             }
         }
 
@@ -319,6 +328,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
                 WriteInKana = result.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
                     || japaneseEntry.word == null;
+                ItemAdditionPossible = true;
                 UpdateOutputText();
                 CurrentSession.running = false;
             }
@@ -368,6 +378,8 @@ namespace JishoTangoAssistant.UI.ViewModel
             WriteInKana = false;
 
             ClearCheckBoxesEvent?.Invoke();
+
+            ItemAdditionPossible = false;
 
             UpdateOutputText();
         }

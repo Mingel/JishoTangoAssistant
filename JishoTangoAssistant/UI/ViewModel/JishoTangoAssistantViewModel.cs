@@ -1,11 +1,8 @@
 ﻿using Avalonia.Controls.ApplicationLifetimes;
 using JishoTangoAssistant.Model;
-using JishoTangoAssistant.Services.Commands;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.View;
-using System;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace JishoTangoAssistant.UI.ViewModel
 {
