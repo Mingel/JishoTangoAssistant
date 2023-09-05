@@ -39,9 +39,10 @@ namespace JishoTangoAssistant.UI.View
                     // TEMPORARY FIX: Because without the fix, the data grid does not update when adding new items,
                     //                we force an update by re-assigning the vocabulary list to the data grid...
                     //                ...might be related to https://github.com/AvaloniaUI/Avalonia/issues/9527
-                    var gridItems = vocabularyListView.vocabularyItemsDataGrid.Items;
-                    vocabularyListView.vocabularyItemsDataGrid.Items = null;
-                    vocabularyListView.vocabularyItemsDataGrid.Items = gridItems;
+                    // TODO APPARENTLY THE FIX IS OUT
+                    var gridItems = vocabularyListView.vocabularyItemsDataGrid.ItemsSource;
+                    vocabularyListView.vocabularyItemsDataGrid.ItemsSource = null;
+                    vocabularyListView.vocabularyItemsDataGrid.ItemsSource = gridItems;
                     break;
                 case "Dictionary":
                     break;
@@ -52,7 +53,7 @@ namespace JishoTangoAssistant.UI.View
 
         private void MenuItem_Click(object sender, RoutedEventArgs args)
         {
-            MessageBox.Show(this, "About", "Made by Minh Bang Vu (2022)\n" +
+            MessageBox.Show(this, "About", "Made by Minh Bang Vu (2022-2023)\n" +
                 "\n" +
                 "Thanks to the team from jisho.org for making this possible!\n" +
                 "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.",
