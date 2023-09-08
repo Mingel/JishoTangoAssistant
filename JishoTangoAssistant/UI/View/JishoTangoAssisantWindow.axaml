@@ -39,7 +39,7 @@
 			</Grid.ColumnDefinitions>
 
 			<DockPanel Grid.Row="1" Grid.Column="1" x:Name="userIOTableLayoutPanel">
-				<TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="TabControl_SelectionChanged">
+				<TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 					<TabItem Header="Dictionary">
 						<Grid>
 							<Grid.RowDefinitions>

@@ -1,41 +1,69 @@
-﻿namespace JishoTangoAssistant.Services.Jisho
+﻿using System;
+using Newtonsoft.Json;
+
+namespace JishoTangoAssistant.Services.Jisho
 {
+    [JsonObject]
     class JishoMessage
     {
-        public JishoMeta meta;
-        public JishoDatum[] data;
+        [JsonProperty("meta")]
+        public JishoMeta Meta { get; set; } = new JishoMeta();
+
+        [JsonProperty("data")]
+        public JishoDatum[] Data { get; set; } = new JishoDatum[0];
     }
 
     class JishoMeta
     {
-        public int status;
+        [JsonProperty("status")]
+        public int Status { get; set; }
     }
 
     class JishoDatum
     {
-        public string slug;
-        public JishoJapaneseItem[] japanese;
-        public JishoSense[] senses;
-        public JishoAttribution attribution;
+        [JsonProperty("slug")]
+        public string Slug { get; set; } = string.Empty;
+
+        [JsonProperty("japanese")]
+        public JishoJapaneseItem[] Japanese { get; set; } = new JishoJapaneseItem[0];
+
+        [JsonProperty("senses")]
+        public JishoSense[] Senses { get; set; } = new JishoSense[0];
+
+        [JsonProperty("attribution")]
+        public JishoAttribution Attribution = new JishoAttribution();
     }
 
     class JishoJapaneseItem
     {
-        public string word;
-        public string reading;
+        [JsonProperty("word")]
+        public string Word { get; set; } = string.Empty;
+
+        [JsonProperty("reading")]
+        public string Reading { get; set; } = string.Empty;
     }
 
     class JishoSense
     {
-        public string[] english_definitions;
-        public string[] parts_of_speech;
-        public string[] tags;
+        [JsonProperty("english_definitions")]
+        public string[] EnglishDefinitions { get; set; } = new string[0];
+
+        [JsonProperty("parts_of_speech")]
+        public string[] PartsOfSpeech { get; set; } = new string[0];
+
+        [JsonProperty("tags")]
+        public string[] Tags { get; set; } = new string[0];
     }
 
     class JishoAttribution
     {
-        public bool jmdict;
-        public bool jmnedict;
-        public string dbpedia;
+        [JsonProperty("jmdict")]
+        public bool JmDict { get; set; }
+
+        [JsonProperty("jmnedict")]
+        public bool JmNedict { get; set; }
+
+        [JsonProperty("dbpedia")]
+        public string DbPedia { get; set; } = string.Empty;
     }
 }

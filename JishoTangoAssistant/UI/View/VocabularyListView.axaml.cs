@@ -8,8 +8,6 @@ namespace JishoTangoAssistant.UI.View
     {
         private VocabularyListViewModel _vocabularyListViewModel;
 
-        public VocabularyListViewModel VocabularyListViewModel { get; set; }
-
         public VocabularyListView()
         {
             InitializeComponent();

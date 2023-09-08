@@ -31,10 +31,10 @@ namespace JishoTangoAssistant.Model
 
         public bool IsReadOnly => ((ICollection<VocabularyItem>)_vocabularyList).IsReadOnly;
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-        protected virtual event PropertyChangedEventHandler PropertyChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+        protected virtual event PropertyChangedEventHandler? PropertyChanged;
 
-        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
         {
             add
             {
@@ -145,9 +145,9 @@ namespace JishoTangoAssistant.Model
                 _vocabularyList.RemoveAt(index);
             }
 
-            List<VocabularyItem> wordList;
+            List<VocabularyItem>? wordList;
             bool containedInDictionary = _vocabularyDictionary.TryGetValue(item.Word, out wordList);
-            if (containedInDictionary)
+            if (wordList != null && containedInDictionary)
                 wordList.Remove(item);
 
             OnPropertyChanged(CountString);
@@ -207,9 +207,9 @@ namespace JishoTangoAssistant.Model
                 _undoOperationStack.Push(new RemoveAtListOperation<VocabularyItem>(index, oldItem));
             _vocabularyList.RemoveAt(index);
 
-            List<VocabularyItem> wordList;
+            List<VocabularyItem>? wordList = null;
             bool containedInDictionary = _vocabularyDictionary.TryGetValue(oldItem.Word, out wordList);
-            if (containedInDictionary)
+            if (wordList != null && containedInDictionary)
                 wordList.Remove(oldItem);
 
             OnPropertyChanged(CountString);

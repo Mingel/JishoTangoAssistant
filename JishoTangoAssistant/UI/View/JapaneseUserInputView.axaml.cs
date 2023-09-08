@@ -64,7 +64,7 @@ namespace JishoTangoAssistant.UI.View
                     checkBox.MaxHeight = formattedText.Height + 2;
 
                     totalStepLocationX += (int)Math.Ceiling(checkBox.MaxWidth);
-                    checkBox.Checked += (_, _) => _japaneseUserInputViewModel.UpdateOutputText();
+                    checkBox.IsCheckedChanged += (_, _) => _japaneseUserInputViewModel.UpdateOutputText();
 
 
                     checkBox.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left;

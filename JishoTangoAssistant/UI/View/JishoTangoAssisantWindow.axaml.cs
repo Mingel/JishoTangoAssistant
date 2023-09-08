@@ -8,7 +8,7 @@ namespace JishoTangoAssistant.UI.View
     public partial class JishoTangoAssisantWindow : Window
     {
         private JishoTangoAssistantViewModel _jishoTangoAssistantViewModel;
-        public static JishoTangoAssisantWindow Instance;
+        public static JishoTangoAssisantWindow? Instance;
 
         public JishoTangoAssisantWindow()
         {
@@ -24,31 +24,6 @@ namespace JishoTangoAssistant.UI.View
             bool shouldClose = _jishoTangoAssistantViewModel.OnClosingWindowAsync().Result;
             if (!shouldClose)
                 e.Cancel = true;
-        }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if ((sender as TabControl).SelectedItem == null)
-                return;
-
-            string tabItem = ((sender as TabControl).SelectedItem as TabItem).Header as string;
-
-            switch (tabItem)
-            {
-                case "Vocabulary List":
-                    // TEMPORARY FIX: Because without the fix, the data grid does not update when adding new items,
-                    //                we force an update by re-assigning the vocabulary list to the data grid...
-                    //                ...might be related to https://github.com/AvaloniaUI/Avalonia/issues/9527
-                    // TODO APPARENTLY THE FIX IS OUT
-                    var gridItems = vocabularyListView.vocabularyItemsDataGrid.ItemsSource;
-                    vocabularyListView.vocabularyItemsDataGrid.ItemsSource = null;
-                    vocabularyListView.vocabularyItemsDataGrid.ItemsSource = gridItems;
-                    break;
-                case "Dictionary":
-                    break;
-                default:
-                    return;
-            }
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs args)

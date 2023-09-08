@@ -79,12 +79,15 @@ namespace JishoTangoAssistant.UI.ViewModel
             _undoOperationOnVocabularyListCommand = new DelegateCommand(OnUndoOperationOnVocabularyList, _ => true);
         }
 
-        private async void OnLoadList(Object commandParameter)
+        private async void OnLoadList(object? commandParameter)
         {
             bool? performOverwriting = null;
             if (CurrentSession.addedVocabularyItems.Count > 0)
             {
-                var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
+                var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
+                if (mainWindow == null)
+                    return;
+
                 var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "Your vocabulary list is not empty.\nDo you want to overwrite or merge into your current vocabulary list?",
                                                     MessageBoxButtons.MergeOverwriteCancel);
 
@@ -103,6 +106,9 @@ namespace JishoTangoAssistant.UI.ViewModel
                 openFileDialog.Title = "Open file to load vocabulary list";
 
             openFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
+
+            if (JishoTangoAssisantWindow.Instance == null)
+                return;
 
             var result = await openFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
@@ -126,13 +132,16 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        private async void OnSaveList(Object commandParameter)
+        private async void OnSaveList(object? commandParameter)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
             saveFileDialog.Title = "Save vocabulary list as";
 
             saveFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
+
+            if (JishoTangoAssisantWindow.Instance == null)
+                return;
 
             var result = await saveFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
@@ -147,13 +156,13 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        private async void OnExportCsvJapeneseToEnglish(Object commandParameter)
+        private async void OnExportCsvJapeneseToEnglish(object? commandParameter)
         {
             SaveFileDialog exportFileDialog = new SaveFileDialog();
 
             exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
 
-            var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
+            var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance!);
 
             if (result != null)
             {
@@ -165,11 +174,14 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        private async void OnExportCsvEnglishToJapanese(Object commandParameter)
+        private async void OnExportCsvEnglishToJapanese(object? commandParameter)
         {
             SaveFileDialog exportFileDialog = new SaveFileDialog();
 
             exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
+
+            if (JishoTangoAssisantWindow.Instance == null)
+                return;
 
             var result = await exportFileDialog.ShowAsync(JishoTangoAssisantWindow.Instance);
 
@@ -184,13 +196,13 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        private void OnDeleteFromList(object commandParameter)
+        private void OnDeleteFromList(object? commandParameter)
         {
             if (0 <= SelectedVocabItemIndex && SelectedVocabItemIndex < VocabularyList.Count)
                 VocabularyList.RemoveAt(SelectedVocabItemIndex);
         }
 
-        private void OnGoUp(object commandParameter)
+        private void OnGoUp(object? commandParameter)
         {
             if (SelectedVocabItemIndex > 0)
             {
@@ -202,7 +214,7 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        private void OnGoDown(object commandParameter)
+        private void OnGoDown(object? commandParameter)
         {
             if (SelectedVocabItemIndex > -1 && SelectedVocabItemIndex < CurrentSession.addedVocabularyItems.Count - 1)
             {
@@ -214,16 +226,20 @@ namespace JishoTangoAssistant.UI.ViewModel
             }
         }
 
-        private void OnUndoOperationOnVocabularyList(Object commandParameter)
+        private void OnUndoOperationOnVocabularyList(object? commandParameter)
         {
             CurrentSession.addedVocabularyItems.Undo();
         }
 
         private void ShowHtmlMessageBox()
         {
-            var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
-            MessageBox.Show(mainWindow, "Information", "Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
-                MessageBoxButtons.Ok);
+            var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
+
+            if (mainWindow != null)
+            {
+                MessageBox.Show(mainWindow, "Information", "Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
+                    MessageBoxButtons.Ok);
+            }
         }
     }
 }

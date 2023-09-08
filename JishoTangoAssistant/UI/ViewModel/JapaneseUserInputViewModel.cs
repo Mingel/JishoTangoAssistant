@@ -41,10 +41,10 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         #endregion
         public delegate void UpdateCheckBoxesEventHandler(int dataLength, IList<int> meaningsLengths, IList<string> flattenedMeanings);
-        public event UpdateCheckBoxesEventHandler UpdateCheckBoxesEvent;
+        public event UpdateCheckBoxesEventHandler? UpdateCheckBoxesEvent;
 
         public delegate void ClearCheckBoxesEventHandler();
-        public event ClearCheckBoxesEventHandler ClearCheckBoxesEvent;
+        public event ClearCheckBoxesEventHandler? ClearCheckBoxesEvent;
 
         private const string JishoTagUsuallyInKanaAlone = "Usually written using kana alone";
 
@@ -175,7 +175,7 @@ namespace JishoTangoAssistant.UI.ViewModel
         {
             get => _readingOutput;
             set { SetProperty(ref _readingOutput, value); UpdateTextInputBackground(); }
-}
+        }
 
         public ObservableCollection<string> Words
         {
@@ -255,7 +255,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
         #endregion
 
-        private void OnAddToList(Object commandParameter)
+        private void OnAddToList(object? commandParameter)
         {
             if (CurrentSession.lastRetrievedResults == null)
                 return;
@@ -269,7 +269,7 @@ namespace JishoTangoAssistant.UI.ViewModel
             CurrentSession.userMadeChanges = true;
         }
 
-        private async void ProcessInput(Object commandParameter)
+        private async void ProcessInput(object? commandParameter)
         {
             if (!CurrentSession.running)
             {
@@ -283,14 +283,14 @@ namespace JishoTangoAssistant.UI.ViewModel
                     ClearUserInputResults();
                     CurrentSession.running = false;
 
-                    if (allResults == null) // Application could not retrieve information from Jisho
+                    var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
+
+                    if (mainWindow != null && allResults == null) // Application could not retrieve information from Jisho
                     {
-                        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
                         await MessageBox.Show(mainWindow, "Error", "Information could not be retrieved!", MessageBoxButtons.Ok);
                     }
-                    else
+                    else if (mainWindow != null)
                     {
-                        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime).MainWindow;
                         await MessageBox.Show(mainWindow, "Information", "No results were found!", MessageBoxButtons.Ok);
                     }
                     return;
@@ -307,14 +307,14 @@ namespace JishoTangoAssistant.UI.ViewModel
                     GetIndicesOfInputInResult(allResults, ref resultIndex, ref entryIndex);
 
                 var result = allResults[resultIndex];
-                var japaneseEntry = result.japanese[entryIndex];
+                var japaneseEntry = result.Japanese[entryIndex];
 
                 foreach (var res in allResults)
                 {
-                    if (res.japanese[0].word != null)
-                        Words.Add(res.japanese[0].word);
+                    if (res.Japanese[0].Word != null)
+                        Words.Add(res.Japanese[0].Word);
                     else
-                        Words.Add(res.japanese[0].reading);
+                        Words.Add(res.Japanese[0].Reading);
                 }
 
                 if (Words.Count > 0)
@@ -324,10 +324,10 @@ namespace JishoTangoAssistant.UI.ViewModel
                         SelectedIndexOfOtherForms = entryIndex;
                 }
 
-                ReadingOutput = japaneseEntry.reading;
+                ReadingOutput = japaneseEntry.Reading;
 
-                WriteInKana = result.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
-                    || japaneseEntry.word == null;
+                WriteInKana = result.Senses[0].Tags.Contains(JishoTagUsuallyInKanaAlone)
+                    || japaneseEntry.Word == null;
                 ItemAdditionPossible = true;
                 UpdateOutputText();
                 CurrentSession.running = false;
@@ -340,21 +340,24 @@ namespace JishoTangoAssistant.UI.ViewModel
             resultIndex = -1;
             entryIndex = -1;
 
-            for (int i = 0; i < result.Length; i++)
+            if (result != null)
             {
-                var res = result[i];
-                for (int j = 0; j < res.japanese.Length; j++)
+                for (int i = 0; i < result.Length; i++)
                 {
-                    var entry = res.japanese[j].word;
-                    if (Input.Equals(entry))
+                    var res = result[i];
+                    for (int j = 0; j < res.Japanese.Length; j++)
                     {
-                        resultIndex = i;
-                        entryIndex = j;
+                        var entry = res.Japanese[j].Word;
+                        if (Input.Equals(entry))
+                        {
+                            resultIndex = i;
+                            entryIndex = j;
 
-                        if (entryIndex == 0) // take result over entry of a prev result
-                            return;
+                            if (entryIndex == 0) // take result over entry of a prev result
+                                return;
 
-                        break; // only take the first entry in the result
+                            break; // only take the first entry in the result
+                        }
                     }
                 }
             }
@@ -394,22 +397,22 @@ namespace JishoTangoAssistant.UI.ViewModel
             if (latestResult == null)
                 return;
             var selectedDatum = latestResult[SelectedIndexOfWords];
-            foreach (var japItem in selectedDatum.japanese)
+            foreach (var japItem in selectedDatum.Japanese)
             {
-                if (japItem.word != null)
-                    OtherForms.Add(japItem.word);
+                if (japItem.Word != null)
+                    OtherForms.Add(japItem.Word);
                 else
-                    OtherForms.Add(japItem.reading);
+                    OtherForms.Add(japItem.Reading);
             }
             if (OtherForms.Count > 0)
                 SelectedIndexOfOtherForms = 0;
 
-            ReadingOutput = selectedDatum.japanese[0].reading;
+            ReadingOutput = selectedDatum.Japanese[0].Reading;
 
             StoreMeanings(selectedDatum);
 
-            WriteInKana = selectedDatum.senses[0].tags.Contains(JishoTagUsuallyInKanaAlone)
-                || selectedDatum.japanese[0].word == null;
+            WriteInKana = selectedDatum.Senses[0].Tags.Contains(JishoTagUsuallyInKanaAlone)
+                || selectedDatum.Japanese[0].Word == null;
         }
 
         private void ChangeReadingOutput()
@@ -419,21 +422,21 @@ namespace JishoTangoAssistant.UI.ViewModel
             if (latestResult == null)
                 return;
 
-            ReadingOutput = latestResult[SelectedIndexOfWords].japanese[SelectedIndexOfOtherForms].reading;
+            ReadingOutput = latestResult[SelectedIndexOfWords].Japanese[SelectedIndexOfOtherForms].Reading;
         }
 
         private void StoreMeanings(JishoDatum datum)
         {
             Meanings.Clear();
-            foreach (var sense in datum.senses)
+            foreach (var sense in datum.Senses)
             {
-                foreach (var meaning in sense.english_definitions)
+                foreach (var meaning in sense.EnglishDefinitions)
                 {
                     Meanings.Add(meaning);
                 }
             }
 
-            UpdateCheckBoxesEvent?.Invoke(datum.senses.Length, datum.senses.Select(x => x.english_definitions.Length).ToList(), Meanings);
+            UpdateCheckBoxesEvent?.Invoke(datum.Senses.Length, datum.Senses.Select(x => x.EnglishDefinitions.Length).ToList(), Meanings);
         }
 
         public void UpdateOutputText()

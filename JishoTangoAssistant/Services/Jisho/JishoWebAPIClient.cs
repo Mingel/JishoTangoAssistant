@@ -27,7 +27,7 @@ namespace JishoTangoAssistant.Services.Jisho
                 if (json == null) 
                     return null;
 
-                var result = json.data;
+                var result = json.Data;
                 return result;
             }
 
@@ -46,7 +46,7 @@ namespace JishoTangoAssistant.Services.Jisho
 
                     json = RemoveWikipediaEntries(json);
                     File.WriteAllText(tmpWordFilePath, JsonConvert.SerializeObject(json));
-                    var result = json.data;
+                    var result = json.Data;
                     return result;
                 }
             }
@@ -55,14 +55,14 @@ namespace JishoTangoAssistant.Services.Jisho
 
         private static JishoMessage RemoveWikipediaEntries(JishoMessage message)
         {
-            foreach (var datum in message.data)
+            foreach (var datum in message.Data)
             {
-                if (!datum.attribution.dbpedia.Equals("false"))
-                    datum.senses = datum.senses.Where(sense => !sense.parts_of_speech.Contains("Wikipedia definition")).ToArray();
+                if (!datum.Attribution.DbPedia.Equals("false"))
+                    datum.Senses = datum.Senses.Where(sense => !sense.PartsOfSpeech.Contains("Wikipedia definition")).ToArray();
             }
 
-            if (message.data.Any(datum => datum.senses.Length == 0))
-                message.data = message.data.Where(datum => datum.senses.Length > 0).ToArray();
+            if (message.Data.Any(datum => datum.Senses.Length == 0))
+                message.Data = message.Data.Where(datum => datum.Senses.Length > 0).ToArray();
 
             return message;
         }

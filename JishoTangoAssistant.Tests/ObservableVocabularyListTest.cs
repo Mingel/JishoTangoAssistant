@@ -6,7 +6,7 @@ namespace JishoTangoAssistant.Tests
     [TestFixture]
     public class ObservableVocabularyListTest
     {
-        private ObservableVocabularyList _list;
+        private ObservableVocabularyList _list = new ObservableVocabularyList();
 
         [SetUp]
         public void Init()

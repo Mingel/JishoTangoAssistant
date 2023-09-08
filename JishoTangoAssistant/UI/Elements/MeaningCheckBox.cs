@@ -4,9 +4,9 @@ using System;
 
 namespace JishoTangoAssistant.UI.Elements
 {
-    public class MeaningCheckBox : CheckBox, IStyleable
+    public class MeaningCheckBox : CheckBox
     {
-        Type IStyleable.StyleKey => typeof(CheckBox);
+        protected override Type StyleKeyOverride => typeof(CheckBox);
 
         public int MeaningsRow { get; set; }
 
