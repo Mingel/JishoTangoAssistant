@@ -311,7 +311,7 @@ namespace JishoTangoAssistant.UI.ViewModel
 
                 foreach (var res in allResults)
                 {
-                    if (res.Japanese[0].Word != null)
+                    if (!string.IsNullOrEmpty(res.Japanese[0].Word))
                         Words.Add(res.Japanese[0].Word);
                     else
                         Words.Add(res.Japanese[0].Reading);
@@ -399,7 +399,7 @@ namespace JishoTangoAssistant.UI.ViewModel
             var selectedDatum = latestResult[SelectedIndexOfWords];
             foreach (var japItem in selectedDatum.Japanese)
             {
-                if (japItem.Word != null)
+                if (!string.IsNullOrEmpty(japItem.Word))
                     OtherForms.Add(japItem.Word);
                 else
                     OtherForms.Add(japItem.Reading);
