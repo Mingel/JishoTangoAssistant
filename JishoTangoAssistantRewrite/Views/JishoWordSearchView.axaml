@@ -1,0 +1,26 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:JishoTangoAssistantRewrite.ViewModels"
+             xmlns:views="clr-namespace:JishoTangoAssistantRewrite.Views"
+             x:Class="JishoTangoAssistantRewrite.Views.JishoWordSearchView"
+             x:DataType="vm:JishoWordSearchViewModel">
+	<Design.DataContext>
+		<vm:JishoWordSearchViewModel />
+	</Design.DataContext>
+
+	<StackPanel>
+		<Grid Grid.Row="0" x:Name="inputGrid">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto" MinWidth="75"/>
+			</Grid.ColumnDefinitions>
+
+			<Label Grid.Column="0" Margin="0,7,10,0" x:Name="searchLabel" Content="Search"/>
+			<TextBox Grid.Column="1" x:Name="inputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,10,0" FontSize="16" AcceptsReturn="True"/>
+			<Button Grid.Column="2" x:Name="enterButton" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+		</Grid>
+	</StackPanel>
+</UserControl>
