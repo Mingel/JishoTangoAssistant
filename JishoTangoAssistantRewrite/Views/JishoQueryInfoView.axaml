@@ -6,6 +6,7 @@
              xmlns:views="clr-namespace:JishoTangoAssistantRewrite.Views"
              x:Class="JishoTangoAssistantRewrite.Views.JishoQueryInfoView"
              x:DataType="vm:JishoQueryInfoViewModel">
+	
 	<StackPanel>
 		<Grid Grid.Row="2" MinHeight="44">
 			<Grid.ColumnDefinitions>

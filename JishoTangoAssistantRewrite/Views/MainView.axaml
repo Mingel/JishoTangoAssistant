@@ -6,12 +6,14 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:views="clr-namespace:JishoTangoAssistantRewrite.Views"
              x:Class="JishoTangoAssistantRewrite.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+		     xmlns:v="clr-namespace:JishoTangoAssistantRewrite.Views">
   <Design.DataContext>
     <vm:MainViewModel />
   </Design.DataContext>
 	<StackPanel>
-	    <views:JishoWordSearchView DataContext="{Binding JishoWordSearch}"/>
-	    <views:JishoQueryInfoView DataContext="{Binding JishoQueryInfo}"/>
+	    <v:JishoWordSearchView DataContext="{Binding JishoWordSearchViewModel}"/>
+	    <v:JishoQueryInfoView DataContext="{Binding JishoQueryInfoViewModel}"/>
+		<v:JishoMeaningView DataContext="{Binding JishoMeaningViewModel}"/>
 	</StackPanel>
 </UserControl>

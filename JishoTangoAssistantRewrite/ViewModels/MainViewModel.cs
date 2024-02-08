@@ -2,10 +2,9 @@
 
 public partial class MainViewModel : ViewModelBase
 {
-    public MainViewModel()
-    {
-        JishoWordSearch = new JishoWordSearchViewModel();
-    }
+    public JishoQueryInfoViewModel JishoQueryInfoViewModel { get; } = new JishoQueryInfoViewModel();
 
-    public JishoWordSearchViewModel JishoWordSearch { get; }
+    public JishoWordSearchViewModel JishoWordSearchViewModel { get; } = new JishoWordSearchViewModel();
+
+    public JishoMeaningViewModel JishoMeaningViewModel { get; } = new JishoMeaningViewModel();
 }

@@ -3,9 +3,9 @@ using JishoTangoAssistantRewrite.ViewModels;
 
 namespace JishoTangoAssistantRewrite.Views
 {
-    public partial class JishoQueryInfoView : UserControl
+    public partial class JishoMeaningView : UserControl
     {
-        public JishoQueryInfoView()
+        public JishoMeaningView()
         {
             InitializeComponent();
         }

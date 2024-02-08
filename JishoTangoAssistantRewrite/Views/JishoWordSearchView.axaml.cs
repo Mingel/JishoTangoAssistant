@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using JishoTangoAssistantRewrite.ViewModels;
 
 namespace JishoTangoAssistantRewrite.Views;
 
