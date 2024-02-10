@@ -15,5 +15,8 @@
 	    <v:JishoWordSearchView DataContext="{Binding JishoWordSearchViewModel}"/>
 	    <v:JishoQueryInfoView DataContext="{Binding JishoQueryInfoViewModel}"/>
 		<v:JishoMeaningView DataContext="{Binding JishoMeaningViewModel}"/>
+		<v:JishoAdditionalCommentsView DataContext="{Binding JishoAdditionalCommentsViewModel}"/>
+		<v:JishoOptionsView DataContext="{Binding JishoOptionsViewModel}"/>
+		<Button Command="{Binding ShowCardPreview}">Card Preview</Button>
 	</StackPanel>
 </UserControl>

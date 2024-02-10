@@ -5,10 +5,10 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="clr-namespace:JishoTangoAssistantRewrite.ViewModels"
              xmlns:views="clr-namespace:JishoTangoAssistantRewrite.Views"
-             x:Class="JishoTangoAssistantRewrite.Views.JishoMeaningView"
-             x:DataType="vm:JishoMeaningViewModel">
+             x:Class="JishoTangoAssistantRewrite.Views.JishoOptionsView"
+             x:DataType="vm:JishoOptionsViewModel">
 	<StackPanel>
-		<TextBlock TextBlock.FontWeight="Bold" Text="Meanings"/>
-		<CheckBox>Test</CheckBox>
+		<TextBlock TextBlock.FontWeight="Bold" Text="Options"/>
+		<CheckBox x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
 	</StackPanel>
 </UserControl>

@@ -5,10 +5,10 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="clr-namespace:JishoTangoAssistantRewrite.ViewModels"
              xmlns:views="clr-namespace:JishoTangoAssistantRewrite.Views"
-             x:Class="JishoTangoAssistantRewrite.Views.JishoMeaningView"
-             x:DataType="vm:JishoMeaningViewModel">
+             x:Class="JishoTangoAssistantRewrite.Views.JishoAdditionalCommentsView"
+             x:DataType="vm:JishoAdditionalCommentsViewModel">
 	<StackPanel>
-		<TextBlock TextBlock.FontWeight="Bold" Text="Meanings"/>
-		<CheckBox>Test</CheckBox>
+		<TextBlock TextBlock.FontWeight="Bold" Text="Additional Comments"/>
+		<TextBox x:Name="additionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
 	</StackPanel>
 </UserControl>

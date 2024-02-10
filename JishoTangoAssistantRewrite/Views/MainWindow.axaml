@@ -6,7 +6,6 @@
         xmlns:views="clr-namespace:JishoTangoAssistantRewrite.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="JishoTangoAssistantRewrite.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
         Title="JishoTangoAssistant"
 		TransparencyLevelHint="AcrylicBlur"
 		Background="Transparent"

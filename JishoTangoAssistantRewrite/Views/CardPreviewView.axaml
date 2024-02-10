@@ -1,0 +1,46 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="JishoTangoAssistantRewrite.Views.CardPreviewView"
+        Title="Card Preview">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="110"/>
+				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="175"/>
+				<ColumnDefinition Width="15"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<Label Grid.Column="0" Margin="5,7,0,1" Content="Front → Back:"/>
+			<RadioButton Margin="0,1,0,1" Grid.Column="2" GroupName="cardDirection" IsChecked="{Binding JapaneseToEnglishDirection}" Content="JP → Reading + EN"/>
+			<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}" Content="EN → JP + Reading"/>
+		</Grid>
+		<Rectangle Grid.Row="1" HorizontalAlignment="Stretch" Fill="DarkGray" Height="1"/>
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="110"/>
+				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="175"/>
+				<ColumnDefinition Width="15"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+			<Label Grid.Column="0" Margin="5,7,0,1" Content="Show Side:"/>
+			<RadioButton Margin="0,1,0,1" Grid.Column="2" GroupName="resultingCardSide" IsChecked="{Binding ShowFrontSide}" Content="Front"/>
+			<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="resultingCardSide" IsChecked="{Binding ShowBackSide}" Content="Back"/>
+		</Grid>
+		<Rectangle Grid.Row="3" HorizontalAlignment="Stretch" Fill="DarkGray" Height="1"/>
+		<ScrollViewer Grid.Row="4" >
+			<TextBlock Background="#FF333333" Margin="5,7,0,1" Text="{Binding OutputText}" FontSize="16"/>
+		</ScrollViewer>
+	</Grid>
+</Window>
