@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 
 namespace JishoTangoAssistantRewrite.Views
 {
@@ -7,6 +8,16 @@ namespace JishoTangoAssistantRewrite.Views
         public JishoVocabularyListView()
         {
             InitializeComponent();
+        }
+
+        private void upButton_Click(object sender, RoutedEventArgs e)
+        {
+            vocabularyItemsDataGrid.Focus();
+        }
+
+        private void downButton_Click(object sender, RoutedEventArgs e)
+        {
+            vocabularyItemsDataGrid.Focus();
         }
     }
 }
