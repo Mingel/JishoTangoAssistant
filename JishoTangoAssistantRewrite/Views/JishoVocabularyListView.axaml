@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:JishoTangoAssistantRewrite.ViewModels"
+             xmlns:views="clr-namespace:JishoTangoAssistantRewrite.Views"
+             x:Class="JishoTangoAssistantRewrite.Views.JishoVocabularyListView"
+             x:DataType="vm:JishoVocabularyListViewModel">
+	<StackPanel>
+		<TextBlock TextBlock.FontWeight="Bold" Text="Vocabulary List"/>
+		<DockPanel>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition MinHeight="100" Height="*"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Text="{Binding VocabularyList.Count, StringFormat='Number of entries: {0}', Mode=OneWay}"/>
+
+				<!--<DataGrid Grid.Row="1" Background="#FF333333" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="110" Width="100" CanUserSort="False"/>
+						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" CanUserSort="False" CanUserReorder="False" CanUserResize="False" Width="0" MaxWidth="0" IsVisible="False"/>
+						<DataGridTextColumn Header="Reading" Binding="{Binding Reading}" MinWidth="100" Width="100" CanUserSort="False"/>
+						<DataGridTextColumn Header="Meaning &amp; Comments" Binding="{Binding Output}" Width="*" CanUserSort="False"/>
+					</DataGrid.Columns>
+				</DataGrid>-->
+
+				<Grid Grid.Row="3" x:Name="upDownButtonsTableLayoutGrid">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="5"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+
+					<!--<Button Grid.Column="0" x:Name="upButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Column="2" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>-->
+				</Grid>
+
+				<!--<Button Grid.Row="5" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>-->
+				<!--<Button Grid.Row="7" x:Name="undoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" Content="↻ Undo Last Action" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Alt+Z"/>-->
+			</Grid>
+		</DockPanel>
+
+		<Grid x:Name="rightButtonsGrid">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="5"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="5"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="5"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="5"/>
+			</Grid.RowDefinitions>
+
+			<Button Grid.Row="1" x:Name="loadButton" Command="{Binding LoadList}" Content="📂 Load Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding SaveList}" Content="💾 Save Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<StackPanel>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<Grid Grid.Row="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="Auto"/>
+						</Grid.ColumnDefinitions>
+						<Label Grid.Column="0" x:Name="fontSizeLabel" Margin="5,4,0,0" Content="Font Size (JP): "/>
+						<NumericUpDown Grid.Column="1" x:Name="fontSizeNumericUpDown" MinWidth="110" Width="100" Text="{Binding FontSize}" Value="{Binding FontSize}" FormatString="{}{0:#,0}" Minimum="6" Maximum="96"/>
+					</Grid>
+					<!--Use .apk instead of .csv, therefore add related command TODO-->
+					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+				</Grid>
+			</StackPanel>
+		</Grid>
+	</StackPanel>
+</UserControl>

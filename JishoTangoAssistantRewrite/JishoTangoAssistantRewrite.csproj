@@ -20,10 +20,4 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Views\JishoAdditionalCommentsView.axaml.cs">
-      <DependentUpon>JishoAdditionalCommentsView.axaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>

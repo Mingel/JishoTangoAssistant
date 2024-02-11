@@ -1,38 +1,47 @@
-﻿using Avalonia.Controls;
-using JishoTangoAssistantRewrite.Views;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JishoTangoAssistantRewrite.Services
 {
     public class WindowService : IWindowService
     {
-        private readonly Dictionary<string, object> viewMap = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> viewNameWindowMap = new Dictionary<string, object>();
 
         public void ShowWindow(object viewModel)
         {
             var viewModelTypeName = viewModel.GetType().FullName;
-            var name = viewModelTypeName?.Replace("ViewModel", "View");
+            var viewName = viewModelTypeName?.Replace("ViewModel", "View");
 
-            if (viewModelTypeName != null && viewMap.ContainsKey(name) && ((Window)viewMap[name])?.IsVisible != true)
+
+            var desktop = Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+
+            if (desktop == null)
+                return;
+
+            var mainWindow = desktop.MainWindow;
+
+            if (viewModelTypeName != null && viewNameWindowMap.ContainsKey(viewName))
             {
-                ((Window)viewMap[name]).Activate();
+                ((Window)viewNameWindowMap[viewName]).Activate();
+                return;
             }
 
-            var type = Type.GetType(name);
+            var type = Type.GetType(viewName);
             var window = Activator.CreateInstance(type) as Window;
 
             if (window == null)
                 return;
 
             window.DataContext = viewModel;
+            window.Closed += (s, e) => {
+                viewNameWindowMap.Remove(viewName);
+            };
             window.Show();
 
-            viewMap[name] = window;
+            viewNameWindowMap[viewName] = window;
         }
     }
 }

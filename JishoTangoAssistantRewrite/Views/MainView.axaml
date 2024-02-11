@@ -11,12 +11,19 @@
   <Design.DataContext>
     <vm:MainViewModel />
   </Design.DataContext>
-	<StackPanel>
+	<!--<StackPanel>
 	    <v:JishoWordSearchView DataContext="{Binding JishoWordSearchViewModel}"/>
 	    <v:JishoQueryInfoView DataContext="{Binding JishoQueryInfoViewModel}"/>
 		<v:JishoMeaningView DataContext="{Binding JishoMeaningViewModel}"/>
 		<v:JishoAdditionalCommentsView DataContext="{Binding JishoAdditionalCommentsViewModel}"/>
 		<v:JishoOptionsView DataContext="{Binding JishoOptionsViewModel}"/>
 		<Button Command="{Binding ShowCardPreview}">Card Preview</Button>
+		<Button Grid.Row="2" Grid.Column="1" x:Name="addButton" Command="{Binding AddToVocabularyList}"
+				Content="➕ Add to Vocabulary List" HorizontalAlignment="Stretch" 
+				HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" 
+				IsEnabled="{Binding ItemAdditionPossible}"/>
+	</StackPanel>-->
+	<StackPanel>
+		<v:JishoVocabularyListView DataContext="{Binding JishoVocabularyListViewModel}"/>
 	</StackPanel>
 </UserControl>

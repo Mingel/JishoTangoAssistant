@@ -10,5 +10,5 @@
 		TransparencyLevelHint="AcrylicBlur"
 		Background="Transparent"
 		ExtendClientAreaToDecorationsHint="False">
-	<views:MainView />
+	<views:MainView/>
 </Window>
