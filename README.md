@@ -7,7 +7,7 @@ JishoTangoAssistant is an application which can create custom vocabulary lists f
 ![image](https://user-images.githubusercontent.com/46728839/214991961-be0e5158-b9ac-4f1e-a3f0-3aec29aba89a.png)
 
 ## Build
-[.NET 6 SDK](https://dotnet.microsoft.com/download) must be installed.
+[.NET 8 SDK](https://dotnet.microsoft.com/download) must be installed.
 
 To build and run the application, use the following commands from the root folder:
 ```
