@@ -1,11 +1,10 @@
-﻿namespace JishoTangoAssistant.UI.Elements
+﻿namespace JishoTangoAssistant.UI.Elements;
+
+public enum MessageBoxButtons
 {
-    public enum MessageBoxButtons
-    {
-        Ok,
-        OkCancel,
-        YesNo,
-        YesNoCancel,
-        MergeOverwriteCancel,
-    }
+    Ok,
+    OkCancel,
+    YesNo,
+    YesNoCancel,
+    MergeOverwriteCancel,
 }

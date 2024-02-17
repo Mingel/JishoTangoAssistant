@@ -5,66 +5,65 @@ using System.Threading.Tasks;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Services.Jisho
+namespace JishoTangoAssistant.Services.Jisho;
+
+class JishoWebAPIClient
 {
-    class JishoWebAPIClient
+    public static async Task<JishoDatum[]?> GetResultJsonAsync(string keyword)
     {
-        public static async Task<JishoDatum[]?> GetResultJsonAsync(string keyword)
+        // caching
+        var tmpPath = Path.GetTempPath();
+        var tmpAppPath = Path.Combine(tmpPath, "JishoTangoAssistant");
+        var tmpWordFilename = string.Join("_", keyword.Split(Path.GetInvalidFileNameChars())) + ".json";
+        var tmpWordFilePath = Path.Combine(tmpAppPath, tmpWordFilename);
+
+        if (!Directory.Exists(tmpAppPath))
+            Directory.CreateDirectory(tmpAppPath);
+
+        if (File.Exists(tmpWordFilePath))
         {
-            // caching
-            var tmpPath = Path.GetTempPath();
-            var tmpAppPath = Path.Combine(tmpPath, "JishoTangoAssistant");
-            var tmpWordFilename = String.Join("_", keyword.Split(Path.GetInvalidFileNameChars())) + ".json";
-            var tmpWordFilePath = Path.Combine(tmpAppPath, tmpWordFilename);
+            var json = JsonConvert.DeserializeObject<JishoMessage>(File.ReadAllText(tmpWordFilePath));
 
-            if (!Directory.Exists(tmpAppPath))
-                Directory.CreateDirectory(tmpAppPath);
+            if (json == null) 
+                return null;
 
-            if (File.Exists(tmpWordFilePath))
+            var result = json.Data;
+            return result;
+        }
+
+        using (var client = new HttpClient())
+        {
+            var url = $"https://jisho.org/api/v1/search/words?keyword=\"{keyword}\"";
+
+            HttpResponseMessage response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
             {
-                var json = JsonConvert.DeserializeObject<JishoMessage>(File.ReadAllText(tmpWordFilePath));
+                var message = await response.Content.ReadAsStringAsync();
+                var json = JsonConvert.DeserializeObject<JishoMessage>(message.ToString());
 
-                if (json == null) 
+                if (json == null)
                     return null;
 
+                json = RemoveWikipediaEntries(json);
+                File.WriteAllText(tmpWordFilePath, JsonConvert.SerializeObject(json));
                 var result = json.Data;
                 return result;
             }
-
-            using (var client = new HttpClient())
-            {
-                var url = $"https://jisho.org/api/v1/search/words?keyword=\"{keyword}\"";
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
-                {
-                    var message = await response.Content.ReadAsStringAsync();
-                    var json = JsonConvert.DeserializeObject<JishoMessage>(message.ToString());
-
-                    if (json == null)
-                        return null;
-
-                    json = RemoveWikipediaEntries(json);
-                    File.WriteAllText(tmpWordFilePath, JsonConvert.SerializeObject(json));
-                    var result = json.Data;
-                    return result;
-                }
-            }
-            return null;
         }
+        return null;
+    }
 
-        private static JishoMessage RemoveWikipediaEntries(JishoMessage message)
+    private static JishoMessage RemoveWikipediaEntries(JishoMessage message)
+    {
+        foreach (var datum in message.Data)
         {
-            foreach (var datum in message.Data)
-            {
-                if (!datum.Attribution.DbPedia.Equals("false"))
-                    datum.Senses = datum.Senses.Where(sense => !sense.PartsOfSpeech.Contains("Wikipedia definition")).ToArray();
-            }
-
-            if (message.Data.Any(datum => datum.Senses.Length == 0))
-                message.Data = message.Data.Where(datum => datum.Senses.Length > 0).ToArray();
-
-            return message;
+            if (!datum.Attribution.DbPedia.Equals("false"))
+                datum.Senses = datum.Senses.Where(sense => !sense.PartsOfSpeech.Contains("Wikipedia definition")).ToArray();
         }
+
+        if (message.Data.Any(datum => datum.Senses.Length == 0))
+            message.Data = message.Data.Where(datum => datum.Senses.Length > 0).ToArray();
+
+        return message;
     }
 }

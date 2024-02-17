@@ -7,21 +7,21 @@ namespace JishoTangoAssistant.UI.View
 {
     public partial class JishoTangoAssisantWindow : Window
     {
-        private JishoTangoAssistantViewModel _jishoTangoAssistantViewModel;
+        private JishoTangoAssistantViewModel jishoTangoAssistantViewModel;
         public static JishoTangoAssisantWindow? Instance;
 
         public JishoTangoAssisantWindow()
         {
             Instance = this;
             InitializeComponent();
-            _jishoTangoAssistantViewModel = new JishoTangoAssistantViewModel();
-            DataContext = _jishoTangoAssistantViewModel;
+            jishoTangoAssistantViewModel = new JishoTangoAssistantViewModel();
+            DataContext = jishoTangoAssistantViewModel;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // Let ViewModel handle closing because the view model knows if the user has saved before
-            bool shouldClose = _jishoTangoAssistantViewModel.OnClosingWindowAsync().Result;
+            bool shouldClose = jishoTangoAssistantViewModel.OnClosingWindowAsync().Result;
             if (!shouldClose)
                 e.Cancel = true;
         }

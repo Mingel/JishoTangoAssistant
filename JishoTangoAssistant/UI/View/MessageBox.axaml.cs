@@ -19,21 +19,21 @@ namespace JishoTangoAssistant.UI.View
             InitializeComponent();
 
             if (buttons == MessageBoxButtons.Ok || buttons == MessageBoxButtons.OkCancel)
-                this.AddButton("OK", MessageBoxResult.Ok, true);
+                AddButton("OK", MessageBoxResult.Ok, true);
             if (buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.YesNoCancel)
             {
-                this.AddButton("Yes", MessageBoxResult.Yes);
-                this.AddButton("No", MessageBoxResult.No, true);
+                AddButton("Yes", MessageBoxResult.Yes);
+                AddButton("No", MessageBoxResult.No, true);
             }
 
             if (buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNoCancel)
-                this.AddButton("Cancel", MessageBoxResult.Cancel, true);
+                AddButton("Cancel", MessageBoxResult.Cancel, true);
 
             if (buttons == MessageBoxButtons.MergeOverwriteCancel)
             {
-                this.AddButton("Merge", MessageBoxResult.Merge);
-                this.AddButton("Overwrite", MessageBoxResult.Overwrite);
-                this.AddButton("Cancel", MessageBoxResult.Cancel, true);
+                AddButton("Merge", MessageBoxResult.Merge);
+                AddButton("Overwrite", MessageBoxResult.Overwrite);
+                AddButton("Cancel", MessageBoxResult.Cancel, true);
             }
         }
 
@@ -47,7 +47,7 @@ namespace JishoTangoAssistant.UI.View
             var button = new Button { Content = caption };
             button.Click += (_, _) => {
                 selectedResult = result;
-                this.Close();
+                Close();
             };
             buttonsStackPanel.Children.Add(button);
             if (isDefault)

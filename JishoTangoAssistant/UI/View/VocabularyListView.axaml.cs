@@ -6,13 +6,13 @@ namespace JishoTangoAssistant.UI.View
 {
     public partial class VocabularyListView : UserControl
     {
-        private VocabularyListViewModel _vocabularyListViewModel;
+        private VocabularyListViewModel vocabularyListViewModel;
 
         public VocabularyListView()
         {
             InitializeComponent();
-            _vocabularyListViewModel = new VocabularyListViewModel();
-            DataContext = _vocabularyListViewModel;
+            vocabularyListViewModel = new VocabularyListViewModel();
+            DataContext = vocabularyListViewModel;
         }
 
         private void upButton_Click(object sender, RoutedEventArgs e)

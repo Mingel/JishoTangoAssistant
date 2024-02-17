@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Media;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.ViewModel;
@@ -15,72 +17,71 @@ namespace JishoTangoAssistant.UI.View
     /// </summary>
     public partial class JapaneseUserInputView : UserControl
     {
-        private JapaneseUserInputViewModel _japaneseUserInputViewModel;
+        private JapaneseUserInputViewModel japaneseUserInputViewModel;
+
+        private const int StartLocationX = 7;
+        private const int StartLocationY = 4;
+        private const int StepLocationY = 30;
 
         public JapaneseUserInputView()
         {
             InitializeComponent();
-            _japaneseUserInputViewModel = new JapaneseUserInputViewModel();
-            DataContext = _japaneseUserInputViewModel;
+            japaneseUserInputViewModel = new JapaneseUserInputViewModel();
+            DataContext = japaneseUserInputViewModel;
 
-            _japaneseUserInputViewModel.UpdateCheckBoxesEvent += OnInputLoaded;
-            _japaneseUserInputViewModel.ClearCheckBoxesEvent += OnClearMeanings;
+            japaneseUserInputViewModel.UpdateCheckBoxesEvent += OnInputLoaded;
+            japaneseUserInputViewModel.ClearCheckBoxesEvent += OnClearMeanings;
         }
 
         private void OnClearMeanings()
         {
-            this.meaningGrid.Children.Clear();
+            meaningGrid.Children.Clear();
         }
 
         private void OnInputLoaded(int dataLength, IList<int> meaningsLengths, IList<string> flattenedMeanings)
         {
-            var startLocationX = 7;
-            var totalStepLocationX = 0; // variable
-            var startLocationY = 4;
-            var stepLocationY = 30;
+            var totalStepLocationX = 0;
 
             int flattenedIndex = 0;
 
-            this.meaningGrid.Children.Clear();
-            _japaneseUserInputViewModel.ClearSelectedIndicesOfMeanings();
+            meaningGrid.Children.Clear();
+            japaneseUserInputViewModel.ClearSelectedIndicesOfMeanings();
             for (int i = 0; i < dataLength; i++)
             {
                 for (int j = 0; j < meaningsLengths[i]; j++)
                 {
-                    MeaningCheckBox checkBox = new MeaningCheckBox();
+                    MeaningCheckBox checkBox = new MeaningCheckBox
+                    {
+                        MeaningsRow = i,
+                        MeaningsColumn = j,
+                        MeaningsFlattenedIndex = flattenedIndex,
+                        Margin = new Thickness(StartLocationX + totalStepLocationX, StartLocationY + i * StepLocationY, 0, 0),
+                        Name = $"outputCheckBox{i}_{j}",
+                        Content = flattenedMeanings[flattenedIndex]
+                    };
 
-                    checkBox.MeaningsRow = i;
-                    checkBox.MeaningsColumn = j;
-                    checkBox.MeaningsFlattenedIndex = flattenedIndex;
-
-                    
-                    checkBox.Margin = new Thickness(startLocationX + totalStepLocationX, startLocationY + i * stepLocationY, 0, 0);
-                    checkBox.Name = $"outputCheckBox{i}_{j}";
-                    checkBox.Content = flattenedMeanings[flattenedIndex];
-
-                    FormattedText formattedText = new FormattedText(flattenedMeanings[flattenedIndex], System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily), FontSize, null);
+                    FormattedText formattedText = new FormattedText(flattenedMeanings[flattenedIndex], CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily), FontSize, null);
 
                     checkBox.MaxWidth = formattedText.Width + 50;
                     checkBox.MaxHeight = formattedText.Height + 2;
 
                     totalStepLocationX += (int)Math.Ceiling(checkBox.MaxWidth);
-                    checkBox.IsCheckedChanged += (_, _) => _japaneseUserInputViewModel.UpdateOutputText();
+                    checkBox.IsCheckedChanged += (_, _) => japaneseUserInputViewModel.UpdateOutputText();
 
-
-                    checkBox.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Left;
-                    checkBox.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Top;
+                    checkBox.HorizontalAlignment = HorizontalAlignment.Left;
+                    checkBox.VerticalAlignment = VerticalAlignment.Top;
                     
                     checkBox.Background = SolidColorBrush.Parse("Transparent");
                     checkBox.BorderBrush = SolidColorBrush.Parse("White");
                     checkBox.CornerRadius = new CornerRadius(3, 3, 3, 3);
-                    checkBox.HorizontalContentAlignment = Avalonia.Layout.HorizontalAlignment.Left;
+                    checkBox.HorizontalContentAlignment = HorizontalAlignment.Left;
 
                     if (flattenedIndex < 10)
                         checkBox.HotKey = KeyGesture.Parse("Ctrl+D" + ((flattenedIndex + 1) % 10));
 
                     meaningGrid.Children.Add(checkBox);
 
-                    checkBox.Click += (_, _) => { _japaneseUserInputViewModel.ChangeSelectedIndicesOfMeanings(checkBox.MeaningsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
+                    checkBox.Click += (_, _) => { japaneseUserInputViewModel.ChangeSelectedIndicesOfMeanings(checkBox.MeaningsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
 
                     flattenedIndex++;
                 }

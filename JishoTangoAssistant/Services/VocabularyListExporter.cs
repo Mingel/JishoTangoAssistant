@@ -2,70 +2,69 @@
 using System;
 using System.Text;
 
-namespace JishoTangoAssistant.Services
+namespace JishoTangoAssistant.Services;
+
+public static class VocabularyListExporter
 {
-    public static class VocabularyListExporter
+    public static string JapaneseToEnglish(ObservableVocabularyList items)
     {
-        public static string JapaneseToEnglish(ObservableVocabularyList items)
+        StringBuilder sb = new StringBuilder();
+
+        // condition: if font size is set, then we need the html way for successful import
+        // visualNewLine is only for setting new lines in a card, not for separating card purposes
+        string visualNewLine = "<br>";
+
+        foreach (var item in items)
         {
-            StringBuilder sb = new StringBuilder();
-
-            // condition: if font size is set, then we need the html way for successful import
-            // visualNewLine is only for setting new lines in a card, not for separating card purposes
-            string visualNewLine = "<br>";
-
-            foreach (var item in items)
+            if (CurrentSession.customFontSize >= 0)
+                sb.Append(AddFontSizeHtml(CurrentSession.customFontSize, item.Word, true));
+            else
+                sb.Append(item.Word);
+            sb.Append(";\"");
+            if (item.ShowReading)
             {
-                if (CurrentSession.customFontSize >= 0)
-                    sb.Append(AddFontSizeHtml(CurrentSession.customFontSize, item.Word, true));
-                else
-                    sb.Append(item.Word);
-                sb.Append(";\"");
-                if (item.ShowReading)
-                {
-                    sb.Append(item.Reading.Replace("\"", "\"\""));
-                    sb.Append(visualNewLine);
-                }
-                sb.Append(item.Output.Replace("\"", "\"\""));
-                sb.Append("\"");
-                sb.Append(Environment.NewLine);
+                sb.Append(item.Reading.Replace("\"", "\"\""));
+                sb.Append(visualNewLine);
             }
-            return sb.ToString().TrimEnd();
+            sb.Append(item.Output.Replace("\"", "\"\""));
+            sb.Append("\"");
+            sb.Append(Environment.NewLine);
         }
+        return sb.ToString().TrimEnd();
+    }
 
-        public static string EnglishToJapanese(ObservableVocabularyList items)
+    public static string EnglishToJapanese(ObservableVocabularyList items)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        // condition: if font size is set, then we need the html way for successful import
+        const string visualNewLine = "<br>";
+
+        foreach (var item in items)
         {
-            StringBuilder sb = new StringBuilder();
-
-            // condition: if font size is set, then we need the html way for successful import
-            const string visualNewLine = "<br>";
-
-            foreach (var item in items)
+            sb.Append("\"");
+            sb.Append(item.Output.Replace("\"", "\"\""));
+            sb.Append("\";\"");
+            if (CurrentSession.customFontSize >= 0)
+                sb.Append(AddFontSizeHtml(CurrentSession.customFontSize, item.Word));
+            else
+                sb.Append(item.Word);
+            if (item.ShowReading)
             {
-                sb.Append("\"");
-                sb.Append(item.Output.Replace("\"", "\"\""));
-                sb.Append("\";\"");
-                if (CurrentSession.customFontSize >= 0)
-                    sb.Append(AddFontSizeHtml(CurrentSession.customFontSize, item.Word));
-                else
-                    sb.Append(item.Word);
-                if (item.ShowReading)
-                {
-                    sb.Append(visualNewLine);
-                    sb.Append(item.Reading.Replace("\"", "\"\""));
-                }
-                sb.Append("\"");
-                sb.Append(Environment.NewLine);
+                sb.Append(visualNewLine);
+                sb.Append(item.Reading.Replace("\"", "\"\""));
             }
-            return sb.ToString().TrimEnd();
+            sb.Append("\"");
+            sb.Append(Environment.NewLine);
         }
+        return sb.ToString().TrimEnd();
+    }
 
-        private static string AddFontSizeHtml(int fontSize, string input, bool appendQuotationMarks = false)
-        {
-            var result = $"<p style=\"\"font-size:{fontSize}px;\"\">{input}</p>";
-            if (appendQuotationMarks)
-                result = $"\"{result}\"";
-            return result;
-        }
+    private static string AddFontSizeHtml(int fontSize, string input, bool appendQuotationMarks = false)
+    {
+        var result = $"<p style=\"\"font-size:{fontSize}px;\"\">{input}</p>";
+        if (appendQuotationMarks)
+            result = $"\"{result}\"";
+        return result;
     }
 }
