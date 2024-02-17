@@ -16,11 +16,6 @@
 		</Style>
 	</Window.Styles>
 
-	<Window.KeyBindings>
-		<KeyBinding Command="{Binding UndoOperationOnVocabularyList}" Gesture="Alt+Z"/>
-	</Window.KeyBindings>
-
-
 	<DockPanel Background="#FF2A2A2A">
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="About" Click="MenuItem_Click"/>
