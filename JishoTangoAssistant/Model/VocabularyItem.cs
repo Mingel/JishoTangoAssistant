@@ -2,38 +2,40 @@
 
 namespace JishoTangoAssistant.Model
 {
-    public class VocabularyItem
+    public class VocabularyItem : IEquatable<VocabularyItem>
     {
-        public string Word { get; set; }
-        public bool ShowReading { get; set; }
-        public string Reading { get; set; }
-        public string Output { get; set; }
+        public string Word { get; }
+        public bool ShowReading { get; }
+        public string Reading { get; }
+        public string Output { get; }
 
         public VocabularyItem(string word, bool showReading, string reading, string output)
         {
-            Word = word;
+            Word = word ?? throw new ArgumentNullException(nameof(word));
             ShowReading = showReading;
-            Reading = reading;
-            Output = output;
+            Reading = reading ?? throw new ArgumentNullException(nameof(reading));
+            Output = output ?? throw new ArgumentNullException(nameof(output));
         }
 
         public override bool Equals(object? obj)
         {
-            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
-            {
+            return Equals(obj as VocabularyItem);
+        }
+
+        public bool Equals(VocabularyItem? other)
+        {
+            if (other == null)
                 return false;
-            }
-            else
-            {
-                VocabularyItem item = (VocabularyItem)obj;
-                return (Word.Equals(item.Word)) && (Reading.Equals(item.Reading))
-                    && (ShowReading.Equals(item.ShowReading)) && (Output.Equals(item.Output));
-            }
+
+            return Word == other.Word &&
+                   ShowReading == other.ShowReading &&
+                   Reading == other.Reading &&
+                   Output == other.Output;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Word, this.Reading, this.ShowReading, this.Output);
+            return HashCode.Combine(Word, Reading, ShowReading, Output);
         }
     }
 }

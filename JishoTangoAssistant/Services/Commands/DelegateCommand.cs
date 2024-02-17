@@ -5,18 +5,18 @@ namespace JishoTangoAssistant.Services.Commands
 {
     public class DelegateCommand : ICommand
     {
-        private readonly Action<object?> _executeAction;
-        private readonly Func<object?, bool> _canExecuteAction;
+        private readonly Action<object?> executeAction;
+        private readonly Func<object?, bool> canExecuteAction;
 
         public DelegateCommand(Action<object?> executeAction, Func<object?, bool> canExecuteAction)
         {
-            _executeAction = executeAction;
-            _canExecuteAction = canExecuteAction;
+            this.executeAction = executeAction;
+            this.canExecuteAction = canExecuteAction;
         }
 
-        public void Execute(object? parameter) => _executeAction(parameter);
+        public void Execute(object? parameter) => executeAction(parameter);
 
-        public bool CanExecute(object? parameter) => _canExecuteAction.Invoke(parameter);
+        public bool CanExecute(object? parameter) => canExecuteAction.Invoke(parameter);
 
         public event EventHandler? CanExecuteChanged;
 

@@ -1,17 +1,15 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Styling;
 using System;
 
-namespace JishoTangoAssistant.UI.Elements
+namespace JishoTangoAssistant.UI.Elements;
+
+public class MeaningCheckBox : CheckBox
 {
-    public class MeaningCheckBox : CheckBox
-    {
-        protected override Type StyleKeyOverride => typeof(CheckBox);
+    protected override Type StyleKeyOverride => typeof(CheckBox);
 
-        public int MeaningsRow { get; set; }
+    public int MeaningsRow { get; set; }
 
-        public int MeaningsColumn { get; set; }
+    public int MeaningsColumn { get; set; }
 
-        public int MeaningsFlattenedIndex { get; set; }
-    }
+    public int MeaningsFlattenedIndex { get; set; }
 }

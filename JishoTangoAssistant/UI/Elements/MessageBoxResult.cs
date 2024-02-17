@@ -1,12 +1,11 @@
-﻿namespace JishoTangoAssistant.UI.Elements
+﻿namespace JishoTangoAssistant.UI.Elements;
+
+public enum MessageBoxResult
 {
-    public enum MessageBoxResult
-    {
-        Ok,
-        Cancel,
-        Yes,
-        No,
-        Merge,
-        Overwrite
-    }
+    Ok,
+    Cancel,
+    Yes,
+    No,
+    Merge,
+    Overwrite
 }

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant", "JishoTangoAssistant.csproj", "{2D2F8CA0-1736-4FBA-BCE1-EE45D072DDF2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D2F8CA0-1736-4FBA-BCE1-EE45D072DDF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D2F8CA0-1736-4FBA-BCE1-EE45D072DDF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D2F8CA0-1736-4FBA-BCE1-EE45D072DDF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D2F8CA0-1736-4FBA-BCE1-EE45D072DDF2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C8BE2A97-D240-42F8-A6DC-3EEEA12019CB}
+	EndGlobalSection
+EndGlobal

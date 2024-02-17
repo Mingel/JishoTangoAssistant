@@ -55,7 +55,7 @@
 				</Grid>
 
 				<Button Grid.Row="5" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-				<Button Grid.Row="7" x:Name="undoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" Content="↻ Undo Last Action" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Alt+Z"/>
+				<Button Grid.Row="7" x:Name="undoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" Content="↻ Undo Last Action" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z"/>
 
 			</Grid>
 		</HeaderedContentControl>
@@ -91,8 +91,8 @@
 						<Label Grid.Column="0" x:Name="fontSizeLabel" Margin="5,4,0,0" Content="Font Size (JP): "/>
 						<NumericUpDown Grid.Column="1" x:Name="fontSizeNumericUpDown" MinWidth="110" Width="100" Text="{Binding FontSize}" FormatString="{}{0:#,0}" Value="28" Minimum="6" Maximum="96"/>
 					</Grid>
-					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapToEngCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEngToJapCommand}" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapeneseToEnglishCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEnglishToJapaneseCommand}" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 				</Grid>
 			</HeaderedContentControl>
 		</Grid>
