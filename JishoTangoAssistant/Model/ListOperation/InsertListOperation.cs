@@ -1,12 +1,6 @@
-﻿namespace JishoTangoAssistant.Model.ListOperation
-{
-    internal class InsertListOperation<T> : ListOperation<T>
-    {
-        internal readonly int index;
+﻿namespace JishoTangoAssistant.Model.ListOperation;
 
-        public InsertListOperation(int index)
-        {
-            this.index = index;
-        }
-    }
+internal class InsertListOperation<T>(int index) : ListOperation<T>
+{
+    internal readonly int index = index;
 }

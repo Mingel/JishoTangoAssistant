@@ -10,18 +10,15 @@ public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
 {
     public async Task<bool> OnClosingWindowAsync()
     {
-        if (CurrentSession.userMadeChanges)
-        {
-            var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
+        if (!CurrentSession.userMadeChanges) return true;
+        
+        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
 
-            if (mainWindow == null)
-                return true;
+        if (mainWindow == null)
+            return true;
 
-            var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "You have made unsaved changes. Do you really want to close the application?",
-                MessageBoxButtons.YesNo);
-            if (msgBoxResult.Equals(MessageBoxResult.No))
-                return false;
-        }
-        return true;
+        var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "You have made unsaved changes. Do you really want to close the application?",
+            MessageBoxButtons.YesNo);
+        return !msgBoxResult.Equals(MessageBoxResult.No);
     }
 }

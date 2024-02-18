@@ -1,19 +1,18 @@
 ﻿using JishoTangoAssistant.Services.Jisho;
 
-namespace JishoTangoAssistant.Model
+namespace JishoTangoAssistant.Model;
+
+class CurrentSession
 {
-    class CurrentSession
-    {
-        public static bool running = false;
+    public static bool running = false;
 
-        public static JishoDatum[]? lastRetrievedResults = null;
+    public static JishoDatum[]? lastRetrievedResults = null;
 
-        public static ObservableVocabularyList addedVocabularyItems = new ObservableVocabularyList();
+    public static ObservableVocabularyList addedVocabularyItems = [];
 
-        public static bool userMadeChanges = false;
+    public static bool userMadeChanges = false;
 
-        public const int DefaultFontSize = 28;
+    public const int DefaultFontSize = 28;
 
-        public static int customFontSize = DefaultFontSize;
-    }
+    public static int customFontSize = DefaultFontSize;
 }

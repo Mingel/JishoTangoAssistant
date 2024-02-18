@@ -22,7 +22,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private string input = string.Empty;
 
     [ObservableProperty]
-    private bool writeInKana = false;
+    private bool writeInKana;
 
     [ObservableProperty]
     private bool japaneseToEnglishDirection = true;
@@ -58,7 +58,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private int selectedVocabItemIndex = -1;
 
     [ObservableProperty]
-    private bool itemAdditionPossible = false;
+    private bool itemAdditionPossible;
     
     [ObservableProperty]
     private Color textInputBackground = App.UsesDarkMode() ? Color.Parse("#66000000") : Color.Parse("#66ffffff");
@@ -72,7 +72,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private const string JishoTagUsuallyInKanaAlone = "Usually written using kana alone";
 
-    public JapaneseUserInputViewModel() : base()
+    public JapaneseUserInputViewModel()
     {
         SelectedIndicesOfMeanings.CollectionChanged += (_, _) => ChangeReadingOutput();
         CurrentSession.addedVocabularyItems.CollectionChanged += (_, _) => UpdateTextInputBackground();
@@ -93,7 +93,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             }
             else if (JapaneseToEnglishDirection && ShowBackSide)
             {
-                var meaningsString = string.Join("; ", Meanings.Where((x, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
+                var meaningsString = string.Join("; ", Meanings.Where((_, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
                 if (!WriteInKana)
                 {
                     outputText += ReadingOutput;
@@ -109,7 +109,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             }
             else if (EnglishToJapaneseDirection && ShowFrontSide)
             {
-                var meaningsString = string.Join("; ", Meanings.Where((x, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
+                var meaningsString = string.Join("; ", Meanings.Where((_, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
                 outputText += meaningsString;
                 if (!string.IsNullOrWhiteSpace(AdditionalComments))
                 {
@@ -134,11 +134,11 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     partial void OnJapaneseToEnglishDirectionChanged(bool value) => UpdateOutputText();
 
-    public bool EnglishToJapaneseDirection => !JapaneseToEnglishDirection;
+    private bool EnglishToJapaneseDirection => !JapaneseToEnglishDirection;
 
     partial void OnShowFrontSideChanged(bool value) => UpdateOutputText();
 
-    public bool ShowBackSide => !ShowFrontSide;
+    private bool ShowBackSide => !ShowFrontSide;
 
     partial void OnInputChanged(string value) => UpdateTextInputBackground();
 
@@ -201,7 +201,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
             Input = RomajiKanaConverter.Convert(Input.Trim());
 
-            var allResults = await JishoWebAPIClient.GetResultJsonAsync(Input);
+            var allResults = await JishoWebApiClient.GetResultJsonAsync(Input);
             if (allResults == null || allResults.Length == 0)
             {
                 ClearUserInputResults();
@@ -224,8 +224,8 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
             ClearUserInputResults();
 
-            int resultIndex = 0;
-            int entryIndex = 0;
+            var resultIndex = 0;
+            var entryIndex = 0;
 
             if (CheckWritingSystem.ContainsKanji(Input))
                 GetIndicesOfInputInResult(allResults, ref resultIndex, ref entryIndex);
@@ -235,10 +235,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
             foreach (var res in allResults)
             {
-                if (!string.IsNullOrEmpty(res.Japanese[0].Word))
-                    Words.Add(res.Japanese[0].Word);
-                else
-                    Words.Add(res.Japanese[0].Reading);
+                var firstJapaneseResult = res.Japanese.First();
+                var word = !string.IsNullOrEmpty(firstJapaneseResult.Word) ? firstJapaneseResult.Word : firstJapaneseResult.Reading;
+                Words.Add(word);
             }
 
             if (Words.Count > 0)
@@ -250,8 +249,8 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
             ReadingOutput = japaneseEntry.Reading;
 
-            WriteInKana = result.Senses[0].Tags.Contains(JishoTagUsuallyInKanaAlone)
-                || japaneseEntry.Word == null;
+            WriteInKana = result.Senses.First().Tags.Contains(JishoTagUsuallyInKanaAlone)
+                || string.IsNullOrEmpty(japaneseEntry.Word);
             ItemAdditionPossible = true;
             UpdateOutputText();
             CurrentSession.running = false;
@@ -261,15 +260,17 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private void GetIndicesOfInputInResult(JishoDatum[]? result, ref int resultIndex, ref int entryIndex)
     {
+        ArgumentOutOfRangeException.ThrowIfNegative(resultIndex);
+        ArgumentOutOfRangeException.ThrowIfNegative(entryIndex);
         resultIndex = -1;
         entryIndex = -1;
 
         if (result != null)
         {
-            for (int i = 0; i < result.Length; i++)
+            for (var i = 0; i < result.Length; i++)
             {
                 var res = result[i];
-                for (int j = 0; j < res.Japanese.Length; j++)
+                for (var j = 0; j < res.Japanese.Length; j++)
                 {
                     var entry = res.Japanese[j].Word;
                     if (Input.Equals(entry))
@@ -321,22 +322,20 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         var selectedDatum = latestResult[SelectedIndexOfWords];
         foreach (var japItem in selectedDatum.Japanese)
         {
-            if (!string.IsNullOrEmpty(japItem.Word))
-                OtherForms.Add(japItem.Word);
-            else
-                OtherForms.Add(japItem.Reading);
+            var otherForm = !string.IsNullOrEmpty(japItem.Word) ? japItem.Word : japItem.Reading;
+            OtherForms.Add(otherForm);
         }
         if (OtherForms.Count > 0)
             SelectedIndexOfOtherForms = 0;
         else
             SelectedIndexOfOtherForms = -1;
 
-        ReadingOutput = selectedDatum.Japanese[0].Reading;
+        ReadingOutput = selectedDatum.Japanese.First().Reading;
 
         StoreMeanings(selectedDatum);
 
-        WriteInKana = selectedDatum.Senses[0].Tags.Contains(JishoTagUsuallyInKanaAlone)
-            || selectedDatum.Japanese[0].Word == null;
+        WriteInKana = selectedDatum.Senses.First().Tags.Contains(JishoTagUsuallyInKanaAlone)
+            || string.IsNullOrEmpty(selectedDatum.Japanese.First().Word);
     }
 
     private void ChangeReadingOutput()
@@ -387,12 +386,12 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         if (SelectedIndexOfOtherForms < 0) // nothing has been searched (or no search results found)
             return null;
         var outputText = string.Empty;
-        var meaningsString = string.Join("; ", Meanings.Where((x, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
+        var meaningsString = string.Join("; ", Meanings.Where((_, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
         outputText += meaningsString;
         if (!string.IsNullOrWhiteSpace(AdditionalComments) && !string.IsNullOrWhiteSpace(meaningsString))
             outputText += Environment.NewLine;
         outputText += AdditionalComments;
-        bool showReading = !WriteInKana;
+        var showReading = !WriteInKana;
         var word = showReading ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput;
         return new VocabularyItem(word, showReading, ReadingOutput, outputText);
     }
@@ -403,33 +402,21 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         var itemFromCurrentUserInput = CreateVocabularyItemFromCurrentUserInput();
         if (itemFromCurrentUserInput != null && CurrentSession.addedVocabularyItems.ContainsWord(itemFromCurrentUserInput.Word))
         {
-            if (CurrentSession.addedVocabularyItems.Contains(itemFromCurrentUserInput))
-                color = InputTextColorSameMeaning();
-            else
-                color = InputTextColorDifferentMeaning();
+            color = CurrentSession.addedVocabularyItems.Contains(itemFromCurrentUserInput) ? InputTextColorSameMeaning() : InputTextColorDifferentMeaning();
         }
         TextInputBackground = Color.Parse(color);
     }
     private string InputTextColorNoDuplicate()
     {
-        if (App.UsesDarkMode())
-            return "#66000000";
-        else
-            return "#66FFFFFF";
+        return App.UsesDarkMode() ? "#66000000" : "#66FFFFFF";
     }
 
     private string InputTextColorDifferentMeaning()
     {
-        if (App.UsesDarkMode())
-            return "#667D7D69";
-        else
-            return "#66FAFAD2";
+        return App.UsesDarkMode() ? "#667D7D69" : "#66FAFAD2";
     }
     private string InputTextColorSameMeaning()
     {
-        if (App.UsesDarkMode())
-            return "#66744B3D";
-        else
-            return "#66E9967A";
+        return App.UsesDarkMode() ? "#66744B3D" : "#66E9967A";
     }
 }

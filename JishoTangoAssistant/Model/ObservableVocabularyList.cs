@@ -8,23 +8,16 @@ using System.Diagnostics;
 
 namespace JishoTangoAssistant.Model;
 
-public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCollectionChanged, INotifyPropertyChanged
+public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCollectionChanged, INotifyPropertyChanged
 {
-    private List<VocabularyItem> vocabularyList;
-    private Dictionary<string, List<VocabularyItem>> vocabularyDictionary; // word -> vocab item
-    private Stack<ListOperation<VocabularyItem>> undoOperationStack;
+    private readonly List<VocabularyItem> vocabularyList = [];
+    private readonly Dictionary<string, List<VocabularyItem>> vocabularyDictionary = new(); // word -> vocab item
+    private readonly Stack<ListOperation<VocabularyItem>> undoOperationStack = new();
 
-    private bool suppressNotification = false;
+    private bool suppressNotification;
 
     private const string CountString = "Count";
     private const string IndexerName = "Item[]";
-
-    public ObservableVocabularyList()
-    {
-        vocabularyList = new List<VocabularyItem>();
-        vocabularyDictionary = new Dictionary<string, List<VocabularyItem>>();
-        undoOperationStack = new Stack<ListOperation<VocabularyItem>>();
-    }
 
     #region methods-interfaces
     public int Count => vocabularyList.Count;
@@ -32,43 +25,22 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
     public bool IsReadOnly => ((ICollection<VocabularyItem>)vocabularyList).IsReadOnly;
 
     public event NotifyCollectionChangedEventHandler? CollectionChanged;
-    protected virtual event PropertyChangedEventHandler? PropertyChanged;
+    private event PropertyChangedEventHandler? PropertyChanged;
 
     event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
     {
-        add
-        {
-            PropertyChanged += value;
-        }
-        remove
-        {
-            PropertyChanged -= value;
-        }
+        add => PropertyChanged += value;
+        remove => PropertyChanged -= value;
     }
 
-    private void OnPropertyChanged(string propertyName)
-    {
-        OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-    }
+    private void OnPropertyChanged(string propertyName) => OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 
-    protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-    {
-        if (PropertyChanged != null)
-        {
-            PropertyChanged(this, e);
-        }
-    }
+    private void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
 
     public VocabularyItem this[int index]
     {
-        get
-        {
-            return vocabularyList[index];
-        }
-        set
-        {
-            Replace(value, index, true);
-        }
+        get => vocabularyList[index];
+        set => Replace(value, index, true);
     }
 
     private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
@@ -78,57 +50,30 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
             handler(this, args);
     }
 
-    public int IndexOf(VocabularyItem item)
-    {
-        return vocabularyList.IndexOf(item);
-    }
+    public int IndexOf(VocabularyItem item) => vocabularyList.IndexOf(item);
 
-    public void Insert(int index, VocabularyItem item)
-    {
-        Insert(index, item, true);
-    }
+    public void Insert(int index, VocabularyItem item) => Insert(index, item, true);
 
-    public void RemoveAt(int index)
-    {
-        RemoveAt(index, true);
-    }
+    public void RemoveAt(int index) => RemoveAt(index, true);
 
-    public void Add(VocabularyItem item)
-    {
-        Add(item, true);
-    }
+    public void Add(VocabularyItem item) => Add(item, true);
 
-    public void Clear()
-    {
-        Clear(false);
-    }
+    public void Clear() => Clear(false);
 
     public bool Contains(VocabularyItem item)
     {
-        bool containsItem = vocabularyDictionary.ContainsKey(item.Word) && vocabularyDictionary[item.Word].Contains(item);
+        var containsItem = vocabularyDictionary.ContainsKey(item.Word) && vocabularyDictionary[item.Word].Contains(item);
         Debug.Assert(vocabularyList.Contains(item) == containsItem);
         return vocabularyDictionary.ContainsKey(item.Word) && vocabularyDictionary[item.Word].Contains(item);
     }
 
-    public void CopyTo(VocabularyItem[] array, int arrayIndex)
-    {
-        CopyTo(array, arrayIndex, true);
-    }
+    public void CopyTo(VocabularyItem[] array, int arrayIndex) => CopyTo(array, arrayIndex, true);
 
-    public bool Remove(VocabularyItem item)
-    {
-        return Remove(item, true);
-    }
+    public bool Remove(VocabularyItem item) => Remove(item, true);
 
-    public IEnumerator<VocabularyItem> GetEnumerator()
-    {
-        return vocabularyList.GetEnumerator();
-    }
+    public IEnumerator<VocabularyItem> GetEnumerator() => vocabularyList.GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     #endregion
 
@@ -136,8 +81,8 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
 
     private bool Remove(VocabularyItem item, bool pushListOperationToUndoStack)
     {
-        int index = vocabularyList.FindIndex(x => x.Equals(item));
-        bool wasInList = index > -1;
+        var index = vocabularyList.FindIndex(x => x.Equals(item));
+        var wasInList = index > -1;
         if (wasInList)
         {
             if (pushListOperationToUndoStack)
@@ -145,8 +90,7 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
             vocabularyList.RemoveAt(index);
         }
 
-        List<VocabularyItem>? wordList;
-        bool containedInDictionary = vocabularyDictionary.TryGetValue(item.Word, out wordList);
+        var containedInDictionary = vocabularyDictionary.TryGetValue(item.Word, out var wordList);
         if (wordList != null && containedInDictionary)
             wordList.Remove(item);
 
@@ -163,15 +107,15 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
             undoOperationStack.Push(new CopyToOperation<VocabularyItem>(replacedItems, arrayIndex));
         vocabularyList.CopyTo(array, arrayIndex);
 
-        for (int i = arrayIndex; i < array.Length; i++)
+        for (var i = arrayIndex; i < array.Length; i++)
         {
             var item = array[i];
-            vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
+            vocabularyDictionary.TryAdd(item.Word, []);
             vocabularyDictionary[item.Word].Add(item);
         }
     }
 
-    private void Clear(bool pushListOperationToUndoStack = false)
+    private void Clear(bool pushListOperationToUndoStack)
     {
         if (pushListOperationToUndoStack)
             undoOperationStack.Push(new ClearListOperation<VocabularyItem>(new List<VocabularyItem>(this)));
@@ -190,7 +134,7 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
             undoOperationStack.Push(new AddListOperation<VocabularyItem>());
         vocabularyList.Add(item);
 
-        vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
+        vocabularyDictionary.TryAdd(item.Word, []);
         vocabularyDictionary[item.Word].Add(item);
 
         OnPropertyChanged(CountString);
@@ -207,8 +151,7 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
             undoOperationStack.Push(new RemoveAtListOperation<VocabularyItem>(index, oldItem));
         vocabularyList.RemoveAt(index);
 
-        List<VocabularyItem>? wordList = null;
-        bool containedInDictionary = vocabularyDictionary.TryGetValue(oldItem.Word, out wordList);
+        var containedInDictionary = vocabularyDictionary.TryGetValue(oldItem.Word, out List<VocabularyItem>? wordList);
         if (wordList != null && containedInDictionary)
             wordList.Remove(oldItem);
 
@@ -250,36 +193,32 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
 
     public void Undo()
     {
-        if (undoOperationStack.Count > 0)
-        {
-            var operation = undoOperationStack.Pop();
-            if (operation == null)
-                return;
+        if (undoOperationStack.Count <= 0) return;
+        var operation = undoOperationStack.Pop();
 
-            switch (operation)
-            {
-                case AssignmentListOperation<VocabularyItem> op:
-                    UndoAssignment(op.index, op.replacedItem);
-                    break;
-                case InsertListOperation<VocabularyItem> op:
-                    UndoInsert(op.index);
-                    break;
-                case RemoveAtListOperation<VocabularyItem> op:
-                    UndoRemoveAt(op.index, op.removedItem);
-                    break;
-                case AddListOperation<VocabularyItem> _:
-                    UndoAdd();
-                    break;
-                case ClearListOperation<VocabularyItem> op:
-                    UndoClear(op.copy);
-                    break;
-                case CopyToOperation<VocabularyItem> op:
-                    UndoCopyTo(op.replacedItems, op.arrayIndex);
-                    break;
-                case RemoveListOperation<VocabularyItem> op:
-                    UndoRemove(op.removedItem, op.index);
-                    break;
-            }
+        switch (operation)
+        {
+            case AssignmentListOperation<VocabularyItem> op:
+                UndoAssignment(op.index, op.replacedItem);
+                break;
+            case InsertListOperation<VocabularyItem> op:
+                UndoInsert(op.index);
+                break;
+            case RemoveAtListOperation<VocabularyItem> op:
+                UndoRemoveAt(op.index, op.removedItem);
+                break;
+            case AddListOperation<VocabularyItem> _:
+                UndoAdd();
+                break;
+            case ClearListOperation<VocabularyItem> op:
+                UndoClear(op.copy);
+                break;
+            case CopyToOperation<VocabularyItem> op:
+                UndoCopyTo(op.replacedItems, op.arrayIndex);
+                break;
+            case RemoveListOperation<VocabularyItem> op:
+                UndoRemove(op.removedItem, op.index);
+                break;
         }
     }
 
@@ -303,9 +242,10 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
         RemoveAt(Count - 1, false);
     }
 
-    private void UndoClear(IList<VocabularyItem> copy)
+    private void UndoClear(ICollection<VocabularyItem> copy)
     {
-        VocabularyItem[] copyArray = new VocabularyItem[copy.Count];
+        ArgumentNullException.ThrowIfNull(copy);
+        var copyArray = new VocabularyItem[copy.Count];
         copy.CopyTo(copyArray, 0);
         
         CopyTo(copyArray, 0, false);
@@ -313,9 +253,9 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
         vocabularyDictionary.Clear();
     }
 
-    private void UndoCopyTo(IList<VocabularyItem> replacedItems, int arrayIndex)
+    private void UndoCopyTo(ICollection<VocabularyItem> replacedItems, int arrayIndex)
     {
-        VocabularyItem[] replacedItemsArray = new VocabularyItem[replacedItems.Count];
+        var replacedItemsArray = new VocabularyItem[replacedItems.Count];
         CopyTo(replacedItemsArray, arrayIndex, false);
     }
 
@@ -341,7 +281,7 @@ public partial class ObservableVocabularyList : IList<VocabularyItem>, INotifyCo
         foreach (var item in items)
         {
             vocabularyList.Add(item);
-            vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
+            vocabularyDictionary.TryAdd(item.Word, []);
             vocabularyDictionary[item.Word].Add(item);
         }
 

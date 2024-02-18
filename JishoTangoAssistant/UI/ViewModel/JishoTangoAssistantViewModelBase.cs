@@ -2,6 +2,4 @@
 
 namespace JishoTangoAssistant.UI.ViewModel;
 
-public abstract class JishoTangoAssistantViewModelBase : ObservableObject
-{
-}
+public abstract class JishoTangoAssistantViewModelBase : ObservableObject;

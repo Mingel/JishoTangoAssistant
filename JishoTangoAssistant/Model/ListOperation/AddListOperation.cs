@@ -1,6 +1,3 @@
-﻿namespace JishoTangoAssistant.Model.ListOperation
-{
-    internal class AddListOperation<T> : ListOperation<T>
-    {
-    }
-}
+﻿namespace JishoTangoAssistant.Model.ListOperation;
+
+internal class AddListOperation<T> : ListOperation<T>;

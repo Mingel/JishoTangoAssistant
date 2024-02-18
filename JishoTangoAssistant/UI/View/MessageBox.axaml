@@ -25,8 +25,8 @@
 					<RowDefinition Height="*"/>
 				</Grid.RowDefinitions>
 				
-				<TextBlock Grid.Row="0" x:Name="messageBoxTextBlock" HorizontalAlignment="Center" Name="Text"/>
-				<StackPanel Grid.Row="2" x:Name="buttonsStackPanel" HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
+				<TextBlock Grid.Row="0" x:Name="MessageBoxTextBlock" HorizontalAlignment="Center" Name="Text"/>
+				<StackPanel Grid.Row="2" x:Name="ButtonsStackPanel" HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">
 					<StackPanel.Styles>
 						<Style Selector="Button">
 							<Setter Property="Margin" Value="5"/>
