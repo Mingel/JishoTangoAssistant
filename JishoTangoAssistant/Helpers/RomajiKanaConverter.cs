@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JishoTangoAssistant.Services
+namespace JishoTangoAssistant.Helpers
 {
     public static class RomajiKanaConverter
     {

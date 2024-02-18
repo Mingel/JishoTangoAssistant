@@ -2,7 +2,7 @@
 using System;
 using System.Text;
 
-namespace JishoTangoAssistant.Services;
+namespace JishoTangoAssistant.Helpers;
 
 public static class VocabularyListExporter
 {

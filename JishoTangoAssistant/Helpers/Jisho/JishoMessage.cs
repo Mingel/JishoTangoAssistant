@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Services.Jisho;
+namespace JishoTangoAssistant.Helpers.Jisho;
 
 [JsonObject]
 class JishoMessage

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Services.Jisho;
+namespace JishoTangoAssistant.Helpers.Jisho;
 
 class JishoWebAPIClient
 {

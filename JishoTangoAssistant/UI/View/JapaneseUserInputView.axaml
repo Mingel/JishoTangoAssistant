@@ -3,7 +3,8 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		x:Class="JishoTangoAssistant.UI.View.JapaneseUserInputView">
+		x:Class="JishoTangoAssistant.UI.View.JapaneseUserInputView"
+		xmlns:uc="clr-namespace:JishoTangoAssistant.UI.View.JapaneseUserInputView;assembly=JishoTangoAssistant">
 
 	<UserControl.Styles>
 		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
@@ -50,6 +51,9 @@
 				</TextBox>
 				<Button Grid.Column="2" x:Name="enterButton" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 			</Grid>
+
+			<uc:WordSearchView DataContext="{Binding WordSearchViewModel}"/>
+
 			<Grid Grid.Row="2" MinHeight="44">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>

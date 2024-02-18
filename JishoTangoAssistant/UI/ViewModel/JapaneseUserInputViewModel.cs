@@ -5,18 +5,38 @@ using System.Linq;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using JishoTangoAssistant.Model;
-using JishoTangoAssistant.Services;
-using JishoTangoAssistant.Services.Jisho;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.View;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Threading.Tasks;
+using JishoTangoAssistant.UI.ViewModel.JapaneseUserInputView;
+using CommunityToolkit.Mvvm.Messaging;
+using JishoTangoAssistant.Model.Messages;
+using JishoTangoAssistant.Helpers.Jisho;
+using JishoTangoAssistant.Helpers;
 
 namespace JishoTangoAssistant.UI.ViewModel;
 
-public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBase
+public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBase, IRecipient<JapaneseUserInputMessage>
 {
+    private IMessenger messenger = new WeakReferenceMessenger(); // TODO DI
+
+    public WordSearchViewModel WordSearchViewModel { get; }
+
+    public async void Receive(JapaneseUserInputMessage message)
+    {
+        if (message is null)
+            return;
+
+        if (message.JapaneseUserInputMessageType == JapaneseUserInputMessageType.ProcessInput) 
+        {
+            var msg = (ProcessInputMessage)message;
+            Input = msg.Input;
+            await ProcessInput();
+        }
+    }
+
     #region attributes
     [ObservableProperty]
     private string input = string.Empty;
@@ -74,6 +94,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     public JapaneseUserInputViewModel() : base()
     {
+        WordSearchViewModel = new WordSearchViewModel(messenger);
+        messenger.Register<JapaneseUserInputMessage>(this);
+
         SelectedIndicesOfMeanings.CollectionChanged += (_, _) => ChangeReadingOutput();
         CurrentSession.addedVocabularyItems.CollectionChanged += (_, _) => UpdateTextInputBackground();
     }
@@ -192,8 +215,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         CurrentSession.userMadeChanges = true;
     }
 
-    [RelayCommand]
-    private async Task ProcessInput()
+    public async Task ProcessInput()
     {
         if (!CurrentSession.running)
         {
@@ -432,4 +454,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         else
             return "#66E9967A";
     }
+
+    
 }

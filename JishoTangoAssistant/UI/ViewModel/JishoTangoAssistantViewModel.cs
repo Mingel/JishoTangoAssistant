@@ -1,13 +1,13 @@
-﻿using Avalonia.Controls.ApplicationLifetimes;
-using JishoTangoAssistant.Model;
+﻿using JishoTangoAssistant.Model;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.View;
-using System.Threading.Tasks;
 
 namespace JishoTangoAssistant.UI.ViewModel;
 
 public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
 {
+    public JapaneseUserInputViewModel JapaneseUserInputViewModel { get; } = new JapaneseUserInputViewModel();
+
     public async Task<bool> OnClosingWindowAsync()
     {
         if (CurrentSession.userMadeChanges)

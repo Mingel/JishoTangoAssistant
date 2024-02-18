@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace JishoTangoAssistant.Services.Commands
+namespace JishoTangoAssistant.Helpers.Commands
 {
     public class DelegateCommand : ICommand
     {

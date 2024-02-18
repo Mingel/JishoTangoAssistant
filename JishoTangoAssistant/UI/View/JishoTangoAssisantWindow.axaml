@@ -47,7 +47,7 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="japaneseUserInputView"/>
+							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="japaneseUserInputView" DataContext="{Binding JapaneseUserInputViewModel}"/>
 						</Grid>
 					</TabItem>
 					<TabItem Header="Vocabulary List">
