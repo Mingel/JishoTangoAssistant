@@ -49,7 +49,7 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
             if (mainWindow == null)
                 return;
 
-            var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "Your vocabulary list is not empty.\nDo you want to overwrite or merge into your current vocabulary list?",
+            var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "Your vocabulary list is not empty." + Environment.NewLine + "Do you want to overwrite or merge into your current vocabulary list?",
                                                 MessageBoxButtons.MergeOverwriteCancel);
 
             if (msgBoxResult.Equals(MessageBoxResult.Cancel))
