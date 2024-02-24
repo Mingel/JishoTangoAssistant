@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace JishoTangoAssistant.Services.Jisho;
 
-class JishoSense
+public record JishoSense
 {
     [JsonProperty("english_definitions")]
     public string[] EnglishDefinitions { get; set; } = [];
