@@ -25,7 +25,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
     public bool IsReadOnly => ((ICollection<VocabularyItem>)vocabularyList).IsReadOnly;
 
     public event NotifyCollectionChangedEventHandler? CollectionChanged;
-    private event PropertyChangedEventHandler? PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     event PropertyChangedEventHandler? INotifyPropertyChanged.PropertyChanged
     {

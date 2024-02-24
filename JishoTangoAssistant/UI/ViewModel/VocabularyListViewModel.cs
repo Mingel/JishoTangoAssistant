@@ -18,10 +18,14 @@ namespace JishoTangoAssistant.UI.ViewModel;
 
 public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
 {
-    public ObservableVocabularyList VocabularyList
+    public ReadOnlyObservableVocabularyList VocabularyList
     {
-        get => CurrentSession.addedVocabularyItems;
-        set => SetProperty(ref CurrentSession.addedVocabularyItems, value);
+        get => CurrentSession.VocabularyListService.GetList();
+        set
+        {
+            var vocabularyList = CurrentSession.VocabularyListService.GetList();
+            SetProperty(ref vocabularyList, value);
+        }
     }
 
     [ObservableProperty] 
@@ -43,7 +47,7 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     private async Task LoadList()
     {
         bool? performOverwriting = null;
-        if (CurrentSession.addedVocabularyItems.Count > 0)
+        if (CurrentSession.VocabularyListService.Count() > 0)
         {
             var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
             if (mainWindow == null)
@@ -89,8 +93,8 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
             throw new ArgumentNullException($"{nameof(loadedVocabularyItems)} is null");
 
         if (performOverwriting == true)
-            VocabularyList.Clear();
-        VocabularyList.AddRange(loadedVocabularyItems);
+            await CurrentSession.VocabularyListService.ClearAsync();
+        await CurrentSession.VocabularyListService.AddRangeAsync(loadedVocabularyItems);
 
         CurrentSession.userMadeChanges = false;
     }
@@ -160,33 +164,32 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     }
 
     [RelayCommand]
-    private void DeleteFromList()
+    private async Task DeleteFromList()
     {
         if (0 <= SelectedVocabItemIndex && SelectedVocabItemIndex < VocabularyList.Count)
-            VocabularyList.RemoveAt(SelectedVocabItemIndex);
+            await CurrentSession.VocabularyListService.RemoveAtAsync(SelectedVocabItemIndex);
     }
 
     [RelayCommand]
-    private void GoUp()
+    private async Task GoUp()
     {
-        if (SelectedVocabItemIndex <= 0) return;
-        var currentIndex = SelectedVocabItemIndex;
-        (VocabularyList[currentIndex - 1], VocabularyList[currentIndex]) = (VocabularyList[currentIndex], VocabularyList[currentIndex - 1]);
-        SelectedVocabItemIndex = currentIndex - 1;
-    }
-
-    [RelayCommand]
-    private void GoDown()
-    {
-        if (SelectedVocabItemIndex <= -1 || SelectedVocabItemIndex >= CurrentSession.addedVocabularyItems.Count - 1) 
+        if (SelectedVocabItemIndex <= 0)
             return;
-        var currentIndex = SelectedVocabItemIndex;
-        (VocabularyList[currentIndex + 1], VocabularyList[currentIndex]) = (VocabularyList[currentIndex], VocabularyList[currentIndex + 1]);
-        SelectedVocabItemIndex = currentIndex + 1;
+        await CurrentSession.VocabularyListService.SwapAsync(SelectedVocabItemIndex - 1, SelectedVocabItemIndex);
+        SelectedVocabItemIndex--;
     }
 
     [RelayCommand]
-    private void UndoOperationOnVocabularyList() => CurrentSession.addedVocabularyItems.Undo();
+    private async Task GoDown()
+    {
+        if (SelectedVocabItemIndex <= -1 || SelectedVocabItemIndex >= CurrentSession.VocabularyListService.Count() - 1) 
+            return;
+        await CurrentSession.VocabularyListService.SwapAsync(SelectedVocabItemIndex, SelectedVocabItemIndex + 1);
+        SelectedVocabItemIndex++;
+    }
+
+    [RelayCommand]
+    private async Task UndoOperationOnVocabularyList() => await CurrentSession.VocabularyListService.UndoAsync();
 
     private void ShowHtmlMessageBox()
     {

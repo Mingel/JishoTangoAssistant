@@ -5,10 +5,12 @@ namespace JishoTangoAssistant.Model
     public class VocabularyItem(string word, bool showReading, string reading, string output)
         : IEquatable<VocabularyItem>
     {
-        public string Word { get; } = word ?? throw new ArgumentNullException(nameof(word));
-        public bool ShowReading { get; } = showReading;
-        public string Reading { get; } = reading ?? throw new ArgumentNullException(nameof(reading));
-        public string Output { get; } = output ?? throw new ArgumentNullException(nameof(output));
+        public int Id { get; set; }
+        public int Order { get; set; }
+        public string Word { get; set; } = word;
+        public bool ShowReading { get; set; } = showReading;
+        public string Reading { get; set; } = reading;
+        public string Output { get; set; } = output;
 
         public override bool Equals(object? obj)
         {
