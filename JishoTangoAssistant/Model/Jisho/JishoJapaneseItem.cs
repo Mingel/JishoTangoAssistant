@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Services.Jisho;
+namespace JishoTangoAssistant.Model.Jisho;
 
 public record JishoJapaneseItem(
     [property: JsonProperty("word")] string Word = "",

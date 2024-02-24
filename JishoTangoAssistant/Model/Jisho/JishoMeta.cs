@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Services.Jisho;
+namespace JishoTangoAssistant.Model.Jisho;
 
 public record JishoMeta([property: JsonProperty("status")] int Status = default);

@@ -6,12 +6,13 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media;
 using JishoTangoAssistant.Model;
 using JishoTangoAssistant.Services;
-using JishoTangoAssistant.Services.Jisho;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.View;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Threading.Tasks;
+using JishoTangoAssistant.Helpers;
+using JishoTangoAssistant.Model.Jisho;
 
 namespace JishoTangoAssistant.UI.ViewModel;
 

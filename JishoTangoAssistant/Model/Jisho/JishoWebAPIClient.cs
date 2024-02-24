@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Linq;
 using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Services.Jisho;
+namespace JishoTangoAssistant.Model.Jisho;
 
 public static class JishoWebApiClient
 {
