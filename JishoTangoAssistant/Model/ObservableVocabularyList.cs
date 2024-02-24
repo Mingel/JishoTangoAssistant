@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 
 namespace JishoTangoAssistant.Model;
 
@@ -88,6 +89,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
             if (pushListOperationToUndoStack)
                 undoOperationStack.Push(new RemoveListOperation<VocabularyItem>(item, index));
             vocabularyList.RemoveAt(index);
+            DecrementOrderStartingFrom(index);
         }
 
         var containedInDictionary = vocabularyDictionary.TryGetValue(item.Word, out var wordList);
@@ -106,13 +108,6 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         if (pushListOperationToUndoStack)
             undoOperationStack.Push(new CopyToOperation<VocabularyItem>(replacedItems, arrayIndex));
         vocabularyList.CopyTo(array, arrayIndex);
-
-        for (var i = arrayIndex; i < array.Length; i++)
-        {
-            var item = array[i];
-            vocabularyDictionary.TryAdd(item.Word, []);
-            vocabularyDictionary[item.Word].Add(item);
-        }
     }
 
     private void Clear(bool pushListOperationToUndoStack)
@@ -133,6 +128,8 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         if (pushListOperationToUndoStack)
             undoOperationStack.Push(new AddListOperation<VocabularyItem>());
         vocabularyList.Add(item);
+        
+        item.Order = vocabularyList.Count - 1;
 
         vocabularyDictionary.TryAdd(item.Word, []);
         vocabularyDictionary[item.Word].Add(item);
@@ -150,6 +147,8 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         if (pushListOperationToUndoStack)
             undoOperationStack.Push(new RemoveAtListOperation<VocabularyItem>(index, oldItem));
         vocabularyList.RemoveAt(index);
+        
+        DecrementOrderStartingFrom(index);
 
         var containedInDictionary = vocabularyDictionary.TryGetValue(oldItem.Word, out List<VocabularyItem>? wordList);
         if (wordList != null && containedInDictionary)
@@ -165,6 +164,9 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         if (pushListOperationToUndoStack)
             undoOperationStack.Push(new InsertListOperation<VocabularyItem>(index));
         vocabularyList.Insert(index, item);
+        
+        item.Order = index;
+        IncrementOrderStartingFrom(index + 1);
 
         vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
         vocabularyDictionary[item.Word].Add(item);
@@ -182,6 +184,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         if (pushListOperationToUndoStack)
             undoOperationStack.Push(new AssignmentListOperation<VocabularyItem>(index, oldItem));
         vocabularyList[index] = toReplace;
+        toReplace.Order = index;
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, toReplace, oldItem, index));
@@ -290,5 +293,32 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+    }
+
+    private void ChangeOrderStartingFrom(int startIndex, int increaseByValue)
+    {
+        var filteredItems = vocabularyList.Where(i => i.Order >= startIndex);
+        foreach (var item in filteredItems)
+        {
+            item.Order += increaseByValue;
+        }
+    }
+
+    private void IncrementOrderStartingFrom(int startIndex) => ChangeOrderStartingFrom(startIndex, 1);
+
+    private void DecrementOrderStartingFrom(int startIndex) => ChangeOrderStartingFrom(startIndex, -1);
+
+    private bool HasOrderIntegrity()
+    {
+        var orders = vocabularyList.Select(i => i.Order).ToArray();
+        return orders.Max() == vocabularyList.Count - 1 && orders.Distinct().Count() == vocabularyList.Count;
+    }
+
+    private void RestoreOrderIntegrity()
+    {
+        for (var i = 0; i < vocabularyList.Count; i++)
+        {
+            vocabularyList[i].Order = i;
+        }
     }
 }
