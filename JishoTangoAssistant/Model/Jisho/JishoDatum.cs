@@ -1,24 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Services.Jisho;
+namespace JishoTangoAssistant.Model.Jisho;
 
-[JsonObject]
-class JishoMessage
-{
-    [JsonProperty("meta")]
-    public JishoMeta Meta { get; set; } = new();
-
-    [JsonProperty("data")]
-    public JishoDatum[] Data { get; set; } = [];
-}
-
-class JishoMeta
-{
-    [JsonProperty("status")]
-    public int Status { get; set; }
-}
-
-class JishoDatum
+public record JishoDatum
 {
     [JsonProperty("slug")]
     public string Slug { get; set; } = string.Empty;

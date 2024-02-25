@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace JishoTangoAssistant.Services;
+namespace JishoTangoAssistant.Helpers;
 
 public static class CheckWritingSystem
 {

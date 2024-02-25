@@ -3,26 +3,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace JishoTangoAssistant.Model;
 
-public class VocabularyItem(string word, bool showReading, string reading, string output)
-    : IEquatable<VocabularyItem>
+public record VocabularyItem(string Word, bool ShowReading, string Reading, string Output)
 {
     [Key]
     public int Id { get; set; }
     public int Order { get; set; }
     [MaxLength(200)]
-    public string Word { get; init; } = word;
-    public bool ShowReading { get; init; } = showReading;
+    public string Word { get; init; } = Word;
+    public bool ShowReading { get; init; } = ShowReading;
     [MaxLength(500)]
-    public string Reading { get; init; } = reading;
+    public string Reading { get; init; } = Reading;
     [MaxLength(5000)]
-    public string Output { get; init; } = output;
+    public string Output { get; init; } = Output;
 
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as VocabularyItem);
-    }
-
-    public bool Equals(VocabularyItem? other)
+    public virtual bool Equals(VocabularyItem? other)
     {
         if (other == null)
             return false;
@@ -33,8 +27,5 @@ public class VocabularyItem(string word, bool showReading, string reading, strin
                Output == other.Output;
     }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Word, Reading, ShowReading, Output);
-    }
+    public override int GetHashCode() => HashCode.Combine(Word, Reading, ShowReading, Output);
 }

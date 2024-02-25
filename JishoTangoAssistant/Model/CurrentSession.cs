@@ -1,4 +1,4 @@
-﻿using JishoTangoAssistant.Services;
+using JishoTangoAssistant.Services;
 using JishoTangoAssistant.Services.Jisho;
 
 namespace JishoTangoAssistant.Model;

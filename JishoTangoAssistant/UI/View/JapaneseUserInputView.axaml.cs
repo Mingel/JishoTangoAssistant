@@ -57,33 +57,27 @@ public partial class JapaneseUserInputView : UserControl
                     MeaningsColumn = j,
                     MeaningsFlattenedIndex = flattenedIndex,
                     Margin = new Thickness(StartLocationX + totalStepLocationX, StartLocationY + i * StepLocationY, 0, 0),
-                    Name = $"outputCheckBox{i}_{j}",
-                    Content = flattenedMeanings[flattenedIndex]
+                    Name = $"OutputCheckBox{i}_{j}",
+                    Content = flattenedMeanings[flattenedIndex],
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Background = SolidColorBrush.Parse("Transparent"),
+                    BorderBrush = SolidColorBrush.Parse("White"),
+                    CornerRadius = new CornerRadius(3, 3, 3, 3),
+                    HorizontalContentAlignment = HorizontalAlignment.Left,
+                    HotKey = flattenedIndex < 9 ? KeyGesture.Parse("Ctrl+D" + (flattenedIndex + 1)) : null
                 };
 
                 var formattedText = new FormattedText(flattenedMeanings[flattenedIndex], CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface(FontFamily), FontSize, null);
 
                 checkBox.MaxWidth = formattedText.Width + 50;
-                checkBox.MaxHeight = formattedText.Height + 2;
+                checkBox.MaxHeight = formattedText.Height + 6;
 
                 totalStepLocationX += (int)Math.Ceiling(checkBox.MaxWidth);
                 checkBox.IsCheckedChanged += (_, _) => japaneseUserInputViewModel.UpdateOutputText();
-
-                checkBox.HorizontalAlignment = HorizontalAlignment.Left;
-                checkBox.VerticalAlignment = VerticalAlignment.Top;
-                    
-                checkBox.Background = SolidColorBrush.Parse("Transparent");
-                checkBox.BorderBrush = SolidColorBrush.Parse("White");
-                checkBox.CornerRadius = new CornerRadius(3, 3, 3, 3);
-                checkBox.HorizontalContentAlignment = HorizontalAlignment.Left;
-
-                if (flattenedIndex < 10)
-                    checkBox.HotKey = KeyGesture.Parse("Ctrl+D" + (flattenedIndex + 1) % 10);
-
-                MeaningGrid.Children.Add(checkBox);
-
                 checkBox.Click += (_, _) => { japaneseUserInputViewModel.ChangeSelectedIndicesOfMeanings(checkBox.MeaningsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
 
+                MeaningGrid.Children.Add(checkBox);
                 flattenedIndex++;
             }
             totalStepLocationX = 0;
