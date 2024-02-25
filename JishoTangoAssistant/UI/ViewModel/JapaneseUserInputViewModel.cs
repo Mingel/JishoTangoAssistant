@@ -76,7 +76,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     public JapaneseUserInputViewModel()
     {
         SelectedIndicesOfMeanings.CollectionChanged += (_, _) => ChangeReadingOutput();
-        CurrentSession.addedVocabularyItems.CollectionChanged += (_, _) => UpdateTextInputBackground();
+        CurrentSession.VocabularyListService.GetList().CollectionChanged += (_, _) => UpdateTextInputBackground();
     }
 
     #region auto-properties
@@ -179,7 +179,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     #endregion
 
     [RelayCommand]
-    private void AddToList()
+    private async Task AddToList()
     {
         if (CurrentSession.lastRetrievedResults == null)
             return;
@@ -189,7 +189,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         if (addedItem == null)
             return;
 
-        CurrentSession.addedVocabularyItems.Add(addedItem);
+        await CurrentSession.VocabularyListService.AddAsync(addedItem);
         CurrentSession.userMadeChanges = true;
     }
 
@@ -401,9 +401,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     {
         var color = InputTextColorNoDuplicate();
         var itemFromCurrentUserInput = CreateVocabularyItemFromCurrentUserInput();
-        if (itemFromCurrentUserInput != null && CurrentSession.addedVocabularyItems.ContainsWord(itemFromCurrentUserInput.Word))
+        if (itemFromCurrentUserInput != null && CurrentSession.VocabularyListService.ContainsWord(itemFromCurrentUserInput.Word))
         {
-            color = CurrentSession.addedVocabularyItems.Contains(itemFromCurrentUserInput) ? InputTextColorSameMeaning() : InputTextColorDifferentMeaning();
+            color = CurrentSession.VocabularyListService.Contains(itemFromCurrentUserInput) ? InputTextColorSameMeaning() : InputTextColorDifferentMeaning();
         }
         TextInputBackground = Color.Parse(color);
     }

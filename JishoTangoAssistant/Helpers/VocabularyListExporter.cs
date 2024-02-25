@@ -6,7 +6,7 @@ namespace JishoTangoAssistant.Helpers;
 
 public static class VocabularyListExporter
 {
-    public static string JapaneseToEnglish(ObservableVocabularyList items)
+    public static string JapaneseToEnglish(ReadOnlyObservableVocabularyList items)
     {
         StringBuilder sb = new StringBuilder();
 
@@ -31,7 +31,7 @@ public static class VocabularyListExporter
         return sb.ToString().TrimEnd();
     }
 
-    public static string EnglishToJapanese(ObservableVocabularyList items)
+    public static string EnglishToJapanese(ReadOnlyObservableVocabularyList items)
     {
         var sb = new StringBuilder();
 

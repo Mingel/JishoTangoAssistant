@@ -1,4 +1,5 @@
-﻿using JishoTangoAssistant.Model.Jisho;
+using JishoTangoAssistant.Services;
+using JishoTangoAssistant.Services.Jisho;
 
 namespace JishoTangoAssistant.Model;
 
@@ -8,11 +9,11 @@ class CurrentSession
 
     public static JishoDatum[]? lastRetrievedResults = null;
 
-    public static ObservableVocabularyList addedVocabularyItems = [];
-
     public static bool userMadeChanges = false;
 
     public const int DefaultFontSize = 28;
 
     public static int customFontSize = DefaultFontSize;
+
+    public static readonly VocabularyListService VocabularyListService = new();
 }
