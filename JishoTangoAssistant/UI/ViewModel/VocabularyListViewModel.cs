@@ -177,7 +177,6 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         if (SelectedVocabItemIndex <= 0)
             return;
         await CurrentSession.VocabularyListService.SwapAsync(SelectedVocabItemIndex - 1, SelectedVocabItemIndex);
-        SelectedVocabItemIndex--;
     }
 
     [RelayCommand]
