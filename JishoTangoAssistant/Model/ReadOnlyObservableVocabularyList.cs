@@ -12,13 +12,11 @@ public class ReadOnlyObservableVocabularyList : IReadOnlyList<VocabularyItem>, I
     public ReadOnlyObservableVocabularyList(ObservableVocabularyList vocabularyList)
     {
         this.vocabularyList = vocabularyList;
-        Count = vocabularyList.Count;
         vocabularyList.CollectionChanged += HandleCollectionChanged;
         vocabularyList.PropertyChanged += HandlePropertyChanged;
     }
-    
-    public int Count { get; }
-    
+
+    public int Count => vocabularyList.Count;
     
     public VocabularyItem this[int index] => vocabularyList[index];
     
@@ -40,8 +38,6 @@ public class ReadOnlyObservableVocabularyList : IReadOnlyList<VocabularyItem>, I
     {
         return GetEnumerator();
     }
-
-    private void OnPropertyChanged(string propertyName) => OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 
     private void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
     

@@ -15,14 +15,16 @@ public class VocabularyListService : IVocabularyListService
     public VocabularyListService()
     {
         persistanceService = new VocabularyListPersistanceService(); // TODO DI
-        vocabularyList = new ObservableVocabularyList();
+        var items = persistanceService.GetVocabularyItems();
+        vocabularyList = new ObservableVocabularyList(items);
         readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
     }
 
     public VocabularyListService(IVocabularyListPersistanceService persistanceService)
     {
         this.persistanceService = persistanceService;
-        vocabularyList = new ObservableVocabularyList();
+        var items = persistanceService.GetVocabularyItems();
+        vocabularyList = new ObservableVocabularyList(items);
         readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
     }
 

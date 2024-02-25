@@ -6,5 +6,6 @@ namespace JishoTangoAssistant.Services;
 
 public interface IVocabularyListPersistanceService
 {
-    Task ReplaceVocabularyListAsync(IList<VocabularyItem> vocabularyItems, bool resetAutoIncrementId = true);
+    IEnumerable<VocabularyItem> GetVocabularyItems();
+    Task ReplaceVocabularyListAsync(IEnumerable<VocabularyItem> vocabularyItems, bool resetAutoIncrementId = true);
 }

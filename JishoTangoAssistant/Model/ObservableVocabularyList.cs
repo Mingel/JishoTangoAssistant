@@ -20,6 +20,13 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
     private const string CountString = "Count";
     private const string IndexerName = "Item[]";
 
+    public ObservableVocabularyList() { }
+    
+    public ObservableVocabularyList(IEnumerable<VocabularyItem> items)
+    {
+        AddRange(items);
+    }
+    
     #region methods-interfaces
     public int Count => vocabularyList.Count;
 
@@ -129,7 +136,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
             undoOperationStack.Push(new AddListOperation<VocabularyItem>());
         vocabularyList.Add(item);
         
-        item.Order = vocabularyList.Count - 1;
+        item.Order = vocabularyList.Count;
 
         vocabularyDictionary.TryAdd(item.Word, []);
         vocabularyDictionary[item.Word].Add(item);
@@ -168,7 +175,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         item.Order = index;
         IncrementOrderStartingFrom(index + 1);
 
-        vocabularyDictionary.TryAdd(item.Word, new List<VocabularyItem>());
+        vocabularyDictionary.TryAdd(item.Word, []);
         vocabularyDictionary[item.Word].Add(item);
 
         OnPropertyChanged(CountString);
@@ -276,14 +283,14 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
 
     public void AddRange(IEnumerable<VocabularyItem> items)
     {
-        if (items == null)
-            throw new ArgumentNullException($"{nameof(items)} is null");
+        ArgumentNullException.ThrowIfNull(items);
 
         suppressNotification = true;
 
         foreach (var item in items)
         {
             vocabularyList.Add(item);
+            item.Order = vocabularyList.Count;
             vocabularyDictionary.TryAdd(item.Word, []);
             vocabularyDictionary[item.Word].Add(item);
         }
@@ -311,7 +318,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
     private bool HasOrderIntegrity()
     {
         var orders = vocabularyList.Select(i => i.Order).ToArray();
-        return orders.Max() == vocabularyList.Count - 1 && orders.Distinct().Count() == vocabularyList.Count;
+        return orders.Min() == 1 && orders.Max() == vocabularyList.Count && orders.Distinct().Count() == vocabularyList.Count;
     }
 
     private void RestoreOrderIntegrity()
