@@ -8,6 +8,9 @@ namespace JishoTangoAssistant.UI.ViewModel;
 
 public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
 {
+    public JapaneseUserInputViewModel JapaneseUserInputViewModel { get; } = new();
+    public VocabularyListViewModel VocabularyListViewModel { get; } = new();
+
     public async Task<bool> OnClosingWindowAsync()
     {
         if (!CurrentSession.userMadeChanges) return true;

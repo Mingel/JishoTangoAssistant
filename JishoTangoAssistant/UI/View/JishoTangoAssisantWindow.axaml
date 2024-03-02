@@ -46,7 +46,7 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="JapaneseUserInputView"/>
+							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="JapaneseUserInputView" DataContext="{Binding JapaneseUserInputViewModel}"/>
 						</Grid>
 					</TabItem>
 					<TabItem Header="Vocabulary List">
@@ -61,7 +61,7 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:VocabularyListView Grid.Row="1" Grid.Column="1" x:Name="VocabularyListView"/>
+							<uc:VocabularyListView Grid.Row="1" Grid.Column="1" x:Name="VocabularyListView" DataContext="{Binding VocabularyListViewModel}"/>
 						</Grid>
 					</TabItem>
 				</TabControl>

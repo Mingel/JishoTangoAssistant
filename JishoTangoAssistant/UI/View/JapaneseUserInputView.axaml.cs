@@ -18,8 +18,6 @@ namespace JishoTangoAssistant.UI.View;
 /// </summary>
 public partial class JapaneseUserInputView : UserControl
 {
-    private readonly JapaneseUserInputViewModel japaneseUserInputViewModel;
-
     private const int StartLocationX = 7;
     private const int StartLocationY = 4;
     private const int StepLocationY = 30;
@@ -27,11 +25,12 @@ public partial class JapaneseUserInputView : UserControl
     public JapaneseUserInputView()
     {
         InitializeComponent();
-        japaneseUserInputViewModel = new JapaneseUserInputViewModel();
-        DataContext = japaneseUserInputViewModel;
 
-        japaneseUserInputViewModel.UpdateCheckBoxesEvent += OnInputLoaded;
-        japaneseUserInputViewModel.ClearCheckBoxesEvent += OnClearMeanings;
+        if (DataContext is JapaneseUserInputViewModel viewModel)
+        {
+            viewModel.UpdateCheckBoxesEvent += OnInputLoaded;
+            viewModel.ClearCheckBoxesEvent += OnClearMeanings;
+        }
     }
 
     private void OnClearMeanings()
@@ -46,7 +45,9 @@ public partial class JapaneseUserInputView : UserControl
         var flattenedIndex = 0;
 
         MeaningGrid.Children.Clear();
-        japaneseUserInputViewModel.ClearSelectedIndicesOfMeanings();
+
+        var viewModel = DataContext as JapaneseUserInputViewModel;
+        viewModel?.ClearSelectedIndicesOfMeanings();
         for (var i = 0; i < dataLength; i++)
         {
             for (var j = 0; j < meaningsLengths[i]; j++)
@@ -74,8 +75,8 @@ public partial class JapaneseUserInputView : UserControl
                 checkBox.MaxHeight = formattedText.Height + 6;
 
                 totalStepLocationX += (int)Math.Ceiling(checkBox.MaxWidth);
-                checkBox.IsCheckedChanged += (_, _) => japaneseUserInputViewModel.UpdateOutputText();
-                checkBox.Click += (_, _) => { japaneseUserInputViewModel.ChangeSelectedIndicesOfMeanings(checkBox.MeaningsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
+                checkBox.IsCheckedChanged += (_, _) => viewModel?.UpdateOutputText();
+                checkBox.Click += (_, _) => { viewModel?.ChangeSelectedIndicesOfMeanings(checkBox.MeaningsFlattenedIndex, isSelected: checkBox.IsChecked == true); };
 
                 MeaningGrid.Children.Add(checkBox);
                 flattenedIndex++;
