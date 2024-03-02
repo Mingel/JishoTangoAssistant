@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 
-namespace JishoTangoAssistant.Helpers;
+namespace JishoTangoAssistant.Utils;
 
-public static class CheckWritingSystem
+public static class WritingSystemChecker
 {
     private const char UnicodeRomajiStart = '\u0020';
     private const char UnicodeRomajiEnd = '\u007E';

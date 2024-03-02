@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JishoTangoAssistant.Model;
+using JishoTangoAssistant.Models;
 
-namespace JishoTangoAssistant.Services;
+namespace JishoTangoAssistant.Interfaces;
 
-public interface IVocabularyListPersistanceService
+public interface IVocabularyListRepository
 {
     IEnumerable<VocabularyItem> GetVocabularyItems();
     Task ReplaceVocabularyListAsync(IEnumerable<VocabularyItem> vocabularyItems, bool resetAutoIncrementId = true);

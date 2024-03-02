@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace JishoTangoAssistant.Model;
+namespace JishoTangoAssistant.Models;
 
 public class ReadOnlyObservableVocabularyList : IReadOnlyList<VocabularyItem>, INotifyCollectionChanged, INotifyPropertyChanged
 {

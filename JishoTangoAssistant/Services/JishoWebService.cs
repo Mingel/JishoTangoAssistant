@@ -1,20 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using JishoTangoAssistant.Interfaces;
+using JishoTangoAssistant.Models.Jisho;
 using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Model.Jisho;
+namespace JishoTangoAssistant.Services;
 
-public static class JishoWebApiClient
+public class JishoWebService : IJishoWebService
 {
     private const string BaseUrl = "https://jisho.org/";
     private const string Endpoint = "api/v1/search/words";
     
-    private static readonly HttpClient Client = new();
+    private readonly HttpClient client = new();
     
-    public static async Task<JishoDatum[]?> GetResultJsonAsync(string keyword)
+    public async Task<IList<JishoDatum>?> GetResultJsonAsync(string keyword)
     {
         try
         {
@@ -40,7 +43,7 @@ public static class JishoWebApiClient
                 Path = Endpoint,
                 Query = $"keyword={escapedKeyword}"
             };;
-            using var response = await Client.GetAsync(urlBuilder.Uri);
+            using var response = await client.GetAsync(urlBuilder.Uri);
             if (!response.IsSuccessStatusCode) return null;
             var jsonContent = await response.Content.ReadAsStringAsync();
             var json = JsonConvert.DeserializeObject<JishoMessage>(jsonContent);

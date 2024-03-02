@@ -1,29 +1,30 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using JishoTangoAssistant.Model;
+using JishoTangoAssistant.Interfaces;
+using JishoTangoAssistant.Models;
+using JishoTangoAssistant.Repositories;
 
 namespace JishoTangoAssistant.Services;
 
 public class VocabularyListService : IVocabularyListService
 {
-    private readonly IVocabularyListPersistanceService persistanceService;
+    private readonly IVocabularyListRepository repository;
     private readonly ReadOnlyObservableVocabularyList readOnlyVocabularyList;
     private readonly ObservableVocabularyList vocabularyList;
 
     public VocabularyListService()
     {
-        persistanceService = new VocabularyListPersistanceService(); // TODO DI
-        var items = persistanceService.GetVocabularyItems();
+        repository = new VocabularyListRepository(); // TODO DI
+        var items = repository.GetVocabularyItems();
         vocabularyList = new ObservableVocabularyList(items);
         readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
     }
 
-    public VocabularyListService(IVocabularyListPersistanceService persistanceService)
+    public VocabularyListService(IVocabularyListRepository repository)
     {
-        this.persistanceService = persistanceService;
-        var items = persistanceService.GetVocabularyItems();
+        this.repository = repository;
+        var items = repository.GetVocabularyItems();
         vocabularyList = new ObservableVocabularyList(items);
         readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
     }
@@ -36,7 +37,7 @@ public class VocabularyListService : IVocabularyListService
     public async Task AddAsync(VocabularyItem item)
     {
         vocabularyList.Add(item);
-        await persistanceService.ReplaceVocabularyListAsync(vocabularyList);
+        await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
 
     public bool ContainsWord(string word) => vocabularyList.ContainsWord(word);
@@ -48,25 +49,25 @@ public class VocabularyListService : IVocabularyListService
     public async Task UndoAsync()
     {
         vocabularyList.Undo();
-        await persistanceService.ReplaceVocabularyListAsync(vocabularyList);
+        await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
 
     public async Task ClearAsync(bool resetAutoIncrementId = true)
     {
         vocabularyList.Clear();
-        await persistanceService.ReplaceVocabularyListAsync(vocabularyList, resetAutoIncrementId);
+        await repository.ReplaceVocabularyListAsync(vocabularyList, resetAutoIncrementId);
     }
 
     public async Task AddRangeAsync(IEnumerable<VocabularyItem> items)
     {
         vocabularyList.AddRange(items);
-        await persistanceService.ReplaceVocabularyListAsync(vocabularyList);
+        await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
 
     public async Task RemoveAtAsync(int index)
     {
         vocabularyList.RemoveAt(index);
-        await persistanceService.ReplaceVocabularyListAsync(vocabularyList);
+        await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
     
     public async Task SwapAsync(int firstIndex, int secondIndex)
@@ -78,6 +79,6 @@ public class VocabularyListService : IVocabularyListService
         if (Math.Max(firstIndex, secondIndex) >= vocabularyList.Count)
             throw new ArgumentException("indices must be less than the vocabulary list count");
         (vocabularyList[firstIndex], vocabularyList[secondIndex]) = (vocabularyList[secondIndex], vocabularyList[firstIndex]);
-        await persistanceService.ReplaceVocabularyListAsync(vocabularyList);
+        await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
 }

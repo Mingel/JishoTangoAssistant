@@ -1,4 +1,4 @@
-﻿using JishoTangoAssistant.Helpers;
+﻿using JishoTangoAssistant.Utils;
 using JishoTangoAssistant.Services;
 using NUnit.Framework;
 

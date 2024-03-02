@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Model.Jisho;
+namespace JishoTangoAssistant.Models.Jisho;
 
 public record JishoSense
 {

@@ -1,4 +1,4 @@
-﻿namespace JishoTangoAssistant.Model.ListOperation;
+﻿namespace JishoTangoAssistant.Models.ListOperation;
 
 internal class InsertListOperation<T>(int index) : ListOperation<T>
 {

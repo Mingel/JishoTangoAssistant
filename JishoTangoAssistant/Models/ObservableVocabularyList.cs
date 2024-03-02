@@ -1,4 +1,4 @@
-﻿using JishoTangoAssistant.Model.ListOperation;
+﻿using JishoTangoAssistant.Models.ListOperation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
-namespace JishoTangoAssistant.Model;
+namespace JishoTangoAssistant.Models;
 
 public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCollectionChanged, INotifyPropertyChanged
 {

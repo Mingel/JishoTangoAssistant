@@ -1,13 +1,14 @@
-using JishoTangoAssistant.Model.Jisho;
+﻿using System.Collections.Generic;
+using JishoTangoAssistant.Models.Jisho;
 using JishoTangoAssistant.Services;
 
-namespace JishoTangoAssistant.Model;
+namespace JishoTangoAssistant.Models;
 
 class CurrentSession
 {
     public static bool running = false;
 
-    public static JishoDatum[]? lastRetrievedResults = null;
+    public static IList<JishoDatum>? lastRetrievedResults = null;
 
     public static bool userMadeChanges = false;
 

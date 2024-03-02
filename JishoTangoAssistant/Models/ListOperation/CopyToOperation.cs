@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JishoTangoAssistant.Model.ListOperation;
+namespace JishoTangoAssistant.Models.ListOperation;
 
 internal class CopyToOperation<T> : ListOperation<T>
 {

@@ -1,5 +1,5 @@
 ﻿using Avalonia.Controls.ApplicationLifetimes;
-using JishoTangoAssistant.Model;
+using JishoTangoAssistant.Models;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.View;
 using System.Threading.Tasks;

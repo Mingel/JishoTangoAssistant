@@ -4,16 +4,15 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using JishoTangoAssistant.Model;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.View;
-using JishoTangoAssistant.Services;
 using System.ComponentModel.DataAnnotations;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
-using JishoTangoAssistant.Helpers;
+using JishoTangoAssistant.Utils;
+using JishoTangoAssistant.Models;
 
 namespace JishoTangoAssistant.UI.ViewModel;
 

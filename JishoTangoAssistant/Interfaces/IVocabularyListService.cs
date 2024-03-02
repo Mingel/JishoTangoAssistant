@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JishoTangoAssistant.Model;
+using JishoTangoAssistant.Models;
 
-namespace JishoTangoAssistant.Services;
+namespace JishoTangoAssistant.Interfaces;
 
 public interface IVocabularyListService
 {

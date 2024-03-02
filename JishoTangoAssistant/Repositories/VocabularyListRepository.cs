@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JishoTangoAssistant.Model;
+using JishoTangoAssistant.Interfaces;
+using JishoTangoAssistant.Models;
 using JishoTangoAssistant.Persistence;
 
-namespace JishoTangoAssistant.Services;
+namespace JishoTangoAssistant.Repositories;
 
-public class VocabularyListPersistanceService : IVocabularyListPersistanceService
+public class VocabularyListRepository : IVocabularyListRepository
 {
     private readonly DbContext dbContext;
 
-    public VocabularyListPersistanceService()
+    public VocabularyListRepository()
     {
         dbContext = new DbContext();
         dbContext.Database.EnsureCreated();
