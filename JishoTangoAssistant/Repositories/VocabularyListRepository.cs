@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JishoTangoAssistant.Data;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
-using JishoTangoAssistant.Persistence;
 
 namespace JishoTangoAssistant.Repositories;
 
