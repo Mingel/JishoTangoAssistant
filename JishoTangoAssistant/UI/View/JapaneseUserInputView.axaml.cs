@@ -25,12 +25,24 @@ public partial class JapaneseUserInputView : UserControl
     public JapaneseUserInputView()
     {
         InitializeComponent();
+    }
+    
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        if (DataContext is not JapaneseUserInputViewModel viewModel) 
+            return;
+        
+        viewModel.UpdateCheckBoxesEvent += OnInputLoaded;
+        viewModel.ClearCheckBoxesEvent += OnClearMeanings;
+    }
 
-        if (DataContext is JapaneseUserInputViewModel viewModel)
-        {
-            viewModel.UpdateCheckBoxesEvent += OnInputLoaded;
-            viewModel.ClearCheckBoxesEvent += OnClearMeanings;
-        }
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        if (DataContext is not JapaneseUserInputViewModel viewModel) 
+            return;
+        
+        viewModel.UpdateCheckBoxesEvent -= OnInputLoaded;
+        viewModel.ClearCheckBoxesEvent -= OnClearMeanings;
     }
 
     private void OnClearMeanings()
@@ -86,10 +98,5 @@ public partial class JapaneseUserInputView : UserControl
 
         if (MeaningGrid.Children is [MeaningCheckBox])
             ((MeaningCheckBox)MeaningGrid.Children.First()).IsChecked = true;
-    }
-
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
-    {
-        InputTextBox.Focus();
     }
 }

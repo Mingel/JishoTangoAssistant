@@ -3,7 +3,8 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		x:Class="JishoTangoAssistant.UI.View.JapaneseUserInputView">
+		x:Class="JishoTangoAssistant.UI.View.JapaneseUserInputView"
+		xmlns:uc="clr-namespace:JishoTangoAssistant.UI.View;assembly=JishoTangoAssistant">
 
 	<UserControl.Styles>
 		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
@@ -31,25 +32,9 @@
 				<RowDefinition Height="5"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<Grid Grid.Row="0" x:Name="InputGrid" Height="NaN">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="Auto" MinWidth="75"/>
-				</Grid.ColumnDefinitions>
 
-				<Label Grid.Column="0" Margin="0,7,10,0" x:Name="SearchLabel" Content="Search"/>
+			<uc:WordSearchView Grid.Row="0" DataContext="{Binding WordSearchViewModel}"/>
 
-				<TextBox Grid.Column="1" x:Name="InputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,10,0" FontSize="16">
-					<TextBox.Background>
-						<SolidColorBrush Color="{Binding TextInputBackground}" />
-					</TextBox.Background>
-					<TextBox.KeyBindings>
-						<KeyBinding Gesture="Enter" Command="{Binding Path=ProcessInputCommand}" />
-					</TextBox.KeyBindings>
-				</TextBox>
-				<Button Grid.Column="2" x:Name="EnterButton" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-			</Grid>
 			<Grid Grid.Row="2" MinHeight="44">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>

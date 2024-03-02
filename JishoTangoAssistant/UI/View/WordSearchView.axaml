@@ -1,0 +1,27 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JishoTangoAssistant.UI.View.WordSearchView">
+
+    <Grid x:Name="InputGrid" Height="NaN">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" MinWidth="75"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Margin="0,7,10,0" x:Name="SearchLabel" Content="Search"/>
+
+        <TextBox Grid.Column="1" x:Name="InputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,10,0" FontSize="16">
+            <TextBox.Background>
+                <SolidColorBrush Color="{Binding TextInputBackground}" />
+            </TextBox.Background>
+            <TextBox.KeyBindings>
+                <KeyBinding Gesture="Enter" Command="{Binding Path=ProcessInputCommand}" />
+            </TextBox.KeyBindings>
+        </TextBox>
+        <Button Grid.Column="2" x:Name="EnterButton" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+    </Grid>
+</UserControl>
