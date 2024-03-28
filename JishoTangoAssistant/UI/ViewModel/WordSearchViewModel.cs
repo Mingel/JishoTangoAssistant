@@ -8,7 +8,7 @@ using JishoTangoAssistant.Utils;
 
 namespace JishoTangoAssistant.UI.ViewModel;
 
-public partial class WordSearchViewModel : JishoTangoAssistantViewModelBase, IRecipient<UpdateTextInputBackgroundMessage>
+public partial class WordSearchViewModel : JishoTangoAssistantViewModelBase, IRecipient<UpdateTextInputBackgroundViewModelMessage>
 {
     public WordSearchViewModel()
     {
@@ -29,7 +29,7 @@ public partial class WordSearchViewModel : JishoTangoAssistantViewModelBase, IRe
         WeakReferenceMessenger.Default.Send(new ProcessInputMessage(Input));
     }
 
-    public void Receive(UpdateTextInputBackgroundMessage message)
+    public void Receive(UpdateTextInputBackgroundViewModelMessage message)
     {
         UpdateTextInputBackground(message.Value);
     }

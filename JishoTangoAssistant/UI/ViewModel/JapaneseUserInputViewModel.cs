@@ -19,11 +19,19 @@ using JishoTangoAssistant.Services;
 namespace JishoTangoAssistant.UI.ViewModel;
 
 public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBase,
-    IRecipient<ProcessInputMessage>
+    IRecipient<ProcessInputMessage>,
+    IRecipient<ChangeMeaningMessage>,
+    IRecipient<PerformUpdateTextInputBackgroundMessage>,
+    IRecipient<PerformUpdateOutputTextMessage>
 {
     public WordSearchViewModel WordSearchViewModel { get; } = new();
 
+    public MeaningsViewModel MeaningsViewModel { get; } = new();
+
     #region attributes
+
+    private readonly List<Meaning> meanings = [];
+    
     [ObservableProperty]
     private bool writeInKana;
 
@@ -32,12 +40,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     [ObservableProperty]
     private bool showFrontSide = true;
-
-    [ObservableProperty]
-    private ObservableCollection<string> meanings = [];
-
-    [ObservableProperty]
-    private ObservableCollection<int> selectedIndicesOfMeanings = [];
     
     [ObservableProperty]
     private string additionalComments = string.Empty;
@@ -64,11 +66,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private bool itemAdditionPossible;
 
     #endregion
-    public delegate void UpdateCheckBoxesEventHandler(int dataLength, IList<int> meaningsLengths, IList<string> flattenedMeanings);
-    public event UpdateCheckBoxesEventHandler? UpdateCheckBoxesEvent;
-
-    public delegate void ClearCheckBoxesEventHandler();
-    public event ClearCheckBoxesEventHandler? ClearCheckBoxesEvent;
 
     private const string JishoTagUsuallyInKanaAlone = "Usually written using kana alone";
 
@@ -77,8 +74,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     public JapaneseUserInputViewModel()
     {
         WeakReferenceMessenger.Default.RegisterAll(this);
-
-        SelectedIndicesOfMeanings.CollectionChanged += (_, _) => ChangeReadingOutput();
+        
         CurrentSession.VocabularyListService.GetList().CollectionChanged += (_, _) => SendUpdateTextInputBackgroundMessage();
 
         jishoWebService = new JishoWebService(); // TODO DI
@@ -88,11 +84,26 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     {
         await ProcessInput(message.Value);
     }
+    
+    public void Receive(ChangeMeaningMessage message)
+    {
+        ChangeReadingOutput();
+    }
+    
+    public void Receive(PerformUpdateTextInputBackgroundMessage message)
+    {
+        SendUpdateTextInputBackgroundMessage();
+    }
+    
+    public void Receive(PerformUpdateOutputTextMessage message)
+    {
+        UpdateOutputText();
+    }
 
     private void SendUpdateTextInputBackgroundMessage()
     {
         var item = CreateVocabularyItemFromCurrentUserInput();
-        WeakReferenceMessenger.Default.Send(new UpdateTextInputBackgroundMessage(item));
+        WeakReferenceMessenger.Default.Send(new UpdateTextInputBackgroundViewModelMessage(item));
     }
 
     #region auto-properties
@@ -110,7 +121,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             }
             else if (JapaneseToEnglishDirection && ShowBackSide)
             {
-                var meaningsString = string.Join("; ", Meanings.Where((_, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
+                var meaningsString = string.Join("; ", meanings); // TODO optimize
                 if (!WriteInKana)
                 {
                     outputText += ReadingOutput;
@@ -126,7 +137,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             }
             else if (EnglishToJapaneseDirection && ShowFrontSide)
             {
-                var meaningsString = string.Join("; ", Meanings.Where((_, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
+                var meaningsString = string.Join("; ", meanings); // TODO optimize
                 outputText += meaningsString;
                 if (!string.IsNullOrWhiteSpace(AdditionalComments))
                 {
@@ -205,12 +216,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         
         ChangeOtherForms();
         SendUpdateTextInputBackgroundMessage();
-    }
-
-    partial void OnSelectedIndicesOfMeaningsChanged(ObservableCollection<int>? oldValue, ObservableCollection<int> newValue)
-    {
-        if (oldValue == null || !oldValue.SequenceEqual(newValue))
-            SendUpdateTextInputBackgroundMessage();
     }
 
     #endregion
@@ -326,7 +331,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private void ClearUserInputResults()
     {
-        Meanings.Clear();
+        WeakReferenceMessenger.Default.Send(new ResetMeaningsViewModelMessage(true));
         ReadingOutput = string.Empty;
         Words.Clear();
         OtherForms.Clear();
@@ -337,7 +342,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         AdditionalComments = string.Empty;
         WriteInKana = false;
 
-        ClearCheckBoxesEvent?.Invoke();
+        WeakReferenceMessenger.Default.Send(new ClearCheckBoxesViewModelMessage(true));
 
         ItemAdditionPossible = false;
 
@@ -384,16 +389,15 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private void StoreMeanings(JishoDatum datum)
     {
-        Meanings.Clear();
-        var englishDefinitions = datum.Senses.SelectMany(sense => sense.EnglishDefinitions);
-        foreach (var meaning in englishDefinitions)
-        {
-            Meanings.Add(meaning);
-        }
+        //var englishDefinitions = datum.Senses.SelectMany(sense => sense.EnglishDefinitions);
+        //var newMeanings = englishDefinitions.ToList();
+        var newMeanings = datum.Senses.Select(x => x.EnglishDefinitions);
 
-        UpdateCheckBoxesEvent?.Invoke(datum.Senses.Length, 
-            datum.Senses.Select(x => x.EnglishDefinitions.Length).ToList(), 
-            Meanings);
+        WeakReferenceMessenger.Default.Send(new UpdateMeaningViewModelMessage(newMeanings));
+        
+        //UpdateCheckBoxesEvent?.Invoke(datum.Senses.Length, 
+        //    datum.Senses.Select(x => x.EnglishDefinitions.Length).ToList(), 
+        //    newMeanings);
     }
 
     public void UpdateOutputText()
@@ -401,26 +405,12 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         OnPropertyChanged(nameof(OutputText));
     }
 
-    public void ClearSelectedIndicesOfMeanings()
-    {
-        SelectedIndicesOfMeanings.Clear();
-    }
-
-    public void ChangeSelectedIndicesOfMeanings(int i, bool isSelected)
-    {
-        if (isSelected)
-            SelectedIndicesOfMeanings.Add(i);
-        else
-            SelectedIndicesOfMeanings.Remove(i);
-        UpdateOutputText();
-    }
-
     private VocabularyItem? CreateVocabularyItemFromCurrentUserInput()
     {
         if (SelectedIndexOfOtherForms < 0) // nothing has been searched (or no search results found)
             return null;
         var outputText = string.Empty;
-        var meaningsString = string.Join("; ", Meanings.Where((_, i) => SelectedIndicesOfMeanings.Contains(i))); // TODO optimize
+        var meaningsString = string.Join("; ", meanings); // TODO optimize
         outputText += meaningsString;
         if (!string.IsNullOrWhiteSpace(AdditionalComments) 
             && !string.IsNullOrWhiteSpace(meaningsString))
