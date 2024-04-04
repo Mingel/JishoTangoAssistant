@@ -74,9 +74,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         Debug.Assert(vocabularyList.Contains(item) == containsItem);
         return vocabularyDictionary.ContainsKey(item.Word) && vocabularyDictionary[item.Word].Contains(item);
     }
-
-    public void CopyTo(VocabularyItem[] array, int arrayIndex) => CopyTo(array, arrayIndex, true);
-
+    
     public bool Remove(VocabularyItem item) => Remove(item, true);
 
     public IEnumerator<VocabularyItem> GetEnumerator() => vocabularyList.GetEnumerator();
@@ -109,13 +107,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         return wasInList;
     }
 
-    private void CopyTo(VocabularyItem[] array, int arrayIndex, bool pushListOperationToUndoStack)
-    {
-        var replacedItems = vocabularyList.GetRange(arrayIndex, array.Length);
-        if (pushListOperationToUndoStack)
-            undoOperationStack.Push(new CopyToOperation<VocabularyItem>(replacedItems, arrayIndex));
-        vocabularyList.CopyTo(array, arrayIndex);
-    }
+    public void CopyTo(VocabularyItem[] array, int arrayIndex) => vocabularyList.CopyTo(array, arrayIndex);
 
     private void Clear(bool pushListOperationToUndoStack)
     {
@@ -223,9 +215,6 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
             case ClearListOperation<VocabularyItem> op:
                 UndoClear(op.copy);
                 break;
-            case CopyToOperation<VocabularyItem> op:
-                UndoCopyTo(op.replacedItems, op.arrayIndex);
-                break;
             case RemoveListOperation<VocabularyItem> op:
                 UndoRemove(op.removedItem, op.index);
                 break;
@@ -258,7 +247,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         var copyArray = new VocabularyItem[copy.Count];
         copy.CopyTo(copyArray, 0);
         
-        CopyTo(copyArray, 0, false);
+        CopyTo(copyArray, 0);
         vocabularyList.Clear();
         vocabularyDictionary.Clear();
     }
@@ -266,7 +255,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
     private void UndoCopyTo(ICollection<VocabularyItem> replacedItems, int arrayIndex)
     {
         var replacedItemsArray = new VocabularyItem[replacedItems.Count];
-        CopyTo(replacedItemsArray, arrayIndex, false);
+        CopyTo(replacedItemsArray, arrayIndex);
     }
 
     private void UndoRemove(VocabularyItem removedItem, int index)
