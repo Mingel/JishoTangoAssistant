@@ -175,7 +175,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     {
         if (value >= 0)
         {
-            ChangeOtherForms();
+            UpdateOutputText();
             UpdateTextInputBackground();
         }
     }
