@@ -83,8 +83,12 @@ public partial class JapaneseUserInputView : UserControl
             totalStepLocationX = 0;
         }
 
-        if (MeaningGrid.Children is [MeaningCheckBox])
-            ((MeaningCheckBox)MeaningGrid.Children.First()).IsChecked = true;
+        if (MeaningGrid.Children is not [MeaningCheckBox]) return;
+        
+        var onlyCheckBox = (MeaningCheckBox)MeaningGrid.Children.First();
+        onlyCheckBox.IsChecked = true;
+        japaneseUserInputViewModel.ChangeSelectedIndicesOfMeanings(onlyCheckBox.MeaningsFlattenedIndex,
+            onlyCheckBox.IsChecked == true);
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
