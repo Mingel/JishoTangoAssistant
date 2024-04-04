@@ -15,7 +15,7 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<Grid Grid.Row="0" x:Name="userInputPanel" HorizontalAlignment="Stretch">
+		<Grid Grid.Row="0" x:Name="UserInputPanel" HorizontalAlignment="Stretch">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="5"/>
@@ -31,16 +31,16 @@
 				<RowDefinition Height="5"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<Grid Grid.Row="0" x:Name="inputGrid" Height="NaN">
+			<Grid Grid.Row="0" x:Name="InputGrid" Height="NaN">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="*"/>
 					<ColumnDefinition Width="Auto" MinWidth="75"/>
 				</Grid.ColumnDefinitions>
 
-				<Label Grid.Column="0" Margin="0,7,10,0" x:Name="searchLabel" Content="Search"/>
+				<Label Grid.Column="0" Margin="0,7,10,0" x:Name="SearchLabel" Content="Search"/>
 
-				<TextBox Grid.Column="1" x:Name="inputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,10,0" FontSize="16">
+				<TextBox Grid.Column="1" x:Name="InputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,10,0" FontSize="16">
 					<TextBox.Background>
 						<SolidColorBrush Color="{Binding TextInputBackground}" />
 					</TextBox.Background>
@@ -48,7 +48,7 @@
 						<KeyBinding Gesture="Enter" Command="{Binding Path=ProcessInputCommand}" />
 					</TextBox.KeyBindings>
 				</TextBox>
-				<Button Grid.Column="2" x:Name="enterButton" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+				<Button Grid.Column="2" x:Name="EnterButton" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 			</Grid>
 			<Grid Grid.Row="2" MinHeight="44">
 				<Grid.ColumnDefinitions>
@@ -60,31 +60,31 @@
 					<ColumnDefinition Width="3.3*"/>
 				</Grid.ColumnDefinitions>
 
-				<Label Grid.Column="0" x:Name="wordLabel" VerticalAlignment="Center" Content="Word" MinWidth="45"/>
-				<ComboBox Grid.Column="1" x:Name="wordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" ItemsSource="{Binding Words}" FontSize="23" VerticalAlignment="Center" Height="42" HorizontalAlignment="Stretch" Margin="10,0,10,0"/>
-				<Label Grid.Column="2" x:Name="otherFormsLabel" VerticalAlignment="Center" Content="Form"/>
-				<ComboBox Grid.Column="3" x:Name="otherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" ItemsSource="{Binding OtherForms}" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="42" Margin="10,0,10,0"/>
-				<Label Grid.Column="4" x:Name="readingLabel" VerticalAlignment="Center" Content="Reading"/>
-				<Label Grid.Column="5" x:Name="readingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
+				<Label Grid.Column="0" x:Name="WordLabel" VerticalAlignment="Center" Content="Word" MinWidth="45"/>
+				<ComboBox Grid.Column="1" x:Name="WordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" ItemsSource="{Binding Words}" FontSize="23" VerticalAlignment="Center" Height="42" HorizontalAlignment="Stretch" Margin="10,0,10,0"/>
+				<Label Grid.Column="2" x:Name="OtherFormsLabel" VerticalAlignment="Center" Content="Form"/>
+				<ComboBox Grid.Column="3" x:Name="OtherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" ItemsSource="{Binding OtherForms}" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="42" Margin="10,0,10,0"/>
+				<Label Grid.Column="4" x:Name="ReadingLabel" VerticalAlignment="Center" Content="Reading"/>
+				<Label Grid.Column="5" x:Name="ReadingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
 			</Grid>
 
 			<HeaderedContentControl Grid.Row="4" Header="Meaning" Background="DarkGray" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<Grid x:Name="meaningGrid">
+					<Grid x:Name="MeaningGrid">
 					</Grid>
 				</ScrollViewer>
 			</HeaderedContentControl>
 			<HeaderedContentControl Grid.Row="6" Header="Additional Comments" Background="DarkGray">
-				<TextBox x:Name="additionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
+				<TextBox x:Name="AdditionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
 			</HeaderedContentControl>
-			<Grid Grid.Row="8" x:Name="writeInKanaPanel" Height="NaN">
+			<Grid Grid.Row="8" x:Name="WriteInKanaPanel" Height="NaN">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
-				<CheckBox Grid.Column="0" x:Name="writeInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
+				<CheckBox Grid.Column="0" x:Name="WriteInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
 			</Grid>
-			<StackPanel Grid.Row="10" x:Name="outputPanel" Height="165">
+			<StackPanel Grid.Row="10" x:Name="OutputPanel" Height="165">
 				<HeaderedContentControl Height="165" Header="Resulting Card Preview" Background="DarkGray">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -128,7 +128,7 @@
 			</StackPanel>
 		</Grid>
 
-		<Grid Grid.Row="12" x:Name="leftButtonsGrid">
+		<Grid Grid.Row="1" x:Name="LeftButtonsGrid">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="5"/>
@@ -136,7 +136,7 @@
 				<RowDefinition Height="5"/>
 			</Grid.RowDefinitions>
 
-			<Button Grid.Row="2" Grid.Column="1" x:Name="addButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}"/>
+			<Button Grid.Row="2" x:Name="AddButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}"/>
 		</Grid>
 	</Grid>
 </UserControl>

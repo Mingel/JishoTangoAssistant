@@ -1,38 +1,38 @@
+using System;
+using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.ViewModel;
 
-namespace JishoTangoAssistant.UI.View
+namespace JishoTangoAssistant.UI.View;
+
+public partial class JishoTangoAssistantWindow : Window
 {
-    public partial class JishoTangoAssisantWindow : Window
+    private readonly JishoTangoAssistantViewModel jishoTangoAssistantViewModel;
+    public static JishoTangoAssistantWindow? Instance;
+
+    public JishoTangoAssistantWindow()
     {
-        private JishoTangoAssistantViewModel jishoTangoAssistantViewModel;
-        public static JishoTangoAssisantWindow? Instance;
+        Instance = this;
+        InitializeComponent();
+        jishoTangoAssistantViewModel = new JishoTangoAssistantViewModel();
+        DataContext = jishoTangoAssistantViewModel;
+    }
 
-        public JishoTangoAssisantWindow()
-        {
-            Instance = this;
-            InitializeComponent();
-            jishoTangoAssistantViewModel = new JishoTangoAssistantViewModel();
-            DataContext = jishoTangoAssistantViewModel;
-        }
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        // Let ViewModel handle closing because the view model knows if the user has saved before
+        var shouldClose = jishoTangoAssistantViewModel.OnClosingWindowAsync().Result;
+        if (!shouldClose)
+            e.Cancel = true;
+    }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            // Let ViewModel handle closing because the view model knows if the user has saved before
-            bool shouldClose = jishoTangoAssistantViewModel.OnClosingWindowAsync().Result;
-            if (!shouldClose)
-                e.Cancel = true;
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs args)
-        {
-            MessageBox.Show(this, "About", "Made by Minh Bang Vu (2022-2023)\n" +
-                "\n" +
-                "Thanks to the team from jisho.org for making this possible!\n" +
-                "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.",
-                MessageBoxButtons.Ok);
-        }
+    private void MenuItem_Click(object sender, RoutedEventArgs args)
+    {
+        MessageBox.Show(this, "About", "Made by Minh Bang Vu (2022-2024)" + Environment.NewLine,
+                        MessageBoxButtons.Ok,
+                        "Thanks to the team from jisho.org for making this possible!" + Environment.NewLine +
+                        "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.");
     }
 }

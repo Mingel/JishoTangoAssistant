@@ -3,10 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		xmlns:local="clr-namespace:JishoTangoAssistant.UI.ViewModel"
 		xmlns:uc="clr-namespace:JishoTangoAssistant.UI.View;assembly=JishoTangoAssistant"
-		x:Class="JishoTangoAssistant.UI.View.JishoTangoAssisantWindow"
-        Title="JishoTangoAssisant"
+		x:Class="JishoTangoAssistant.UI.View.JishoTangoAssistantWindow"
+        Title="JishoTangoAssistant"
 		MinHeight="650" MinWidth="600"
 		Height="650" Width="800">
 
@@ -33,7 +32,7 @@
 				<ColumnDefinition Width="5"/>
 			</Grid.ColumnDefinitions>
 
-			<DockPanel Grid.Row="1" Grid.Column="1" x:Name="userIOTableLayoutPanel">
+			<DockPanel Grid.Row="1" Grid.Column="1" x:Name="UserIoTableLayoutPanel">
 				<TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 					<TabItem Header="Dictionary">
 						<Grid>
@@ -47,7 +46,7 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="japaneseUserInputView"/>
+							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="JapaneseUserInputView"/>
 						</Grid>
 					</TabItem>
 					<TabItem Header="Vocabulary List">
@@ -62,7 +61,7 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:VocabularyListView Grid.Row="1" Grid.Column="1" x:Name="vocabularyListView"/>
+							<uc:VocabularyListView Grid.Row="1" Grid.Column="1" x:Name="VocabularyListView"/>
 						</Grid>
 					</TabItem>
 				</TabControl>

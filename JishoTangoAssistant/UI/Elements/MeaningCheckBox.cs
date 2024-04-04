@@ -11,5 +11,5 @@ public class MeaningCheckBox : CheckBox
 
     public int MeaningsColumn { get; set; }
 
-    public int MeaningsFlattenedIndex { get; set; }
+    public int MeaningsFlattenedIndex { get; init; }
 }

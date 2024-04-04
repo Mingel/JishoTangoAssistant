@@ -16,7 +16,7 @@ namespace JishoTangoAssistant
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new JishoTangoAssisantWindow();
+                desktop.MainWindow = new JishoTangoAssistantWindow();
             }
 
             base.OnFrameworkInitializationCompleted();

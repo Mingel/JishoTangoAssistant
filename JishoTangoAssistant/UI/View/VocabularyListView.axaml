@@ -2,9 +2,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:c="clr-namespace:JishoTangoAssistant.UI.ValueConverter"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		xmlns:local="clr-namespace:JishoTangoAssistant.UI.ValueConverter"
 		x:Class="JishoTangoAssistant.UI.View.VocabularyListView">
 
 	<UserControl.Styles>
@@ -34,7 +32,7 @@
 
 				<TextBlock Text="{Binding VocabularyList.Count, StringFormat='Number of entries: {0}', Mode=OneWay}"/>
 
-				<DataGrid Grid.Row="1" Background="#FF333333" x:Name="vocabularyItemsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+				<DataGrid Grid.Row="1" Background="#FF333333" x:Name="VocabularyItemsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="110" Width="100" CanUserSort="False"/>
 						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" CanUserSort="False" CanUserReorder="False" CanUserResize="False" Width="0" MaxWidth="0" IsVisible="False"/>
@@ -43,24 +41,24 @@
 					</DataGrid.Columns>
 				</DataGrid>
 
-				<Grid Grid.Row="3" x:Name="upDownButtonsTableLayoutGrid">
+				<Grid Grid.Row="3" x:Name="UpDownButtonsTableLayoutGrid">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*"/>
 						<ColumnDefinition Width="5"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 
-					<Button Grid.Column="0" x:Name="upButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-					<Button Grid.Column="2" x:Name="downButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Column="0" x:Name="UpButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Column="2" x:Name="DownButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 				</Grid>
 
-				<Button Grid.Row="5" x:Name="deleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-				<Button Grid.Row="7" x:Name="undoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" Content="↻ Undo Last Action" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z"/>
+				<Button Grid.Row="5" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+				<Button Grid.Row="7" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" Content="↻ Undo Last Action" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z"/>
 
 			</Grid>
 		</HeaderedContentControl>
 
-		<Grid Grid.Row="1" x:Name="rightButtonsGrid">
+		<Grid Grid.Row="1" x:Name="RightButtonsGrid">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="5"/>
 				<RowDefinition Height="Auto"/>
@@ -71,8 +69,8 @@
 				<RowDefinition Height="5"/>
 			</Grid.RowDefinitions>
 
-			<Button Grid.Row="1" x:Name="loadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-			<Button Grid.Row="3" x:Name="saveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<Button Grid.Row="1" x:Name="LoadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<Button Grid.Row="3" x:Name="SaveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 			<HeaderedContentControl Grid.Row="5" Header="Export" Background="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -88,11 +86,11 @@
 							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
-						<Label Grid.Column="0" x:Name="fontSizeLabel" Margin="5,4,0,0" Content="Font Size (JP): "/>
-						<NumericUpDown Grid.Column="1" x:Name="fontSizeNumericUpDown" MinWidth="110" Width="100" Text="{Binding FontSize}" FormatString="{}{0:#,0}" Value="28" Minimum="6" Maximum="96"/>
+						<Label Grid.Column="0" x:Name="FontSizeLabel" Margin="5,4,0,0" Content="Font Size (JP): "/>
+						<NumericUpDown Grid.Column="1" x:Name="FontSizeNumericUpDown" MinWidth="110" Width="100" Text="{Binding FontSize}" FormatString="{}{0:#,0}" Value="28" Minimum="6" Maximum="96"/>
 					</Grid>
-					<Button Grid.Row="3" x:Name="exportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapeneseToEnglishCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-					<Button Grid.Row="5" x:Name="exportCsvEngToJapButton" Command="{Binding Path=ExportCsvEnglishToJapaneseCommand}" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Row="3" x:Name="ExportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapaneseToEnglishCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Row="5" x:Name="ExportCsvEngToJapButton" Command="{Binding Path=ExportCsvEnglishToJapaneseCommand}" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 				</Grid>
 			</HeaderedContentControl>
 		</Grid>
