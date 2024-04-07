@@ -8,7 +8,9 @@ public static class VocabularyListExporter
 {
     public static string JapaneseToEnglish(ReadOnlyObservableVocabularyList items)
     {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
+
+        sb.Append(AddFileHeader());
 
         // condition: if font size is set, then we need the html way for successful import
         // visualNewLine is only for setting new lines in a card, not for separating card purposes
@@ -34,6 +36,8 @@ public static class VocabularyListExporter
     public static string EnglishToJapanese(ReadOnlyObservableVocabularyList items)
     {
         var sb = new StringBuilder();
+        
+        sb.Append(AddFileHeader());
 
         // condition: if font size is set, then we need the html way for successful import
         const string visualNewLine = "<br>";
@@ -63,6 +67,14 @@ public static class VocabularyListExporter
         var result = $"<p style=\"\"font-size:{fontSize}px;\"\">{input}</p>";
         if (appendQuotationMarks)
             result = $"\"{result}\"";
+        return result;
+    }
+
+    private static string AddFileHeader()
+    {
+        var result = "#separator:Semicolon" + Environment.NewLine +
+                     "#html:true" + Environment.NewLine +
+                     "#columns:Front;Back" + Environment.NewLine;
         return result;
     }
 }

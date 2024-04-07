@@ -138,7 +138,7 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         {
             await using var sw = new StreamWriter(result, false, Encoding.UTF8);
             await sw.WriteAsync(VocabularyListExporter.JapaneseToEnglish(VocabularyList));
-            ShowHtmlMessageBox();
+            ShowNotetypeMessageBox();
         }
     }
 
@@ -159,7 +159,7 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         {
             await using var sw = new StreamWriter(result, false, Encoding.UTF8);
             await sw.WriteAsync(VocabularyListExporter.EnglishToJapanese(VocabularyList));
-            ShowHtmlMessageBox();
+            ShowNotetypeMessageBox();
         }
     }
 
@@ -190,13 +190,13 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     [RelayCommand]
     private async Task UndoOperationOnVocabularyList() => await CurrentSession.VocabularyListService.UndoAsync();
 
-    private void ShowHtmlMessageBox()
+    private void ShowNotetypeMessageBox()
     {
         var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
 
         if (mainWindow != null)
         {
-            MessageBox.Show(mainWindow, "Information", "Make sure to ENABLE \"Allow HTML in fields\" when importing the exported file into Anki!",
+            MessageBox.Show(mainWindow, "Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
                 MessageBoxButtons.Ok);
         }
     }
