@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
@@ -36,6 +37,7 @@ public class VocabularyListService : IVocabularyListService
 
     public async Task AddAsync(VocabularyItem item)
     {
+        SetAnkiGuid(item);
         vocabularyList.Add(item);
         await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
@@ -60,7 +62,12 @@ public class VocabularyListService : IVocabularyListService
 
     public async Task AddRangeAsync(IEnumerable<VocabularyItem> items)
     {
-        vocabularyList.AddRange(items);
+        var vocabularyItems = items.ToList();
+        foreach (var item in vocabularyItems)
+        {
+            SetAnkiGuid(item);
+        }
+        vocabularyList.AddRange(vocabularyItems);
         await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
 
@@ -80,5 +87,10 @@ public class VocabularyListService : IVocabularyListService
             throw new ArgumentException("indices must be less than the vocabulary list count");
         (vocabularyList[firstIndex], vocabularyList[secondIndex]) = (vocabularyList[secondIndex], vocabularyList[firstIndex]);
         await repository.ReplaceVocabularyListAsync(vocabularyList);
+    }
+
+    private static void SetAnkiGuid(VocabularyItem item)
+    {
+        item.AnkiGuid ??= Guid.NewGuid().ToString("N");
     }
 }

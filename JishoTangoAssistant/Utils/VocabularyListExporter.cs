@@ -18,6 +18,8 @@ public static class VocabularyListExporter
 
         foreach (var item in items)
         {
+            sb.Append(item.AnkiGuid + "-j2e");
+            sb.Append(';');
             var word = CurrentSession.customFontSize >= 0 ? AddFontSizeHtml(CurrentSession.customFontSize, item.Word, true) : item.Word;
             sb.Append(word);
             sb.Append(";\"");
@@ -44,6 +46,8 @@ public static class VocabularyListExporter
 
         foreach (var item in items)
         {
+            sb.Append(item.AnkiGuid + "-e2j");
+            sb.Append(';');
             sb.Append('"');
             sb.Append(item.Output.Replace("\"", "\"\""));
             sb.Append("\";\"");
@@ -74,7 +78,8 @@ public static class VocabularyListExporter
     {
         var result = "#separator:Semicolon" + Environment.NewLine +
                      "#html:true" + Environment.NewLine +
-                     "#columns:Front;Back" + Environment.NewLine;
+                     "#columns:ID;Front;Back" + Environment.NewLine +
+                     "#guid column:1" + Environment.NewLine;
         return result;
     }
 }

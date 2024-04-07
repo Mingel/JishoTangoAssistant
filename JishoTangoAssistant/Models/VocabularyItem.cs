@@ -7,6 +7,8 @@ public record VocabularyItem([property: MaxLength(200)] string Word, bool ShowRe
 {
     [Key]
     public int Id { get; set; }
+    [MaxLength(32)]
+    public string? AnkiGuid { get; set; }
     public int Order { get; set; }
 
     public virtual bool Equals(VocabularyItem? other)

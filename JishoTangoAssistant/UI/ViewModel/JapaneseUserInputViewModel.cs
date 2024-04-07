@@ -189,7 +189,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         if (CurrentSession.lastRetrievedResults == null)
             return;
 
-        VocabularyItem? addedItem = CreateVocabularyItemFromCurrentUserInput();
+        var addedItem = CreateVocabularyItemFromCurrentUserInput();
 
         if (addedItem == null)
             return;
