@@ -8,7 +8,9 @@ public static class VocabularyListExporter
 {
     public static string JapaneseToEnglish(ReadOnlyObservableVocabularyList items)
     {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
+
+        sb.Append(AddFileHeader());
 
         // condition: if font size is set, then we need the html way for successful import
         // visualNewLine is only for setting new lines in a card, not for separating card purposes
@@ -16,6 +18,8 @@ public static class VocabularyListExporter
 
         foreach (var item in items)
         {
+            sb.Append(item.AnkiGuid + "-j2e");
+            sb.Append(';');
             var word = CurrentSession.customFontSize >= 0 ? AddFontSizeHtml(CurrentSession.customFontSize, item.Word, true) : item.Word;
             sb.Append(word);
             sb.Append(";\"");
@@ -34,12 +38,16 @@ public static class VocabularyListExporter
     public static string EnglishToJapanese(ReadOnlyObservableVocabularyList items)
     {
         var sb = new StringBuilder();
+        
+        sb.Append(AddFileHeader());
 
         // condition: if font size is set, then we need the html way for successful import
         const string visualNewLine = "<br>";
 
         foreach (var item in items)
         {
+            sb.Append(item.AnkiGuid + "-e2j");
+            sb.Append(';');
             sb.Append('"');
             sb.Append(item.Output.Replace("\"", "\"\""));
             sb.Append("\";\"");
@@ -63,6 +71,15 @@ public static class VocabularyListExporter
         var result = $"<p style=\"\"font-size:{fontSize}px;\"\">{input}</p>";
         if (appendQuotationMarks)
             result = $"\"{result}\"";
+        return result;
+    }
+
+    private static string AddFileHeader()
+    {
+        var result = "#separator:Semicolon" + Environment.NewLine +
+                     "#html:true" + Environment.NewLine +
+                     "#columns:ID;Front;Back" + Environment.NewLine +
+                     "#guid column:1" + Environment.NewLine;
         return result;
     }
 }

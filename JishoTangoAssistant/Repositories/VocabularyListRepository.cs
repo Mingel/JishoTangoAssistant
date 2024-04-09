@@ -24,7 +24,7 @@ public class VocabularyListRepository : IVocabularyListRepository
 
     public async Task ReplaceVocabularyListAsync(IEnumerable<VocabularyItem> vocabularyItems, bool resetAutoIncrementId = true)
     {
-        // For now, delete data in table and then re-insert, change later
+        // TODO For now, delete data in table and then re-insert, change later
         if (resetAutoIncrementId)
             ResetAutoIncrementId();
         var vocabularyList = vocabularyItems.ToList();
