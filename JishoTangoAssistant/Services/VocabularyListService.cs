@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
-using JishoTangoAssistant.Repositories;
 
 namespace JishoTangoAssistant.Services;
 
@@ -13,14 +12,6 @@ public class VocabularyListService : IVocabularyListService
     private readonly IVocabularyListRepository repository;
     private readonly ReadOnlyObservableVocabularyList readOnlyVocabularyList;
     private readonly ObservableVocabularyList vocabularyList;
-
-    public VocabularyListService()
-    {
-        repository = new VocabularyListRepository(); // TODO DI
-        var items = repository.GetVocabularyItems();
-        vocabularyList = new ObservableVocabularyList(items);
-        readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
-    }
 
     public VocabularyListService(IVocabularyListRepository repository)
     {

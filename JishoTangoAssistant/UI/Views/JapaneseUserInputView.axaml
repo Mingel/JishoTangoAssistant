@@ -5,10 +5,9 @@
 		xmlns:models="using:JishoTangoAssistant.Models"
 		xmlns:converter="clr-namespace:JishoTangoAssistant.UI.Converter"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		x:Class="JishoTangoAssistant.UI.View.JapaneseUserInputView">
-
+		x:Class="JishoTangoAssistant.UI.Views.JapaneseUserInputView">
 	<UserControl.Styles>
-		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
+		<StyleInclude Source="avares://JishoTangoAssistant/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
 	</UserControl.Styles>
 	
 	<UserControl.Resources>

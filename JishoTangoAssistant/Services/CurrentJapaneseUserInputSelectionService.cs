@@ -4,27 +4,22 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls.ApplicationLifetimes;
+using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
 using JishoTangoAssistant.Models.Jisho;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.UI.View;
+using JishoTangoAssistant.UI.Views;
 using JishoTangoAssistant.Utils;
 
 namespace JishoTangoAssistant.Services;
 
-public class CurrentJapaneseUserInputSelectionService
+public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebService)
+    : ICurrentJapaneseUserInputSelectionService
 {
     private const string JishoTagUsuallyInKanaAlone = "Usually written using kana alone";
-    private readonly CurrentJapaneseUserInputSelection selection;
-    private readonly JishoWebService jishoWebService;
+    private readonly CurrentJapaneseUserInputSelection selection = new();
 
-    public CurrentJapaneseUserInputSelectionService()
-    {
-        selection = new CurrentJapaneseUserInputSelection(); // TODO DI
-        jishoWebService = new JishoWebService(); // TODO DI
-    }
-    
-#region selection-attributes
+    #region selection-attributes
     public ObservableCollection<string> GetWords() => selection.Words;
 
     public ObservableCollection<string> GetOtherForms() => selection.OtherForms;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -9,11 +8,11 @@ using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Threading.Tasks;
+using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Utils;
 using JishoTangoAssistant.Models;
-using JishoTangoAssistant.Services;
 
-namespace JishoTangoAssistant.UI.ViewModel;
+namespace JishoTangoAssistant.UI.ViewModels;
 
 public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBase
 {
@@ -32,8 +31,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     [ObservableProperty]
     private ObservableRangeCollection<SimilarMeaningsGroup> meanings = [];
-
-    private readonly List<int> selectedIndicesOfMeanings = [];
     
     [ObservableProperty]
     private string additionalComments = string.Empty;
@@ -64,11 +61,14 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     #endregion
     
-    private readonly CurrentJapaneseUserInputSelectionService currentSelectionService;
+    private readonly ICurrentJapaneseUserInputSelectionService currentSelectionService;
+    private readonly IVocabularyListService vocabularyListService;
 
-    public JapaneseUserInputViewModel()
+    public JapaneseUserInputViewModel(ICurrentJapaneseUserInputSelectionService currentSelectionService, IVocabularyListService vocabularyListService)
     {
-        currentSelectionService = new CurrentJapaneseUserInputSelectionService(); // TODO DI
+        this.currentSelectionService = currentSelectionService;
+        this.vocabularyListService = vocabularyListService;
+
         Words = currentSelectionService.GetWords();
         OtherForms = currentSelectionService.GetOtherForms();
         Meanings = currentSelectionService.GetMeanings();
@@ -76,7 +76,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         Meanings.CollectionChanged += MeaningsUpdateCollectionChanged;
         Meanings.CollectionChanged += AutoEnableIfOnlyMeaning;
 
-        CurrentSession.VocabularyListService.GetList().CollectionChanged += (_, _) => UpdateTextInputBackground();
+        vocabularyListService.GetList().CollectionChanged += (_, _) => UpdateTextInputBackground();
     }
 
     private void AutoEnableIfOnlyMeaning(object? sender, NotifyCollectionChangedEventArgs e)
@@ -206,7 +206,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         if (addedItem == null)
             return;
 
-        await CurrentSession.VocabularyListService.AddAsync(addedItem);
+        await vocabularyListService.AddAsync(addedItem);
         CurrentSession.userMadeChanges = true;
     }
 
@@ -269,9 +269,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     {
         var color = InputTextColorNoDuplicate();
         var itemFromCurrentUserInput = currentSelectionService.CreateVocabularyItem();
-        if (itemFromCurrentUserInput != null && CurrentSession.VocabularyListService.ContainsWord(itemFromCurrentUserInput.Word))
+        if (itemFromCurrentUserInput != null && vocabularyListService.ContainsWord(itemFromCurrentUserInput.Word))
         {
-            color = CurrentSession.VocabularyListService.Contains(itemFromCurrentUserInput) ? InputTextColorSameMeaning() : InputTextColorDifferentMeaning();
+            color = vocabularyListService.Contains(itemFromCurrentUserInput) ? InputTextColorSameMeaning() : InputTextColorDifferentMeaning();
         }
         
         TextInputBackground = Color.Parse(color);

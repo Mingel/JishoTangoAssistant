@@ -1,16 +1,13 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using JishoTangoAssistant.UI.ViewModel;
 
-namespace JishoTangoAssistant.UI.View;
+namespace JishoTangoAssistant.UI.Views;
 
 public partial class VocabularyListView : UserControl
 {
     public VocabularyListView()
     {
         InitializeComponent();
-        var vocabularyListViewModel = new VocabularyListViewModel();
-        DataContext = vocabularyListViewModel;
     }
 
     private void upButton_Click(object sender, RoutedEventArgs e)

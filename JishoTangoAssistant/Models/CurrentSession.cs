@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using JishoTangoAssistant.Models.Jisho;
-using JishoTangoAssistant.Services;
 
 namespace JishoTangoAssistant.Models;
 
@@ -15,6 +14,4 @@ class CurrentSession
     public const int DefaultFontSize = 28;
 
     public static int customFontSize = DefaultFontSize;
-
-    public static readonly VocabularyListService VocabularyListService = new();
 }

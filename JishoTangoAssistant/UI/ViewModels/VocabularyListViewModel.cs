@@ -5,25 +5,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.UI.View;
+using JishoTangoAssistant.UI.Views;
 using System.ComponentModel.DataAnnotations;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Utils;
 using JishoTangoAssistant.Models;
 
-namespace JishoTangoAssistant.UI.ViewModel;
+namespace JishoTangoAssistant.UI.ViewModels;
 
-public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
+public partial class VocabularyListViewModel(IVocabularyListService vocabularyListService) : JishoTangoAssistantViewModelBase
 {
     public ReadOnlyObservableVocabularyList VocabularyList
     {
-        get => CurrentSession.VocabularyListService.GetList();
+        get => vocabularyListService.GetList();
         set
         {
-            var vocabularyList = CurrentSession.VocabularyListService.GetList();
+            var vocabularyList = vocabularyListService.GetList();
             SetProperty(ref vocabularyList, value);
         }
     }
@@ -47,7 +48,7 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     private async Task LoadList()
     {
         bool? performOverwriting = null;
-        if (CurrentSession.VocabularyListService.Count() > 0)
+        if (vocabularyListService.Count() > 0)
         {
             var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
             if (mainWindow == null)
@@ -75,10 +76,10 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         openFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
 #pragma warning restore CS0618
 
-        if (JishoTangoAssistantWindow.Instance == null)
+        if (JishoTangoAssistantWindowView.Instance == null)
             return;
 
-        var result = await openFileDialog.ShowAsync(JishoTangoAssistantWindow.Instance);
+        var result = await openFileDialog.ShowAsync(JishoTangoAssistantWindowView.Instance);
 
         
         var filename = result?.FirstOrDefault();
@@ -93,8 +94,8 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
             throw new ArgumentNullException($"{nameof(loadedVocabularyItems)} is null");
 
         if (performOverwriting == true)
-            await CurrentSession.VocabularyListService.ClearAsync();
-        await CurrentSession.VocabularyListService.AddRangeAsync(loadedVocabularyItems);
+            await vocabularyListService.ClearAsync();
+        await vocabularyListService.AddRangeAsync(loadedVocabularyItems);
 
         CurrentSession.userMadeChanges = false;
     }
@@ -110,10 +111,10 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         saveFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
 #pragma warning restore CS0618
 
-        if (JishoTangoAssistantWindow.Instance == null)
+        if (JishoTangoAssistantWindowView.Instance == null)
             return;
 
-        var result = await saveFileDialog.ShowAsync(JishoTangoAssistantWindow.Instance);
+        var result = await saveFileDialog.ShowAsync(JishoTangoAssistantWindowView.Instance);
 
         if (result != null)
         {
@@ -132,7 +133,7 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
 #pragma warning restore CS0618
 
-        var result = await exportFileDialog.ShowAsync(JishoTangoAssistantWindow.Instance!);
+        var result = await exportFileDialog.ShowAsync(JishoTangoAssistantWindowView.Instance!);
 
         if (result != null)
         {
@@ -150,10 +151,10 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
 #pragma warning restore CS0618
 
-        if (JishoTangoAssistantWindow.Instance == null)
+        if (JishoTangoAssistantWindowView.Instance == null)
             return;
 
-        var result = await exportFileDialog.ShowAsync(JishoTangoAssistantWindow.Instance);
+        var result = await exportFileDialog.ShowAsync(JishoTangoAssistantWindowView.Instance);
 
         if (result != null)
         {
@@ -167,7 +168,7 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     private async Task DeleteFromList()
     {
         if (0 <= SelectedVocabItemIndex && SelectedVocabItemIndex < VocabularyList.Count)
-            await CurrentSession.VocabularyListService.RemoveAtAsync(SelectedVocabItemIndex);
+            await vocabularyListService.RemoveAtAsync(SelectedVocabItemIndex);
     }
 
     [RelayCommand]
@@ -175,20 +176,20 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     {
         if (SelectedVocabItemIndex <= 0)
             return;
-        await CurrentSession.VocabularyListService.SwapAsync(SelectedVocabItemIndex - 1, SelectedVocabItemIndex);
+        await vocabularyListService.SwapAsync(SelectedVocabItemIndex - 1, SelectedVocabItemIndex);
     }
 
     [RelayCommand]
     private async Task GoDown()
     {
-        if (SelectedVocabItemIndex <= -1 || SelectedVocabItemIndex >= CurrentSession.VocabularyListService.Count() - 1) 
+        if (SelectedVocabItemIndex <= -1 || SelectedVocabItemIndex >= vocabularyListService.Count() - 1) 
             return;
-        await CurrentSession.VocabularyListService.SwapAsync(SelectedVocabItemIndex, SelectedVocabItemIndex + 1);
+        await vocabularyListService.SwapAsync(SelectedVocabItemIndex, SelectedVocabItemIndex + 1);
         SelectedVocabItemIndex++;
     }
 
     [RelayCommand]
-    private async Task UndoOperationOnVocabularyList() => await CurrentSession.VocabularyListService.UndoAsync();
+    private async Task UndoOperationOnVocabularyList() => await vocabularyListService.UndoAsync();
 
     private void ShowNotetypeMessageBox()
     {

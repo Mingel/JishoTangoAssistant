@@ -1,7 +1,12 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:JishoTangoAssistant.UI"
              x:Class="JishoTangoAssistant.App"
 			 RequestedThemeVariant="Dark">
+	<Application.DataTemplates>
+		<ui:ViewLocator />
+	</Application.DataTemplates>
+	
 	<Application.Styles>
 		<SimpleTheme />
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Simple.xaml"/>

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using JishoTangoAssistant.UI.Elements;
 
-namespace JishoTangoAssistant.UI.View;
+namespace JishoTangoAssistant.UI.Views;
 
 public partial class MessageBox : Window
 {

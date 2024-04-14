@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace JishoTangoAssistant.UI.ViewModel;
+namespace JishoTangoAssistant.UI.ViewModels;
 
 public abstract class JishoTangoAssistantViewModelBase : ObservableObject;

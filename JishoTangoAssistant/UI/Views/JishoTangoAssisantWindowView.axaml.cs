@@ -3,29 +3,26 @@ using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.UI.ViewModel;
 
-namespace JishoTangoAssistant.UI.View;
+namespace JishoTangoAssistant.UI.Views;
 
-public partial class JishoTangoAssistantWindow : Window
+public partial class JishoTangoAssistantWindowView : Window
 {
-    private readonly JishoTangoAssistantViewModel jishoTangoAssistantViewModel;
-    public static JishoTangoAssistantWindow? Instance;
+    public static JishoTangoAssistantWindowView? Instance;
 
-    public JishoTangoAssistantWindow()
+    public JishoTangoAssistantWindowView()
     {
         Instance = this;
         InitializeComponent();
-        jishoTangoAssistantViewModel = new JishoTangoAssistantViewModel();
-        DataContext = jishoTangoAssistantViewModel;
     }
 
     private void Window_Closing(object sender, CancelEventArgs e)
     {
+        // TODO FIX
         // Let ViewModel handle closing because the view model knows if the user has saved before
-        var shouldClose = jishoTangoAssistantViewModel.OnClosingWindowAsync().Result;
-        if (!shouldClose)
-            e.Cancel = true;
+        // var shouldClose = jishoTangoAssistantWindowViewModel.OnClosingWindowAsync().Result;
+        //if (!shouldClose)
+        //    e.Cancel = true;
     }
 
     private void MenuItem_Click(object sender, RoutedEventArgs args)
