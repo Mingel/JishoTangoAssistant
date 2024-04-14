@@ -2,12 +2,18 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:models="using:JishoTangoAssistant.Models"
+		xmlns:converter="clr-namespace:JishoTangoAssistant.UI.Converter"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		x:Class="JishoTangoAssistant.UI.View.JapaneseUserInputView">
 
 	<UserControl.Styles>
 		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
 	</UserControl.Styles>
+	
+	<UserControl.Resources>
+		<converter:FlattenedIndexToCheckBoxHotKeyConverter x:Key="FlattenedIndexToCheckBoxNameConverter"/>
+	</UserControl.Resources>
 
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		<Grid.RowDefinitions>
@@ -71,6 +77,26 @@
 			<HeaderedContentControl Grid.Row="4" Header="Meaning" Background="DarkGray" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<Grid x:Name="MeaningGrid">
+						<ItemsControl ItemsSource="{Binding Meanings}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate x:DataType="models:SimilarMeaningsGroup">
+									<StackPanel Orientation="Vertical" x:Name="MeaningStackPanel">
+										<ItemsControl ItemsSource="{Binding SimilarMeanings}">
+											<ItemsControl.ItemTemplate>
+												<DataTemplate>
+													<CheckBox x:DataType="models:Meaning" HotKey="{Binding FlattenedIndex, Converter={StaticResource FlattenedIndexToCheckBoxNameConverter}}" Content="{Binding Value}" IsChecked="{Binding IsEnabled, Mode=TwoWay}"  Margin="5,5,7,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" BorderBrush="White" CornerRadius="3" HorizontalContentAlignment="Left"/>
+												</DataTemplate>
+											</ItemsControl.ItemTemplate>
+											<ItemsControl.ItemsPanel>
+												<ItemsPanelTemplate>
+													<DockPanel/>
+												</ItemsPanelTemplate>
+											</ItemsControl.ItemsPanel>
+										</ItemsControl>
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
 					</Grid>
 				</ScrollViewer>
 			</HeaderedContentControl>
