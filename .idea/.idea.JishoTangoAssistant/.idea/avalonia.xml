@@ -15,6 +15,7 @@
         <entry key="JishoTangoAssistant/UI/Views/JishoTangoAssisantWindowView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/MessageBox.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/Styles/DataGridCellNoVisibleCellSelection.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/Views/JapaneseUserInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
       </map>

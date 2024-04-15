@@ -227,14 +227,16 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private void MeaningsUpdateCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        PropertyChangedEventHandler handler = (_, _) => UpdateOutputText();
+        PropertyChangedEventHandler outputTextHandler = (_, _) => UpdateOutputText();
+        PropertyChangedEventHandler textInputBackgroundHandler = (_, _) => UpdateTextInputBackground();
         if (e.NewItems != null)
         {
             foreach (SimilarMeaningsGroup meaningsGroup in e.NewItems)
             {
                 foreach (var meaning in meaningsGroup.SimilarMeanings)
                 {
-                    meaning.PropertyChanged += handler;
+                    meaning.PropertyChanged += outputTextHandler;
+                    meaning.PropertyChanged += textInputBackgroundHandler;
                 }
             }
         }
@@ -244,7 +246,8 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             {
                 foreach (var meaning in meaningsGroup.SimilarMeanings)
                 {
-                    meaning.PropertyChanged -= handler;
+                    meaning.PropertyChanged -= outputTextHandler;
+                    meaning.PropertyChanged -= textInputBackgroundHandler;
                 }
             }
         }
