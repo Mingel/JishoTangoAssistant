@@ -15,8 +15,6 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
     private readonly Dictionary<string, List<VocabularyItem>> vocabularyDictionary = new(); // word -> vocab item
     private readonly Stack<ListOperation.ListOperation> undoOperationStack = new();
 
-    private bool suppressNotification;
-
     private const string CountString = "Count";
     private const string IndexerName = "Item[]";
 
@@ -53,9 +51,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
 
     private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
     {
-        var handler = CollectionChanged;
-        if (handler != null && !suppressNotification)
-            handler(this, args);
+        CollectionChanged?.Invoke(this, args);
     }
 
     public int IndexOf(VocabularyItem item) => vocabularyList.IndexOf(item);
@@ -203,8 +199,6 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         if (pushListOperationToUndoStack)
             undoOperationStack.Push(new AddRangeListOperation(vocabularyItems.Length));
         
-        suppressNotification = true;
-
         foreach (var item in vocabularyItems)
         { 
             vocabularyList.Add(item);
@@ -214,8 +208,6 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
             vocabularyDictionary.TryAdd(item.Word, []);
             vocabularyDictionary[item.Word].Add(item);
         }
-
-        suppressNotification = false;
 
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
@@ -284,10 +276,9 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         copy.CopyTo(copyArray, 0);
         
         CopyTo(copyArray, 0);
+        
         vocabularyList.Clear();
         vocabularyDictionary.Clear();
-        
-        suppressNotification = true;
 
         foreach (var item in copyArray)
         {
@@ -296,8 +287,10 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
             vocabularyDictionary.TryAdd(item.Word, []);
             vocabularyDictionary[item.Word].Add(item);
         }
-
-        suppressNotification = false;
+        
+        OnPropertyChanged(CountString);
+        OnPropertyChanged(IndexerName);
+        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
     private void UndoRemove(VocabularyItem removedItem, int index)
