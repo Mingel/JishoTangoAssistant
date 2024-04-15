@@ -10,12 +10,12 @@ public partial class VocabularyListView : UserControl
         InitializeComponent();
     }
 
-    private void upButton_Click(object sender, RoutedEventArgs e)
+    private void UpButtonClickHandler(object sender, RoutedEventArgs e)
     {
         VocabularyItemsDataGrid.Focus();
     }
 
-    private void downButton_Click(object sender, RoutedEventArgs e)
+    private void DownButtonClickHandler(object sender, RoutedEventArgs e)
     {
         VocabularyItemsDataGrid.Focus();
     }

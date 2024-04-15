@@ -11,10 +11,10 @@ public partial class JapaneseUserInputView : UserControl
     public JapaneseUserInputView()
     {
         InitializeComponent();
-        Loaded += OnLoaded;
+        Loaded += LoadedHandler;
     }
     
-    private void OnLoaded(object? sender, RoutedEventArgs? e)
+    private void LoadedHandler(object? sender, RoutedEventArgs? e)
     {
         InputTextBox.Focus();
     }

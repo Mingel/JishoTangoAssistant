@@ -54,9 +54,9 @@ public partial class MessageBox : Window
             selectedResult = result;
     }
 
-    public static Task<MessageBoxResult> Show(Window? parent, string title, string text, MessageBoxButtons buttons, string subText = "")
+    public static async Task<MessageBoxResult> Show(Window? parent, string title, string text, MessageBoxButtons buttons, string subText = "")
     {
-        if (subText == null) throw new ArgumentNullException(nameof(subText));
+        ArgumentNullException.ThrowIfNull(subText);
         var messageBox = new MessageBox(buttons)
         {
             Title = title,
@@ -75,10 +75,10 @@ public partial class MessageBox : Window
         messageBox.Closed += (_, _) => taskCompletionSource.SetResult(messageBox.selectedResult);
 
         if (parent != null)
-            messageBox.ShowDialog(parent);
+            await messageBox.ShowDialog(parent);
         else
             messageBox.Show();
 
-        return taskCompletionSource.Task;
+        return await taskCompletionSource.Task;
     }
 }
