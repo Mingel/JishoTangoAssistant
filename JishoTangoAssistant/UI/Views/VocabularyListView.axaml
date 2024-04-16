@@ -51,7 +51,8 @@
 					<Button Grid.Column="2" x:Name="DownButton" Content="↓" Click="DownButtonClickHandler" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 				</Grid>
 
-				<Button Grid.Row="5" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+				<Button Grid.Row="5" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="True"/>
+				<Button Grid.Row="5" x:Name="DeleteAllButton" Command="{Binding Path=DeleteAllFromListCommand}" Content="⚠🗑 Delete All" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="False"/>
 				<Button Grid.Row="7" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" Content="↻ Undo Last Action" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z"/>
 
 			</Grid>

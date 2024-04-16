@@ -170,6 +170,12 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         if (0 <= SelectedVocabItemIndex && SelectedVocabItemIndex < VocabularyList.Count)
             await vocabularyListService.RemoveAtAsync(SelectedVocabItemIndex);
     }
+    
+    [RelayCommand]
+    private async Task DeleteAllFromList()
+    {
+        await vocabularyListService.ClearAsync();
+    }
 
     [RelayCommand]
     private async Task GoUp()
@@ -189,7 +195,11 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
     }
 
     [RelayCommand]
-    private async Task UndoOperationOnVocabularyList() => await vocabularyListService.UndoAsync();
+    private async Task UndoOperationOnVocabularyList()
+    {
+        await vocabularyListService.UndoAsync();
+        CurrentSession.userMadeChanges = true;
+    }
 
     private void ShowNotetypeMessageBox()
     {
