@@ -1,14 +1,26 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using JishoTangoAssistant.UI.View;
+using JishoTangoAssistant.UI;
+using JishoTangoAssistant.UI.Views;
+using JishoTangoAssistant.UI.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace JishoTangoAssistant
 {
-    public partial class App : Application
+    public class App : Application
     {
+        private readonly IServiceProvider serviceCollection;
+
+        public App(IServiceProvider serviceCollection)
+        {
+            this.serviceCollection = serviceCollection;
+        }
+
         public override void Initialize()
         {
+            Resources[typeof(IServiceProvider)] = serviceCollection;
             AvaloniaXamlLoader.Load(this);
         }
 
@@ -16,7 +28,10 @@ namespace JishoTangoAssistant
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new JishoTangoAssistantWindow();
+                desktop.MainWindow = new JishoTangoAssistantWindowView
+                {
+                    DataContext = serviceCollection.GetRequiredService<JishoTangoAssistantWindowViewModel>(),
+                };
             }
 
             base.OnFrameworkInitializationCompleted();

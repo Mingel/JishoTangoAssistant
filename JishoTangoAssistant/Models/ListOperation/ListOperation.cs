@@ -1,3 +1,3 @@
 ﻿namespace JishoTangoAssistant.Models.ListOperation;
 
-internal class ListOperation<T>;
+internal record ListOperation;

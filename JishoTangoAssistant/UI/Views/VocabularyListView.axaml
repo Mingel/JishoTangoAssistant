@@ -3,11 +3,10 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		x:Class="JishoTangoAssistant.UI.View.VocabularyListView">
-
+		x:Class="JishoTangoAssistant.UI.Views.VocabularyListView">
 	<UserControl.Styles>
-		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
-		<StyleInclude Source="avares://JishoTangoAssistant/UI/View/Styles/DataGridCellNoVisibleCellSelection.axaml"/>
+		<StyleInclude Source="avares://JishoTangoAssistant/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
+		<StyleInclude Source="avares://JishoTangoAssistant/UI/Views/Styles/DataGridCellNoVisibleCellSelection.axaml"/>
 	</UserControl.Styles>
 
 	<Grid>
@@ -48,8 +47,8 @@
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 
-					<Button Grid.Column="0" x:Name="UpButton" Content="↑" Click="upButton_Click" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-					<Button Grid.Column="2" x:Name="DownButton" Content="↓" Click="downButton_Click" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Column="0" x:Name="UpButton" Content="↑" Click="UpButtonClickHandler" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Column="2" x:Name="DownButton" Content="↓" Click="DownButtonClickHandler" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 				</Grid>
 
 				<Button Grid.Row="5" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>

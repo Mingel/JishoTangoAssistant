@@ -1,13 +1,23 @@
 ﻿using Avalonia.Controls.ApplicationLifetimes;
 using JishoTangoAssistant.Models;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.UI.View;
+using JishoTangoAssistant.UI.Views;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace JishoTangoAssistant.UI.ViewModel;
+namespace JishoTangoAssistant.UI.ViewModels;
 
-public class JishoTangoAssistantViewModel : JishoTangoAssistantViewModelBase
+public partial class JishoTangoAssistantWindowViewModel(
+    JapaneseUserInputViewModel japaneseUserInputViewModel,
+    VocabularyListViewModel vocabularyListViewModel)
+    : JishoTangoAssistantViewModelBase
 {
+    [ObservableProperty]
+    private JapaneseUserInputViewModel japaneseUserInputViewModel = japaneseUserInputViewModel;
+    
+    [ObservableProperty]
+    private VocabularyListViewModel vocabularyListViewModel = vocabularyListViewModel;
+    
     public async Task<bool> OnClosingWindowAsync()
     {
         if (!CurrentSession.userMadeChanges) return true;

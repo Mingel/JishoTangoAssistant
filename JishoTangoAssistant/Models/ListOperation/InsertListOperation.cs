@@ -1,6 +1,3 @@
 ﻿namespace JishoTangoAssistant.Models.ListOperation;
 
-internal class InsertListOperation<T>(int index) : ListOperation<T>
-{
-    internal readonly int index = index;
-}
+internal record InsertListOperation(int Index) : ListOperation;

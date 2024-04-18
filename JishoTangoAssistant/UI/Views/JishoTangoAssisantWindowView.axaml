@@ -3,12 +3,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		xmlns:uc="clr-namespace:JishoTangoAssistant.UI.View;assembly=JishoTangoAssistant"
-		x:Class="JishoTangoAssistant.UI.View.JishoTangoAssistantWindow"
+		x:Class="JishoTangoAssistant.UI.Views.JishoTangoAssistantWindowView"
         Title="JishoTangoAssistant"
 		MinHeight="650" MinWidth="600"
 		Height="650" Width="800">
-
 	<Window.Styles>
 		<Style Selector="TabItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="Background" Value="#124078"/>
@@ -17,7 +15,7 @@
 
 	<DockPanel Background="#FF2A2A2A">
 		<Menu DockPanel.Dock="Top">
-			<MenuItem Header="About" Click="MenuItem_Click"/>
+			<MenuItem Header="About" Click="MenuItemClickHandler"/>
 		</Menu>
 
 		<Grid>
@@ -46,7 +44,7 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:JapaneseUserInputView Grid.Row="1" Grid.Column="1" x:Name="JapaneseUserInputView"/>
+							<ContentControl Content="{Binding JapaneseUserInputViewModel}" Grid.Row="1" Grid.Column="1" x:Name="JapaneseUserInputView"/>
 						</Grid>
 					</TabItem>
 					<TabItem Header="Vocabulary List">
@@ -61,12 +59,11 @@
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="5"/>
 							</Grid.ColumnDefinitions>
-							<uc:VocabularyListView Grid.Row="1" Grid.Column="1" x:Name="VocabularyListView"/>
+							<ContentControl Content="{Binding VocabularyListViewModel}" Grid.Row="1" Grid.Column="1" x:Name="VocabularyListView"/>
 						</Grid>
 					</TabItem>
 				</TabControl>
 			</DockPanel>
 		</Grid>
 	</DockPanel>
-
 </Window>

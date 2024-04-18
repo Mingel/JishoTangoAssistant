@@ -1,13 +1,3 @@
 ﻿namespace JishoTangoAssistant.Models.ListOperation;
 
-internal class RemoveAtListOperation<T> : ListOperation<T>
-{
-    internal readonly int index;
-    internal readonly T removedItem;
-
-    internal RemoveAtListOperation(int index, T removedItem)
-    {
-        this.index = index;
-        this.removedItem = removedItem;
-    }
-}
+internal record RemoveAtListOperation<T>(int Index, T RemovedItem) : ListOperation;
