@@ -161,7 +161,7 @@
 				<RowDefinition Height="5"/>
 			</Grid.RowDefinitions>
 
-			<Button Grid.Row="2" x:Name="AddButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}"/>
+			<Button Grid.Row="2" x:Name="AddButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}" Click="AddToVocabularyListClickHandler"/>
 		</Grid>
 	</Grid>
 </UserControl>
