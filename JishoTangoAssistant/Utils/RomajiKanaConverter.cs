@@ -68,16 +68,22 @@ public static class RomajiKanaConverter
     // Converts based on the search query's conversion to hiragana/katakana in jisho.org
     public static string Convert(string romajiInput)
     {
-        var romajiOutput = "";
-        var toMatch = "";
-        bool forceNextKanaLetterFromNaRow = false;
-        bool forceNextKatakanaLetter = false;
+        var romajiOutput = string.Empty;
+        var toMatch = string.Empty;
+        var forceNextKanaLetterFromNaRow = false;
+        var forceNextKatakanaLetter = false;
         for (int i = 0; i < romajiInput.Length; i++)
         {
             char c = romajiInput[i];
 
+            // stop conversion before a non-romaji character and start the conversion when a romaji character starts again
             if (!IsRomajiCharacter(c))
-                return romajiInput;
+            {
+                toMatch = string.Empty;
+                forceNextKanaLetterFromNaRow = forceNextKatakanaLetter = false;
+                romajiOutput += c;
+                continue;
+            }
                 
             toMatch += c;
 
@@ -170,7 +176,7 @@ public static class RomajiKanaConverter
 
     private static string ToKatakana(string hiraganaLetters)
     {
-        return string.Join("", hiraganaLetters.Select(ToKatakana));
+        return string.Join(string.Empty, hiraganaLetters.Select(ToKatakana));
     }
 
     private static bool VowelAfterNn(string romajiInput, int vowelIndex)

@@ -1,5 +1,4 @@
 ﻿using JishoTangoAssistant.Utils;
-using JishoTangoAssistant.Services;
 using NUnit.Framework;
 
 namespace JishoTangoAssistant.Tests
@@ -151,6 +150,15 @@ namespace JishoTangoAssistant.Tests
 
             Assert.AreEqual("すペイん", RomajiKanaConverter.Convert("sUPEIn"));
             Assert.AreEqual("ドイつ", RomajiKanaConverter.Convert("DoItSU"));
+        }
+
+        [Test]
+        public void TestValidMixOfKanaAndRomaji()
+        {
+            Assert.AreEqual("はなび", RomajiKanaConverter.Convert("haなび"));
+            Assert.AreEqual("はなび", RomajiKanaConverter.Convert("hanaび"));
+            Assert.AreEqual("はなび", RomajiKanaConverter.Convert("はnaび"));;
+            Assert.AreEqual("はなび", RomajiKanaConverter.Convert("はnabi"));
         }
     }
 }
