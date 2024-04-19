@@ -139,7 +139,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         {
             await using var sw = new StreamWriter(result, false, Encoding.UTF8);
             await sw.WriteAsync(VocabularyListExporter.JapaneseToEnglish(VocabularyList));
-            ShowNotetypeMessageBox();
+            await ShowNotetypeMessageBox();
         }
     }
 
@@ -160,7 +160,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         {
             await using var sw = new StreamWriter(result, false, Encoding.UTF8);
             await sw.WriteAsync(VocabularyListExporter.EnglishToJapanese(VocabularyList));
-            ShowNotetypeMessageBox();
+            await ShowNotetypeMessageBox();
         }
     }
 
@@ -201,13 +201,13 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         CurrentSession.userMadeChanges = true;
     }
 
-    private void ShowNotetypeMessageBox()
+    private async Task ShowNotetypeMessageBox()
     {
         var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
 
         if (mainWindow != null)
         {
-            MessageBox.Show(mainWindow, "Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
+            await MessageBox.Show(mainWindow, "Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
                 MessageBoxButtons.Ok);
         }
     }
