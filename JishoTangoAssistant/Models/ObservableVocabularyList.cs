@@ -12,8 +12,9 @@ namespace JishoTangoAssistant.Models;
 public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCollectionChanged, INotifyPropertyChanged
 {
     private readonly List<VocabularyItem> vocabularyList = [];
-    private readonly Dictionary<string, List<VocabularyItem>> vocabularyDictionary = new(); // word -> vocab item
+    private readonly Dictionary<string, List<VocabularyItem>> vocabularyDictionary = []; // word -> vocab item
     private readonly Stack<ListOperation.ListOperation> undoOperationStack = new();
+    public VocabularyItem? LastAddedItem { get; private set; }
 
     private const string CountString = "Count";
     private const string IndexerName = "Item[]";
@@ -22,7 +23,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
     
     public ObservableVocabularyList(IEnumerable<VocabularyItem> items)
     {
-        AddRange(items);
+        AddRange(items, true);
     }
     
     #region methods-interfaces
@@ -64,7 +65,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
 
     public void Clear() => Clear(true);
 
-    public void AddRange(IEnumerable<VocabularyItem> items) => AddRange(items, true);
+    public void AddRange(IEnumerable<VocabularyItem> items, bool removeInfoAboutLastAddedItem = false) => AddRange(items, removeInfoAboutLastAddedItem, true);
 
     public bool Contains(VocabularyItem item)
     {
@@ -99,6 +100,8 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         if (wordList != null && containedInDictionary)
             wordList.Remove(item);
 
+        LastAddedItem = null;
+
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
@@ -115,6 +118,8 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
 
         vocabularyDictionary.Clear();
 
+        LastAddedItem = null;
+
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -130,6 +135,8 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
 
         vocabularyDictionary.TryAdd(item.Word, []);
         vocabularyDictionary[item.Word].Add(item);
+
+        LastAddedItem = item;
 
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
@@ -151,6 +158,8 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         if (wordList != null && containedInDictionary)
             wordList.Remove(oldItem);
 
+        LastAddedItem = null;
+
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, index));
@@ -168,6 +177,8 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         vocabularyDictionary.TryAdd(item.Word, []);
         vocabularyDictionary[item.Word].Add(item);
 
+        LastAddedItem = item;
+
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
@@ -182,12 +193,13 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
             undoOperationStack.Push(new AssignmentListOperation<VocabularyItem>(index, oldItem));
         vocabularyList[index] = toReplace;
         toReplace.Order = index;
+        LastAddedItem = toReplace;
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, toReplace, oldItem, index));
     }
 
-    private void AddRange(IEnumerable<VocabularyItem> items, bool pushListOperationToUndoStack)
+    private void AddRange(IEnumerable<VocabularyItem> items, bool removeInfoAboutLastAddedItem, bool pushListOperationToUndoStack)
     {
         ArgumentNullException.ThrowIfNull(items);
 
@@ -208,6 +220,11 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
             vocabularyDictionary.TryAdd(item.Word, []);
             vocabularyDictionary[item.Word].Add(item);
         }
+
+        if (!removeInfoAboutLastAddedItem)
+            LastAddedItem = vocabularyItems.LastOrDefault();
+        else
+            LastAddedItem = null;
 
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);

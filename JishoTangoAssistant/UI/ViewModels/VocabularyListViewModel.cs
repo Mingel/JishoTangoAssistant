@@ -1,6 +1,5 @@
 ﻿using System;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.UI.Views;
 using System.ComponentModel.DataAnnotations;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -77,7 +76,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
 
         if (performOverwriting == true)
             await vocabularyListService.ClearAsync();
-        await vocabularyListService.AddRangeAsync(loadedVocabularyItems);
+        await vocabularyListService.AddRangeAsync(loadedVocabularyItems, true);
 
         CurrentSession.userMadeChanges = false;
     }
@@ -85,9 +84,6 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
     [RelayCommand]
     private async Task SaveList()
     {
-        if (JishoTangoAssistantWindowView.Instance == null)
-            return;
-
         var list = vocabularyListService.GetList();
 
         var filePickerFilter = new[] {

@@ -55,4 +55,9 @@ public class ReadOnlyObservableVocabularyList : IReadOnlyList<VocabularyItem>, I
     {
         CollectionChanged?.Invoke(this, args);
     }
+
+    public VocabularyItem? GetLastAddedItem()
+    {
+        return vocabularyList.LastAddedItem;
+    }
 }

@@ -3,7 +3,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 using JishoTangoAssistant.Models;
-using JishoTangoAssistant.Services;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.Utils;
 
@@ -12,11 +11,9 @@ namespace JishoTangoAssistant.UI.Views;
 public partial class JishoTangoAssistantWindowView : Window
 {
     private bool userWantsToQuit;
-    public static JishoTangoAssistantWindowView? Instance;
 
     public JishoTangoAssistantWindowView()
     {
-        Instance = this;
         InitializeComponent();
     }
 
