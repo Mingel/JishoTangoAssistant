@@ -36,9 +36,9 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build JishoTangoAssistant --no-restore --configuration Release --property:PublishDir=build/JishoTangoAssistant
+        run: dotnet build JishoTangoAssistant --no-restore --configuration Release --property:OutputPath=build/JishoTangoAssistant
       - name: Test
-        run: dotnet test --no-restore --configuration Release --verbosity normal --property:PublishDir=build/tests
+        run: dotnet test --no-restore --configuration Release --verbosity normal --property:TestResultsDirectory=build/tests
       - name: Packaging workflow data as artifacts
         run: mkdir deploy && cp -r build/JishoTangoAssistant deploy/ && ls ./deploy/JishoTangoAssistant
       - name: Upload to artifact (Windows)
