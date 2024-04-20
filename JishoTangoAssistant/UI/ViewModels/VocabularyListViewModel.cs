@@ -1,9 +1,4 @@
-﻿using Avalonia.Controls;
-using Newtonsoft.Json;
-using System;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.Views;
 using System.ComponentModel.DataAnnotations;
@@ -11,10 +6,10 @@ using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
+using Avalonia.Platform.Storage;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Utils;
 using JishoTangoAssistant.Models;
-using JishoTangoAssistant.Services;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 
@@ -63,36 +58,22 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
             performOverwriting = msgBoxResult.Equals(MessageBoxResult.Overwrite);
         }
 
-#pragma warning disable CS0618
-        var openFileDialog = new OpenFileDialog
+        var filePickerTitle  = performOverwriting switch
         {
-            Title = performOverwriting switch
-            {
-                true => "Open file to load vocabulary list (Overwrite)",
-                false => "Open file to load vocabulary list (Merge)",
-                _ => "Open file to load vocabulary list"
-            }
+            true => "Open file to load vocabulary list (Overwrite)",
+            false => "Open file to load vocabulary list (Merge)",
+            _ => "Open file to load vocabulary list"
         };
 
-        openFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
-#pragma warning restore CS0618
+        var filePickerFilter = new[] {
+            new FilePickerFileType("JTA Files") { Patterns = new[] { "*.jta" } }
+        };
 
-        if (JishoTangoAssistantWindowView.Instance == null)
-            return;
+        var loadedVocabularyItems = await VocabularyListFilePicker.LoadAsync(filePickerTitle, filePickerFilter);
 
-        var result = await openFileDialog.ShowAsync(JishoTangoAssistantWindowView.Instance);
-
-        
-        var filename = result?.FirstOrDefault();
-        if (filename is null)
-            return;
-        
-        using var reader = new StreamReader(filename);
-        var fileContent = await reader.ReadToEndAsync();
-        var loadedVocabularyItems = JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
-
+        // this case can occur if user cancels file dialog
         if (loadedVocabularyItems == null)
-            throw new ArgumentNullException($"{nameof(loadedVocabularyItems)} is null");
+            return;
 
         if (performOverwriting == true)
             await vocabularyListService.ClearAsync();
@@ -104,65 +85,47 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
     [RelayCommand]
     private async Task SaveList()
     {
-#pragma warning disable CS0618
-        var saveFileDialog = new SaveFileDialog
-        {
-            Title = "Save vocabulary list as"
-        };
-        saveFileDialog.Filters.Add(new FileDialogFilter() { Name = "MJV Files", Extensions = { "mjv" } });
-#pragma warning restore CS0618
-
         if (JishoTangoAssistantWindowView.Instance == null)
             return;
 
-        var result = await saveFileDialog.ShowAsync(JishoTangoAssistantWindowView.Instance);
+        var list = vocabularyListService.GetList();
 
-        if (result != null)
-        {
-            await using var sw = new StreamWriter(result, false, Encoding.UTF8);
-            var json = JsonConvert.SerializeObject(VocabularyList.ToArray(), Formatting.Indented);
-            await sw.WriteAsync(json);
+        var filePickerFilter = new[] {
+            new FilePickerFileType("JTA Files") { Patterns = new[] { "*.jta" } }
+        };
+
+        var success = await VocabularyListFilePicker.SaveAsync(list, "Save vocabulary list as", filePickerFilter);
+
+        if (success)
             CurrentSession.userMadeChanges = false;
-        }
     }
 
     [RelayCommand]
     private async Task ExportCsvJapaneseToEnglish()
     {
-#pragma warning disable CS0618
-        var exportFileDialog = new SaveFileDialog();
-        exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
-#pragma warning restore CS0618
-
-        var result = await exportFileDialog.ShowAsync(JishoTangoAssistantWindowView.Instance!);
-
-        if (result != null)
-        {
-            await using var sw = new StreamWriter(result, false, Encoding.UTF8);
-            await sw.WriteAsync(VocabularyListExporter.JapaneseToEnglish(VocabularyList));
-            await ShowNotetypeMessageBox();
-        }
+        await ExportCsv(false);
     }
 
     [RelayCommand]
     private async Task ExportCsvEnglishToJapanese()
     {
-#pragma warning disable CS0618
-        var exportFileDialog = new SaveFileDialog();
-        exportFileDialog.Filters.Add(new FileDialogFilter() { Name = "CSV Files", Extensions = { "csv" } });
-#pragma warning restore CS0618
+        await ExportCsv(true);
+    }
 
-        if (JishoTangoAssistantWindowView.Instance == null)
-            return;
+    private async Task ExportCsv(bool toJapanese)
+    {
+        var filePickerFilter = new[] {
+            new FilePickerFileType("CSV Files") { Patterns = new[] { "*.csv" } }
+        };
 
-        var result = await exportFileDialog.ShowAsync(JishoTangoAssistantWindowView.Instance);
+        var list = vocabularyListService.GetList();
 
-        if (result != null)
-        {
-            await using var sw = new StreamWriter(result, false, Encoding.UTF8);
-            await sw.WriteAsync(VocabularyListExporter.EnglishToJapanese(VocabularyList));
+        string contentToExport = toJapanese ? VocabularyListExporter.EnglishToJapanese(list) : VocabularyListExporter.JapaneseToEnglish(list);
+
+        var success = await VocabularyListFilePicker.SaveAsync(contentToExport, "Export vocabulary list as", filePickerFilter);
+
+        if (success)
             await ShowNotetypeMessageBox();
-        }
     }
 
     [RelayCommand]
