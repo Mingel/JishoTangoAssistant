@@ -46,7 +46,7 @@ jobs:
         with:
           name: JishoTangoAssistant-${{ matrix.os }}
           path: |
-            ./deploy/JishoTangoAssistant/**
+            ./deploy/**
             !./deploy/JishoTangoAssistant/runtimes/browser-wasm
             !./deploy/JishoTangoAssistant/runtimes/linux-arm
             !./deploy/JishoTangoAssistant/runtimes/linux-arm64
@@ -81,11 +81,11 @@ jobs:
             !./deploy/JishoTangoAssistant/runtimes/osx-x64/**
         if: matrix.os == 'windows-latest'
       - name: Upload to artifact (Linux)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: JishoTangoAssistant-${{ matrix.os }}
           path: |
-            ./deploy/JishoTangoAssistant/**
+            ./deploy/**
             !./deploy/JishoTangoAssistant/runtimes/browser-wasm
             !./deploy/JishoTangoAssistant/runtimes/maccatalyst-arm64
             !./deploy/JishoTangoAssistant/runtimes/maccatalyst-x64
