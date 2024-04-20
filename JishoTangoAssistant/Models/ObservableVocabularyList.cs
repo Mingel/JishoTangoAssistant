@@ -21,11 +21,8 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
 
     public ObservableVocabularyList() { }
     
-    public ObservableVocabularyList(IEnumerable<VocabularyItem> items)
-    {
-        AddRange(items, true);
-    }
-    
+    public ObservableVocabularyList(IEnumerable<VocabularyItem> items) => AddRange(items, true);
+
     #region methods-interfaces
     public int Count => vocabularyList.Count;
 
@@ -50,10 +47,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
         set => Replace(value, index, true);
     }
 
-    private void OnCollectionChanged(NotifyCollectionChangedEventArgs args)
-    {
-        CollectionChanged?.Invoke(this, args);
-    }
+    private void OnCollectionChanged(NotifyCollectionChangedEventArgs args) => CollectionChanged?.Invoke(this, args);
 
     public int IndexOf(VocabularyItem item) => vocabularyList.IndexOf(item);
 
@@ -221,10 +215,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
             vocabularyDictionary[item.Word].Add(item);
         }
 
-        if (!removeInfoAboutLastAddedItem)
-            LastAddedItem = vocabularyItems.LastOrDefault();
-        else
-            LastAddedItem = null;
+        LastAddedItem = !removeInfoAboutLastAddedItem ? vocabularyItems.LastOrDefault() : null;
 
         OnPropertyChanged(CountString);
         OnPropertyChanged(IndexerName);

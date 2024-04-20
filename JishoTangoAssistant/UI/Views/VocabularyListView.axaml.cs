@@ -14,29 +14,17 @@ public partial class VocabularyListView : UserControl
     public VocabularyListView()
     {
         InitializeComponent();
-
-        KeyDown += KeyDownHandler;
-        KeyUp += KeyUpHandler;
     }
 
     protected override void OnInitialized()
     {
         if (VocabularyItemsDataGrid.ItemsSource is ReadOnlyObservableVocabularyList vocabularyItems)
         {
-            vocabularyItems.CollectionChanged += (_, e) => {
-                if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems?.Count >= 1)
-                {
-                    lastItem = e.NewItems[0]!;
-                    scrollToLastItemAfterLoading = true;
-                }
-            };
+            vocabularyItems.CollectionChanged += VocabularyItemsCollectionChangedHandler;
 
             lastItem = vocabularyItems.GetLastAddedItem();
             if (lastItem != null)
-            {
                 scrollToLastItemAfterLoading = true;
-            }
-                
         }
 
         base.OnInitialized();
@@ -54,22 +42,20 @@ public partial class VocabularyListView : UserControl
         base.OnLoaded(e);
     }
 
-    private void KeyDownHandler(object? _, KeyEventArgs e)
+    protected override void OnKeyDown(KeyEventArgs e)
     {
         if (e.Key is Key.LeftShift or Key.RightShift)
-        {
-            DeleteSelectionButton.IsVisible = false;
-            DeleteAllButton.IsVisible = true;
-        }
+            UpdateDeleteButtonVisibility(true);
+
+        base.OnKeyDown(e);
     }
 
-    private void KeyUpHandler(object? _, KeyEventArgs e)
+    protected override void OnKeyUp(KeyEventArgs e)
     {
         if (e.Key is Key.LeftShift or Key.RightShift)
-        {
-            DeleteSelectionButton.IsVisible = true;
-            DeleteAllButton.IsVisible = false;
-        }
+            UpdateDeleteButtonVisibility(false);
+
+        base.OnKeyUp(e);
     }
 
     private void UpButtonClickHandler(object sender, RoutedEventArgs e)
@@ -80,5 +66,19 @@ public partial class VocabularyListView : UserControl
     private void DownButtonClickHandler(object sender, RoutedEventArgs e)
     {
         VocabularyItemsDataGrid.Focus();
+    }
+
+    private void UpdateDeleteButtonVisibility(bool isDeleteAllButtonVisible)
+    {
+        DeleteSelectionButton.IsVisible = !isDeleteAllButtonVisible;
+        DeleteAllButton.IsVisible = isDeleteAllButtonVisible;
+    }
+
+    private void VocabularyItemsCollectionChangedHandler(object? sender, NotifyCollectionChangedEventArgs e) {
+        if (e is { Action: NotifyCollectionChangedAction.Add, NewItems.Count: >= 1 })
+        {
+            lastItem = e.NewItems[0]!;
+            scrollToLastItemAfterLoading = true;
+        }
     }
 }

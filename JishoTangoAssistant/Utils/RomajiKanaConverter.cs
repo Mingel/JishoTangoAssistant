@@ -108,7 +108,7 @@ public static class RomajiKanaConverter
                 toMatch = string.Empty;
             }
             // "nn" -> "ん"
-            else if (toMatch.ToLower().Equals("nn"))
+            else if (toMatch.ToLower() == "nn")
             {
                 romajiOutput += char.IsLower(c) ? "ん" : ToKatakana("ん");
                 toMatch = string.Empty;
@@ -194,20 +194,20 @@ public static class RomajiKanaConverter
     private static bool DoubleConsonantsAt(string toMatch, int indexOfSecondLetter)
     {
         return indexOfSecondLetter > 0
-               && toMatch[indexOfSecondLetter].Equals(toMatch[indexOfSecondLetter - 1])  
+               && toMatch[indexOfSecondLetter] == toMatch[indexOfSecondLetter - 1]
                && !NoConversionToSokuon.Contains(toMatch[indexOfSecondLetter].ToString()) // for index = toMatch.Length - 2: "aa" -> "ああ" (not "っあ")
                && RomajiToHiraganaDictionary.ContainsKey(toMatch.Substring(indexOfSecondLetter)); // for cases that e.g. "tt" and index = toMatch.Length - 2, which by itself cannot be converted" will be looked up in the dictionary
     }
 
     private static bool LetterPOrLetterBAfterLetterM(string romajiInput, string toMatch, int i)
     {
-        return toMatch.Equals("m") && i + 1 < romajiInput.Length
+        return toMatch == "m" && i + 1 < romajiInput.Length
                                    && (char.ToLower(romajiInput[i + 1]) == 'b' || char.ToLower(romajiInput[i + 1]) == 'p');
     }
 
     private static bool VowelOrLetterNAfterLetterN(string romajiInput, string toMatch, int i)
     {
-        return toMatch.Equals("n") &&
+        return toMatch == "n" &&
                (i + 1 < romajiInput.Length && char.ToLower(romajiInput[i + 1]) == 'n' // "nn" -> "ん"
                 || i + 1 < romajiInput.Length && Vowels.Contains(char.ToLower(romajiInput[i + 1]).ToString()) // "na" -> "な"
                 || i + 2 < romajiInput.Length && char.ToLower(romajiInput[i + 1]) == 'y' && Vowels.Contains(char.ToLower(romajiInput[i + 2]).ToString())); // "nya" -> "にゃ"

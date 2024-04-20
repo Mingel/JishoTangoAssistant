@@ -21,10 +21,7 @@ public class VocabularyListService : IVocabularyListService
         readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
     }
 
-    public ReadOnlyObservableVocabularyList GetList()
-    {
-        return readOnlyVocabularyList;
-    }
+    public ReadOnlyObservableVocabularyList GetList() => readOnlyVocabularyList;
 
     public async Task AddAsync(VocabularyItem item)
     {

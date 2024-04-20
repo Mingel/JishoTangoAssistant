@@ -1,7 +1,6 @@
 ﻿using System;
 using JishoTangoAssistant.UI.Elements;
 using System.ComponentModel.DataAnnotations;
-using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
@@ -33,9 +32,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         get => CurrentSession.customFontSize;
         set
         {
-            if (value is < 6 or > 96)
-                SetProperty(ref CurrentSession.customFontSize, CurrentSession.DefaultFontSize);
-            SetProperty(ref CurrentSession.customFontSize, value);
+            var fontSize = value is < 6 or > 96 ? CurrentSession.DefaultFontSize : value;
+            SetProperty(ref CurrentSession.customFontSize, fontSize);
         }
     }
 
@@ -45,19 +43,15 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         bool? performOverwriting = null;
         if (vocabularyListService.Count() > 0)
         {
-            var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
-            if (mainWindow == null)
-                return;
-
-            var msgBoxResult = await MessageBoxUtil.CreateAndShowAsync(mainWindow, "Warning", "Your vocabulary list is not empty." + Environment.NewLine + "Do you want to overwrite or merge into your current vocabulary list?",
+            var msgBoxResult = await MessageBoxUtil.CreateAndShowAsync("Warning", "Your vocabulary list is not empty." + Environment.NewLine + "Do you want to overwrite or merge into your current vocabulary list?",
                                                 MessageBoxButtons.MergeOverwriteCancel);
 
-            if (msgBoxResult.Equals(MessageBoxResult.Cancel))
+            if (msgBoxResult == MessageBoxResult.Cancel)
                 return;
-            performOverwriting = msgBoxResult.Equals(MessageBoxResult.Overwrite);
+            performOverwriting = msgBoxResult == MessageBoxResult.Overwrite;
         }
 
-        var filePickerTitle  = performOverwriting switch
+        var filePickerTitle = performOverwriting switch
         {
             true => "Open file to load vocabulary list (Overwrite)",
             false => "Open file to load vocabulary list (Merge)",
@@ -163,12 +157,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
 
     private async Task ShowNotetypeMessageBox()
     {
-        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
-
-        if (mainWindow != null)
-        {
-            await MessageBoxUtil.CreateAndShowAsync(mainWindow, "Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
-                MessageBoxButtons.Ok);
-        }
+        await MessageBoxUtil.CreateAndShowAsync("Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
+            MessageBoxButtons.Ok);
     }
 }

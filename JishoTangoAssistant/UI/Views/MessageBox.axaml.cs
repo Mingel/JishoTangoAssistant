@@ -17,12 +17,26 @@ public partial class MessageBox : Window
 
         switch (buttons)
         {
-            case MessageBoxButtons.Ok or MessageBoxButtons.OkCancel:
+            case MessageBoxButtons.Ok:
                 AddButton("OK", MessageBoxResult.Ok, true);
                 break;
-            case MessageBoxButtons.YesNo or MessageBoxButtons.YesNoCancel:
+            case MessageBoxButtons.OkCancel:
+                AddButton("OK", MessageBoxResult.Ok);
+                AddButton("Cancel", MessageBoxResult.Cancel, true);
+                break;
+            case MessageBoxButtons.YesNo:
                 AddButton("Yes", MessageBoxResult.Yes);
                 AddButton("No", MessageBoxResult.No, true);
+                break;
+            case MessageBoxButtons.YesNoCancel:
+                AddButton("Yes", MessageBoxResult.Yes);
+                AddButton("No", MessageBoxResult.No);
+                AddButton("Cancel", MessageBoxResult.Cancel, true);
+                break;
+            case MessageBoxButtons.MergeOverwriteCancel:
+                AddButton("Merge", MessageBoxResult.Merge);
+                AddButton("Overwrite", MessageBoxResult.Overwrite);
+                AddButton("Cancel", MessageBoxResult.Cancel, true);
                 break;
         }
 
@@ -53,33 +67,4 @@ public partial class MessageBox : Window
         if (isDefault)
             SelectedResult = result;
     }
-
-    // TODO Remove
-    public static async Task<MessageBoxResult> Show(Window? parent, string title, string text, MessageBoxButtons buttons, string subText = "")
-        {
-            ArgumentNullException.ThrowIfNull(subText);
-            var messageBox = new MessageBox(buttons)
-            {
-                Title = title,
-                MessageBoxTextBlock =
-                {
-                    Text = text
-                },
-                MessageBoxSubTextBlock =
-                {
-                    IsVisible = !string.IsNullOrEmpty(subText),
-                    Text = subText
-                }
-            };
-
-            var taskCompletionSource = new TaskCompletionSource<MessageBoxResult>();
-            messageBox.Closed += (_, _) => taskCompletionSource.SetResult(messageBox.SelectedResult);
-
-            if (parent != null)
-                await messageBox.ShowDialog(parent);
-            else
-                messageBox.Show();
-
-            return await taskCompletionSource.Task;
-        }
 }

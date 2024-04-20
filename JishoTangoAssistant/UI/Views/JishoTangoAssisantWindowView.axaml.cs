@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 using JishoTangoAssistant.Models;
 using JishoTangoAssistant.UI.Elements;
@@ -17,7 +16,7 @@ public partial class JishoTangoAssistantWindowView : Window
         InitializeComponent();
     }
 
-    protected override void OnClosing(WindowClosingEventArgs e)
+    protected override async void OnClosing(WindowClosingEventArgs e)
     {
         if (!CurrentSession.userMadeChanges)
             userWantsToQuit = true;
@@ -25,26 +24,19 @@ public partial class JishoTangoAssistantWindowView : Window
         if (!userWantsToQuit)
         {
             e.Cancel = true;
-            Task.Run(AskForCloseWindow);
+            await AskForCloseWindow();
         }
 
         base.OnClosing(e);
     }
 
-    private async void AskForCloseWindow()
+    private async Task AskForCloseWindow()
     {
-        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
-
-        if (mainWindow == null)
-            userWantsToQuit = true;
-
         var msgBoxResult = await Dispatcher.UIThread.InvokeAsync(() =>
-            MessageBoxUtil.CreateAndShowAsync(mainWindow,
-                                                "Warning",
-                                                "You have made unsaved changes. Do you really want to close the application?",
-                                                MessageBoxButtons.YesNo));
-        var shouldClose = msgBoxResult.Equals(MessageBoxResult.Yes);
-        Dispatcher.UIThread.Post(() => CloseWindowAfterAsking(shouldClose));
+            MessageBoxUtil.CreateAndShowAsync("Warning",
+                                              "You have made unsaved changes. Do you really want to close the application?",
+                                              MessageBoxButtons.YesNo));
+        Dispatcher.UIThread.Post(() => CloseWindowAfterAsking(msgBoxResult == MessageBoxResult.Yes));
     }
 
     private void CloseWindowAfterAsking(bool shouldClose)

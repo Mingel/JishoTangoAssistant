@@ -1,5 +1,4 @@
-﻿using System;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 
@@ -13,32 +12,26 @@ public partial class JapaneseUserInputView : UserControl
     public JapaneseUserInputView()
     {
         InitializeComponent();
-        Loaded += LoadedHandler;
-        KeyUp += KeyUpHandler;
     }
-    
-    private void LoadedHandler(object? sender, RoutedEventArgs? e)
+
+    protected override void OnLoaded(RoutedEventArgs e)
     {
         InputTextBox.Focus();
+        base.OnLoaded(e);
+    }
+
+    protected override void OnKeyUp(KeyEventArgs e)
+    {
+        if (AddButton.IsEnabled &&
+            AddButton.HotKey?.KeyModifiers == e.KeyModifiers &&
+            AddButton.HotKey?.Key == e.Key)
+        {
+            InputTextBox.Focus();
+        }
+        base.OnKeyUp(e);
     }
 
     private void AddToVocabularyListClickHandler(object? sender, RoutedEventArgs e)
-    {
-        FocusInputTextBox();
-    }
-    
-    private void KeyUpHandler(object? sender, KeyEventArgs e)
-    {
-        if (AddButton.IsEnabled &&
-            AddButton.HotKey != null &&
-            AddButton.HotKey.KeyModifiers == e.KeyModifiers &&
-            AddButton.HotKey.Key == e.Key)
-        {
-            FocusInputTextBox();
-        }
-    }
-
-    private void FocusInputTextBox()
     {
         InputTextBox.Focus();
     }

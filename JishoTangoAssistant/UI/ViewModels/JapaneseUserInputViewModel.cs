@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -30,7 +29,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private bool showFrontSide = true;
 
     [ObservableProperty]
-    private ObservableRangeCollection<SimilarMeaningsGroup> meanings = [];
+    private ObservableRangeCollection<SimilarMeaningGroup> meaningGroups = [];
     
     [ObservableProperty]
     private string additionalComments = string.Empty;
@@ -71,10 +70,10 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
         Words = currentSelectionService.GetWords();
         OtherForms = currentSelectionService.GetOtherForms();
-        Meanings = currentSelectionService.GetMeanings();
+        MeaningGroups = currentSelectionService.GetMeaningGroups();
 
-        Meanings.CollectionChanged += MeaningsUpdateCollectionChanged;
-        Meanings.CollectionChanged += AutoEnableIfOnlyMeaning;
+        MeaningGroups.CollectionChanged += MeaningGroupsUpdateCollectionChanged;
+        MeaningGroups.CollectionChanged += AutoEnableIfOnlyMeaning;
 
         vocabularyListService.GetList().CollectionChanged += (_, _) => UpdateTextInputBackground();
     }
@@ -93,53 +92,40 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         {
             var outputTextStringBuilder = new StringBuilder();
 
-            if (JapaneseToEnglishDirection && ShowFrontSide && SelectedIndexOfOtherForms >= 0)
+            if (JapaneseToEnglishDirection &&
+                ShowFrontSide &&
+                SelectedIndexOfOtherForms >= 0)
             {
                 outputTextStringBuilder.Append(!WriteInKana ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput);
             }
             else if (JapaneseToEnglishDirection && ShowBackSide)
             {
-                var meaningsString = string.Join("; ", Meanings.Select(g => g.SimilarMeanings)
-                                                               .SelectMany(g => g)
-                                                               .Where(m => m.IsEnabled)
-                                                               .Select(m => m.Value)); // TODO optimize
+                var meaningsString = string.Join("; ", MeaningGroups.Select(g => g.SimilarMeanings)
+                                                                    .SelectMany(g => g)
+                                                                    .Where(m => m.IsEnabled)
+                                                                    .Select(m => m.Value)); // TODO optimize
                 if (!WriteInKana)
-                {
-                    outputTextStringBuilder.Append(ReadingOutput);
-                    if (!string.IsNullOrWhiteSpace(meaningsString))
-                        outputTextStringBuilder.Append(Environment.NewLine);
-                }
-                outputTextStringBuilder.Append(meaningsString);
-                if (!string.IsNullOrWhiteSpace(AdditionalComments))
-                {
-                    outputTextStringBuilder.Append(Environment.NewLine);
-                    outputTextStringBuilder.Append(AdditionalComments);
-                }
+                    outputTextStringBuilder.AppendLine(ReadingOutput);
+                outputTextStringBuilder.AppendLine(meaningsString);
+                outputTextStringBuilder.Append(AdditionalComments);
             }
             else if (EnglishToJapaneseDirection && ShowFrontSide)
             {
-                var meaningsString = string.Join("; ", Meanings.Select(g => g.SimilarMeanings)
-                                                               .SelectMany(g => g)
-                                                               .Where(m => m.IsEnabled)
-                                                               .Select(m => m.Value)); // TODO optimize
-                outputTextStringBuilder.Append(meaningsString);
-                if (!string.IsNullOrWhiteSpace(AdditionalComments))
-                {
-                    outputTextStringBuilder.Append(Environment.NewLine);
-                    outputTextStringBuilder.Append(AdditionalComments);
-                }
+                var meaningsString = string.Join("; ", MeaningGroups.Select(g => g.SimilarMeanings)
+                                                                    .SelectMany(g => g)
+                                                                    .Where(m => m.IsEnabled)
+                                                                    .Select(m => m.Value)); // TODO optimize
+                outputTextStringBuilder.AppendLine(meaningsString);
+                outputTextStringBuilder.Append(AdditionalComments);
             }
             else // (EnglishToJapaneseDirection && ShowBackSide)
             {
                 if (SelectedIndexOfOtherForms >= 0)
-                    outputTextStringBuilder.Append(!WriteInKana ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput);
+                    outputTextStringBuilder.AppendLine(!WriteInKana ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput);
                 if (!WriteInKana)
-                {
-                    outputTextStringBuilder.Append(Environment.NewLine);
                     outputTextStringBuilder.Append(ReadingOutput);
-                }
             }
-            return outputTextStringBuilder.ToString();
+            return outputTextStringBuilder.ToString().TrimEnd();
         }
     }
     
@@ -153,10 +139,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     partial void OnInputChanged(string value) => UpdateTextInputBackground();
 
-    partial void OnReadingOutputChanged(string value)
-    {
-        UpdateTextInputBackground();
-    }
+    partial void OnReadingOutputChanged(string value) => UpdateTextInputBackground();
 
     partial void OnAdditionalCommentsChanged(string value) 
     {
@@ -225,15 +208,15 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     }
 
 
-    private void MeaningsUpdateCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void MeaningGroupsUpdateCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         PropertyChangedEventHandler outputTextHandler = (_, _) => UpdateOutputText();
         PropertyChangedEventHandler textInputBackgroundHandler = (_, _) => UpdateTextInputBackground();
         if (e.NewItems != null)
         {
-            foreach (SimilarMeaningsGroup meaningsGroup in e.NewItems)
+            foreach (SimilarMeaningGroup meaningGroup in e.NewItems)
             {
-                foreach (var meaning in meaningsGroup.SimilarMeanings)
+                foreach (var meaning in meaningGroup.SimilarMeanings)
                 {
                     meaning.PropertyChanged += outputTextHandler;
                     meaning.PropertyChanged += textInputBackgroundHandler;
@@ -242,9 +225,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         }
         if (e.OldItems != null)
         {
-            foreach (SimilarMeaningsGroup meaningsGroup in e.OldItems)
+            foreach (SimilarMeaningGroup meaningGroup in e.OldItems)
             {
-                foreach (var meaning in meaningsGroup.SimilarMeanings)
+                foreach (var meaning in meaningGroup.SimilarMeanings)
                 {
                     meaning.PropertyChanged -= outputTextHandler;
                     meaning.PropertyChanged -= textInputBackgroundHandler;

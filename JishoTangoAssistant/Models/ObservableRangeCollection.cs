@@ -15,7 +15,7 @@ public class ObservableRangeCollection<T> : ObservableCollection<T>
         Items.Clear();
         var itemList = items.ToList();
         foreach (var item in itemList)
-        { 
+        {
             Items.Add(item);
         }
         OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, itemList, oldItems, 0));
