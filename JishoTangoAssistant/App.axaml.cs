@@ -2,6 +2,8 @@ using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using JishoTangoAssistant.Interfaces;
+using JishoTangoAssistant.Services;
 using JishoTangoAssistant.UI;
 using JishoTangoAssistant.UI.Views;
 using JishoTangoAssistant.UI.ViewModels;

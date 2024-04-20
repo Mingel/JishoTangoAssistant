@@ -1,13 +1,17 @@
-using System;
-using System.ComponentModel;
+using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Threading;
+using JishoTangoAssistant.Models;
+using JishoTangoAssistant.Services;
 using JishoTangoAssistant.UI.Elements;
+using JishoTangoAssistant.Utils;
 
 namespace JishoTangoAssistant.UI.Views;
 
 public partial class JishoTangoAssistantWindowView : Window
 {
+    private bool userWantsToQuit;
     public static JishoTangoAssistantWindowView? Instance;
 
     public JishoTangoAssistantWindowView()
@@ -16,20 +20,40 @@ public partial class JishoTangoAssistantWindowView : Window
         InitializeComponent();
     }
 
-    private void WindowClosingHandler(object sender, CancelEventArgs e)
+    protected override void OnClosing(WindowClosingEventArgs e)
     {
-        // TODO FIX
-        // Let ViewModel handle closing because the view model knows if the user has saved before
-        // var shouldClose = jishoTangoAssistantWindowViewModel.OnClosingWindowAsync().Result;
-        //if (!shouldClose)
-        //    e.Cancel = true;
+        if (!CurrentSession.userMadeChanges)
+            userWantsToQuit = true;
+
+        if (!userWantsToQuit)
+        {
+            e.Cancel = true;
+            Task.Run(AskForCloseWindow);
+        }
+
+        base.OnClosing(e);
     }
 
-    private async void MenuItemClickHandler(object sender, RoutedEventArgs args)
+    private async void AskForCloseWindow()
     {
-        await MessageBox.Show(this, "About", "Made by Minh Bang Vu (2022-2024)" + Environment.NewLine,
-                        MessageBoxButtons.Ok,
-                        "Thanks to the team from jisho.org for making this possible!" + Environment.NewLine +
-                        "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.");
+        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
+
+        if (mainWindow == null)
+            userWantsToQuit = true;
+
+        var msgBoxResult = await Dispatcher.UIThread.InvokeAsync(() =>
+            MessageBoxUtil.CreateAndShowAsync(mainWindow,
+                                                "Warning",
+                                                "You have made unsaved changes. Do you really want to close the application?",
+                                                MessageBoxButtons.YesNo));
+        var shouldClose = msgBoxResult.Equals(MessageBoxResult.Yes);
+        Dispatcher.UIThread.Post(() => CloseWindowAfterAsking(shouldClose));
+    }
+
+    private void CloseWindowAfterAsking(bool shouldClose)
+    {
+        userWantsToQuit = shouldClose;
+        if (shouldClose)
+            Close();
     }
 }

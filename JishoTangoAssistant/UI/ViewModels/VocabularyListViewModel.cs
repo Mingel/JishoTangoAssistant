@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Utils;
 using JishoTangoAssistant.Models;
+using JishoTangoAssistant.Services;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 
@@ -54,7 +55,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
             if (mainWindow == null)
                 return;
 
-            var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "Your vocabulary list is not empty." + Environment.NewLine + "Do you want to overwrite or merge into your current vocabulary list?",
+            var msgBoxResult = await MessageBoxUtil.CreateAndShowAsync(mainWindow, "Warning", "Your vocabulary list is not empty." + Environment.NewLine + "Do you want to overwrite or merge into your current vocabulary list?",
                                                 MessageBoxButtons.MergeOverwriteCancel);
 
             if (msgBoxResult.Equals(MessageBoxResult.Cancel))
@@ -207,7 +208,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
 
         if (mainWindow != null)
         {
-            await MessageBox.Show(mainWindow, "Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
+            await MessageBoxUtil.CreateAndShowAsync(mainWindow, "Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
                 MessageBoxButtons.Ok);
         }
     }

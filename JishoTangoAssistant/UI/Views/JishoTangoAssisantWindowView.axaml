@@ -15,7 +15,7 @@
 
 	<DockPanel Background="#FF2A2A2A">
 		<Menu DockPanel.Dock="Top">
-			<MenuItem Header="About" Click="MenuItemClickHandler"/>
+			<MenuItem Header="About" Command="{Binding Path=OpenAboutCommand}"/>
 		</Menu>
 
 		<Grid>

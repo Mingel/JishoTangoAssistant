@@ -8,7 +8,6 @@ using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
 using JishoTangoAssistant.Models.Jisho;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.UI.Views;
 using JishoTangoAssistant.Utils;
 
 namespace JishoTangoAssistant.Services;
@@ -55,11 +54,11 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
 
             if (mainWindow != null && allResults == null) // Application could not retrieve information from Jisho
             {
-                await MessageBox.Show(mainWindow, "Error", "Information could not be retrieved!", MessageBoxButtons.Ok);
+                await MessageBoxUtil.CreateAndShowAsync(mainWindow, "Error", "Information could not be retrieved!", MessageBoxButtons.Ok);
             }
             else if (mainWindow != null)
             {
-                await MessageBox.Show(mainWindow, "Information", "No results were found!", MessageBoxButtons.Ok);
+                await MessageBoxUtil.CreateAndShowAsync(mainWindow, "Information", "No results were found!", MessageBoxButtons.Ok);
             }
             return;
         }
