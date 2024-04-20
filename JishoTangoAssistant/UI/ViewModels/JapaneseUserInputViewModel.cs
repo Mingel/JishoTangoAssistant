@@ -75,7 +75,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         MeaningGroups.CollectionChanged += MeaningGroupsUpdateCollectionChanged;
         MeaningGroups.CollectionChanged += AutoEnableIfOnlyMeaning;
 
-        vocabularyListService.GetList().CollectionChanged += (_, _) => UpdateTextInputBackground();
+        vocabularyListService.GetList().CollectionChanged += (_, _) => UpdateVisualRelatedProperties();
     }
 
     private void AutoEnableIfOnlyMeaning(object? sender, NotifyCollectionChangedEventArgs e)
@@ -137,22 +137,22 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private bool ShowBackSide => !ShowFrontSide;
 
-    partial void OnInputChanged(string value) => UpdateTextInputBackground();
+    partial void OnInputChanged(string value) => UpdateVisualRelatedProperties();
 
-    partial void OnReadingOutputChanged(string value) => UpdateTextInputBackground();
+    partial void OnReadingOutputChanged(string value) => UpdateVisualRelatedProperties();
 
     partial void OnAdditionalCommentsChanged(string value) 
     {
         currentSelectionService.SetAdditionalComments(value);
         UpdateOutputText();
-        UpdateTextInputBackground();
+        UpdateVisualRelatedProperties();
     }
 
     partial void OnWriteInKanaChanged(bool value) 
     {
         currentSelectionService.SetWriteInKana(value);
         UpdateOutputText();
-        UpdateTextInputBackground();
+        UpdateVisualRelatedProperties();
     }
 
     partial void OnSelectedIndexOfWordsChanged(int value) 
@@ -163,7 +163,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             currentSelectionService.UpdateOtherForms();
             currentSelectionService.SetSelectedOtherFormsIndex(0);
             UpdateAllNonCollectionProperties();
-            UpdateTextInputBackground();
+            UpdateVisualRelatedProperties();
         }
     }
 
@@ -173,7 +173,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         {
             currentSelectionService.SetSelectedOtherFormsIndex(value);
             UpdateOutputText();
-            UpdateTextInputBackground();
+            UpdateVisualRelatedProperties();
         }
     }
     #endregion
@@ -211,7 +211,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private void MeaningGroupsUpdateCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         PropertyChangedEventHandler outputTextHandler = (_, _) => UpdateOutputText();
-        PropertyChangedEventHandler textInputBackgroundHandler = (_, _) => UpdateTextInputBackground();
+        PropertyChangedEventHandler textInputBackgroundHandler = (_, _) => UpdateVisualRelatedProperties();
         if (e.NewItems != null)
         {
             foreach (SimilarMeaningGroup meaningGroup in e.NewItems)
@@ -251,17 +251,29 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         OnPropertyChanged(nameof(OutputText));
     }
 
-    private void UpdateTextInputBackground()
+    private void UpdateVisualRelatedProperties()
+    {
+        var itemFromCurrentUserInput = currentSelectionService.CreateVocabularyItem();
+        UpdateTextInputBackground(itemFromCurrentUserInput);
+        UpdateItemAdditionPossibleProperty(itemFromCurrentUserInput);
+    }
+
+    private void UpdateTextInputBackground(VocabularyItem? itemFromCurrentUserInput)
     {
         var color = InputTextColorNoDuplicate();
-        var itemFromCurrentUserInput = currentSelectionService.CreateVocabularyItem();
         if (itemFromCurrentUserInput != null && vocabularyListService.ContainsWord(itemFromCurrentUserInput.Word))
-        {
             color = vocabularyListService.Contains(itemFromCurrentUserInput) ? InputTextColorSameMeaning() : InputTextColorDifferentMeaning();
-        }
         
         TextInputBackground = Color.Parse(color);
     }
+
+    private void UpdateItemAdditionPossibleProperty(VocabularyItem? itemFromCurrentUserInput)
+    {
+        ItemAdditionPossible = currentSelectionService.GetItemAdditionPossible() &&
+                               itemFromCurrentUserInput != null &&
+                               !vocabularyListService.Contains(itemFromCurrentUserInput);
+    }
+
     private string InputTextColorNoDuplicate()
     {
         return App.UsesDarkMode() ? "#66000000" : "#66FFFFFF";
@@ -271,6 +283,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     {
         return App.UsesDarkMode() ? "#667D7D69" : "#66FAFAD2";
     }
+
     private string InputTextColorSameMeaning()
     {
         return App.UsesDarkMode() ? "#66744B3D" : "#66E9967A";
