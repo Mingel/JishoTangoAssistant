@@ -21,10 +21,7 @@ public class VocabularyListService : IVocabularyListService
         readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
     }
 
-    public ReadOnlyObservableVocabularyList GetList()
-    {
-        return readOnlyVocabularyList;
-    }
+    public ReadOnlyObservableVocabularyList GetList() => readOnlyVocabularyList;
 
     public async Task AddAsync(VocabularyItem item)
     {
@@ -51,14 +48,14 @@ public class VocabularyListService : IVocabularyListService
         await repository.ReplaceVocabularyListAsync(vocabularyList, resetAutoIncrementId);
     }
 
-    public async Task AddRangeAsync(IEnumerable<VocabularyItem> items)
+    public async Task AddRangeAsync(IEnumerable<VocabularyItem> items, bool removeInfoAboutLastAddedItem = false)
     {
         var vocabularyItems = items.ToList();
         foreach (var item in vocabularyItems)
         {
             SetAnkiGuid(item);
         }
-        vocabularyList.AddRange(vocabularyItems);
+        vocabularyList.AddRange(vocabularyItems, removeInfoAboutLastAddedItem);
         await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
 

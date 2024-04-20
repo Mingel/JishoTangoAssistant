@@ -29,8 +29,7 @@ public static class VocabularyListExporter
                 sb.Append(visualNewLine);
             }
             sb.Append(item.Output.Replace("\"", "\"\""));
-            sb.Append('"');
-            sb.Append(Environment.NewLine);
+            sb.AppendLine("\"");
         }
         return sb.ToString().TrimEnd();
     }
@@ -61,7 +60,7 @@ public static class VocabularyListExporter
                 sb.Append(item.Reading.Replace("\"", "\"\""));
             }
             sb.Append('"');
-            sb.Append(Environment.NewLine);
+            sb.AppendLine("\"");
         }
         return sb.ToString().TrimEnd();
     }

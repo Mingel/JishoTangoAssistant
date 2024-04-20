@@ -22,19 +22,11 @@ public class JishoWebService : IJishoWebService
         try
         {
             // caching
-            var tmpPath = Path.GetTempPath();
-            var tmpAppPath = Path.Combine(tmpPath, "JishoTangoAssistant");
-            var tmpWordFilename = string.Join("_", keyword.Split(Path.GetInvalidFileNameChars())) + ".json";
-            var tmpWordFilePath = Path.Combine(tmpAppPath, tmpWordFilename);
-            if (!Directory.Exists(tmpAppPath))
-                Directory.CreateDirectory(tmpAppPath);
-            if (File.Exists(tmpWordFilePath))
-            {
-                var fileJson =
-                    JsonConvert.DeserializeObject<JishoMessage>(await File.ReadAllTextAsync(tmpWordFilePath));
+            var tempWordFilePath = GetTempWordFilePath(keyword);
+            var resultFromCache = await GetResultJsonFromCacheAsync(tempWordFilePath);
 
-                return fileJson?.Data;
-            }
+            if (resultFromCache != null)
+                return resultFromCache;
 
             var escapedKeyword = Uri.EscapeDataString(keyword);
             
@@ -42,17 +34,17 @@ public class JishoWebService : IJishoWebService
             {
                 Path = Endpoint,
                 Query = $"keyword={escapedKeyword}"
-            };;
+            };
             using var response = await client.GetAsync(urlBuilder.Uri);
-            if (!response.IsSuccessStatusCode) return null;
+            if (!response.IsSuccessStatusCode)
+                return null;
             var jsonContent = await response.Content.ReadAsStringAsync();
             var json = JsonConvert.DeserializeObject<JishoMessage>(jsonContent);
             if (json == null)
                 return null;
             json = RemoveWikipediaEntries(json);
-            await File.WriteAllTextAsync(tmpWordFilePath, JsonConvert.SerializeObject(json));
-            var result = json.Data;
-            return result;
+            await File.WriteAllTextAsync(tempWordFilePath, JsonConvert.SerializeObject(json));
+            return json.Data;
         }
         catch (Exception ex)
         {
@@ -74,5 +66,31 @@ public class JishoWebService : IJishoWebService
             message.Data = message.Data.Where(datum => datum.Senses.Length > 0).ToArray();
 
         return message;
+    }
+
+    private static string GetTempWordFilePath(string keyword)
+    {
+        var tmpPath = Path.GetTempPath();
+        var tmpAppPath = Path.Combine(tmpPath, "JishoTangoAssistant");
+        var tmpWordFilename = string.Join("_", keyword.Split(Path.GetInvalidFileNameChars())) + ".json";
+        return Path.Combine(tmpAppPath, tmpWordFilename);
+    }
+
+    private static async Task<IList<JishoDatum>?> GetResultJsonFromCacheAsync(string tempWordFilePath)
+    {
+        var directory = Path.GetDirectoryName(tempWordFilePath);
+        if (directory != null && !Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+        else if (File.Exists(tempWordFilePath) &&
+                 File.GetLastWriteTime(tempWordFilePath) > DateTimeOffset.Now.AddDays(-30))
+        {
+            var fileContent = await File.ReadAllTextAsync(tempWordFilePath);
+            var fileJson = JsonConvert.DeserializeObject<JishoMessage>(fileContent);
+
+            return fileJson?.Data;
+        }
+        return null;
     }
 }

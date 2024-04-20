@@ -1,9 +1,9 @@
-﻿using Avalonia.Controls.ApplicationLifetimes;
-using JishoTangoAssistant.Models;
+﻿using System;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.UI.Views;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using JishoTangoAssistant.Utils;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 
@@ -18,17 +18,12 @@ public partial class JishoTangoAssistantWindowViewModel(
     [ObservableProperty]
     private VocabularyListViewModel vocabularyListViewModel = vocabularyListViewModel;
     
-    public async Task<bool> OnClosingWindowAsync()
+    [RelayCommand]
+    private async Task OpenAbout()
     {
-        if (!CurrentSession.userMadeChanges) return true;
-        
-        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
-
-        if (mainWindow == null)
-            return true;
-
-        var msgBoxResult = await MessageBox.Show(mainWindow, "Warning", "You have made unsaved changes. Do you really want to close the application?",
-            MessageBoxButtons.YesNo);
-        return !msgBoxResult.Equals(MessageBoxResult.No);
+        await MessageBoxUtil.CreateAndShowAsync("About", "Made by Minh Bang Vu (2022-2024)" + Environment.NewLine,
+                                                                MessageBoxButtons.Ok,
+                                                                "Thanks to the team from jisho.org for making this possible!" + Environment.NewLine +
+                                                                "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.");
     }
 }

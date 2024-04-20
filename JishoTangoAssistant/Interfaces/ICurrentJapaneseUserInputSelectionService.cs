@@ -8,7 +8,7 @@ public interface ICurrentJapaneseUserInputSelectionService
 {
     ObservableCollection<string> GetWords();
     ObservableCollection<string> GetOtherForms();
-    ObservableRangeCollection<SimilarMeaningsGroup> GetMeanings();
+    ObservableRangeCollection<SimilarMeaningGroup> GetMeaningGroups();
     int GetSelectedWordsIndex();
     void SetSelectedWordsIndex(int value);
     int GetSelectedOtherFormsIndex();

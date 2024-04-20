@@ -1,35 +1,48 @@
-using System;
-using System.ComponentModel;
+using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
+using Avalonia.Threading;
+using JishoTangoAssistant.Models;
 using JishoTangoAssistant.UI.Elements;
+using JishoTangoAssistant.Utils;
 
 namespace JishoTangoAssistant.UI.Views;
 
 public partial class JishoTangoAssistantWindowView : Window
 {
-    public static JishoTangoAssistantWindowView? Instance;
+    private bool userWantsToQuit;
 
     public JishoTangoAssistantWindowView()
     {
-        Instance = this;
         InitializeComponent();
     }
 
-    private void WindowClosingHandler(object sender, CancelEventArgs e)
+    protected override async void OnClosing(WindowClosingEventArgs e)
     {
-        // TODO FIX
-        // Let ViewModel handle closing because the view model knows if the user has saved before
-        // var shouldClose = jishoTangoAssistantWindowViewModel.OnClosingWindowAsync().Result;
-        //if (!shouldClose)
-        //    e.Cancel = true;
+        if (!CurrentSession.userMadeChanges)
+            userWantsToQuit = true;
+
+        if (!userWantsToQuit)
+        {
+            e.Cancel = true;
+            await AskForCloseWindow();
+        }
+
+        base.OnClosing(e);
     }
 
-    private async void MenuItemClickHandler(object sender, RoutedEventArgs args)
+    private async Task AskForCloseWindow()
     {
-        await MessageBox.Show(this, "About", "Made by Minh Bang Vu (2022-2024)" + Environment.NewLine,
-                        MessageBoxButtons.Ok,
-                        "Thanks to the team from jisho.org for making this possible!" + Environment.NewLine +
-                        "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.");
+        var msgBoxResult = await Dispatcher.UIThread.InvokeAsync(() =>
+            MessageBoxUtil.CreateAndShowAsync("Warning",
+                                              "You have made unsaved changes. Do you really want to close the application?",
+                                              MessageBoxButtons.YesNo));
+        Dispatcher.UIThread.Post(() => CloseWindowAfterAsking(msgBoxResult == MessageBoxResult.Yes));
+    }
+
+    private void CloseWindowAfterAsking(bool shouldClose)
+    {
+        userWantsToQuit = shouldClose;
+        if (shouldClose)
+            Close();
     }
 }

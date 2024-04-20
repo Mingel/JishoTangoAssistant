@@ -13,7 +13,7 @@ public interface IVocabularyListService
     int Count();
     Task UndoAsync();
     Task ClearAsync(bool resetAutoIncrementId = true);
-    Task AddRangeAsync(IEnumerable<VocabularyItem> items);
+    Task AddRangeAsync(IEnumerable<VocabularyItem> items, bool removeInfoAboutLastAddedItem = false);
     Task RemoveAtAsync(int index);
     Task SwapAsync(int firstIndex, int secondIndex);
 }

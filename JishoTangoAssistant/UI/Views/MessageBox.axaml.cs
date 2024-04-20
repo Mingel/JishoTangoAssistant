@@ -7,7 +7,7 @@ namespace JishoTangoAssistant.UI.Views;
 
 public partial class MessageBox : Window
 {
-    private MessageBoxResult selectedResult = MessageBoxResult.Ok;
+    public MessageBoxResult SelectedResult { get; set; } = MessageBoxResult.Ok;
 
     public MessageBox() : this(MessageBoxButtons.Ok) {}
 
@@ -17,12 +17,26 @@ public partial class MessageBox : Window
 
         switch (buttons)
         {
-            case MessageBoxButtons.Ok or MessageBoxButtons.OkCancel:
+            case MessageBoxButtons.Ok:
                 AddButton("OK", MessageBoxResult.Ok, true);
                 break;
-            case MessageBoxButtons.YesNo or MessageBoxButtons.YesNoCancel:
+            case MessageBoxButtons.OkCancel:
+                AddButton("OK", MessageBoxResult.Ok);
+                AddButton("Cancel", MessageBoxResult.Cancel, true);
+                break;
+            case MessageBoxButtons.YesNo:
                 AddButton("Yes", MessageBoxResult.Yes);
                 AddButton("No", MessageBoxResult.No, true);
+                break;
+            case MessageBoxButtons.YesNoCancel:
+                AddButton("Yes", MessageBoxResult.Yes);
+                AddButton("No", MessageBoxResult.No);
+                AddButton("Cancel", MessageBoxResult.Cancel, true);
+                break;
+            case MessageBoxButtons.MergeOverwriteCancel:
+                AddButton("Merge", MessageBoxResult.Merge);
+                AddButton("Overwrite", MessageBoxResult.Overwrite);
+                AddButton("Cancel", MessageBoxResult.Cancel, true);
                 break;
         }
 
@@ -44,41 +58,13 @@ public partial class MessageBox : Window
         if (ButtonsStackPanel == null)
             throw new InvalidOperationException("buttonsStackPanel is null");
 
-        var button = new Button { Content = caption };
+        var button = new Button { Content = caption, IsDefault = isDefault };
         button.Click += (_, _) => {
-            selectedResult = result;
+            SelectedResult = result;
             Close();
         };
         ButtonsStackPanel.Children.Add(button);
         if (isDefault)
-            selectedResult = result;
-    }
-
-    public static async Task<MessageBoxResult> Show(Window? parent, string title, string text, MessageBoxButtons buttons, string subText = "")
-    {
-        ArgumentNullException.ThrowIfNull(subText);
-        var messageBox = new MessageBox(buttons)
-        {
-            Title = title,
-            MessageBoxTextBlock =
-            {
-                Text = text
-            },
-            MessageBoxSubTextBlock =
-            {
-                IsVisible = !string.IsNullOrEmpty(subText),
-                Text = subText
-            }
-        };
-
-        var taskCompletionSource = new TaskCompletionSource<MessageBoxResult>();
-        messageBox.Closed += (_, _) => taskCompletionSource.SetResult(messageBox.selectedResult);
-
-        if (parent != null)
-            await messageBox.ShowDialog(parent);
-        else
-            messageBox.Show();
-
-        return await taskCompletionSource.Task;
+            SelectedResult = result;
     }
 }

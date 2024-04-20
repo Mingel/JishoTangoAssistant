@@ -76,9 +76,9 @@
 			<HeaderedContentControl Grid.Row="4" Header="Meaning" Background="DarkGray" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<Grid x:Name="MeaningGrid">
-						<ItemsControl ItemsSource="{Binding Meanings}">
+						<ItemsControl ItemsSource="{Binding MeaningGroups}">
 							<ItemsControl.ItemTemplate>
-								<DataTemplate x:DataType="models:SimilarMeaningsGroup">
+								<DataTemplate x:DataType="models:SimilarMeaningGroup">
 									<StackPanel Orientation="Vertical" x:Name="MeaningStackPanel">
 										<ItemsControl ItemsSource="{Binding SimilarMeanings}">
 											<ItemsControl.ItemTemplate>
@@ -161,7 +161,7 @@
 				<RowDefinition Height="5"/>
 			</Grid.RowDefinitions>
 
-			<Button Grid.Row="2" x:Name="AddButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}"/>
+			<Button Grid.Row="2" x:Name="AddButton" Command="{Binding Path=AddToListCommand}" Content="➕ Add to Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}" Click="AddToVocabularyListClickHandler"/>
 		</Grid>
 	</Grid>
 </UserControl>

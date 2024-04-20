@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Avalonia.Controls.ApplicationLifetimes;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
 using JishoTangoAssistant.Models.Jisho;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.UI.Views;
 using JishoTangoAssistant.Utils;
 
 namespace JishoTangoAssistant.Services;
@@ -24,7 +22,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
 
     public ObservableCollection<string> GetOtherForms() => selection.OtherForms;
 
-    public ObservableRangeCollection<SimilarMeaningsGroup> GetMeanings() => selection.Meanings;
+    public ObservableRangeCollection<SimilarMeaningGroup> GetMeaningGroups() => selection.Meanings;
     
     public int GetSelectedWordsIndex() => selection.SelectedWordsIndex;
     public void SetSelectedWordsIndex(int value) => selection.SelectedWordsIndex = value;
@@ -51,16 +49,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
             ClearUserInputResults();
             CurrentSession.running = false;
 
-            var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
-
-            if (mainWindow != null && allResults == null) // Application could not retrieve information from Jisho
-            {
-                await MessageBox.Show(mainWindow, "Error", "Information could not be retrieved!", MessageBoxButtons.Ok);
-            }
-            else if (mainWindow != null)
-            {
-                await MessageBox.Show(mainWindow, "Information", "No results were found!", MessageBoxButtons.Ok);
-            }
+            await HandleSearchErrorAsync(allResults);
             return;
         }
 
@@ -79,7 +68,11 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
 
         foreach (var res in allResults)
         {
-            var firstJapaneseResult = res.Japanese.First();
+            var firstJapaneseResult = res.Japanese.FirstOrDefault();
+
+            if (firstJapaneseResult == null)
+                continue;
+
             var word = !string.IsNullOrEmpty(firstJapaneseResult.Word) ? firstJapaneseResult.Word : firstJapaneseResult.Reading;
             selection.Words.Add(word);
         }
@@ -93,11 +86,19 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
 
         selection.ReadingOutput = japaneseEntry.Reading;
 
-        selection.WriteInKana = result.Senses.First().Tags.Contains(JishoTagUsuallyInKanaAlone)
+        selection.WriteInKana = result.Senses.FirstOrDefault()?.Tags.Contains(JishoTagUsuallyInKanaAlone) == true
                                 || string.IsNullOrEmpty(japaneseEntry.Word);
         selection.ItemAdditionPossible = true;
     }
-    
+
+    private async Task HandleSearchErrorAsync(IList<JishoDatum>? allResults)
+    {
+        if (allResults == null) // Application could not retrieve information from Jisho
+            await MessageBoxUtil.CreateAndShowAsync("Error", "Information could not be retrieved!", MessageBoxButtons.Ok);
+        else
+            await MessageBoxUtil.CreateAndShowAsync("Information", "No results were found!", MessageBoxButtons.Ok);
+    }
+
     private void ClearUserInputResults()
     {
         selection.Meanings.Clear();
@@ -135,7 +136,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
 
     private void StoreMeanings(JishoDatum datum)
     {
-        var groups = new List<SimilarMeaningsGroup>();
+        var groups = new List<SimilarMeaningGroup>();
         
         var i = 0;
         foreach (var sense in datum.Senses)
@@ -146,7 +147,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
                 meanings.Add(new Meaning(definition, i));
                 i++;
             }
-            groups.Add(new SimilarMeaningsGroup(meanings));
+            groups.Add(new SimilarMeaningGroup(meanings));
         }
         
         selection.Meanings.ReplaceAll(groups);
@@ -170,12 +171,12 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
         else
             selection.SelectedOtherFormsIndex = -1;
 
-        selection.ReadingOutput = selectedDatum.Japanese.First().Reading;
+        selection.ReadingOutput = selectedDatum.Japanese.FirstOrDefault()?.Reading ?? string.Empty;
 
         StoreMeanings(selectedDatum);
 
-        selection.WriteInKana = selectedDatum.Senses.First().Tags.Contains(JishoTagUsuallyInKanaAlone)
-                                || string.IsNullOrEmpty(selectedDatum.Japanese.First().Word);
+        selection.WriteInKana = selectedDatum.Senses.FirstOrDefault()?.Tags.Contains(JishoTagUsuallyInKanaAlone) == true
+                                || string.IsNullOrEmpty(selectedDatum.Japanese.FirstOrDefault()?.Word);
     }
     
     private static void GetIndicesOfInputInResult(string input, IList<JishoDatum> result, ref int resultIndex, ref int entryIndex)
@@ -191,7 +192,8 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
             {
                 var entry = res.Japanese[j].Word;
                 
-                if (input != entry) continue;
+                if (input != entry)
+                    continue;
                 
                 resultIndex = i;
                 entryIndex = j;

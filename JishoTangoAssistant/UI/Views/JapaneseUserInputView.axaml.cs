@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 
 namespace JishoTangoAssistant.UI.Views;
@@ -11,10 +12,26 @@ public partial class JapaneseUserInputView : UserControl
     public JapaneseUserInputView()
     {
         InitializeComponent();
-        Loaded += LoadedHandler;
     }
-    
-    private void LoadedHandler(object? sender, RoutedEventArgs? e)
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        InputTextBox.Focus();
+        base.OnLoaded(e);
+    }
+
+    protected override void OnKeyUp(KeyEventArgs e)
+    {
+        if (AddButton.IsEnabled &&
+            AddButton.HotKey?.KeyModifiers == e.KeyModifiers &&
+            AddButton.HotKey?.Key == e.Key)
+        {
+            InputTextBox.Focus();
+        }
+        base.OnKeyUp(e);
+    }
+
+    private void AddToVocabularyListClickHandler(object? sender, RoutedEventArgs e)
     {
         InputTextBox.Focus();
     }

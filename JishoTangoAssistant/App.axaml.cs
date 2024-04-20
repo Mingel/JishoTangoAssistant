@@ -2,7 +2,6 @@ using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using JishoTangoAssistant.UI;
 using JishoTangoAssistant.UI.Views;
 using JishoTangoAssistant.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +38,7 @@ namespace JishoTangoAssistant
 
         public static bool UsesDarkMode()
         {
-            return Current!.ActualThemeVariant.Key.ToString()!.Equals("Dark");
+            return Current!.ActualThemeVariant.Key.ToString() == "Dark";
         }
     }
 }

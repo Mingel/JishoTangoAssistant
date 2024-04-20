@@ -68,16 +68,22 @@ public static class RomajiKanaConverter
     // Converts based on the search query's conversion to hiragana/katakana in jisho.org
     public static string Convert(string romajiInput)
     {
-        var romajiOutput = "";
-        var toMatch = "";
-        bool forceNextKanaLetterFromNaRow = false;
-        bool forceNextKatakanaLetter = false;
+        var romajiOutput = string.Empty;
+        var toMatch = string.Empty;
+        var forceNextKanaLetterFromNaRow = false;
+        var forceNextKatakanaLetter = false;
         for (int i = 0; i < romajiInput.Length; i++)
         {
             char c = romajiInput[i];
 
+            // stop conversion before a non-romaji character and start the conversion when a romaji character starts again
             if (!IsRomajiCharacter(c))
-                return romajiInput;
+            {
+                toMatch = string.Empty;
+                forceNextKanaLetterFromNaRow = forceNextKatakanaLetter = false;
+                romajiOutput += c;
+                continue;
+            }
                 
             toMatch += c;
 
@@ -102,7 +108,7 @@ public static class RomajiKanaConverter
                 toMatch = string.Empty;
             }
             // "nn" -> "ん"
-            else if (toMatch.ToLower().Equals("nn"))
+            else if (toMatch.ToLower() == "nn")
             {
                 romajiOutput += char.IsLower(c) ? "ん" : ToKatakana("ん");
                 toMatch = string.Empty;
@@ -170,7 +176,7 @@ public static class RomajiKanaConverter
 
     private static string ToKatakana(string hiraganaLetters)
     {
-        return string.Join("", hiraganaLetters.Select(ToKatakana));
+        return string.Join(string.Empty, hiraganaLetters.Select(ToKatakana));
     }
 
     private static bool VowelAfterNn(string romajiInput, int vowelIndex)
@@ -188,20 +194,20 @@ public static class RomajiKanaConverter
     private static bool DoubleConsonantsAt(string toMatch, int indexOfSecondLetter)
     {
         return indexOfSecondLetter > 0
-               && toMatch[indexOfSecondLetter].Equals(toMatch[indexOfSecondLetter - 1])  
+               && toMatch[indexOfSecondLetter] == toMatch[indexOfSecondLetter - 1]
                && !NoConversionToSokuon.Contains(toMatch[indexOfSecondLetter].ToString()) // for index = toMatch.Length - 2: "aa" -> "ああ" (not "っあ")
                && RomajiToHiraganaDictionary.ContainsKey(toMatch.Substring(indexOfSecondLetter)); // for cases that e.g. "tt" and index = toMatch.Length - 2, which by itself cannot be converted" will be looked up in the dictionary
     }
 
     private static bool LetterPOrLetterBAfterLetterM(string romajiInput, string toMatch, int i)
     {
-        return toMatch.Equals("m") && i + 1 < romajiInput.Length
+        return toMatch == "m" && i + 1 < romajiInput.Length
                                    && (char.ToLower(romajiInput[i + 1]) == 'b' || char.ToLower(romajiInput[i + 1]) == 'p');
     }
 
     private static bool VowelOrLetterNAfterLetterN(string romajiInput, string toMatch, int i)
     {
-        return toMatch.Equals("n") &&
+        return toMatch == "n" &&
                (i + 1 < romajiInput.Length && char.ToLower(romajiInput[i + 1]) == 'n' // "nn" -> "ん"
                 || i + 1 < romajiInput.Length && Vowels.Contains(char.ToLower(romajiInput[i + 1]).ToString()) // "na" -> "な"
                 || i + 2 < romajiInput.Length && char.ToLower(romajiInput[i + 1]) == 'y' && Vowels.Contains(char.ToLower(romajiInput[i + 2]).ToString())); // "nya" -> "にゃ"
