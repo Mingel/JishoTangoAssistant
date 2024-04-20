@@ -40,7 +40,7 @@ jobs:
       - name: Test
         run: dotnet test --no-restore --configuration Release --verbosity normal --property:TestResultsDirectory=build/tests
       - name: Packaging workflow data as artifacts
-        run: mkdir deploy && cp -r build/JishoTangoAssistant deploy/ && ls ./deploy/JishoTangoAssistant
+        run: mkdir deploy && cp -r JishoTangoAssistant/build/JishoTangoAssistant deploy/ && ls ./deploy/JishoTangoAssistant
       - name: Upload to artifact (Windows)
         uses: actions/upload-artifact@v4
         with:
