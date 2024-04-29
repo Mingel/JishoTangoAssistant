@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -12,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace JishoTangoAssistant.Utils;
 
-public class VocabularyListFilePicker {
+public static class VocabularyListFilePicker {
     public static async Task<IEnumerable<VocabularyItem>?> LoadAsync(string? title = null, IReadOnlyList<FilePickerFileType>? options = null)
     {
         var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
@@ -29,14 +28,13 @@ public class VocabularyListFilePicker {
             FileTypeFilter = options
         });
 
-        if (files.Count >= 1)
-        {
-            await using var stream = await files[0].OpenReadAsync();
-            using var streamReader = new StreamReader(stream);
-            var fileContent = await streamReader.ReadToEndAsync();
-            return JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
-        }
-        return null;
+        if (files.Count < 1) 
+            return null;
+        
+        await using var stream = await files[0].OpenReadAsync();
+        using var streamReader = new StreamReader(stream);
+        var fileContent = await streamReader.ReadToEndAsync();
+        return JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
     }
     
     // return true, if saving was successful
@@ -64,14 +62,12 @@ public class VocabularyListFilePicker {
             FileTypeChoices = options
         });
 
-        if (file != null)
-        {
-            await using var stream = await file.OpenWriteAsync();
-            await using var streamWriter = new StreamWriter(stream, Encoding.UTF8);
-            await streamWriter.WriteAsync(content);
-            return true;
-        }
+        if (file == null) 
+            return false;
         
-        return false;
+        await using var stream = await file.OpenWriteAsync();
+        await using var streamWriter = new StreamWriter(stream, Encoding.UTF8);
+        await streamWriter.WriteAsync(content);
+        return true;
     }
 }

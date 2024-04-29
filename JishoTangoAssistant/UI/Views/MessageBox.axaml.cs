@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Avalonia.Controls;
 using JishoTangoAssistant.UI.Elements;
 
@@ -31,18 +30,6 @@ public partial class MessageBox : Window
             case MessageBoxButtons.YesNoCancel:
                 AddButton("Yes", MessageBoxResult.Yes);
                 AddButton("No", MessageBoxResult.No);
-                AddButton("Cancel", MessageBoxResult.Cancel, true);
-                break;
-            case MessageBoxButtons.MergeOverwriteCancel:
-                AddButton("Merge", MessageBoxResult.Merge);
-                AddButton("Overwrite", MessageBoxResult.Overwrite);
-                AddButton("Cancel", MessageBoxResult.Cancel, true);
-                break;
-        }
-
-        switch (buttons)
-        {
-            case MessageBoxButtons.OkCancel or MessageBoxButtons.YesNoCancel:
                 AddButton("Cancel", MessageBoxResult.Cancel, true);
                 break;
             case MessageBoxButtons.MergeOverwriteCancel:
