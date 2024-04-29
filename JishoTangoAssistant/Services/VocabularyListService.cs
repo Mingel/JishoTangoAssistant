@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
 
@@ -9,9 +10,11 @@ namespace JishoTangoAssistant.Services;
 
 public class VocabularyListService : IVocabularyListService
 {
+    private const int DataPersistenceTimerInterval = 300; // in milliseconds
     private readonly IVocabularyListRepository repository;
     private readonly ReadOnlyObservableVocabularyList readOnlyVocabularyList;
     private readonly ObservableVocabularyList vocabularyList;
+    private readonly DispatcherTimer dataPersistenceTimer;
 
     public VocabularyListService(IVocabularyListRepository repository)
     {
@@ -19,6 +22,11 @@ public class VocabularyListService : IVocabularyListService
         var items = repository.GetVocabularyItems();
         vocabularyList = new ObservableVocabularyList(items);
         readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
+        dataPersistenceTimer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(DataPersistenceTimerInterval)
+        };
+        dataPersistenceTimer.Tick += ReplaceVocabularyListHandlerAsync;
     }
 
     public ReadOnlyObservableVocabularyList GetList() => readOnlyVocabularyList;
@@ -27,7 +35,7 @@ public class VocabularyListService : IVocabularyListService
     {
         SetAnkiGuid(item);
         vocabularyList.Add(item);
-        await repository.ReplaceVocabularyListAsync(vocabularyList);
+        await ReplaceVocabularyList();
     }
 
     public bool ContainsWord(string word) => vocabularyList.ContainsWord(word);
@@ -39,12 +47,13 @@ public class VocabularyListService : IVocabularyListService
     public async Task UndoAsync()
     {
         vocabularyList.Undo();
-        await repository.ReplaceVocabularyListAsync(vocabularyList);
+        await ReplaceVocabularyList();
     }
 
     public async Task ClearAsync(bool resetAutoIncrementId = true)
     {
         vocabularyList.Clear();
+        // TODO respect timer
         await repository.ReplaceVocabularyListAsync(vocabularyList, resetAutoIncrementId);
     }
 
@@ -56,13 +65,13 @@ public class VocabularyListService : IVocabularyListService
             SetAnkiGuid(item);
         }
         vocabularyList.AddRange(vocabularyItems, removeInfoAboutLastAddedItem);
-        await repository.ReplaceVocabularyListAsync(vocabularyList);
+        await ReplaceVocabularyList();
     }
 
     public async Task RemoveAtAsync(int index)
     {
         vocabularyList.RemoveAt(index);
-        await repository.ReplaceVocabularyListAsync(vocabularyList);
+        await ReplaceVocabularyList();
     }
     
     public async Task SwapAsync(int firstIndex, int secondIndex)
@@ -74,11 +83,21 @@ public class VocabularyListService : IVocabularyListService
         if (Math.Max(firstIndex, secondIndex) >= vocabularyList.Count)
             throw new ArgumentException("indices must be less than the vocabulary list count");
         (vocabularyList[firstIndex], vocabularyList[secondIndex]) = (vocabularyList[secondIndex], vocabularyList[firstIndex]);
+        await ReplaceVocabularyList();
+    }
+
+    private async void ReplaceVocabularyListHandlerAsync(object? sender, EventArgs e)
+    {
+        dataPersistenceTimer.Stop();
         await repository.ReplaceVocabularyListAsync(vocabularyList);
     }
 
-    private static void SetAnkiGuid(VocabularyItem item)
+    private ValueTask ReplaceVocabularyList()
     {
-        item.AnkiGuid ??= Guid.NewGuid().ToString("N");
+        dataPersistenceTimer.Stop();
+        dataPersistenceTimer.Start();
+        return ValueTask.CompletedTask;
     }
+
+    private static void SetAnkiGuid(VocabularyItem item) => item.AnkiGuid ??= Guid.NewGuid().ToString("N");
 }

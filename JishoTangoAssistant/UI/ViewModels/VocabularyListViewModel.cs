@@ -110,7 +110,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
 
         var list = vocabularyListService.GetList();
 
-        string contentToExport = toJapanese ? VocabularyListExporter.EnglishToJapanese(list) : VocabularyListExporter.JapaneseToEnglish(list);
+        var contentToExport = toJapanese ? VocabularyListExporter.EnglishToJapanese(list) : VocabularyListExporter.JapaneseToEnglish(list);
 
         var success = await VocabularyListFilePicker.SaveAsync(contentToExport, "Export vocabulary list as", filePickerFilter);
 
@@ -155,7 +155,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         CurrentSession.userMadeChanges = true;
     }
 
-    private async Task ShowNotetypeMessageBox()
+    private static async Task ShowNotetypeMessageBox()
     {
         await MessageBoxUtil.CreateAndShowAsync("Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
             MessageBoxButtons.Ok);
