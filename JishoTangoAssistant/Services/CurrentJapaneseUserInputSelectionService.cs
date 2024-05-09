@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
@@ -11,7 +12,7 @@ using JishoTangoAssistant.Utils;
 
 namespace JishoTangoAssistant.Services;
 
-public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebService)
+public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebService)
     : ICurrentJapaneseUserInputSelectionService
 {
     private const string JishoTagUsuallyInKanaAlone = "Usually written using kana alone";
@@ -47,7 +48,6 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
         if (allResults == null || !allResults.Any()) // TODO move out of this service
         {
             ClearUserInputResults();
-            CurrentSession.running = false;
 
             await HandleSearchErrorAsync(allResults);
             return;
@@ -77,14 +77,41 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
             selection.Words.Add(word);
         }
 
+        var kanjisOnlyInInput = KanjiRegex().Match(preprocessedInput).Value;
         if (selection.Words.Any())
         {
             selection.SelectedWordsIndex = resultIndex;
+
+            foreach (var japItem in result.Japanese)
+            {
+                var otherForm = !string.IsNullOrEmpty(japItem.Word) ? japItem.Word : japItem.Reading;
+                selection.OtherForms.Add(otherForm);
+            }
+
             if (selection.OtherForms.Any())
-                selection.SelectedOtherFormsIndex = entryIndex;
+            {
+                // make selection of form dependent on kanjis present in input
+                if (string.IsNullOrEmpty(kanjisOnlyInInput))
+                {
+                    selection.SelectedOtherFormsIndex = entryIndex;
+                }
+                else
+                {
+                    selection.SelectedOtherFormsIndex = selection.OtherForms
+                        .Select((f, i) => new { Kanjis = KanjiRegex().Match(f).Value, Index = i })
+                        .FirstOrDefault(x => x.Kanjis == kanjisOnlyInInput)?
+                        .Index ?? entryIndex;
+                }
+            }
+            else
+            {
+                selection.SelectedOtherFormsIndex = -1;
+            }
         }
 
         selection.ReadingOutput = japaneseEntry.Reading;
+
+        StoreMeanings(result);
 
         selection.WriteInKana = result.Senses.FirstOrDefault()?.Tags.Contains(JishoTagUsuallyInKanaAlone) == true
                                 || string.IsNullOrEmpty(japaneseEntry.Word);
@@ -225,4 +252,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
             }
         }
     }
+
+    [GeneratedRegex("[\x3400-\x4DB5\x4E00-\x9FCB\xF900-\xFA6A]")]
+    private static partial Regex KanjiRegex();
 }

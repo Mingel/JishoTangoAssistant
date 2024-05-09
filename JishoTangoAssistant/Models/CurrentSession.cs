@@ -5,8 +5,6 @@ namespace JishoTangoAssistant.Models;
 
 class CurrentSession
 {
-    public static bool running = false;
-
     public static IList<JishoDatum>? lastRetrievedResults = null;
 
     public static bool userMadeChanges = false;

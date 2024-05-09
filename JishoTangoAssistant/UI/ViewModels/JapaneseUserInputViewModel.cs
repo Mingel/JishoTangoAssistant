@@ -60,6 +60,8 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private readonly ICurrentJapaneseUserInputSelectionService currentSelectionService;
     private readonly IVocabularyListService vocabularyListService;
 
+    private bool isProcessingInput;
+
     public JapaneseUserInputViewModel(ICurrentJapaneseUserInputSelectionService currentSelectionService, IVocabularyListService vocabularyListService)
     {
         this.currentSelectionService = currentSelectionService;
@@ -145,22 +147,30 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     partial void OnAdditionalCommentsChanged(string value) 
     {
         currentSelectionService.SetAdditionalComments(value);
-        UpdateOutputText();
-        UpdateVisualRelatedProperties();
+        if (!isProcessingInput)
+        {
+            UpdateOutputText();
+            UpdateVisualRelatedProperties();
+        }
     }
 
     partial void OnWriteInKanaChanged(bool value) 
     {
         currentSelectionService.SetWriteInKana(value);
-        UpdateOutputText();
-        UpdateVisualRelatedProperties();
+        if (!isProcessingInput)
+        {
+            UpdateOutputText();
+            UpdateVisualRelatedProperties();
+        }
     }
 
     partial void OnSelectedIndexOfWordsChanged(int value) 
     {
         if (value >= 0)
-        {
             currentSelectionService.SetSelectedWordsIndex(value);
+
+        if (!isProcessingInput)
+        {
             currentSelectionService.UpdateOtherForms();
             currentSelectionService.SetSelectedOtherFormsIndex(0);
             UpdateAllNonCollectionProperties();
@@ -171,8 +181,10 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     partial void OnSelectedIndexOfOtherFormsChanged(int value) 
     {
         if (value >= 0)
-        {
             currentSelectionService.SetSelectedOtherFormsIndex(value);
+
+        if (!isProcessingInput)
+        {
             UpdateOutputText();
             UpdateVisualRelatedProperties();
         }
@@ -197,14 +209,14 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     [RelayCommand]
     private async Task ProcessInput()
     {
-        if (!CurrentSession.running)
+        if (!isProcessingInput)
         {
-            CurrentSession.running = true;
+            isProcessingInput = true;
             Input = RomajiKanaConverter.Convert(Input.Trim());
             await currentSelectionService.UpdateSelectionAsync(Input);
             UpdateAllNonCollectionProperties();
             UpdateOutputText();
-            CurrentSession.running = false;
+            isProcessingInput = false;
         }
     }
 
