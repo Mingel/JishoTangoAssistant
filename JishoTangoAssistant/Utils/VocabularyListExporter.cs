@@ -73,7 +73,8 @@ public static class VocabularyListExporter
         var result = "#separator:Semicolon" + Environment.NewLine +
                      "#html:true" + Environment.NewLine +
                      "#columns:ID;Front;Back" + Environment.NewLine +
-                     "#guid column:1" + Environment.NewLine;
+                     "#guid column:1" + Environment.NewLine +
+                     "#deck:Basic" + Environment.NewLine;
         return result;
     }
 }

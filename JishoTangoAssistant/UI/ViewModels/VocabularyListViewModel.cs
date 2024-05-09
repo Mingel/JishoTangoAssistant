@@ -157,7 +157,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
 
     private static async Task ShowNotetypeMessageBox()
     {
-        await MessageBoxUtil.CreateAndShowAsync("Information", "Make sure to select the Notetype \"Basic\" when importing the exported file into Anki!",
+        await MessageBoxUtil.CreateAndShowAsync("Information", "Export complete!",
             MessageBoxButtons.Ok);
     }
 }
