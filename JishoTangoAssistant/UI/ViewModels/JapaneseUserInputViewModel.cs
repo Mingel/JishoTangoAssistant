@@ -26,9 +26,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private bool japaneseToEnglishDirection = true;
 
     [ObservableProperty]
-    private bool showFrontSide = true;
-
-    [ObservableProperty]
     private ObservableRangeCollection<SimilarMeaningGroup> meaningGroups = [];
     
     [ObservableProperty]
@@ -86,19 +83,36 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     #region auto-properties
 
-    public string OutputText
+    public string OutputFrontSideText
     {
         get
         {
             var outputTextStringBuilder = new StringBuilder();
 
             if (JapaneseToEnglishDirection &&
-                ShowFrontSide &&
                 SelectedIndexOfOtherForms >= 0)
             {
                 outputTextStringBuilder.Append(!WriteInKana ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput);
             }
-            else if (JapaneseToEnglishDirection && ShowBackSide)
+            else if (EnglishToJapaneseDirection)
+            {
+                var meaningsString = string.Join("; ", MeaningGroups.Select(g => g.SimilarMeanings)
+                                                                    .SelectMany(g => g)
+                                                                    .Where(m => m.IsEnabled)
+                                                                    .Select(m => m.Value)); // TODO optimize
+                outputTextStringBuilder.AppendLine(meaningsString);
+                outputTextStringBuilder.Append(AdditionalComments);
+            }
+            return outputTextStringBuilder.ToString().TrimEnd();
+        }
+    }
+
+    public string OutputBackSideText
+    {
+        get
+        {
+            var outputTextStringBuilder = new StringBuilder();
+            if (JapaneseToEnglishDirection)
             {
                 var meaningsString = string.Join("; ", MeaningGroups.Select(g => g.SimilarMeanings)
                                                                     .SelectMany(g => g)
@@ -109,16 +123,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                 outputTextStringBuilder.AppendLine(meaningsString);
                 outputTextStringBuilder.Append(AdditionalComments);
             }
-            else if (EnglishToJapaneseDirection && ShowFrontSide)
-            {
-                var meaningsString = string.Join("; ", MeaningGroups.Select(g => g.SimilarMeanings)
-                                                                    .SelectMany(g => g)
-                                                                    .Where(m => m.IsEnabled)
-                                                                    .Select(m => m.Value)); // TODO optimize
-                outputTextStringBuilder.AppendLine(meaningsString);
-                outputTextStringBuilder.Append(AdditionalComments);
-            }
-            else // (EnglishToJapaneseDirection && ShowBackSide)
+            else // EnglishToJapaneseDirection
             {
                 if (SelectedIndexOfOtherForms >= 0)
                     outputTextStringBuilder.AppendLine(!WriteInKana ? OtherForms.ElementAt(SelectedIndexOfOtherForms) : ReadingOutput);
@@ -132,10 +137,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     partial void OnJapaneseToEnglishDirectionChanged(bool value) => UpdateOutputText();
 
     private bool EnglishToJapaneseDirection => !JapaneseToEnglishDirection;
-
-    partial void OnShowFrontSideChanged(bool value) => UpdateOutputText();
-
-    private bool ShowBackSide => !ShowFrontSide;
 
     partial void OnInputChanged(string value) => UpdateVisualRelatedProperties();
 
@@ -248,7 +249,8 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private void UpdateOutputText()
     {
-        OnPropertyChanged(nameof(OutputText));
+        OnPropertyChanged(nameof(OutputFrontSideText));
+        OnPropertyChanged(nameof(OutputBackSideText));
     }
 
     private void UpdateVisualRelatedProperties()
