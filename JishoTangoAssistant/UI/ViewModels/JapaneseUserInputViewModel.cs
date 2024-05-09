@@ -103,7 +103,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                 outputTextStringBuilder.AppendLine(meaningsString);
                 outputTextStringBuilder.Append(AdditionalComments);
             }
-            return outputTextStringBuilder.ToString().TrimEnd();
+            return outputTextStringBuilder.ToString().Trim();
         }
     }
 
@@ -130,7 +130,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                 if (!WriteInKana)
                     outputTextStringBuilder.Append(ReadingOutput);
             }
-            return outputTextStringBuilder.ToString().TrimEnd();
+            return outputTextStringBuilder.ToString().Trim();
         }
     }
     

@@ -59,7 +59,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         };
 
         var filePickerFilter = new[] {
-            new FilePickerFileType("JTA Files") { Patterns = new[] { "*.jta" } }
+            new FilePickerFileType("JTA Files") { Patterns = ["*.jta"] }
         };
 
         var loadedVocabularyItems = await VocabularyListFilePicker.LoadAsync(filePickerTitle, filePickerFilter);
@@ -81,7 +81,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         var list = vocabularyListService.GetList();
 
         var filePickerFilter = new[] {
-            new FilePickerFileType("JTA Files") { Patterns = new[] { "*.jta" } }
+            new FilePickerFileType("JTA Files") { Patterns = ["*.jta"] }
         };
 
         var success = await VocabularyListFilePicker.SaveAsync(list, "Save vocabulary list as", filePickerFilter);
@@ -105,7 +105,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
     private async Task ExportCsv(bool toJapanese)
     {
         var filePickerFilter = new[] {
-            new FilePickerFileType("CSV Files") { Patterns = new[] { "*.csv" } }
+            new FilePickerFileType("CSV Files") { Patterns = ["*.csv"] }
         };
 
         var list = vocabularyListService.GetList();

@@ -6,15 +6,13 @@ namespace JishoTangoAssistant.Utils;
 
 public static class VocabularyListExporter
 {
+    private const string visualNewLine = "<br>";
+
     public static string JapaneseToEnglish(ReadOnlyObservableVocabularyList items)
     {
         var sb = new StringBuilder();
 
         sb.Append(AddFileHeader());
-
-        // condition: if font size is set, then we need the html way for successful import
-        // visualNewLine is only for setting new lines in a card, not for separating card purposes
-        const string visualNewLine = "<br>";
 
         foreach (var item in items)
         {
@@ -28,7 +26,7 @@ public static class VocabularyListExporter
                 sb.Append(item.Reading.Replace("\"", "\"\""));
                 sb.Append(visualNewLine);
             }
-            sb.Append(item.Output.Replace("\"", "\"\""));
+            sb.Append(item.Output.Replace(Environment.NewLine, visualNewLine).Replace("\"", "\"\""));
             sb.AppendLine("\"");
         }
         return sb.ToString().TrimEnd();
@@ -40,15 +38,12 @@ public static class VocabularyListExporter
         
         sb.Append(AddFileHeader());
 
-        // condition: if font size is set, then we need the html way for successful import
-        const string visualNewLine = "<br>";
-
         foreach (var item in items)
         {
             sb.Append(item.AnkiGuid + "-e2j");
             sb.Append(';');
             sb.Append('"');
-            sb.Append(item.Output.Replace("\"", "\"\""));
+            sb.Append(item.Output.Replace(Environment.NewLine, visualNewLine).Replace("\"", "\"\""));
             sb.Append("\";\"");
             if (CurrentSession.customFontSize >= 0)
                 sb.Append(AddFontSizeHtml(CurrentSession.customFontSize, item.Word));
