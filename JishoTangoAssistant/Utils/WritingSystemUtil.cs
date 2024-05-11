@@ -3,31 +3,31 @@ using System.Text.RegularExpressions;
 
 namespace JishoTangoAssistant.Utils;
 
-public static class WritingSystemUtil
+public static partial class WritingSystemUtil
 {
-    private const string RomajiRegex = "[\u0020-\u007E]";
-    private const string HiraganaRegex = "[\u3040-\u309F]";
-    private const string KatakanaRegex = "[\u30A0-\u30FF]";
-    private const string KanjiRegex = "[\x3400-\x4DB5\x4E00-\x9FCB\xF900-\xFA6A]";
+    private const string RomajiRegexString = "[\u0020-\u007E]+";
+    private const string HiraganaRegexString = "[\u3040-\u309F]+";
+    private const string KatakanaRegexString = "[\u30A0-\u30FF]+";
+    private const string KanjiRegexString = "[\x3400-\x4DB5\x4E00-\x9FCB\xF900-\xFA6A]+";
 
     public static bool OnlyContainsRomaji(string text)
     {
-        return new Regex($"{RomajiRegex}*").Match(text).Success;
+        return RomajiRegex().Matches(text).Count == text.Length;
     }
 
     public static bool OnlyContainsHiragana(string text)
     {
-        return new Regex($"{HiraganaRegex}*").Match(text).Success;
+        return HiraganaRegex().Matches(text).Count == text.Length;
     }
 
     public static bool OnlyContainsKatakana(string text)
     {
-        return new Regex($"{KatakanaRegex}*").Match(text).Success;
+        return KatakanaRegex().Matches(text).Count == text.Length;
     }
 
     public static bool OnlyContainsKanji(string text)
     {
-        return new Regex($"{KanjiRegex}*").Match(text).Success;
+        return KanjiRegex().Matches(text).Count == text.Length;
     }
 
     public static bool OnlyContainsKana(string text)
@@ -37,11 +37,23 @@ public static class WritingSystemUtil
 
     public static bool ContainsKanji(string text)
     {
-        return new Regex($".*{KanjiRegex}.*").Match(text).Success;
+        return KanjiRegex().Matches(text).Count > 0;
     }
 
     public static string FilterKanji(string text)
     {
-        return new Regex(KanjiRegex).Match(text).Value;
+        return KanjiRegex().Match(text).Value;
     }
+
+    [GeneratedRegex(RomajiRegexString)]
+    private static partial Regex RomajiRegex();
+
+    [GeneratedRegex(HiraganaRegexString)]
+    private static partial Regex HiraganaRegex();
+
+    [GeneratedRegex(KatakanaRegexString)]
+    private static partial Regex KatakanaRegex();
+
+    [GeneratedRegex(KanjiRegexString)]
+    private static partial Regex KanjiRegex();
 }
