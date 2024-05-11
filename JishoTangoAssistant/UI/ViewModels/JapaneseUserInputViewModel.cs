@@ -167,26 +167,30 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     partial void OnSelectedIndexOfWordsChanged(int value) 
     {
         if (value >= 0)
+        {
             currentSelectionService.SetSelectedWordsIndex(value);
 
-        if (!isProcessingInput)
-        {
-            currentSelectionService.UpdateOtherForms();
-            currentSelectionService.SetSelectedOtherFormsIndex(0);
-            UpdateAllNonCollectionProperties();
-            UpdateVisualRelatedProperties();
+            if (!isProcessingInput)
+            {
+                currentSelectionService.UpdateOtherForms();
+                currentSelectionService.SetSelectedOtherFormsIndex(0);
+                UpdateAllNonCollectionProperties();
+                UpdateVisualRelatedProperties();
+            }
         }
     }
 
     partial void OnSelectedIndexOfOtherFormsChanged(int value) 
     {
         if (value >= 0)
+        {
             currentSelectionService.SetSelectedOtherFormsIndex(value);
 
-        if (!isProcessingInput)
-        {
-            UpdateOutputText();
-            UpdateVisualRelatedProperties();
+            if (!isProcessingInput)
+            {
+                UpdateOutputText();
+                UpdateVisualRelatedProperties();
+            }
         }
     }
     #endregion
