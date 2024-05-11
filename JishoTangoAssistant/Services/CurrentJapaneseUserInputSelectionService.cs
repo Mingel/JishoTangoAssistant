@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Models;
@@ -60,7 +59,7 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
         var resultIndex = 0;
         var entryIndex = 0;
 
-        if (WritingSystemChecker.ContainsKanji(preprocessedInput))
+        if (WritingSystemUtil.ContainsKanji(preprocessedInput))
             GetIndicesOfInputInResult(preprocessedInput, allResults, ref resultIndex, ref entryIndex);
 
         var result = allResults[resultIndex];
@@ -77,7 +76,7 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
             selection.Words.Add(word);
         }
 
-        var kanjisOnlyInInput = KanjiRegex().Match(preprocessedInput).Value;
+        var kanjisOnlyInInput = WritingSystemUtil.FilterKanji(preprocessedInput);
         if (selection.Words.Any())
         {
             selection.SelectedWordsIndex = resultIndex;
@@ -98,7 +97,7 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
                 else
                 {
                     selection.SelectedOtherFormsIndex = selection.OtherForms
-                        .Select((f, i) => new { Kanjis = KanjiRegex().Match(f).Value, Index = i })
+                        .Select((f, i) => new { Kanjis = WritingSystemUtil.FilterKanji(f), Index = i })
                         .FirstOrDefault(x => x.Kanjis == kanjisOnlyInInput)?
                         .Index ?? entryIndex;
                 }
@@ -109,12 +108,20 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
             }
         }
 
-        selection.ReadingOutput = japaneseEntry.Reading;
+        var selectedWord = japaneseEntry.Word;
+        selection.WriteInKana = result.Senses.FirstOrDefault()?.Tags.Contains(JishoTagUsuallyInKanaAlone) == true
+                                || string.IsNullOrEmpty(selectedWord);
+        if (selection.WriteInKana && !string.IsNullOrEmpty(selectedWord) && WritingSystemUtil.OnlyContainsKana(selectedWord))
+        {
+            selection.ReadingOutput = selectedWord;
+        }
+        else
+        {
+            selection.ReadingOutput = japaneseEntry.Reading;
+        }
 
         StoreMeanings(result);
 
-        selection.WriteInKana = result.Senses.FirstOrDefault()?.Tags.Contains(JishoTagUsuallyInKanaAlone) == true
-                                || string.IsNullOrEmpty(japaneseEntry.Word);
         selection.ItemAdditionPossible = true;
     }
 
@@ -202,8 +209,17 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
 
         StoreMeanings(selectedDatum);
 
+        var selectedWord = selectedDatum.Japanese.FirstOrDefault()?.Word;
         selection.WriteInKana = selectedDatum.Senses.FirstOrDefault()?.Tags.Contains(JishoTagUsuallyInKanaAlone) == true
-                                || string.IsNullOrEmpty(selectedDatum.Japanese.FirstOrDefault()?.Word);
+                                || string.IsNullOrEmpty(selectedWord);
+        if (selection.WriteInKana && !string.IsNullOrEmpty(selectedWord) && WritingSystemUtil.OnlyContainsKana(selectedWord))
+        {
+            selection.ReadingOutput = selectedWord;
+        }
+        else
+        {
+            selection.ReadingOutput = selectedDatum.Japanese.FirstOrDefault()?.Reading ?? string.Empty;
+        }
     }
     
     private static void GetIndicesOfInputInResult(string input, IList<JishoDatum> result, ref int resultIndex, ref int entryIndex)
@@ -252,7 +268,4 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
             }
         }
     }
-
-    [GeneratedRegex("[\x3400-\x4DB5\x4E00-\x9FCB\xF900-\xFA6A]")]
-    private static partial Regex KanjiRegex();
 }
