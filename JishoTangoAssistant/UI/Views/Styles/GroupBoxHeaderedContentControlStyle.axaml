@@ -3,7 +3,7 @@
     <Design.PreviewWith>
         <Border Padding="20">
             <!-- Add Controls for Previewer Here -->
-			<HeaderedContentControl Header="Test" Background="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<HeaderedContentControl Header="Test" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				Hi!
 			</HeaderedContentControl>
         </Border>
@@ -27,8 +27,8 @@
 							<TextBlock TextBlock.FontWeight="Bold" Text="{TemplateBinding Header}" />
 						</Border>
 						<Border Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,15,0,0"
-							BorderBrush="{TemplateBinding Background}"
-							BorderThickness="1">
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}">
 							<Grid>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="5"/>

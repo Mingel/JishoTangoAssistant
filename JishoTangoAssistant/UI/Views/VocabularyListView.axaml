@@ -15,7 +15,7 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<HeaderedContentControl Grid.Row="0" Header="Vocabulary List" Background="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<HeaderedContentControl Grid.Row="0" Header="Vocabulary List" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<Grid Height="NaN">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
@@ -71,7 +71,7 @@
 
 			<Button Grid.Row="1" x:Name="LoadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 			<Button Grid.Row="3" x:Name="SaveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-			<HeaderedContentControl Grid.Row="5" Header="Export" Background="DarkGray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<HeaderedContentControl Grid.Row="5" Header="Export" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="5"/>

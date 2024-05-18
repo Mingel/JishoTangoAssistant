@@ -46,9 +46,6 @@
 				<Label Grid.Column="0" Margin="0,7,10,0" x:Name="SearchLabel" Content="Search"/>
 
 				<TextBox Grid.Column="1" x:Name="InputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,10,0" FontSize="16">
-					<TextBox.Background>
-						<SolidColorBrush Color="{Binding TextInputBackground}" />
-					</TextBox.Background>
 					<TextBox.KeyBindings>
 						<KeyBinding Gesture="Enter" Command="{Binding Path=ProcessInputCommand}" />
 					</TextBox.KeyBindings>
@@ -73,7 +70,7 @@
 				<Label Grid.Column="5" x:Name="ReadingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
 			</Grid>
 
-			<HeaderedContentControl Grid.Row="4" Header="Meaning" Background="DarkGray" Height="NaN">
+			<HeaderedContentControl Grid.Row="4" Header="Meaning" BorderBrush="DarkGray" BorderThickness="1" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<Grid x:Name="MeaningGrid">
 						<ItemsControl ItemsSource="{Binding MeaningGroups}">
@@ -99,7 +96,7 @@
 					</Grid>
 				</ScrollViewer>
 			</HeaderedContentControl>
-			<HeaderedContentControl Grid.Row="6" Header="Additional Comments" Background="DarkGray">
+			<HeaderedContentControl Grid.Row="6" Header="Additional Comments" BorderBrush="DarkGray" BorderThickness="1">
 				<TextBox x:Name="AdditionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
 			</HeaderedContentControl>
 			<Grid Grid.Row="8" x:Name="WriteInKanaPanel" Height="NaN">
@@ -110,7 +107,7 @@
 				<CheckBox Grid.Column="0" x:Name="WriteInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
 			</Grid>
 			<StackPanel Grid.Row="10" x:Name="OutputPanel" Height="165">
-				<HeaderedContentControl Height="165" Header="Resulting Card Preview" Background="DarkGray">
+				<HeaderedContentControl Height="165" Header="Resulting Card Preview" BorderBrush="{Binding OutputBorderBrush}" BorderThickness="2">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"/>

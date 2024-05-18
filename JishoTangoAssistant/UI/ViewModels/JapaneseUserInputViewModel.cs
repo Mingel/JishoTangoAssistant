@@ -51,9 +51,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     [ObservableProperty]
     private bool itemAdditionPossible;
-    
+
     [ObservableProperty]
-    private Color textInputBackground = App.UsesDarkMode() ? Color.Parse("#66000000") : Color.Parse("#66ffffff");
+    private SolidColorBrush outputBorderBrush = new();
 
     #endregion
     
@@ -75,6 +75,8 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         MeaningGroups.CollectionChanged += AutoEnableIfOnlyMeaning;
 
         vocabularyListService.GetList().CollectionChanged += (_, _) => UpdateVisualRelatedProperties();
+
+        OutputBorderBrush.Color = Color.Parse(InputTextColorNoDuplicate());
     }
 
     private void AutoEnableIfOnlyMeaning(object? sender, NotifyCollectionChangedEventArgs e)
@@ -278,11 +280,17 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private void UpdateTextInputBackground(VocabularyItem? itemFromCurrentUserInput)
     {
-        var color = InputTextColorNoDuplicate();
+        string color;
         if (itemFromCurrentUserInput != null && vocabularyListService.ContainsWord(itemFromCurrentUserInput.Word))
+        {
             color = vocabularyListService.Contains(itemFromCurrentUserInput) ? InputTextColorSameMeaning() : InputTextColorDifferentMeaning();
+        }
+        else
+        {
+            color = InputTextColorNoDuplicate();
+        }
         
-        TextInputBackground = Color.Parse(color);
+        OutputBorderBrush.Color = Color.Parse(color);
     }
 
     private void UpdateItemAdditionPossibleProperty(VocabularyItem? itemFromCurrentUserInput)
@@ -294,16 +302,16 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private string InputTextColorNoDuplicate()
     {
-        return App.UsesDarkMode() ? "#66000000" : "#66FFFFFF";
+        return App.UsesDarkMode() ? "DarkGray" : "LightGray";
     }
 
     private string InputTextColorDifferentMeaning()
     {
-        return App.UsesDarkMode() ? "#667D7D69" : "#66FAFAD2";
+        return App.UsesDarkMode() ? "Orange" : "Orange";
     }
 
     private string InputTextColorSameMeaning()
     {
-        return App.UsesDarkMode() ? "#66744B3D" : "#66E9967A";
+        return App.UsesDarkMode() ? "Red" : "Red";
     }
 }
