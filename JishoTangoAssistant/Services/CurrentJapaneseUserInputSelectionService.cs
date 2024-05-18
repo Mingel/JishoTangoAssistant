@@ -108,17 +108,7 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
             }
         }
 
-        var selectedWord = japaneseEntry.Word;
-        selection.WriteInKana = result.Senses.FirstOrDefault()?.Tags.Contains(JishoTagUsuallyInKanaAlone) == true
-                                || string.IsNullOrEmpty(selectedWord);
-        if (selection.WriteInKana && !string.IsNullOrEmpty(selectedWord) && WritingSystemUtil.OnlyContainsKana(selectedWord))
-        {
-            selection.ReadingOutput = selectedWord;
-        }
-        else
-        {
-            selection.ReadingOutput = japaneseEntry.Reading;
-        }
+        selection.ReadingOutput = GetReadingOutput(result, entryIndex);
 
         StoreMeanings(result);
 
@@ -205,28 +195,45 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
         else
             selection.SelectedOtherFormsIndex = -1;
 
-        selection.ReadingOutput = selectedDatum.Japanese.FirstOrDefault()?.Reading ?? string.Empty;
-
         StoreMeanings(selectedDatum);
 
-        var selectedWord = selectedDatum.Japanese.FirstOrDefault()?.Word;
+        selection.ReadingOutput = GetReadingOutput(selectedDatum, 0);
+    }
+
+    public void UpdateReading()
+    {
+        if (selection.SelectedOtherFormsIndex < 0 || selection.SelectedOtherFormsIndex >= selection.OtherForms.Count)
+        {
+            selection.ReadingOutput = string.Empty;
+            return;
+        }
+
+        var latestResult = CurrentSession.lastRetrievedResults;
+        if (latestResult == null)
+            return;
+        var selectedDatum = latestResult[selection.SelectedWordsIndex];
+
+        selection.ReadingOutput = GetReadingOutput(selectedDatum, selection.SelectedOtherFormsIndex);
+    }
+
+    private string GetReadingOutput(JishoDatum selectedDatum, int japaneseItemsIndex = 0)
+    {
+        var selectedWord = selectedDatum.Japanese.ElementAtOrDefault(japaneseItemsIndex)?.Word;
         selection.WriteInKana = selectedDatum.Senses.FirstOrDefault()?.Tags.Contains(JishoTagUsuallyInKanaAlone) == true
                                 || string.IsNullOrEmpty(selectedWord);
         if (selection.WriteInKana && !string.IsNullOrEmpty(selectedWord) && WritingSystemUtil.OnlyContainsKana(selectedWord))
         {
-            selection.ReadingOutput = selectedWord;
+            return selectedWord;
         }
         else
         {
-            selection.ReadingOutput = selectedDatum.Japanese.FirstOrDefault()?.Reading ?? string.Empty;
+            return selectedDatum.Japanese.ElementAtOrDefault(japaneseItemsIndex)?.Reading ?? string.Empty;
         }
     }
     
     private static void GetIndicesOfInputInResult(string input, IList<JishoDatum> result, ref int resultIndex, ref int entryIndex)
     {
         ArgumentNullException.ThrowIfNull(result);
-        ArgumentOutOfRangeException.ThrowIfNegative(resultIndex);
-        ArgumentOutOfRangeException.ThrowIfNegative(entryIndex);
 
         for (var i = 0; i < result.Count; i++)
         {

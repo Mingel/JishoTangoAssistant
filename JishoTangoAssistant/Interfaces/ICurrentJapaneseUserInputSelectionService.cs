@@ -22,6 +22,7 @@ public interface ICurrentJapaneseUserInputSelectionService
     Task UpdateSelectionAsync(string preprocessedInput);
     VocabularyItem? CreateVocabularyItem();
     void UpdateOtherForms();
+    void UpdateReading();
     bool OnlyOneMeaningInSelection();
     void ChangeIsEnabledForAllMeanings(bool isEnabled);
 }

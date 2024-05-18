@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Threading.Tasks;
@@ -191,6 +190,8 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
             if (!isProcessingInput)
             {
+                currentSelectionService.UpdateReading();
+                UpdateAllNonCollectionProperties();
                 UpdateOutputText();
                 UpdateVisualRelatedProperties();
             }
@@ -251,7 +252,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                 foreach (var meaning in meaningGroup.SimilarMeanings)
                 {
                     meaning.PropertyChanged -= outputTextHandler;
-                    meaning.PropertyChanged -= textInputBackgroundHandler;
+                    meaning.PropertyChanged -= textInputBackgroundHandler; 
                 }
             }
         }
