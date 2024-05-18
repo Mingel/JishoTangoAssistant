@@ -22,11 +22,11 @@ public partial class JishoTangoAssistantWindowViewModel(
     [RelayCommand]
     private void ToggleLightDarkMode()
     {
-        var mainWindow = App.GetMainWindow();
-        if (mainWindow == null)
+        var app = Avalonia.Application.Current;
+        if (app == null)
             return;
 
-        mainWindow.RequestedThemeVariant = mainWindow.ActualThemeVariant == ThemeVariant.Dark ? ThemeVariant.Light : ThemeVariant.Dark;
+        app.RequestedThemeVariant = app.ActualThemeVariant == ThemeVariant.Dark ? ThemeVariant.Light : ThemeVariant.Dark;
     }
 
     [RelayCommand]
