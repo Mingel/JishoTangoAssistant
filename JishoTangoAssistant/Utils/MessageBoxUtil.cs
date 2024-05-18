@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.Views;
 
@@ -10,7 +9,7 @@ namespace JishoTangoAssistant.Utils;
 public class MessageBoxUtil {
     public static async Task<MessageBoxResult> CreateAndShowAsync(string title, string text, MessageBoxButtons buttons, string subText = "")
     {
-        var parent = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!)?.MainWindow;
+        var parent = App.GetMainWindow();
         return await CreateAndShowAsync(parent, title, text, buttons, subText);
     }
 

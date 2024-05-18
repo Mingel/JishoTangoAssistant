@@ -53,7 +53,10 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private bool itemAdditionPossible;
 
     [ObservableProperty]
-    private SolidColorBrush outputBorderBrush = new();
+    private bool isDuplicateAndHasSameMeaning = false;
+
+    [ObservableProperty]
+    private bool isDuplicateAndHasDifferentMeaning = false;
 
     #endregion
     
@@ -75,8 +78,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         MeaningGroups.CollectionChanged += AutoEnableIfOnlyMeaning;
 
         vocabularyListService.GetList().CollectionChanged += (_, _) => UpdateVisualRelatedProperties();
-
-        OutputBorderBrush.Color = Color.Parse(InputTextColorNoDuplicate());
     }
 
     private void AutoEnableIfOnlyMeaning(object? sender, NotifyCollectionChangedEventArgs e)
@@ -222,6 +223,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             await currentSelectionService.UpdateSelectionAsync(Input);
             UpdateAllNonCollectionProperties();
             UpdateOutputText();
+            UpdateVisualRelatedProperties();
             isProcessingInput = false;
         }
     }
@@ -280,17 +282,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private void UpdateTextInputBackground(VocabularyItem? itemFromCurrentUserInput)
     {
-        string color;
-        if (itemFromCurrentUserInput != null && vocabularyListService.ContainsWord(itemFromCurrentUserInput.Word))
-        {
-            color = vocabularyListService.Contains(itemFromCurrentUserInput) ? InputTextColorSameMeaning() : InputTextColorDifferentMeaning();
-        }
-        else
-        {
-            color = InputTextColorNoDuplicate();
-        }
-        
-        OutputBorderBrush.Color = Color.Parse(color);
+        var isDuplicate = itemFromCurrentUserInput != null && vocabularyListService.ContainsWord(itemFromCurrentUserInput.Word);
+        IsDuplicateAndHasSameMeaning = isDuplicate && vocabularyListService.Contains(itemFromCurrentUserInput!);
+        IsDuplicateAndHasDifferentMeaning = isDuplicate && !vocabularyListService.Contains(itemFromCurrentUserInput!);
     }
 
     private void UpdateItemAdditionPossibleProperty(VocabularyItem? itemFromCurrentUserInput)
@@ -298,20 +292,5 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         ItemAdditionPossible = currentSelectionService.GetItemAdditionPossible() &&
                                itemFromCurrentUserInput != null &&
                                !vocabularyListService.Contains(itemFromCurrentUserInput);
-    }
-
-    private string InputTextColorNoDuplicate()
-    {
-        return App.UsesDarkMode() ? "DarkGray" : "LightGray";
-    }
-
-    private string InputTextColorDifferentMeaning()
-    {
-        return App.UsesDarkMode() ? "Orange" : "Orange";
-    }
-
-    private string InputTextColorSameMeaning()
-    {
-        return App.UsesDarkMode() ? "Red" : "Red";
     }
 }

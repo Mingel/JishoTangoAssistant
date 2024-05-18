@@ -31,7 +31,7 @@
 
 				<TextBlock Text="{Binding VocabularyList.Count, StringFormat='Number of entries: {0}', Mode=OneWay}"/>
 
-				<DataGrid Grid.Row="1" Background="#FF333333" x:Name="VocabularyItemsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+				<DataGrid Grid.Row="1" x:Name="VocabularyItemsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="110" Width="100" CanUserSort="False"/>
 						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" CanUserSort="False" CanUserReorder="False" CanUserResize="False" Width="0" MaxWidth="0" IsVisible="False"/>

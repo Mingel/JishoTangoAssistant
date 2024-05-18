@@ -7,14 +7,31 @@
         Title="JishoTangoAssistant"
 		MinHeight="650" MinWidth="600"
 		Height="650" Width="800">
+
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="GeneralBackground">#FFFFFFFF</SolidColorBrush>
+					<SolidColorBrush x:Key="TabItemPointerOverBackground">#BBD5F5</SolidColorBrush>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<SolidColorBrush x:Key="GeneralBackground">#FF2A2A2A</SolidColorBrush>
+					<SolidColorBrush x:Key="TabItemPointerOverBackground">#124078</SolidColorBrush>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
+	
 	<Window.Styles>
 		<Style Selector="TabItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-			<Setter Property="Background" Value="#124078"/>
+			<Setter Property="Background" Value="{DynamicResource TabItemPointerOverBackground}"/>
 		</Style>
 	</Window.Styles>
 
-	<DockPanel Background="#FF2A2A2A">
+	<DockPanel Background="{DynamicResource GeneralBackground}">
 		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="Toggle Light/Dark Mode" Command="{Binding Path=ToggleLightDarkModeCommand}"/>
 			<MenuItem Header="About" Command="{Binding Path=OpenAboutCommand}"/>
 		</Menu>
 

@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
 using JishoTangoAssistant.Models;
 using Newtonsoft.Json;
@@ -14,7 +13,7 @@ namespace JishoTangoAssistant.Utils;
 public static class VocabularyListFilePicker {
     public static async Task<IEnumerable<VocabularyItem>?> LoadAsync(string? title = null, IReadOnlyList<FilePickerFileType>? options = null)
     {
-        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
+        var mainWindow = App.GetMainWindow();
     
         var topLevel = TopLevel.GetTopLevel(mainWindow);
         
@@ -49,7 +48,7 @@ public static class VocabularyListFilePicker {
     {
         ArgumentNullException.ThrowIfNull(content);
         
-        var mainWindow = ((IClassicDesktopStyleApplicationLifetime)Avalonia.Application.Current?.ApplicationLifetime!).MainWindow;
+        var mainWindow = App.GetMainWindow();
     
         var topLevel = TopLevel.GetTopLevel(mainWindow);
         

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JishoTangoAssistant.Utils;
+using Avalonia.Styling;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 
@@ -17,7 +18,17 @@ public partial class JishoTangoAssistantWindowViewModel(
     
     [ObservableProperty]
     private VocabularyListViewModel vocabularyListViewModel = vocabularyListViewModel;
-    
+
+    [RelayCommand]
+    private void ToggleLightDarkMode()
+    {
+        var mainWindow = App.GetMainWindow();
+        if (mainWindow == null)
+            return;
+
+        mainWindow.RequestedThemeVariant = mainWindow.ActualThemeVariant == ThemeVariant.Dark ? ThemeVariant.Light : ThemeVariant.Dark;
+    }
+
     [RelayCommand]
     private async Task OpenAbout()
     {

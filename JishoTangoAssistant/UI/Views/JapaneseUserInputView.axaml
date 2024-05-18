@@ -8,10 +8,38 @@
 		x:Class="JishoTangoAssistant.UI.Views.JapaneseUserInputView">
 	<UserControl.Styles>
 		<StyleInclude Source="avares://JishoTangoAssistant/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
+
+		<Style Selector="HeaderedContentControl#OutputContentControl">
+			<Setter Property="BorderBrush" Value="{DynamicResource DefaultBorderColor}"/>
+		</Style>
+		<Style Selector="HeaderedContentControl#OutputContentControl.sameMeaning">
+			<Setter Property="BorderBrush" Value="{DynamicResource SameMeaningColor}"/>
+		</Style>
+		<Style Selector="HeaderedContentControl#OutputContentControl.differentMeaning">
+			<Setter Property="BorderBrush" Value="{DynamicResource DifferentMeaningColor}"/>
+		</Style>
 	</UserControl.Styles>
 	
 	<UserControl.Resources>
-		<converter:FlattenedIndexToCheckBoxHotKeyConverter x:Key="FlattenedIndexToCheckBoxNameConverter"/>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="OutputBackground">#FFD3D3D3</SolidColorBrush>
+
+					<SolidColorBrush x:Key="DefaultBorderColor">DarkGray</SolidColorBrush>
+					<SolidColorBrush x:Key="DifferentMeaningColor">Orange</SolidColorBrush>
+					<SolidColorBrush x:Key="SameMeaningColor">Red</SolidColorBrush>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<SolidColorBrush x:Key="OutputBackground">#FF333333</SolidColorBrush>
+					
+					<SolidColorBrush x:Key="DefaultBorderColor">DarkGray</SolidColorBrush>
+					<SolidColorBrush x:Key="DifferentMeaningColor">Orange</SolidColorBrush>
+					<SolidColorBrush x:Key="SameMeaningColor">Red</SolidColorBrush>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+		<converter:FlattenedIndexToCheckBoxHotKeyConverter x:Key="FlattenedIndexToCheckBoxHotKeyConverter"/>
 	</UserControl.Resources>
 
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -70,7 +98,7 @@
 				<Label Grid.Column="5" x:Name="ReadingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
 			</Grid>
 
-			<HeaderedContentControl Grid.Row="4" Header="Meaning" BorderBrush="DarkGray" BorderThickness="1" Height="NaN">
+			<HeaderedContentControl Grid.Row="4" Header="Meaning" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1" Height="NaN">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<Grid x:Name="MeaningGrid">
 						<ItemsControl ItemsSource="{Binding MeaningGroups}">
@@ -80,7 +108,7 @@
 										<ItemsControl ItemsSource="{Binding SimilarMeanings}">
 											<ItemsControl.ItemTemplate>
 												<DataTemplate>
-													<CheckBox x:DataType="models:Meaning" HotKey="{Binding FlattenedIndex, Converter={StaticResource FlattenedIndexToCheckBoxNameConverter}}" Content="{Binding Value}" IsChecked="{Binding IsEnabled, Mode=TwoWay}"  Margin="5,5,7,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" BorderBrush="White" CornerRadius="3" HorizontalContentAlignment="Left"/>
+													<CheckBox x:DataType="models:Meaning" HotKey="{Binding FlattenedIndex, Converter={StaticResource FlattenedIndexToCheckBoxHotKeyConverter}}" Content="{Binding Value}" IsChecked="{Binding IsEnabled, Mode=TwoWay}"  Margin="5,5,7,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" CornerRadius="3" HorizontalContentAlignment="Left"/>
 												</DataTemplate>
 											</ItemsControl.ItemTemplate>
 											<ItemsControl.ItemsPanel>
@@ -96,7 +124,7 @@
 					</Grid>
 				</ScrollViewer>
 			</HeaderedContentControl>
-			<HeaderedContentControl Grid.Row="6" Header="Additional Comments" BorderBrush="DarkGray" BorderThickness="1">
+			<HeaderedContentControl Grid.Row="6" Header="Additional Comments" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1">
 				<TextBox x:Name="AdditionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
 			</HeaderedContentControl>
 			<Grid Grid.Row="8" x:Name="WriteInKanaPanel" Height="NaN">
@@ -107,7 +135,10 @@
 				<CheckBox Grid.Column="0" x:Name="WriteInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
 			</Grid>
 			<StackPanel Grid.Row="10" x:Name="OutputPanel" Height="165">
-				<HeaderedContentControl Height="165" Header="Resulting Card Preview" BorderBrush="{Binding OutputBorderBrush}" BorderThickness="2">
+				<HeaderedContentControl x:Name="OutputContentControl" Height="165" Header="Resulting Card Preview"
+				Classes.sameMeaning="{Binding IsDuplicateAndHasSameMeaning}"
+				Classes.differentMeaning="{Binding IsDuplicateAndHasDifferentMeaning}"
+				BorderThickness="2">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"/>
@@ -142,13 +173,13 @@
 							<Label Grid.Row="0" Grid.Column="2" Margin="5,7,0,0" Content="Back"/>
 							<DockPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 								<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
-									<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF333333" Margin="5,7,0,0" Text="{Binding OutputFrontSideText}" FontSize="16"/>
+									<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource OutputBackground}" Margin="5,7,0,0" Text="{Binding OutputFrontSideText}" FontSize="16"/>
 								</ScrollViewer>
 							</DockPanel>
 							<Rectangle Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Fill="DarkGray" Width="1" Margin="6,0,0,0"/>
 							<DockPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 								<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
-									<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#FF333333" Margin="5,7,0,0" Text="{Binding OutputBackSideText}" FontSize="16"/>
+									<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource OutputBackground}" Margin="5,7,0,0" Text="{Binding OutputBackSideText}" FontSize="16"/>
 								</ScrollViewer>
 							</DockPanel>
 						</Grid>

@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using JishoTangoAssistant.UI.Views;
 using JishoTangoAssistant.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Controls;
 
 namespace JishoTangoAssistant
 {
@@ -36,9 +37,12 @@ namespace JishoTangoAssistant
             base.OnFrameworkInitializationCompleted();
         }
 
-        public static bool UsesDarkMode()
+        public static Window? GetMainWindow()
         {
-            return Current!.ActualThemeVariant.Key.ToString() == "Dark";
+            if (Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                return desktop.MainWindow;
+                
+            return null;
         }
     }
 }

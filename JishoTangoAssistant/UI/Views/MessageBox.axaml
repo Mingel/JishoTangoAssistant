@@ -5,7 +5,21 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinWidth="200"
         x:Class="JishoTangoAssistant.UI.Views.MessageBox"
 		SizeToContent="WidthAndHeight" CanResize="False">
-	<Grid Background="#FF2A2A2A">
+
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="GeneralBackground">#FFFFFFFF</SolidColorBrush>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<SolidColorBrush x:Key="GeneralBackground">#FF2A2A2A</SolidColorBrush>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
+
+	<Grid Background="{DynamicResource GeneralBackground}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="10"/>
 			<RowDefinition Height="*"/>
