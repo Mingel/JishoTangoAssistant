@@ -78,7 +78,7 @@
 						<KeyBinding Gesture="Enter" Command="{Binding Path=ProcessInputCommand}" />
 					</TextBox.KeyBindings>
 				</TextBox>
-				<Button Grid.Column="2" x:Name="EnterButton" Command="{Binding Path=ProcessInputCommand}" Content="🔍" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+				<Button Grid.Column="2" x:Name="EnterButton" Command="{Binding Path=ProcessInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
 					<StackPanel Orientation="Horizontal">
 						<PathIcon Data="{StaticResource search_regular}" /> 
 					</StackPanel>
@@ -166,7 +166,7 @@
 								<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 							</StackPanel>
 							</RadioButton>
-							<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}" Content="EN → JP + Reading">
+							<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}">
 								<StackPanel Orientation="Horizontal">
 									<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 									<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
