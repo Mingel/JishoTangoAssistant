@@ -142,8 +142,6 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     private bool EnglishToJapaneseDirection => !JapaneseToEnglishDirection;
 
-    partial void OnInputChanged(string value) => UpdateVisualRelatedProperties();
-
     partial void OnReadingOutputChanged(string value) => UpdateVisualRelatedProperties();
 
     partial void OnAdditionalCommentsChanged(string value) 
@@ -277,13 +275,19 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private void UpdateVisualRelatedProperties()
     {
         var itemFromCurrentUserInput = currentSelectionService.CreateVocabularyItem();
-        UpdateTextInputBackground(itemFromCurrentUserInput);
+        UpdateDuplicateMeaningChecks(itemFromCurrentUserInput);
         UpdateItemAdditionPossibleProperty(itemFromCurrentUserInput);
     }
 
-    private void UpdateTextInputBackground(VocabularyItem? itemFromCurrentUserInput)
+    private void UpdateDuplicateMeaningChecks(VocabularyItem? itemFromCurrentUserInput)
     {
-        var isDuplicate = itemFromCurrentUserInput != null && vocabularyListService.ContainsWord(itemFromCurrentUserInput.Word);
+        var isDuplicate = itemFromCurrentUserInput != null && 
+                            (vocabularyListService.ContainsWord(itemFromCurrentUserInput.Word)
+                            // check if current word is hiragana only, but same word with katakana only exists, and vice versa
+                            || WritingSystemUtil.OnlyContainsHiragana(itemFromCurrentUserInput.Word) 
+                                && vocabularyListService.ContainsWord(WritingSystemUtil.HiraganaToKatakana(itemFromCurrentUserInput.Word))
+                            || WritingSystemUtil.OnlyContainsKatakana(itemFromCurrentUserInput.Word) 
+                                && vocabularyListService.ContainsWord(WritingSystemUtil.KatakanaToHiragana(itemFromCurrentUserInput.Word)));
         IsDuplicateAndHasSameMeaning = isDuplicate && vocabularyListService.Contains(itemFromCurrentUserInput!);
         IsDuplicateAndHasDifferentMeaning = isDuplicate && !vocabularyListService.Contains(itemFromCurrentUserInput!);
     }

@@ -110,7 +110,7 @@ public static class RomajiKanaConverter
             // "nn" -> "ん"
             else if (toMatch.ToLower() == "nn")
             {
-                romajiOutput += char.IsLower(c) ? "ん" : ToKatakana("ん");
+                romajiOutput += char.IsLower(c) ? "ん" : WritingSystemUtil.HiraganaToKatakana("ん");
                 toMatch = string.Empty;
 
                 forceNextKanaLetterFromNaRow = VowelAfterNn(romajiInput, i + 1);
@@ -119,7 +119,7 @@ public static class RomajiKanaConverter
             // special case: 'p' or 'b' after 'm' (e.g. "sempai" -> "せんぱい"; "gambare" -> "がんばれ")
             else if (LetterPOrLetterBAfterLetterM(romajiInput, toMatch, i))
             {
-                romajiOutput += char.IsLower(c) ? "ん" : ToKatakana("ん");
+                romajiOutput += char.IsLower(c) ? "ん" : WritingSystemUtil.HiraganaToKatakana("ん");
                 toMatch = string.Empty;
             }
             // small tsu/sokuon
@@ -152,7 +152,7 @@ public static class RomajiKanaConverter
 
     private static string DetermineSokuons(string romajiLettersToBeConvertedToSokuons)
     {
-        var smallTsuArray = romajiLettersToBeConvertedToSokuons.Select(c => char.IsLower(c) ? 'っ' : ToKatakana('っ')).ToArray();
+        var smallTsuArray = romajiLettersToBeConvertedToSokuons.Select(c => char.IsLower(c) ? 'っ' : WritingSystemUtil.HiraganaToKatakana('っ')).ToArray();
         return new string(smallTsuArray);
     }
 
@@ -165,18 +165,8 @@ public static class RomajiKanaConverter
 
         // Rule: If first letter of romaji syllable is uppercase, then the kana letter is in katakana, otherwise hiragana
         if (!string.IsNullOrEmpty(romajiSyllable) && romajiSyllable.Length > 0 && char.IsUpper(romajiSyllable.First()))
-            kanaLetter = ToKatakana(kanaLetter);
+            kanaLetter = WritingSystemUtil.HiraganaToKatakana(kanaLetter);
         return kanaLetter;
-    }
-
-    private static char ToKatakana(char hiraganaLetter)
-    {
-        return (char)(hiraganaLetter + 96);
-    }
-
-    private static string ToKatakana(string hiraganaLetters)
-    {
-        return string.Join(string.Empty, hiraganaLetters.Select(ToKatakana));
     }
 
     private static bool VowelAfterNn(string romajiInput, int vowelIndex)

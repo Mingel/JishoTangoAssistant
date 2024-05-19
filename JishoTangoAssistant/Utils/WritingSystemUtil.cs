@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace JishoTangoAssistant.Utils;
@@ -12,22 +13,22 @@ public static partial class WritingSystemUtil
 
     public static bool OnlyContainsRomaji(string text)
     {
-        return RomajiRegex().Matches(text).Count == text.Length;
+        return RomajiRegex().Matches(text).FirstOrDefault()?.Length == text.Length;
     }
 
     public static bool OnlyContainsHiragana(string text)
     {
-        return HiraganaRegex().Matches(text).Count == text.Length;
+        return HiraganaRegex().Matches(text).FirstOrDefault()?.Length == text.Length;
     }
 
     public static bool OnlyContainsKatakana(string text)
     {
-        return KatakanaRegex().Matches(text).Count == text.Length;
+        return KatakanaRegex().Matches(text).FirstOrDefault()?.Length == text.Length;
     }
 
     public static bool OnlyContainsKanji(string text)
     {
-        return KanjiRegex().Matches(text).Count == text.Length;
+        return KanjiRegex().Matches(text).FirstOrDefault()?.Length == text.Length;
     }
 
     public static bool OnlyContainsKana(string text)
@@ -43,6 +44,34 @@ public static partial class WritingSystemUtil
     public static string FilterKanji(string text)
     {
         return KanjiRegex().Match(text).Value;
+    }
+
+    public static char HiraganaToKatakana(char hiraganaLetter)
+    {
+        if (!OnlyContainsHiragana(hiraganaLetter.ToString()))
+            throw new ArgumentException("Letter is not hiragana", nameof(hiraganaLetter));
+        return (char)(hiraganaLetter + 96);
+    }
+
+    public static string HiraganaToKatakana(string hiraganaLetters)
+    {
+        if (!OnlyContainsHiragana(hiraganaLetters))
+            throw new ArgumentException("Letters are not all hiragana", nameof(hiraganaLetters));
+        return string.Join(string.Empty, hiraganaLetters.Select(HiraganaToKatakana));
+    }
+
+    public static char KatakanaToHiragana(char katakanaLetter)
+    {
+        if (!OnlyContainsKatakana(katakanaLetter.ToString()))
+            throw new ArgumentException("Letter is not katakana", nameof(katakanaLetter));
+        return (char)(katakanaLetter - 96);
+    }
+
+    public static string KatakanaToHiragana(string katakanaLetters)
+    {
+        if (!OnlyContainsKatakana(katakanaLetters))
+            throw new ArgumentException("Letters are not all katakana", nameof(katakanaLetters));
+        return string.Join(string.Empty, katakanaLetters.Select(KatakanaToHiragana));
     }
 
     [GeneratedRegex(RomajiRegexString)]
