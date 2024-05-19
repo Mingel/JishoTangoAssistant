@@ -6,6 +6,7 @@ using JishoTangoAssistant.Services;
 using JishoTangoAssistant.UI;
 using JishoTangoAssistant.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Avalonia.Svg.Skia;
 
 namespace JishoTangoAssistant;
 
@@ -20,8 +21,12 @@ internal class Program
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
-        => BuildAvaloniaAppWithServices(BuildServices());
-        
+    {
+        GC.KeepAlive(typeof(SvgImageExtension).Assembly);
+        GC.KeepAlive(typeof(Avalonia.Svg.Skia.Svg).Assembly);
+        return BuildAvaloniaAppWithServices(BuildServices());
+    }
+
     public static AppBuilder BuildAvaloniaAppWithServices(IServiceProvider serviceProvider)
         => AppBuilder.Configure(() => new App(serviceProvider))
             .UsePlatformDetect()

@@ -47,14 +47,37 @@
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 
-					<Button Grid.Column="0" x:Name="UpButton" Content="↑" Click="UpButtonClickHandler" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-					<Button Grid.Column="2" x:Name="DownButton" Content="↓" Click="DownButtonClickHandler" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Column="0" x:Name="UpButton" Click="UpButtonClickHandler" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<StackPanel Orientation="Horizontal">
+							<PathIcon Data="{StaticResource arrow_up_regular}" /> 
+						</StackPanel>
+					</Button>
+					<Button Grid.Column="2" x:Name="DownButton" Click="DownButtonClickHandler" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<StackPanel Orientation="Horizontal">
+							<PathIcon Data="{StaticResource arrow_down_regular}" /> 
+						</StackPanel>
+					</Button>
 				</Grid>
 
-				<Button Grid.Row="5" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" Content="🗑 Delete Selection" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="True"/>
-				<Button Grid.Row="5" x:Name="DeleteAllButton" Command="{Binding Path=DeleteAllFromListCommand}" Content="⚠🗑 Delete All" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="False"/>
-				<Button Grid.Row="7" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" Content="↻ Undo Last Action" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z"/>
-
+				<Button Grid.Row="5" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="True">
+					<StackPanel Orientation="Horizontal">
+						<PathIcon Data="{StaticResource delete_regular}" /> 
+						<TextBlock Text="Delete Selection" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					</StackPanel>
+				</Button>
+				<Button Grid.Row="5" x:Name="DeleteAllButton" Command="{Binding Path=DeleteAllFromListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="False">
+					<StackPanel Orientation="Horizontal">
+						<PathIcon Data="{StaticResource warning_regular}" />
+						<PathIcon Data="{StaticResource delete_regular}" /> 
+						<TextBlock Text="Delete All" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					</StackPanel>
+				</Button>
+				<Button Grid.Row="7" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z">
+					<StackPanel Orientation="Horizontal">
+						<PathIcon Data="{StaticResource arrow_undo_regular}" /> 
+						<TextBlock Text="Undo Last Action" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					</StackPanel>
+				</Button>
 			</Grid>
 		</HeaderedContentControl>
 
@@ -69,8 +92,18 @@
 				<RowDefinition Height="5"/>
 			</Grid.RowDefinitions>
 
-			<Button Grid.Row="1" x:Name="LoadButton" Command="{Binding Path=LoadListCommand}" Content="📂 Load Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-			<Button Grid.Row="3" x:Name="SaveAllButton" Command="{Binding Path=SaveListCommand}" Content="💾 Save Vocabulary List" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+			<Button Grid.Row="1" x:Name="LoadButton" Command="{Binding Path=LoadListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+				<StackPanel Orientation="Horizontal">
+					<PathIcon Data="{StaticResource folder_regular}" /> 
+					<TextBlock Text="Load List" VerticalAlignment="Center" Margin="5,0,0,0"/>
+				</StackPanel>
+			</Button>
+			<Button Grid.Row="3" x:Name="SaveAllButton" Command="{Binding Path=SaveListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+				<StackPanel Orientation="Horizontal">
+					<PathIcon Data="{StaticResource save_regular}" /> 
+					<TextBlock Text="Save List" VerticalAlignment="Center" Margin="5,0,0,0"/>
+				</StackPanel>
+			</Button>
 			<HeaderedContentControl Grid.Row="5" Header="Export" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -86,11 +119,37 @@
 							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
-						<Label Grid.Column="0" x:Name="FontSizeLabel" Margin="5,4,0,0" Content="Font Size (JP): "/>
+						<Label Grid.Column="0" x:Name="FontSizeLabel" Margin="5,4,0,0">
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Font Size (" VerticalAlignment="Center"/>
+								<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+								<TextBlock Text="):" VerticalAlignment="Center" Margin="1,0,0,0"/>
+							</StackPanel>
+						</Label>
 						<NumericUpDown Grid.Column="1" x:Name="FontSizeNumericUpDown" MinWidth="110" Width="100" Text="{Binding FontSize}" FormatString="{}{0:#,0}" Value="28" Minimum="6" Maximum="96"/>
 					</Grid>
-					<Button Grid.Row="3" x:Name="ExportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapaneseToEnglishCommand}" Content="Export to .csv (JP → Reading + EN)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-					<Button Grid.Row="5" x:Name="ExportCsvEngToJapButton" Command="{Binding Path=ExportCsvEnglishToJapaneseCommand}" Content="Export to .csv (EN → JP + Reading)" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+					<Button Grid.Row="3" x:Name="ExportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapaneseToEnglishCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<StackPanel Orientation="Horizontal">
+							<PathIcon Data="{StaticResource export_regular}" />
+							<TextBlock Text="Export to .csv (" VerticalAlignment="Center" Margin="5,0,0,0"/>
+							<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<TextBlock Text="→ Reading + " VerticalAlignment="Center" Margin="5,0,0,0"/>
+							<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<TextBlock Text=")" VerticalAlignment="Center" Margin="1,0,0,0"/>
+						</StackPanel>
+					</Button>
+					<Button Grid.Row="5" x:Name="ExportCsvEngToJapButton" Command="{Binding Path=ExportCsvEnglishToJapaneseCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<StackPanel Orientation="Horizontal">
+							<PathIcon Data="{StaticResource export_regular}" />
+							<TextBlock Text="Export to .csv (" VerticalAlignment="Center" Margin="5,0,0,0"/>
+							<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<TextBlock Text="→ " VerticalAlignment="Center" Margin="5,0,0,0"/>
+							<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<TextBlock Text="+ Reading)" VerticalAlignment="Center" Margin="5,0,0,0"/>
+						</StackPanel>
+					</Button>
 				</Grid>
 			</HeaderedContentControl>
 		</Grid>
