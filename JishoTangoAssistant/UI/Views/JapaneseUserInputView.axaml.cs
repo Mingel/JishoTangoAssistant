@@ -35,4 +35,14 @@ public partial class JapaneseUserInputView : UserControl
     {
         InputTextBox.Focus();
     }
+
+    private void RemovePreEnteredInputsButtonClickHandler(object? sender, RoutedEventArgs e)
+    {
+        InputTextBox.Focus();
+    }
+
+    private void BackToUserInputButtonClickHandler(object? sender, RoutedEventArgs e)
+    {
+        PreEnteredInputListTextBox.Focus();
+    }
 }

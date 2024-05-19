@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -52,10 +54,23 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private bool itemAdditionPossible;
 
     [ObservableProperty]
-    private bool isDuplicateAndHasSameMeaning = false;
+    private bool isDuplicateAndHasSameMeaning;
 
     [ObservableProperty]
-    private bool isDuplicateAndHasDifferentMeaning = false;
+    private bool isDuplicateAndHasDifferentMeaning;
+
+    [ObservableProperty]
+    private bool showPreEnteredInputList;
+    
+    [ObservableProperty]
+    private int preEnteredInputIndex;
+    
+    [ObservableProperty]
+    private string preEnteredInputRawList = string.Empty;
+    
+    public bool PreEnteredInputNoPrevPossible => PreEnteredInputIndex > 0;
+
+    public bool PreEnteredInputNoNextPossible => PreEnteredInputIndex < PreEnteredInputs.Count - 1;
 
     #endregion
     
@@ -137,7 +152,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             return outputTextStringBuilder.ToString().Trim();
         }
     }
-    
+
+    private IList<string> PreEnteredInputs => PreEnteredInputRawList.Split(Environment.NewLine).Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+
     partial void OnJapaneseToEnglishDirectionChanged(bool value) => UpdateOutputText();
 
     private bool EnglishToJapaneseDirection => !JapaneseToEnglishDirection;
@@ -227,7 +244,58 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         }
     }
 
+    [RelayCommand]
+    private async Task ToggleShowPreEnteredInputList()
+    {
+        ShowPreEnteredInputList = !ShowPreEnteredInputList;
 
+        if (!ShowPreEnteredInputList)
+        {
+            PreEnteredInputIndex = 0;
+            if (!string.IsNullOrWhiteSpace(PreEnteredInputRawList))
+            {
+                PreEnteredInputRawList = string.Join(Environment.NewLine, PreEnteredInputs.Select(s => s.Trim()));
+                Input = PreEnteredInputs[PreEnteredInputIndex];
+                await ProcessInput();
+                OnPropertyChanged(nameof(PreEnteredInputNoPrevPossible));
+                OnPropertyChanged(nameof(PreEnteredInputNoNextPossible));
+            }
+        }
+    }
+
+    [RelayCommand]
+    private async Task PrevPreEnteredInput()
+    {
+        if (PreEnteredInputIndex > 0)
+        {
+            PreEnteredInputIndex--;
+            Input = PreEnteredInputs[PreEnteredInputIndex];
+            await ProcessInput();
+            OnPropertyChanged(nameof(PreEnteredInputNoPrevPossible));
+            OnPropertyChanged(nameof(PreEnteredInputNoNextPossible));
+        }
+    }
+    
+    [RelayCommand]
+    private async Task NextPreEnteredInput()
+    {
+        if (PreEnteredInputIndex < PreEnteredInputs.Count - 1)
+        {
+            PreEnteredInputIndex++;
+            Input = PreEnteredInputs[PreEnteredInputIndex];
+            await ProcessInput();
+            OnPropertyChanged(nameof(PreEnteredInputNoPrevPossible));
+            OnPropertyChanged(nameof(PreEnteredInputNoNextPossible));
+        }
+    }
+    
+    [RelayCommand]
+    private void RemovePreEnteredInputs()
+    {
+        PreEnteredInputIndex = 0;
+        PreEnteredInputRawList = string.Empty;
+    }
+    
     private void MeaningGroupsUpdateCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         PropertyChangedEventHandler outputTextHandler = (_, _) => UpdateOutputText();

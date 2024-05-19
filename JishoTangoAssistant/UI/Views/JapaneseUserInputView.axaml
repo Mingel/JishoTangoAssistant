@@ -42,185 +42,244 @@
 		<converter:FlattenedIndexToCheckBoxHotKeyConverter x:Key="FlattenedIndexToCheckBoxHotKeyConverter"/>
 	</UserControl.Resources>
 
-	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+	<Grid Width="NaN" Height="NaN" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-
-		<Grid Grid.Row="0" x:Name="UserInputPanel" HorizontalAlignment="Stretch">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		
+		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="NaN" Height="NaN" IsVisible="{Binding !ShowPreEnteredInputList}">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="5"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="5"/>
 				<RowDefinition Height="*"/>
-				<RowDefinition Height="5"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="5"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="5"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="5"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-			<Grid Grid.Row="0" x:Name="InputGrid" Height="NaN">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="Auto" MinWidth="75"/>
-				</Grid.ColumnDefinitions>
 
-				<Label Grid.Column="0" Margin="0,7,10,0" x:Name="SearchLabel" Content="Search"/>
+			<Grid Grid.Row="0" x:Name="UserInputPanel" HorizontalAlignment="Stretch">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0" x:Name="InputGrid" Height="NaN">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="Auto" MinWidth="75"/>
+						<ColumnDefinition Width="Auto" MinWidth="25"/>
+					</Grid.ColumnDefinitions>
 
-				<TextBox Grid.Column="1" x:Name="InputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,10,0" FontSize="16">
-					<TextBox.KeyBindings>
-						<KeyBinding Gesture="Enter" Command="{Binding Path=ProcessInputCommand}" />
-					</TextBox.KeyBindings>
-				</TextBox>
-				<Button Grid.Column="2" x:Name="EnterButton" Command="{Binding Path=ProcessInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
-					<StackPanel Orientation="Horizontal">
-						<PathIcon Data="{StaticResource search_regular}" /> 
-					</StackPanel>
-				</Button>
-			</Grid>
-			<Grid Grid.Row="2" MinHeight="44">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="3.3*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="3.3*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="3.3*"/>
-				</Grid.ColumnDefinitions>
+					<Label Grid.Column="0" Margin="0,7,10,0" x:Name="SearchLabel" Content="Search"/>
 
-				<Label Grid.Column="0" x:Name="WordLabel" VerticalAlignment="Center" Content="Word" MinWidth="45"/>
-				<ComboBox Grid.Column="1" x:Name="WordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" ItemsSource="{Binding Words}" FontSize="23" VerticalAlignment="Center" Height="42" HorizontalAlignment="Stretch" Margin="10,0,10,0"/>
-				<Label Grid.Column="2" x:Name="OtherFormsLabel" VerticalAlignment="Center" Content="Form"/>
-				<ComboBox Grid.Column="3" x:Name="OtherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" ItemsSource="{Binding OtherForms}" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="42" Margin="10,0,10,0"/>
-				<Label Grid.Column="4" x:Name="ReadingLabel" VerticalAlignment="Center" Content="Reading"/>
-				<Label Grid.Column="5" x:Name="ReadingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
-			</Grid>
-
-			<HeaderedContentControl Grid.Row="4" Header="Meaning" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1" Height="NaN">
-				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<Grid x:Name="MeaningGrid">
-						<ItemsControl ItemsSource="{Binding MeaningGroups}">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate x:DataType="models:SimilarMeaningGroup">
-									<StackPanel Orientation="Vertical" x:Name="MeaningStackPanel">
-										<ItemsControl ItemsSource="{Binding SimilarMeanings}">
-											<ItemsControl.ItemTemplate>
-												<DataTemplate>
-													<CheckBox x:DataType="models:Meaning" HotKey="{Binding FlattenedIndex, Converter={StaticResource FlattenedIndexToCheckBoxHotKeyConverter}}" Content="{Binding Value}" IsChecked="{Binding IsEnabled, Mode=TwoWay}"  Margin="5,5,7,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" CornerRadius="3" HorizontalContentAlignment="Left"/>
-												</DataTemplate>
-											</ItemsControl.ItemTemplate>
-											<ItemsControl.ItemsPanel>
-												<ItemsPanelTemplate>
-													<DockPanel/>
-												</ItemsPanelTemplate>
-											</ItemsControl.ItemsPanel>
-										</ItemsControl>
-									</StackPanel>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
-					</Grid>
-				</ScrollViewer>
-			</HeaderedContentControl>
-			<HeaderedContentControl Grid.Row="6" Header="Additional Comments" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1">
-				<TextBox x:Name="AdditionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
-			</HeaderedContentControl>
-			<Grid Grid.Row="8" x:Name="WriteInKanaPanel" Height="NaN">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
-				<CheckBox Grid.Column="0" x:Name="WriteInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
-			</Grid>
-			<StackPanel Grid.Row="10" x:Name="OutputPanel" Height="165">
-				<HeaderedContentControl x:Name="OutputContentControl" Height="165" Header="Resulting Card Preview"
-				Classes.sameMeaning="{Binding IsDuplicateAndHasSameMeaning}"
-				Classes.differentMeaning="{Binding IsDuplicateAndHasDifferentMeaning}"
-				BorderThickness="2">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="*"/>
-						</Grid.RowDefinitions>
-						<Grid Grid.Row="0">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="110"/>
-								<ColumnDefinition Width="10"/>
-								<ColumnDefinition Width="175"/>
-								<ColumnDefinition Width="55"/>
-								<ColumnDefinition Width="Auto"/>
-							</Grid.ColumnDefinitions>
-							<Label Grid.Column="0" Margin="5,7,0,1" Content="Front → Back:"/>
-							<RadioButton Margin="0,1,0,1" Grid.Column="2" GroupName="cardDirection" IsChecked="{Binding JapaneseToEnglishDirection}">
-								<StackPanel Orientation="Horizontal">
-								<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-								<TextBlock Text="→ Reading + " VerticalAlignment="Center" Margin="5,0,0,0"/>
-								<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-								<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+					<TextBox Grid.Column="1" x:Name="InputTextBox" Text="{Binding Input}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,10,0" FontSize="16" IsEnabled="{Binding PreEnteredInputRawList, Converter={x:Static StringConverters.IsNullOrEmpty}}">
+						<TextBox.KeyBindings>
+							<KeyBinding Gesture="Enter" Command="{Binding Path=ProcessInputCommand}" />
+						</TextBox.KeyBindings>
+					</TextBox>
+					<Grid Grid.Column="2" IsVisible="{Binding PreEnteredInputRawList, Converter={x:Static StringConverters.IsNullOrEmpty}}">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" MinWidth="75"/>
+						</Grid.ColumnDefinitions>
+						
+						<Button Grid.Column="0" x:Name="EnterButton" Command="{Binding Path=ProcessInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+							<StackPanel Orientation="Horizontal">
+								<PathIcon Data="{StaticResource search_regular}" /> 
 							</StackPanel>
-							</RadioButton>
-							<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}">
-								<StackPanel Orientation="Horizontal">
-									<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-									<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-									<TextBlock Text="→ " VerticalAlignment="Center" Margin="5,0,0,0"/>
-									<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-									<TextBlock Text="+ Reading" VerticalAlignment="Center" Margin="5,0,0,0"/>
-								</StackPanel>
-							</RadioButton>
+						</Button>
+					</Grid>
+					<Grid Grid.Column="2" IsVisible="{Binding PreEnteredInputRawList, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" MinWidth="25"/>
+							<ColumnDefinition Width="Auto" MinWidth="25"/>
+							<ColumnDefinition Width="Auto" MinWidth="25"/>
+						</Grid.ColumnDefinitions>
+						
+						<Button Grid.Column="0" x:Name="PreEnteredInputsPrevButton" Command="{Binding Path=PrevPreEnteredInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding PreEnteredInputNoPrevPossible}">
+							<StackPanel Orientation="Horizontal">
+								<PathIcon Data="{StaticResource arrow_left_regular}" /> 
+							</StackPanel>
+						</Button>
+						<Button Grid.Column="1" x:Name="PreEnteredInputsNextButton" Command="{Binding Path=NextPreEnteredInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding PreEnteredInputNoNextPossible}">
+							<StackPanel Orientation="Horizontal">
+								<PathIcon Data="{StaticResource arrow_right_regular}" /> 
+							</StackPanel>
+						</Button>
+						<Button Grid.Column="2" x:Name="RemovePreEnteredInputsButton" Command="{Binding Path=RemovePreEnteredInputsCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Click="RemovePreEnteredInputsButtonClickHandler">
+							<StackPanel Orientation="Horizontal">
+								<PathIcon Data="{StaticResource edit_off_regular}" /> 
+							</StackPanel>
+						</Button>
+					</Grid>
+					
+					<Button Grid.Column="3" x:Name="ToPreEnteredInputListButton" Command="{Binding Path=ToggleShowPreEnteredInputListCommand}" Margin="5,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<StackPanel Orientation="Horizontal">
+							<PathIcon Data="{StaticResource edit_regular}" /> 
+						</StackPanel>
+					</Button>
+				</Grid>
+				<Grid Grid.Row="2" MinHeight="44">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="3.3*"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="3.3*"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="3.3*"/>
+					</Grid.ColumnDefinitions>
+
+					<Label Grid.Column="0" x:Name="WordLabel" VerticalAlignment="Center" Content="Word" MinWidth="45"/>
+					<ComboBox Grid.Column="1" x:Name="WordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" ItemsSource="{Binding Words}" FontSize="23" VerticalAlignment="Center" Height="42" HorizontalAlignment="Stretch" Margin="10,0,10,0"/>
+					<Label Grid.Column="2" x:Name="OtherFormsLabel" VerticalAlignment="Center" Content="Form"/>
+					<ComboBox Grid.Column="3" x:Name="OtherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" ItemsSource="{Binding OtherForms}" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="42" Margin="10,0,10,0"/>
+					<Label Grid.Column="4" x:Name="ReadingLabel" VerticalAlignment="Center" Content="Reading"/>
+					<Label Grid.Column="5" x:Name="ReadingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
+				</Grid>
+
+				<HeaderedContentControl Grid.Row="4" Header="Meaning" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1" Height="NaN">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+						<Grid x:Name="MeaningGrid">
+							<ItemsControl ItemsSource="{Binding MeaningGroups}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate x:DataType="models:SimilarMeaningGroup">
+										<StackPanel Orientation="Vertical" x:Name="MeaningStackPanel">
+											<ItemsControl ItemsSource="{Binding SimilarMeanings}">
+												<ItemsControl.ItemTemplate>
+													<DataTemplate>
+														<CheckBox x:DataType="models:Meaning" HotKey="{Binding FlattenedIndex, Converter={StaticResource FlattenedIndexToCheckBoxHotKeyConverter}}" Content="{Binding Value}" IsChecked="{Binding IsEnabled, Mode=TwoWay}"  Margin="5,5,7,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" CornerRadius="3" HorizontalContentAlignment="Left"/>
+													</DataTemplate>
+												</ItemsControl.ItemTemplate>
+												<ItemsControl.ItemsPanel>
+													<ItemsPanelTemplate>
+														<DockPanel/>
+													</ItemsPanelTemplate>
+												</ItemsControl.ItemsPanel>
+											</ItemsControl>
+										</StackPanel>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
 						</Grid>
-						<Rectangle Grid.Row="1" HorizontalAlignment="Stretch" Fill="DarkGray" Height="1"/>
-						<Grid Grid.Row="2">
+					</ScrollViewer>
+				</HeaderedContentControl>
+				<HeaderedContentControl Grid.Row="6" Header="Additional Comments" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1">
+					<TextBox x:Name="AdditionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
+				</HeaderedContentControl>
+				<Grid Grid.Row="8" x:Name="WriteInKanaPanel" Height="NaN">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<CheckBox Grid.Column="0" x:Name="WriteInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
+				</Grid>
+				<StackPanel Grid.Row="10" x:Name="OutputPanel" Height="165">
+					<HeaderedContentControl x:Name="OutputContentControl" Height="165" Header="Resulting Card Preview"
+					Classes.sameMeaning="{Binding IsDuplicateAndHasSameMeaning}"
+					Classes.differentMeaning="{Binding IsDuplicateAndHasDifferentMeaning}"
+					BorderThickness="2">
+						<Grid>
 							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
 								<RowDefinition Height="Auto"/>
 								<RowDefinition Height="*"/>
 							</Grid.RowDefinitions>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="2*"/>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition Width="2*"/>
-							</Grid.ColumnDefinitions>
-							<Label Grid.Row="0" Grid.Column="0" Margin="5,7,0,0" Content="Front"/>
-							<Rectangle Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Fill="DarkGray" Width="1" Margin="6,0,0,0"/>
-							<Label Grid.Row="0" Grid.Column="2" Margin="5,7,0,0" Content="Back"/>
-							<DockPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-								<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
-									<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource OutputBackground}" Margin="5,7,0,0" Text="{Binding OutputFrontSideText}" FontSize="16"/>
-								</ScrollViewer>
-							</DockPanel>
-							<Rectangle Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Fill="DarkGray" Width="1" Margin="6,0,0,0"/>
-							<DockPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-								<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
-									<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource OutputBackground}" Margin="5,7,0,0" Text="{Binding OutputBackSideText}" FontSize="16"/>
-								</ScrollViewer>
-							</DockPanel>
+							<Grid Grid.Row="0">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="110"/>
+									<ColumnDefinition Width="10"/>
+									<ColumnDefinition Width="175"/>
+									<ColumnDefinition Width="55"/>
+									<ColumnDefinition Width="Auto"/>
+								</Grid.ColumnDefinitions>
+								<Label Grid.Column="0" Margin="5,7,0,1" Content="Front → Back:"/>
+								<RadioButton Margin="0,1,0,1" Grid.Column="2" GroupName="cardDirection" IsChecked="{Binding JapaneseToEnglishDirection}">
+									<StackPanel Orientation="Horizontal">
+									<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+									<TextBlock Text="→ Reading + " VerticalAlignment="Center" Margin="5,0,0,0"/>
+									<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+									<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+								</StackPanel>
+								</RadioButton>
+								<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}">
+									<StackPanel Orientation="Horizontal">
+										<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+										<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+										<TextBlock Text="→ " VerticalAlignment="Center" Margin="5,0,0,0"/>
+										<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+										<TextBlock Text="+ Reading" VerticalAlignment="Center" Margin="5,0,0,0"/>
+									</StackPanel>
+								</RadioButton>
+							</Grid>
+							<Rectangle Grid.Row="1" HorizontalAlignment="Stretch" Fill="DarkGray" Height="1"/>
+							<Grid Grid.Row="2">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="*"/>
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="2*"/>
+									<ColumnDefinition Width="Auto"/>
+									<ColumnDefinition Width="2*"/>
+								</Grid.ColumnDefinitions>
+								<Label Grid.Row="0" Grid.Column="0" Margin="5,7,0,0" Content="Front"/>
+								<Rectangle Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Fill="DarkGray" Width="1" Margin="6,0,0,0"/>
+								<Label Grid.Row="0" Grid.Column="2" Margin="5,7,0,0" Content="Back"/>
+								<DockPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+									<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+										<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource OutputBackground}" Margin="5,7,0,0" Text="{Binding OutputFrontSideText}" FontSize="16"/>
+									</ScrollViewer>
+								</DockPanel>
+								<Rectangle Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Fill="DarkGray" Width="1" Margin="6,0,0,0"/>
+								<DockPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+									<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+										<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource OutputBackground}" Margin="5,7,0,0" Text="{Binding OutputBackSideText}" FontSize="16"/>
+									</ScrollViewer>
+								</DockPanel>
+							</Grid>
 						</Grid>
-					</Grid>
-				</HeaderedContentControl>
-			</StackPanel>
-		</Grid>
+					</HeaderedContentControl>
+				</StackPanel>
+			</Grid>
 
-		<Grid Grid.Row="1" x:Name="LeftButtonsGrid">
+			<Grid Grid.Row="1" x:Name="LeftButtonsGrid">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+				</Grid.RowDefinitions>
+
+				<Button Grid.Row="2" x:Name="AddButton" Command="{Binding Path=AddToListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}" Click="AddToVocabularyListClickHandler">
+					<StackPanel Orientation="Horizontal">
+						<PathIcon Data="{StaticResource add_square_regular}" /> 
+						<TextBlock Text="Add to Vocabulary List" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					</StackPanel>
+				</Button>
+			</Grid>
+		</Grid>
+			
+		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="NaN" Height="NaN" IsVisible="{Binding ShowPreEnteredInputList}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="5"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="5"/>
+				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
-
-			<Button Grid.Row="2" x:Name="AddButton" Command="{Binding Path=AddToListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}" Click="AddToVocabularyListClickHandler">
+			<Button Grid.Row="0" x:Name="BackToUserInputButton" Command="{Binding Path=ToggleShowPreEnteredInputListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,0,0,5" Click="BackToUserInputButtonClickHandler">
 				<StackPanel Orientation="Horizontal">
-					<PathIcon Data="{StaticResource add_square_regular}" /> 
-					<TextBlock Text="Add to Vocabulary List" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					<PathIcon Data="{StaticResource arrow_curve_left_regular}" /> 
+					<TextBlock Text="Go Back" VerticalAlignment="Center" Margin="5,0,0,0"/>
 				</StackPanel>
 			</Button>
+			<TextBox Grid.Row="1" x:Name="PreEnteredInputListTextBox" Text="{Binding PreEnteredInputRawList}" Watermark="If you want to perform multiple search queries, you can enter your queries here. Please enter every query in a separate line..." TextWrapping="Wrap" Width="NaN" Height="NaN" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
 		</Grid>
 	</Grid>
 </UserControl>
