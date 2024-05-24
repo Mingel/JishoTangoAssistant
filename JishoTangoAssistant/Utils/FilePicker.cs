@@ -5,13 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using JishoTangoAssistant.Models;
 using Newtonsoft.Json;
 
 namespace JishoTangoAssistant.Utils;
 
-public static class VocabularyListFilePicker {
-    public static async Task<IEnumerable<VocabularyItem>?> LoadAsync(string? title = null, IReadOnlyList<FilePickerFileType>? options = null)
+public static class FilePicker {
+    public static async Task<IEnumerable<T>?> LoadAsync<T>(string? title = null, IReadOnlyList<FilePickerFileType>? options = null)
+    {
+        var fileContent = await LoadAsync(title, options);
+        return fileContent != null ? JsonConvert.DeserializeObject<T[]>(fileContent) : null;
+    }
+    
+    public static async Task<string?> LoadAsync(string? title = null, IReadOnlyList<FilePickerFileType>? options = null)
     {
         var mainWindow = App.GetMainWindow();
     
@@ -33,11 +38,11 @@ public static class VocabularyListFilePicker {
         await using var stream = await files[0].OpenReadAsync();
         using var streamReader = new StreamReader(stream);
         var fileContent = await streamReader.ReadToEndAsync();
-        return JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
+        return fileContent;
     }
     
     // return true, if saving was successful
-    public static async Task<bool> SaveAsync(IEnumerable<VocabularyItem> items, string? title = null, IReadOnlyList<FilePickerFileType>? options = null)
+    public static async Task<bool> SaveAsync<T>(IEnumerable<T> items, string? title = null, IReadOnlyList<FilePickerFileType>? options = null)
     {
         var json = JsonConvert.SerializeObject(items, Formatting.Indented);
         return await SaveAsync(json, title, options); 

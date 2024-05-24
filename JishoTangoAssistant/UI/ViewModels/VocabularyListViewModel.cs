@@ -62,7 +62,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
             new FilePickerFileType("JTA Files") { Patterns = ["*.jta"] }
         };
 
-        var loadedVocabularyItems = await VocabularyListFilePicker.LoadAsync(filePickerTitle, filePickerFilter);
+        var loadedVocabularyItems = await FilePicker.LoadAsync<VocabularyItem>(filePickerTitle, filePickerFilter);
 
         // this case can occur if user cancels file dialog
         if (loadedVocabularyItems == null)
@@ -84,7 +84,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
             new FilePickerFileType("JTA Files") { Patterns = ["*.jta"] }
         };
 
-        var success = await VocabularyListFilePicker.SaveAsync(list, "Save vocabulary list as", filePickerFilter);
+        var success = await FilePicker.SaveAsync(list, "Save vocabulary list as", filePickerFilter);
 
         if (success)
             CurrentSession.userMadeChanges = false;
@@ -112,7 +112,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
 
         var contentToExport = toJapanese ? VocabularyListExporter.EnglishToJapanese(list) : VocabularyListExporter.JapaneseToEnglish(list);
 
-        var success = await VocabularyListFilePicker.SaveAsync(contentToExport, "Export vocabulary list as", filePickerFilter);
+        var success = await FilePicker.SaveAsync(contentToExport, "Export vocabulary list as", filePickerFilter);
 
         if (success)
             await ShowNotetypeMessageBox();

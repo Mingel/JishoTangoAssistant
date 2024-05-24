@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using JishoTangoAssistant.Interfaces;
 using JishoTangoAssistant.Utils;
 using JishoTangoAssistant.Models;
+using JishoTangoAssistant.UI.Elements;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 
@@ -261,6 +262,32 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                 OnPropertyChanged(nameof(PreEnteredInputNoNextPossible));
             }
         }
+    }
+
+    [RelayCommand]
+    private async Task LoadPreEnteredInputListFromFile()
+    {
+        var filePickerTitle = "Open file to load search queries";
+
+        var loadedFile = await FilePicker.LoadAsync(filePickerTitle);
+
+        // this case can occur if user cancels file dialog
+        if (loadedFile == null)
+            return;
+
+        var queryList = loadedFile.Split(Environment.NewLine);
+        var filteredQueryList = loadedFile.Split(Environment.NewLine).Where(s => s.Length <= 150).ToArray();
+        
+        if (filteredQueryList.Length < queryList.Length)
+            await MessageBoxUtil.CreateAndShowAsync("Error", $"The file contains {queryList.Length - filteredQueryList.Length} queries will not be used because they are too long!", MessageBoxButtons.Ok);
+
+        if (filteredQueryList.Length == 0)
+            return;
+        
+        // Filter out strings that are too long
+        PreEnteredInputRawList = string.Join(Environment.NewLine, filteredQueryList);
+        
+        await ToggleShowPreEnteredInputList();
     }
 
     [RelayCommand]
