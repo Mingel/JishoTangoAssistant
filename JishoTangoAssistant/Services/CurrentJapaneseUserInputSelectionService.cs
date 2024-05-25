@@ -22,7 +22,7 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
 
     public ObservableCollection<string> GetOtherForms() => selection.OtherForms;
 
-    public ObservableRangeCollection<SimilarMeaningGroup> GetMeaningGroups() => selection.Meanings;
+    public ObservableRangeCollection<ObservableSimilarMeaningGroup> GetMeaningGroups() => selection.Meanings;
     
     public int GetSelectedWordsIndex() => selection.SelectedWordsIndex;
     public void SetSelectedWordsIndex(int value) => selection.SelectedWordsIndex = value;
@@ -143,35 +143,30 @@ public partial class CurrentJapaneseUserInputSelectionService(IJishoWebService j
     {
         if (selection.SelectedOtherFormsIndex < 0) // nothing has been searched (or no search results found)
             return null;
-        var outputText = string.Empty;
-        var meaningsString = string.Join("; ", selection.Meanings.Select(g => g.SimilarMeanings)
-            .SelectMany(g => g)
-            .Where(m => m.IsEnabled)
-            .Select(m => m.Value)); // TODO optimize
-        outputText += meaningsString;
-        if (!string.IsNullOrWhiteSpace(selection.AdditionalComments) 
-            && !string.IsNullOrWhiteSpace(meaningsString))
-            outputText += Environment.NewLine;
-        outputText += selection.AdditionalComments;
+        var meanings = selection.Meanings.Select(g => g.SimilarMeanings.Where(m => m.IsEnabled)
+                                                                                                                 .Select(m => m.Value))
+                                                              .Where(m => m.Any())
+                                                              .ToList();
+        var additionalComments = !string.IsNullOrWhiteSpace(selection.AdditionalComments) ? selection.AdditionalComments : null;
         var showReading = !selection.WriteInKana;
         var word = showReading ? selection.OtherForms.ElementAt(selection.SelectedOtherFormsIndex) : selection.ReadingOutput;
-        return new VocabularyItem(word, showReading, selection.ReadingOutput, outputText);
+        return new VocabularyItem(word, showReading, selection.ReadingOutput, meanings, additionalComments);
     }
 
     private void StoreMeanings(JishoDatum datum)
     {
-        var groups = new List<SimilarMeaningGroup>();
+        var groups = new List<ObservableSimilarMeaningGroup>();
         
         var i = 0;
         foreach (var sense in datum.Senses)
         {
-            var meanings = new TrulyObservableCollection<Meaning>();
+            var meanings = new TrulyObservableCollection<AvailableMeaning>();
             foreach (var definition in sense.EnglishDefinitions)
             {
-                meanings.Add(new Meaning(definition, i));
+                meanings.Add(new AvailableMeaning(definition, i));
                 i++;
             }
-            groups.Add(new SimilarMeaningGroup(meanings));
+            groups.Add(new ObservableSimilarMeaningGroup(meanings));
         }
         
         selection.Meanings.ReplaceAll(groups);

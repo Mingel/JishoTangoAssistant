@@ -151,12 +151,12 @@
 						<Grid x:Name="MeaningGrid">
 							<ItemsControl ItemsSource="{Binding MeaningGroups}">
 								<ItemsControl.ItemTemplate>
-									<DataTemplate x:DataType="models:SimilarMeaningGroup">
+									<DataTemplate x:DataType="models:ObservableSimilarMeaningGroup">
 										<StackPanel Orientation="Vertical" x:Name="MeaningStackPanel">
 											<ItemsControl ItemsSource="{Binding SimilarMeanings}">
 												<ItemsControl.ItemTemplate>
 													<DataTemplate>
-														<CheckBox x:DataType="models:Meaning" HotKey="{Binding FlattenedIndex, Converter={StaticResource FlattenedIndexToCheckBoxHotKeyConverter}}" Content="{Binding Value}" IsChecked="{Binding IsEnabled, Mode=TwoWay}"  Margin="5,5,7,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" CornerRadius="3" HorizontalContentAlignment="Left"/>
+														<CheckBox x:DataType="models:AvailableMeaning" HotKey="{Binding FlattenedIndex, Converter={StaticResource FlattenedIndexToCheckBoxHotKeyConverter}}" Content="{Binding Value}" IsChecked="{Binding IsEnabled, Mode=TwoWay}"  Margin="5,5,7,5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent" CornerRadius="3" HorizontalContentAlignment="Left"/>
 													</DataTemplate>
 												</ItemsControl.ItemTemplate>
 												<ItemsControl.ItemsPanel>
@@ -173,7 +173,7 @@
 					</ScrollViewer>
 				</HeaderedContentControl>
 				<HeaderedContentControl Grid.Row="6" Header="Additional Comments" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1">
-					<TextBox x:Name="AdditionalCommentsTextBox" Text="{Binding AdditionalComments}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
+					<TextBox x:Name="AdditionalCommentsTextBox" Text="{Binding AdditionalCommentsJapanese}" TextWrapping="Wrap" Width="NaN" Height="70" MinHeight="27" HorizontalAlignment="Stretch" AcceptsReturn="True"/>
 				</HeaderedContentControl>
 				<Grid Grid.Row="8" x:Name="WriteInKanaPanel" Height="NaN">
 					<Grid.ColumnDefinitions>

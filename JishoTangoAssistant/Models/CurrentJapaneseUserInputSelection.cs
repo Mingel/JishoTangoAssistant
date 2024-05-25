@@ -6,7 +6,7 @@ public class CurrentJapaneseUserInputSelection
 {
     public ObservableCollection<string> Words { get; } = [];
     public ObservableCollection<string> OtherForms { get; } = [];
-    public ObservableRangeCollection<SimilarMeaningGroup> Meanings { get; } = [];
+    public ObservableRangeCollection<ObservableSimilarMeaningGroup> Meanings { get; } = [];
     public string ReadingOutput { get; set; } = string.Empty;
     public bool ItemAdditionPossible { get; set; }
     public int SelectedOtherFormsIndex { get; set; } = -1;

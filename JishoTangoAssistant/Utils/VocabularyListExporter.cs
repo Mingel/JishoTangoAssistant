@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using JishoTangoAssistant.Models;
 
@@ -6,7 +7,7 @@ namespace JishoTangoAssistant.Utils;
 
 public static class VocabularyListExporter
 {
-    private const string visualNewLine = "<br>";
+    private const string VisualNewLine = "<br>";
 
     public static string JapaneseToEnglish(ReadOnlyObservableVocabularyList items)
     {
@@ -24,9 +25,16 @@ public static class VocabularyListExporter
             if (item.ShowReading)
             {
                 sb.Append(item.Reading.Replace("\"", "\"\""));
-                sb.Append(visualNewLine);
+                sb.Append(VisualNewLine);
             }
-            sb.Append(item.Output.Replace(Environment.NewLine, visualNewLine).Replace("\"", "\"\""));
+            // TODO do not flatten when using counting system for meanings
+            var meaningValues = string.Join("; ", item.Meanings.SelectMany(g => g));
+            sb.Append(string.Join(VisualNewLine, meaningValues).Replace("\"", "\"\""));
+            if (!string.IsNullOrWhiteSpace(item.AdditionalCommentsJapanese))
+            {
+                sb.Append(VisualNewLine);
+                sb.Append(item.AdditionalCommentsJapanese.Trim().Replace("\"", "\"\""));
+            }
             sb.AppendLine("\"");
         }
         return sb.ToString().TrimEnd();
@@ -43,7 +51,14 @@ public static class VocabularyListExporter
             sb.Append(item.AnkiGuid + "-e2j");
             sb.Append(';');
             sb.Append('"');
-            sb.Append(item.Output.Replace(Environment.NewLine, visualNewLine).Replace("\"", "\"\""));
+            // TODO do not flatten when using counting system for meanings
+            var meaningValues = string.Join("; ", item.Meanings.SelectMany(g => g));
+            sb.Append(string.Join(VisualNewLine, meaningValues).Replace("\"", "\"\""));
+            if (!string.IsNullOrWhiteSpace(item.AdditionalCommentsJapanese))
+            {
+                sb.Append(VisualNewLine);
+                sb.Append(item.AdditionalCommentsJapanese.Replace("\"", "\"\""));
+            }
             sb.Append("\";\"");
             if (CurrentSession.customFontSize >= 0)
                 sb.Append(AddFontSizeHtml(CurrentSession.customFontSize, item.Word));
@@ -51,7 +66,7 @@ public static class VocabularyListExporter
                 sb.Append(item.Word);
             if (item.ShowReading)
             {
-                sb.Append(visualNewLine);
+                sb.Append(VisualNewLine);
                 sb.Append(item.Reading.Replace("\"", "\"\""));
             }
             sb.Append('"');

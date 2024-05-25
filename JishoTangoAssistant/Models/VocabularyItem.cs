@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace JishoTangoAssistant.Models;
 
-public record VocabularyItem([property: MaxLength(200)] string Word, bool ShowReading, [property: MaxLength(500)] string Reading, [property: MaxLength(5000)] string Output)
+using SimilarMeaningGroup = IEnumerable<string>;
+
+public record VocabularyItem([property: MaxLength(200)] string Word, 
+                                bool ShowReading, 
+                                [property: MaxLength(500)] string Reading, 
+                                List<SimilarMeaningGroup> Meanings, 
+                                [property: MaxLength(2000), JsonProperty(NullValueHandling=NullValueHandling.Ignore)] string? AdditionalCommentsJapanese = null)
 {
     [Key]
     public int Id { get; set; }
@@ -19,8 +27,9 @@ public record VocabularyItem([property: MaxLength(200)] string Word, bool ShowRe
         return Word == other.Word &&
                ShowReading == other.ShowReading &&
                Reading == other.Reading &&
-               Output == other.Output;
+               Meanings == other.Meanings &&
+               AdditionalCommentsJapanese == other.AdditionalCommentsJapanese;
     }
 
-    public override int GetHashCode() => HashCode.Combine(Word, Reading, ShowReading, Output);
+    public override int GetHashCode() => HashCode.Combine(Word, Reading, ShowReading, Meanings, AdditionalCommentsJapanese);
 }

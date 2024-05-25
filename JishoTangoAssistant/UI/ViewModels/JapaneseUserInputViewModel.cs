@@ -28,10 +28,10 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private bool japaneseToEnglishDirection = true;
 
     [ObservableProperty]
-    private ObservableRangeCollection<SimilarMeaningGroup> meaningGroups = [];
+    private ObservableRangeCollection<ObservableSimilarMeaningGroup> meaningGroups = [];
     
     [ObservableProperty]
-    private string additionalComments = string.Empty;
+    private string additionalCommentsJapanese = string.Empty;
 
     [ObservableProperty]
     private ObservableCollection<string> words = [];
@@ -102,7 +102,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     }
 
     #region auto-properties
-
+    
     public string OutputFrontSideText
     {
         get
@@ -121,7 +121,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                                                                     .Where(m => m.IsEnabled)
                                                                     .Select(m => m.Value)); // TODO optimize
                 outputTextStringBuilder.AppendLine(meaningsString);
-                outputTextStringBuilder.Append(AdditionalComments);
+                outputTextStringBuilder.Append(AdditionalCommentsJapanese.Trim());
             }
             return outputTextStringBuilder.ToString().Trim();
         }
@@ -141,7 +141,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                 if (!WriteInKana)
                     outputTextStringBuilder.AppendLine(ReadingOutput);
                 outputTextStringBuilder.AppendLine(meaningsString);
-                outputTextStringBuilder.Append(AdditionalComments);
+                outputTextStringBuilder.Append(AdditionalCommentsJapanese.Trim());
             }
             else // EnglishToJapaneseDirection
             {
@@ -162,7 +162,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
     partial void OnReadingOutputChanged(string value) => UpdateVisualRelatedProperties();
 
-    partial void OnAdditionalCommentsChanged(string value) 
+    partial void OnAdditionalCommentsJapaneseChanged(string value) 
     {
         currentSelectionService.SetAdditionalComments(value);
         if (!isProcessingInput)
@@ -329,7 +329,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         PropertyChangedEventHandler textInputBackgroundHandler = (_, _) => UpdateVisualRelatedProperties();
         if (e.NewItems != null)
         {
-            foreach (SimilarMeaningGroup meaningGroup in e.NewItems)
+            foreach (ObservableSimilarMeaningGroup meaningGroup in e.NewItems)
             {
                 foreach (var meaning in meaningGroup.SimilarMeanings)
                 {
@@ -340,7 +340,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         }
         if (e.OldItems != null)
         {
-            foreach (SimilarMeaningGroup meaningGroup in e.OldItems)
+            foreach (ObservableSimilarMeaningGroup meaningGroup in e.OldItems)
             {
                 foreach (var meaning in meaningGroup.SimilarMeanings)
                 {
@@ -356,7 +356,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         SelectedIndexOfWords = currentSelectionService.GetSelectedWordsIndex();
         SelectedIndexOfOtherForms = currentSelectionService.GetSelectedOtherFormsIndex();
         ReadingOutput = currentSelectionService.GetReadingOutput();
-        AdditionalComments = currentSelectionService.GetAdditionalComments();
+        AdditionalCommentsJapanese = currentSelectionService.GetAdditionalComments();
         WriteInKana = currentSelectionService.GetWriteInKana();
         ItemAdditionPossible = currentSelectionService.GetItemAdditionPossible();
     }

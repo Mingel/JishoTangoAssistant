@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace JishoTangoAssistant.Models;
 
-public sealed class Meaning(string value, int flattenedIndex) : INotifyPropertyChanged
+public sealed class AvailableMeaning(string value, int flattenedIndex) : INotifyPropertyChanged
 {
     public string Value { get; } = value;
     public int FlattenedIndex { get; } = flattenedIndex; // one-based 
