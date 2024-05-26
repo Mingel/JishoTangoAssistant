@@ -42,7 +42,7 @@
 						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" CanUserSort="False" CanUserReorder="False" CanUserResize="False" Width="0" MaxWidth="0" IsVisible="False"/>
 						<DataGridTextColumn Header="Reading" Binding="{Binding Reading}" MinWidth="100" Width="100" CanUserSort="False"/>
 						<DataGridTextColumn Header="Meanings" Binding="{Binding Meanings, Converter={StaticResource MeaningsTextConverter}}" Width="*" CanUserSort="False"/>
-						<DataGridTextColumn Header="Comments (Japanese)" Binding="{Binding AdditionalCommentsJapanese, Converter={StaticResource MeaningsTextConverter}}" Width="200" CanUserSort="False"/>
+						<DataGridTextColumn Header="Comments (Japanese)" Binding="{Binding AdditionalCommentsJapanese}" Width="200" CanUserSort="False"/>
 					</DataGrid.Columns>
 				</DataGrid>
 
