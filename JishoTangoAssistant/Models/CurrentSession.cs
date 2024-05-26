@@ -12,4 +12,6 @@ class CurrentSession
     public const int DefaultFontSize = 28;
 
     public static int customFontSize = DefaultFontSize;
+
+    public static string? loadedFilePath = null;
 }

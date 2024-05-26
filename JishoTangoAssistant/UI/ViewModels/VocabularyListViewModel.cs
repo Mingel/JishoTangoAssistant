@@ -1,6 +1,7 @@
 ﻿using System;
 using JishoTangoAssistant.UI.Elements;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
@@ -62,8 +63,10 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
             new FilePickerFileType("JTA Files") { Patterns = ["*.jta"] }
         };
 
-        var loadedVocabularyItems = await FilePicker.LoadAsync<VocabularyItem>(filePickerTitle, filePickerFilter);
-
+        var startLocationPath = Path.GetDirectoryName(CurrentSession.loadedFilePath);
+        var loadedFileInfo = await FilePicker.LoadAsync<VocabularyItem>(filePickerTitle, filePickerFilter, startLocationPath);
+        var loadedVocabularyItems = loadedFileInfo?.Content;
+        
         // this case can occur if user cancels file dialog
         if (loadedVocabularyItems == null)
             return;
@@ -71,6 +74,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         if (performOverwriting == true)
             await vocabularyListService.ClearAsync();
         await vocabularyListService.AddRangeAsync(loadedVocabularyItems, true);
+        CurrentSession.loadedFilePath = loadedFileInfo?.FilePath;
+        WindowManipulator.ChangeLoadedFilenameInWindowTitle(loadedFileInfo?.FilePath);
 
         CurrentSession.userMadeChanges = false;
     }
@@ -83,11 +88,17 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         var filePickerFilter = new[] {
             new FilePickerFileType("JTA Files") { Patterns = ["*.jta"] }
         };
+        
+        var startLocationPath = Path.GetDirectoryName(CurrentSession.loadedFilePath);
+        var suggestedFileName = Path.GetFileName(CurrentSession.loadedFilePath);
+        var result = await FilePicker.SaveAsync(list, "Save vocabulary list as", filePickerFilter, startLocationPath, suggestedFileName);
 
-        var success = await FilePicker.SaveAsync(list, "Save vocabulary list as", filePickerFilter);
-
-        if (success)
+        if (result != null)
+        {
+            CurrentSession.loadedFilePath = result.FilePath;
+            WindowManipulator.ChangeLoadedFilenameInWindowTitle(result.FilePath);
             CurrentSession.userMadeChanges = false;
+        }
     }
 
     [RelayCommand]
@@ -112,9 +123,9 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
 
         var contentToExport = toJapanese ? VocabularyListExporter.EnglishToJapanese(list) : VocabularyListExporter.JapaneseToEnglish(list);
 
-        var success = await FilePicker.SaveAsync(contentToExport, "Export vocabulary list as", filePickerFilter);
+        var result = await FilePicker.SaveAsync(contentToExport, "Export vocabulary list as", filePickerFilter);
 
-        if (success)
+        if (result != null)
             await ShowNotetypeMessageBox();
     }
 
@@ -128,6 +139,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
     [RelayCommand]
     private async Task DeleteAllFromList()
     {
+        CurrentSession.loadedFilePath = null;
+        WindowManipulator.ChangeLoadedFilenameInWindowTitle(null);
         await vocabularyListService.ClearAsync();
     }
 

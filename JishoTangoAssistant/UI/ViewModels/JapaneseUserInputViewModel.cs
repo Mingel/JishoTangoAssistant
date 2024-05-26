@@ -275,7 +275,8 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     {
         var filePickerTitle = "Open file to load search queries";
 
-        var loadedFile = await FilePicker.LoadAsync(filePickerTitle);
+        var loadedFileInfo = await FilePicker.LoadAsync(filePickerTitle);
+        var loadedFile = loadedFileInfo?.Content;
 
         // this case can occur if user cancels file dialog
         if (loadedFile == null)
