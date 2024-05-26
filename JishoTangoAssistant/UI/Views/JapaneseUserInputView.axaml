@@ -180,7 +180,7 @@
 						<ColumnDefinition Width="Auto"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
-					<CheckBox Grid.Column="0" x:Name="WriteInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}"/>
+					<CheckBox Grid.Column="0" x:Name="WriteInKanaCheckBox" Content="Write in Kana" IsChecked="{Binding WriteInKana}" IsEnabled="{Binding !SelectedWordAndFormIsKanaOnly}"/>
 				</Grid>
 				<StackPanel Grid.Row="10" x:Name="OutputPanel" Height="165">
 					<HeaderedContentControl x:Name="OutputContentControl" Height="165" Header="Resulting Card Preview"

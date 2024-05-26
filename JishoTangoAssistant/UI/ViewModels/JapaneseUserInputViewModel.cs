@@ -52,6 +52,9 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private int selectedVocabItemIndex = -1;
 
     [ObservableProperty]
+    private bool selectedWordAndFormIsKanaOnly;
+
+    [ObservableProperty]
     private bool itemAdditionPossible;
 
     [ObservableProperty]
@@ -194,6 +197,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                 currentSelectionService.SetSelectedOtherFormsIndex(0);
                 UpdateAllNonCollectionProperties();
                 UpdateVisualRelatedProperties();
+                UpdateSelectedWordAndFormIsKanaOnlyProperty();
             }
         }
     }
@@ -210,6 +214,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
                 UpdateAllNonCollectionProperties();
                 UpdateOutputText();
                 UpdateVisualRelatedProperties();
+                UpdateSelectedWordAndFormIsKanaOnlyProperty();
             }
         }
     }
@@ -241,6 +246,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
             UpdateAllNonCollectionProperties();
             UpdateOutputText();
             UpdateVisualRelatedProperties();
+            UpdateSelectedWordAndFormIsKanaOnlyProperty();
             isProcessingInput = false;
         }
     }
@@ -392,5 +398,18 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         ItemAdditionPossible = currentSelectionService.GetItemAdditionPossible() &&
                                itemFromCurrentUserInput != null &&
                                !vocabularyListService.Contains(itemFromCurrentUserInput);
+    }
+
+    private void UpdateSelectedWordAndFormIsKanaOnlyProperty()
+    {
+        if (0 <= SelectedIndexOfWords && SelectedIndexOfWords < Words.Count
+            && 0 <= SelectedIndexOfOtherForms && SelectedIndexOfOtherForms < OtherForms.Count)
+        {
+            SelectedWordAndFormIsKanaOnly = WritingSystemUtil.OnlyContainsKana(Words[SelectedIndexOfWords]) && WritingSystemUtil.OnlyContainsKana(OtherForms[SelectedIndexOfOtherForms]);  
+        }
+        else
+        {
+            SelectedWordAndFormIsKanaOnly = false;
+        }
     }
 }
