@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using JishoTangoAssistant.Helper;
 using Newtonsoft.Json;
 
 namespace JishoTangoAssistant.Models;
@@ -27,7 +29,7 @@ public record VocabularyItem([property: MaxLength(200)] string Word,
         return Word == other.Word &&
                ShowReading == other.ShowReading &&
                Reading == other.Reading &&
-               Meanings == other.Meanings &&
+               Meanings.SequenceEqual(other.Meanings, new EnumerableComparer<string>()) &&
                AdditionalCommentsJapanese == other.AdditionalCommentsJapanese;
     }
 
