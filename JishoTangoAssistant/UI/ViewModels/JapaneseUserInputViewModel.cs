@@ -8,10 +8,13 @@ using System.Text;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Threading.Tasks;
-using JishoTangoAssistant.Interfaces;
-using JishoTangoAssistant.Utils;
-using JishoTangoAssistant.Models;
+using JishoTangoAssistant.Common.Collections;
+using JishoTangoAssistant.Common.Utils;
+using JishoTangoAssistant.Core.Interfaces;
+using JishoTangoAssistant.Core.Models;
 using JishoTangoAssistant.UI.Elements;
+using JishoTangoAssistant.UI.Utils;
+using WritingSystemUtil = JishoTangoAssistant.Common.Utils.WritingSystemUtil;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 

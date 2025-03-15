@@ -6,9 +6,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
-using JishoTangoAssistant.Interfaces;
-using JishoTangoAssistant.Utils;
-using JishoTangoAssistant.Models;
+using JishoTangoAssistant.Common.Collections;
+using JishoTangoAssistant.Common.Utils;
+using JishoTangoAssistant.Core.Collections;
+using JishoTangoAssistant.Core.Interfaces;
+using JishoTangoAssistant.Core.Models;
+using JishoTangoAssistant.UI.Helpers;
+using JishoTangoAssistant.UI.Utils;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 

@@ -2,7 +2,10 @@ using System.Collections.Specialized;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using JishoTangoAssistant.Models;
+using JishoTangoAssistant.Common.Collections;
+using JishoTangoAssistant.Core.Collections;
+using JishoTangoAssistant.Core.Models;
+
 
 namespace JishoTangoAssistant.UI.Views;
 

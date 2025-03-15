@@ -1,12 +1,13 @@
 using Avalonia;
 using System;
-using JishoTangoAssistant.Interfaces;
-using JishoTangoAssistant.Repositories;
-using JishoTangoAssistant.Services;
 using JishoTangoAssistant.UI;
 using JishoTangoAssistant.UI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Avalonia.Svg.Skia;
+using JishoTangoAssistant.Core.Interfaces;
+using JishoTangoAssistant.Core.Services;
+using JishoTangoAssistant.Infrastructure.ApiClients;
+using JishoTangoAssistant.Infrastructure.Persistence.Repositories;
 
 namespace JishoTangoAssistant;
 

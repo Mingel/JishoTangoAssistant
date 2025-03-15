@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JishoTangoAssistant.Core.Collections;
+using JishoTangoAssistant.Core.Models;
 using NUnit.Framework;
-using JishoTangoAssistant.Models;
 
 namespace JishoTangoAssistant.Tests
 {

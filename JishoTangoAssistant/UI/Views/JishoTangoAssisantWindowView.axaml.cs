@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using JishoTangoAssistant.Models;
 using JishoTangoAssistant.UI.Elements;
-using JishoTangoAssistant.Utils;
+using JishoTangoAssistant.UI.Utils;
 
 namespace JishoTangoAssistant.UI.Views;
 
