@@ -32,7 +32,7 @@ public partial class JishoTangoAssistantWindowViewModel(
     [RelayCommand]
     private async Task OpenAbout()
     {
-        await MessageBoxUtil.CreateAndShowAsync("About", "Made by Minh Bang Vu (2022-2024)" + Environment.NewLine,
+        await MessageBoxUtil.CreateAndShowAsync("About", "Made by Minh Bang Vu (2022-2025)" + Environment.NewLine,
                                                                 MessageBoxButtons.Ok,
                                                                 "Thanks to the team from jisho.org for making this possible!" + Environment.NewLine +
                                                                 "Jisho.org uses several data sources, which can be found at jisho.org's About Page. Relevant results from jisho.org are taken from JMdict and JMnedict.");
