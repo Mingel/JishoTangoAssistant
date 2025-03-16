@@ -1,164 +1,162 @@
 ﻿using JishoTangoAssistant.Common.Utils;
 using NUnit.Framework;
 
-namespace JishoTangoAssistant.Tests
+namespace JishoTangoAssistant.Tests;
+
+[TestFixture]
+public class RomajiKanaConverterTest // using Jisho's Conversion (not e.g. Microsoft's IME conversion)
 {
-    [TestFixture]
-    public class RomajiKanaConverterTest // using Jisho's Conversion (not e.g. Microsoft's IME conversion)
+    [Test]
+    public void TestRealExamples()
     {
-        [Test]
-        public void TestRealExamples()
-        {
-            Assert.AreEqual("たべる", RomajiKanaConverter.Convert("taberu"));
-            Assert.AreEqual("のむ", RomajiKanaConverter.Convert("nomu"));
-            Assert.AreEqual("ある", RomajiKanaConverter.Convert("aru"));
-            Assert.AreEqual("おめでとうございます", RomajiKanaConverter.Convert("omedetougozaimasu"));
-            Assert.AreEqual("たんじょうび", RomajiKanaConverter.Convert("tanjoubi"));
-            Assert.AreEqual("あって", RomajiKanaConverter.Convert("atte"));
-        }
+        Assert.That(RomajiKanaConverter.Convert("taberu"), Is.EqualTo("たべる"));
+        Assert.That(RomajiKanaConverter.Convert("nomu"), Is.EqualTo("のむ"));
+        Assert.That(RomajiKanaConverter.Convert("aru"), Is.EqualTo("ある"));
+        Assert.That(RomajiKanaConverter.Convert("omedetougozaimasu"), Is.EqualTo("おめでとうございます"));
+        Assert.That(RomajiKanaConverter.Convert("tanjoubi"), Is.EqualTo("たんじょうび"));
+        Assert.That(RomajiKanaConverter.Convert("atte"), Is.EqualTo("あって"));
+    }
 
-        // for more infos, see: https://en.wikipedia.org/wiki/Nihon-shiki_romanization
-        [Test]
-        public void TestNihonShikiSpecificStyle()
-        {
-            Assert.AreEqual("しちつふじぢづ", RomajiKanaConverter.Convert("sitituhuzididu"));
-            Assert.AreEqual("しゃしゅしょちゃちゅちょじゃじゅじょぢゃぢゅぢょ", RomajiKanaConverter.Convert("syasyusyotyatyutyozyazyuzyodyadyudyo"));
-        }
+    // for more infos, see: https://en.wikipedia.org/wiki/Nihon-shiki_romanization
+    [Test]
+    public void TestNihonShikiSpecificStyle()
+    {
+        Assert.That(RomajiKanaConverter.Convert("sitituhuzididu"), Is.EqualTo("しちつふじぢづ"));
+        Assert.That(RomajiKanaConverter.Convert("syasyusyotyatyutyozyazyuzyodyadyudyo"), Is.EqualTo("しゃしゅしょちゃちゅちょじゃじゅじょぢゃぢゅぢょ"));
+    }
 
-        // for more infos, see: https://en.wikipedia.org/wiki/Hepburn_romanization
-        [Test]
-        public void TestHepburnSpecificStyle()
-        {
-            // not Hepburn: "ぢ" -> di, "づ" -> du, "ぢゃ" -> dya, "ぢゅ" -> dyu, "ぢょ" -> dyo
-            Assert.AreEqual("しちつふじ", RomajiKanaConverter.Convert("shichitsufuji"));
-            Assert.AreEqual("しゃしゅしょちゃちゅちょじゃじゅじょ", RomajiKanaConverter.Convert("shashushochachuchojajujo"));
-        }
+    // for more infos, see: https://en.wikipedia.org/wiki/Hepburn_romanization
+    [Test]
+    public void TestHepburnSpecificStyle()
+    {
+        Assert.That(RomajiKanaConverter.Convert("shichitsufuji"), Is.EqualTo("しちつふじ"));
+        Assert.That(RomajiKanaConverter.Convert("shashushochachuchojajujo"), Is.EqualTo("しゃしゅしょちゃちゅちょじゃじゅじょ"));
+    }
 
-        [Test]
-        public void TestMToHiraganaN()
-        {
-            Assert.AreEqual("せんぱい", RomajiKanaConverter.Convert("senpai"));
-            Assert.AreEqual("がんばれ", RomajiKanaConverter.Convert("gambare"));
+    [Test]
+    public void TestMToHiraganaN()
+    {
+        Assert.That(RomajiKanaConverter.Convert("senpai"), Is.EqualTo("せんぱい"));
+        Assert.That(RomajiKanaConverter.Convert("gambare"), Is.EqualTo("がんばれ"));
 
-            Assert.AreEqual("んば", RomajiKanaConverter.Convert("mba")); // Microsoft IME: mば
-            Assert.AreEqual("んぱ", RomajiKanaConverter.Convert("mpa")); // Microsoft IME: mぱ
+        Assert.That(RomajiKanaConverter.Convert("mba"), Is.EqualTo("んば"));
+        Assert.That(RomajiKanaConverter.Convert("mpa"), Is.EqualTo("んぱ"));
 
-            Assert.AreEqual("bam", RomajiKanaConverter.Convert("bam")); // Microsoft IME: ばm
-            Assert.AreEqual("pam", RomajiKanaConverter.Convert("pam")); // Microsoft IME: ぱm
+        Assert.That(RomajiKanaConverter.Convert("bam"), Is.EqualTo("bam"));
+        Assert.That(RomajiKanaConverter.Convert("pam"), Is.EqualTo("pam"));
 
-            Assert.AreEqual("kmba", RomajiKanaConverter.Convert("kmba")); // Microsoft IME: kmば
-            Assert.AreEqual("kmpa", RomajiKanaConverter.Convert("kmpa")); // Microsoft IME: kmぱ
-        }
+        Assert.That(RomajiKanaConverter.Convert("kmba"), Is.EqualTo("kmba"));
+        Assert.That(RomajiKanaConverter.Convert("kmpa"), Is.EqualTo("kmpa"));
+    }
 
-        [Test]
-        public void TestSokuonLookThreeBehind()
-        {
-            Assert.AreEqual("mm", RomajiKanaConverter.Convert("mm"));
-            Assert.AreEqual("っま", RomajiKanaConverter.Convert("mma"));
-        }
+    [Test]
+    public void TestSokuonLookThreeBehind()
+    {
+        Assert.That(RomajiKanaConverter.Convert("mm"), Is.EqualTo("mm"));
+        Assert.That(RomajiKanaConverter.Convert("mma"), Is.EqualTo("っま"));
+    }
 
-        [Test]
-        public void TestSokuonLookFourBehind()
-        {
-            Assert.AreEqual("kky", RomajiKanaConverter.Convert("kky"));
-            Assert.AreEqual("っきゃ", RomajiKanaConverter.Convert("kkya"));
-        }
+    [Test]
+    public void TestSokuonLookFourBehind()
+    {
+        Assert.That(RomajiKanaConverter.Convert("kky"), Is.EqualTo("kky"));
+        Assert.That(RomajiKanaConverter.Convert("kkya"), Is.EqualTo("っきゃ"));
+    }
 
-        [Test]
-        public void TestDoubleVowels() // no sokuons
-        {
-            Assert.AreEqual("ああ", RomajiKanaConverter.Convert("aa"));
-            Assert.AreEqual("おお", RomajiKanaConverter.Convert("oo"));
-            Assert.AreEqual("いい", RomajiKanaConverter.Convert("ii"));
-            Assert.AreEqual("ええ", RomajiKanaConverter.Convert("ee"));
-            Assert.AreEqual("うう", RomajiKanaConverter.Convert("uu"));
-            Assert.AreEqual("ん", RomajiKanaConverter.Convert("nn"));
-        }
+    [Test]
+    public void TestDoubleVowels() // no sokuons
+    {
+        Assert.That(RomajiKanaConverter.Convert("aa"), Is.EqualTo("ああ"));
+        Assert.That(RomajiKanaConverter.Convert("oo"), Is.EqualTo("おお"));
+        Assert.That(RomajiKanaConverter.Convert("ii"), Is.EqualTo("いい"));
+        Assert.That(RomajiKanaConverter.Convert("ee"), Is.EqualTo("ええ"));
+        Assert.That(RomajiKanaConverter.Convert("uu"), Is.EqualTo("うう"));
+        Assert.That(RomajiKanaConverter.Convert("nn"), Is.EqualTo("ん"));
+    }
 
-        [Test]
-        public void TestSokuonDoubleConsonantsNotValid()
-        {
-            Assert.AreEqual("kkiitt", RomajiKanaConverter.Convert("kkiitt")); // Microsoft IME: っきいtt
-            Assert.AreEqual("っきいってえ", RomajiKanaConverter.Convert("kkiittee"));
-            Assert.AreEqual("kkttmm", RomajiKanaConverter.Convert("kkttmm"));
-            Assert.AreEqual("kkttee", RomajiKanaConverter.Convert("kkttee")); // Microsoft IME: kkってえ
-            Assert.AreEqual("kknnttnnmm", RomajiKanaConverter.Convert("kknnttnnmm")); // Microsoft IME: kkんttんmm
-            Assert.AreEqual("kkkkkkkk", RomajiKanaConverter.Convert("kkkkkkkk"));
-        }
+    [Test]
+    public void TestSokuonDoubleConsonantsNotValid()
+    {
+        Assert.That(RomajiKanaConverter.Convert("kkiitt"), Is.EqualTo("kkiitt"));
+        Assert.That(RomajiKanaConverter.Convert("kkiittee"), Is.EqualTo("っきいってえ"));
+        Assert.That(RomajiKanaConverter.Convert("kkttmm"), Is.EqualTo("kkttmm"));
+        Assert.That(RomajiKanaConverter.Convert("kkttee"), Is.EqualTo("kkttee"));
+        Assert.That(RomajiKanaConverter.Convert("kknnttnnmm"), Is.EqualTo("kknnttnnmm"));
+        Assert.That(RomajiKanaConverter.Convert("kkkkkkkk"), Is.EqualTo("kkkkkkkk"));
+    }
 
-        [Test]
-        public void TestSokuonMoreThanTwoConsonants()
-        {
-            Assert.AreEqual("っっき", RomajiKanaConverter.Convert("kkki")); // Microsoft IME: kっき
-            Assert.AreEqual("っっっき", RomajiKanaConverter.Convert("kkkki")); // Microsoft IME: kkっき
+    [Test]
+    public void TestSokuonMoreThanTwoConsonants()
+    {
+        Assert.That(RomajiKanaConverter.Convert("kkki"), Is.EqualTo("っっき"));
+        Assert.That(RomajiKanaConverter.Convert("kkkki"), Is.EqualTo("っっっき"));
 
-            Assert.AreEqual("っっきゃ", RomajiKanaConverter.Convert("kkkya")); // Microsoft IME: kっきゃ
-            Assert.AreEqual("っっっきゃ", RomajiKanaConverter.Convert("kkkkya")); // Microsoft IME: kkっきゃ
-        }
+        Assert.That(RomajiKanaConverter.Convert("kkkya"), Is.EqualTo("っっきゃ"));
+        Assert.That(RomajiKanaConverter.Convert("kkkkya"), Is.EqualTo("っっっきゃ"));
+    }
 
-        [Test]
-        public void TestHiraganaN()
-        {
-            Assert.AreEqual("ん", RomajiKanaConverter.Convert("n"));
-            Assert.AreEqual("ん", RomajiKanaConverter.Convert("nn"));
-            Assert.AreEqual("んん", RomajiKanaConverter.Convert("nnn"));
-            Assert.AreEqual("んん", RomajiKanaConverter.Convert("nnnn"));
+    [Test]
+    public void TestHiraganaN()
+    {
+        Assert.That(RomajiKanaConverter.Convert("n"), Is.EqualTo("ん"));
+        Assert.That(RomajiKanaConverter.Convert("nn"), Is.EqualTo("ん"));
+        Assert.That(RomajiKanaConverter.Convert("nnn"), Is.EqualTo("んん"));
+        Assert.That(RomajiKanaConverter.Convert("nnnn"), Is.EqualTo("んん"));
 
-            Assert.AreEqual("んな", RomajiKanaConverter.Convert("nna"));
-            Assert.AreEqual("んの", RomajiKanaConverter.Convert("nno"));
-            Assert.AreEqual("んに", RomajiKanaConverter.Convert("nni"));
-            Assert.AreEqual("んね", RomajiKanaConverter.Convert("nne"));
-            Assert.AreEqual("んぬ", RomajiKanaConverter.Convert("nnu"));
+        Assert.That(RomajiKanaConverter.Convert("nna"), Is.EqualTo("んな"));
+        Assert.That(RomajiKanaConverter.Convert("nno"), Is.EqualTo("んの"));
+        Assert.That(RomajiKanaConverter.Convert("nni"), Is.EqualTo("んに"));
+        Assert.That(RomajiKanaConverter.Convert("nne"), Is.EqualTo("んね"));
+        Assert.That(RomajiKanaConverter.Convert("nnu"), Is.EqualTo("んぬ"));
 
-            Assert.AreEqual("な", RomajiKanaConverter.Convert("na"));
-            Assert.AreEqual("んな", RomajiKanaConverter.Convert("nna"));
-            Assert.AreEqual("んなん", RomajiKanaConverter.Convert("nnan"));
-            Assert.AreEqual("んなん", RomajiKanaConverter.Convert("nnann"));
-        }
+        Assert.That(RomajiKanaConverter.Convert("na"), Is.EqualTo("な"));
+        Assert.That(RomajiKanaConverter.Convert("nna"), Is.EqualTo("んな"));
+        Assert.That(RomajiKanaConverter.Convert("nnan"), Is.EqualTo("んなん"));
+        Assert.That(RomajiKanaConverter.Convert("nnann"), Is.EqualTo("んなん"));
+    }
 
-        [Test]
-        public void TestSpecialValidCharacters()
-        {
-            Assert.AreEqual("ー", RomajiKanaConverter.Convert("-"));
-            Assert.AreEqual("ーー", RomajiKanaConverter.Convert("--"));
+    [Test]
+    public void TestSpecialValidCharacters()
+    {
+        Assert.That(RomajiKanaConverter.Convert("-"), Is.EqualTo("ー"));
+        Assert.That(RomajiKanaConverter.Convert("--"), Is.EqualTo("ーー"));
 
-            Assert.AreEqual("？", RomajiKanaConverter.Convert("?"));
-            Assert.AreEqual("？？", RomajiKanaConverter.Convert("??"));
-        }
+        Assert.That(RomajiKanaConverter.Convert("?"), Is.EqualTo("？"));
+        Assert.That(RomajiKanaConverter.Convert("??"), Is.EqualTo("？？"));
+    }
 
-        [Test]
-        public void TestKatakana()
-        {
-            Assert.AreEqual("パーティ", RomajiKanaConverter.Convert("PA-TEXI"));
-            Assert.AreEqual("ヂスコ", RomajiKanaConverter.Convert("DISUKO"));
+    [Test]
+    public void TestKatakana()
+    {
+        Assert.That(RomajiKanaConverter.Convert("PA-TEXI"), Is.EqualTo("パーティ"));
+        Assert.That(RomajiKanaConverter.Convert("DISUKO"), Is.EqualTo("ヂスコ"));
 
-            Assert.AreEqual("スペイン", RomajiKanaConverter.Convert("SUPEIN"));
-            Assert.AreEqual("ドイツ", RomajiKanaConverter.Convert("DOITSU"));
+        Assert.That(RomajiKanaConverter.Convert("SUPEIN"), Is.EqualTo("スペイン"));
+        Assert.That(RomajiKanaConverter.Convert("DOITSU"), Is.EqualTo("ドイツ"));
 
-            Assert.AreEqual("パーティ", RomajiKanaConverter.Convert("Pa-TeXi"));
-            Assert.AreEqual("ヂスコ", RomajiKanaConverter.Convert("DiSuKo"));
+        Assert.That(RomajiKanaConverter.Convert("Pa-TeXi"), Is.EqualTo("パーティ"));
+        Assert.That(RomajiKanaConverter.Convert("DiSuKo"), Is.EqualTo("ヂスコ"));
 
-            Assert.AreEqual("スペイン", RomajiKanaConverter.Convert("SuPeIN"));
-            Assert.AreEqual("ドイツ", RomajiKanaConverter.Convert("DoITsu"));
-        }
+        Assert.That(RomajiKanaConverter.Convert("SuPeIN"), Is.EqualTo("スペイン"));
+        Assert.That(RomajiKanaConverter.Convert("DoITsu"), Is.EqualTo("ドイツ"));
+    }
 
-        [Test]
-        public void TestMixedKana()
-        {
-            Assert.AreEqual("アか", RomajiKanaConverter.Convert("AkA"));
-            Assert.AreEqual("ヂすコ", RomajiKanaConverter.Convert("DIsuKo"));
+    [Test]
+    public void TestMixedKana()
+    {
+        Assert.That(RomajiKanaConverter.Convert("AkA"), Is.EqualTo("アか"));
+        Assert.That(RomajiKanaConverter.Convert("DIsuKo"), Is.EqualTo("ヂすコ"));
 
-            Assert.AreEqual("すペイん", RomajiKanaConverter.Convert("sUPEIn"));
-            Assert.AreEqual("ドイつ", RomajiKanaConverter.Convert("DoItSU"));
-        }
+        Assert.That(RomajiKanaConverter.Convert("sUPEIn"), Is.EqualTo("すペイん"));
+        Assert.That(RomajiKanaConverter.Convert("DoItSU"), Is.EqualTo("ドイつ"));
+    }
 
-        [Test]
-        public void TestValidMixOfKanaAndRomaji()
-        {
-            Assert.AreEqual("はなび", RomajiKanaConverter.Convert("haなび"));
-            Assert.AreEqual("はなび", RomajiKanaConverter.Convert("hanaび"));
-            Assert.AreEqual("はなび", RomajiKanaConverter.Convert("はnaび"));;
-            Assert.AreEqual("はなび", RomajiKanaConverter.Convert("はnabi"));
-        }
+    [Test]
+    public void TestValidMixOfKanaAndRomaji()
+    {
+        Assert.That(RomajiKanaConverter.Convert("haなび"), Is.EqualTo("はなび"));
+        Assert.That(RomajiKanaConverter.Convert("hanaび"), Is.EqualTo("はなび"));
+        Assert.That(RomajiKanaConverter.Convert("はnaび"), Is.EqualTo("はなび"));
+        Assert.That(RomajiKanaConverter.Convert("はnabi"), Is.EqualTo("はなび"));
     }
 }
