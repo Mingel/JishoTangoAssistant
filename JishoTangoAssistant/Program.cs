@@ -43,7 +43,8 @@ internal class Program
             .AddScoped<ICurrentJapaneseUserInputSelectionService, CurrentJapaneseUserInputSelectionService>()
             .AddScoped<IVocabularyListService, VocabularyListService>()
             .AddScoped<IJishoWebService, JishoWebService>()
-            .AddSingleton<ViewLocator>();
+            .AddSingleton<ViewLocator>()
+            .AddHttpClient();
             
         var services = builder.BuildServiceProvider();
 
