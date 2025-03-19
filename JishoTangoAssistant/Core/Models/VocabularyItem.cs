@@ -3,23 +3,41 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using JishoTangoAssistant.Common.Helpers;
+using JishoTangoAssistant.Infrastructure.Entities;
 using Newtonsoft.Json;
 
 namespace JishoTangoAssistant.Core.Models;
 
 using SimilarMeaningGroup = IEnumerable<string>;
 
-public record VocabularyItem([property: MaxLength(200)] string Word, 
-                                bool ShowReading, 
-                                [property: MaxLength(500)] string Reading, 
-                                List<SimilarMeaningGroup> Meanings, 
-                                [property: MaxLength(2000), JsonProperty(NullValueHandling=NullValueHandling.Ignore)] string? AdditionalCommentsJapanese = null)
+public record VocabularyItem
 {
-    [Key]
-    public int Id { get; set; }
-    [MaxLength(32)]
+    public VocabularyItem()
+    {
+    }
+    
+    public VocabularyItem(string Word, 
+        bool ShowReading, 
+        string Reading, 
+        List<SimilarMeaningGroup> Meanings, 
+         string? AdditionalCommentsJapanese = null)
+    {
+        this.Word = Word;
+        this.ShowReading = ShowReading;
+        this.Reading = Reading;
+        this.Meanings = Meanings;
+        this.AdditionalCommentsJapanese = AdditionalCommentsJapanese;
+    }
+
     public string? AnkiGuid { get; set; }
     public int Order { get; set; }
+    public string Word { get; init; }
+    public bool ShowReading { get; init; }
+    public string Reading { get; init; }
+    public List<SimilarMeaningGroup> Meanings { get; init; }
+    
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+    public string? AdditionalCommentsJapanese { get; init; }
 
     public virtual bool Equals(VocabularyItem? other)
     {
@@ -34,4 +52,19 @@ public record VocabularyItem([property: MaxLength(200)] string Word,
     }
 
     public override int GetHashCode() => HashCode.Combine(Word, Reading, ShowReading, Meanings, AdditionalCommentsJapanese);
+
+    public VocabularyItemEntity MapToEntity()
+    {
+        return new VocabularyItemEntity
+        {
+            Id = 0,
+            AnkiGuid = AnkiGuid,
+            Word = Word,
+            ShowReading = ShowReading,
+            Reading = Reading,
+            Meanings = Meanings.ToList(),
+            AdditionalCommentsJapanese = AdditionalCommentsJapanese,
+            Order = Order
+        };
+    }
 }

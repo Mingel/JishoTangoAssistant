@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using JishoTangoAssistant.Common.Collections;
@@ -8,6 +9,7 @@ namespace JishoTangoAssistant.Core.Interfaces;
 
 public interface ICurrentJapaneseUserInputSelectionService
 {
+    IEnumerable<JishoDatum> LastRetrievedResults { get; set; }
     ObservableCollection<string> GetWords();
     ObservableCollection<string> GetOtherForms();
     ObservableRangeCollection<ObservableSimilarMeaningGroup> GetMeaningGroups();

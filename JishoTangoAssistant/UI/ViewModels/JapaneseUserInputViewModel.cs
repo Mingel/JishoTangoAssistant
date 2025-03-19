@@ -80,14 +80,16 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     public bool PreEnteredInputNoNextPossible => PreEnteredInputIndex < PreEnteredInputs.Count - 1;
 
     #endregion
-    
+
+    private readonly ICurrentSessionService currentSessionService;
     private readonly ICurrentJapaneseUserInputSelectionService currentSelectionService;
     private readonly IVocabularyListService vocabularyListService;
 
     private bool isProcessingInput;
 
-    public JapaneseUserInputViewModel(ICurrentJapaneseUserInputSelectionService currentSelectionService, IVocabularyListService vocabularyListService)
+    public JapaneseUserInputViewModel(ICurrentSessionService currentSessionService, ICurrentJapaneseUserInputSelectionService currentSelectionService, IVocabularyListService vocabularyListService)
     {
+        this.currentSessionService = currentSessionService;
         this.currentSelectionService = currentSelectionService;
         this.vocabularyListService = vocabularyListService;
 
@@ -226,16 +228,13 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     [RelayCommand]
     private async Task AddToList()
     {
-        if (CurrentSession.lastRetrievedResults == null)
-            return;
-
         var addedItem = currentSelectionService.CreateVocabularyItem();
 
         if (addedItem == null)
             return;
 
         await vocabularyListService.AddAsync(addedItem);
-        CurrentSession.userMadeChanges = true;
+        currentSessionService.SetUserMadeChanges(true);
     }
 
     [RelayCommand]

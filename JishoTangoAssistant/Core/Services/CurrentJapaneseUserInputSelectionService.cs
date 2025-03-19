@@ -19,6 +19,8 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
 {
     private const string JishoTagUsuallyInKanaAlone = "Usually written using kana alone";
     private readonly CurrentJapaneseUserInputSelection selection = new();
+    
+    public IEnumerable<JishoDatum> LastRetrievedResults { get; set; } = [];
 
     #region selection-attributes
     public ObservableCollection<string> GetWords() => selection.Words;
@@ -55,7 +57,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
             return;
         }
 
-        CurrentSession.lastRetrievedResults = allResults;
+        LastRetrievedResults = allResults;
 
         ClearUserInputResults();
 
@@ -66,7 +68,6 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
             GetIndicesOfInputInResult(preprocessedInput, allResults, ref resultIndex, ref entryIndex);
 
         var result = allResults.ElementAt(resultIndex);
-        var japaneseEntry = result.Japanese.ElementAt(entryIndex);
 
         foreach (var res in allResults)
         {
@@ -179,7 +180,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
     {
         selection.OtherForms.Clear();
 
-        var latestResult = CurrentSession.lastRetrievedResults;
+        var latestResult = LastRetrievedResults;
         if (latestResult == null)
             return;
         var selectedDatum = latestResult.ElementAt(selection.SelectedWordsIndex);
@@ -206,7 +207,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
             return;
         }
 
-        var latestResult = CurrentSession.lastRetrievedResults;
+        var latestResult = LastRetrievedResults;
         if (latestResult == null)
             return;
         var selectedDatum = latestResult.ElementAt(selection.SelectedWordsIndex);

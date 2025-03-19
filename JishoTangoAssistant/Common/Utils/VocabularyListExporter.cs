@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using JishoTangoAssistant.Common.Collections;
 using JishoTangoAssistant.Core.Collections;
 using JishoTangoAssistant.Core.Models;
 
@@ -11,7 +10,7 @@ public static class VocabularyListExporter
 {
     private const string VisualNewLine = "<br>";
 
-    public static string JapaneseToEnglish(ReadOnlyObservableVocabularyList items)
+    public static string JapaneseToEnglish(ReadOnlyObservableVocabularyList items, ExportSettings exportSettings)
     {
         var sb = new StringBuilder();
 
@@ -21,7 +20,7 @@ public static class VocabularyListExporter
         {
             sb.Append(item.AnkiGuid + "-j2e");
             sb.Append(';');
-            var word = CurrentSession.customFontSize >= 0 ? AddFontSizeHtml(CurrentSession.customFontSize, item.Word, true) : item.Word;
+            var word = exportSettings.FontSize >= 0 ? AddFontSizeHtml(exportSettings.FontSize, item.Word, true) : item.Word;
             sb.Append(word);
             sb.Append(";\"");
             if (item.ShowReading)
@@ -42,7 +41,7 @@ public static class VocabularyListExporter
         return sb.ToString().TrimEnd();
     }
 
-    public static string EnglishToJapanese(ReadOnlyObservableVocabularyList items)
+    public static string EnglishToJapanese(ReadOnlyObservableVocabularyList items, ExportSettings exportSettings)
     {
         var sb = new StringBuilder();
         
@@ -62,8 +61,8 @@ public static class VocabularyListExporter
                 sb.Append(item.AdditionalCommentsJapanese.Replace("\"", "\"\""));
             }
             sb.Append("\";\"");
-            if (CurrentSession.customFontSize >= 0)
-                sb.Append(AddFontSizeHtml(CurrentSession.customFontSize, item.Word));
+            if (exportSettings.FontSize >= 0)
+                sb.Append(AddFontSizeHtml(exportSettings.FontSize, item.Word));
             else
                 sb.Append(item.Word);
             if (item.ShowReading)

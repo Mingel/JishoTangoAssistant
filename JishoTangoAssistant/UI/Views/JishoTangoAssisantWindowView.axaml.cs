@@ -1,8 +1,12 @@
+using System;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Threading;
+using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.Utils;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace JishoTangoAssistant.UI.Views;
 
@@ -17,7 +21,16 @@ public partial class JishoTangoAssistantWindowView : Window
 
     protected override async void OnClosing(WindowClosingEventArgs e)
     {
-        if (!CurrentSession.userMadeChanges)
+        var serviceProvider = Application.Current?.Resources[typeof(IServiceProvider)] as IServiceProvider;
+        var currentSessionService = serviceProvider?.GetRequiredService<ICurrentSessionService>();
+
+        if (currentSessionService is null)
+        {
+            base.OnClosing(e);
+            return;
+        }
+        
+        if (!currentSessionService.GetUserMadeChanges())
             userWantsToQuit = true;
 
         if (!userWantsToQuit)
