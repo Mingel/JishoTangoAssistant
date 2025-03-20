@@ -42,6 +42,7 @@ public partial class VocabularyListView : UserControl
             scrollToLastItemAfterLoading = false;
         }
 
+        Focus();
         base.OnLoaded(e);
     }
 

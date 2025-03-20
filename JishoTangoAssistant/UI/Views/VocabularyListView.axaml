@@ -4,7 +4,8 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:converter="clr-namespace:JishoTangoAssistant.UI.Converter"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		x:Class="JishoTangoAssistant.UI.Views.VocabularyListView">
+		x:Class="JishoTangoAssistant.UI.Views.VocabularyListView"
+		Focusable="True">
 	<UserControl.Styles>
 		<StyleInclude Source="avares://JishoTangoAssistant/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
 		<StyleInclude Source="avares://JishoTangoAssistant/UI/Views/Styles/DataGridCellNoVisibleCellSelection.axaml"/>
