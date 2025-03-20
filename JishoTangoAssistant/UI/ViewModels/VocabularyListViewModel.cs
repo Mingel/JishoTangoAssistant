@@ -139,6 +139,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
     {
         if (0 <= SelectedVocabItemIndex && SelectedVocabItemIndex < VocabularyList.Count)
             await vocabularyListService.RemoveAtAsync(SelectedVocabItemIndex);
+        
+        currentSessionService.SetUserMadeChanges(true);
     }
     
     [RelayCommand]
@@ -147,6 +149,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         currentSessionService.SetLoadedFilePath(null);
         WindowManipulator.ChangeLoadedFilenameInWindowTitle(null);
         await vocabularyListService.ClearAsync();
+        
+        currentSessionService.SetUserMadeChanges(true);
     }
 
     [RelayCommand]
@@ -155,6 +159,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         if (SelectedVocabItemIndex <= 0)
             return;
         await vocabularyListService.SwapAsync(SelectedVocabItemIndex - 1, SelectedVocabItemIndex);
+        
+        currentSessionService.SetUserMadeChanges(true);
     }
 
     [RelayCommand]
@@ -164,6 +170,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
             return;
         await vocabularyListService.SwapAsync(SelectedVocabItemIndex, SelectedVocabItemIndex + 1);
         SelectedVocabItemIndex++;
+        
+        currentSessionService.SetUserMadeChanges(true);
     }
 
     [RelayCommand]
