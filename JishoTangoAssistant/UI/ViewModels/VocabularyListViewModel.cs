@@ -11,12 +11,14 @@ using JishoTangoAssistant.Core.Collections;
 using JishoTangoAssistant.Core.Constants;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.Core.Models;
-using JishoTangoAssistant.UI.Helpers;
 using JishoTangoAssistant.UI.Utils;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 
-public partial class VocabularyListViewModel(IVocabularyListService vocabularyListService, ICurrentSessionService currentSessionService) : JishoTangoAssistantViewModelBase
+public partial class VocabularyListViewModel(
+    IVocabularyListService vocabularyListService,
+    ICurrentSessionService currentSessionService,
+    IWindowManipulatorService windowManipulatorService) : JishoTangoAssistantViewModelBase
 {
     public ReadOnlyObservableVocabularyList VocabularyList
     {
@@ -80,9 +82,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
             await vocabularyListService.ClearAsync();
         await vocabularyListService.AddRangeAsync(loadedVocabularyItems, true);
         currentSessionService.SetLoadedFilePath(loadedFileInfo?.FilePath);
-        WindowManipulator.ChangeLoadedFilenameInWindowTitle(loadedFileInfo?.FilePath);
-
         currentSessionService.SetUserMadeChanges(false);
+        windowManipulatorService.UpdateTitle();
     }
 
     [RelayCommand]
@@ -101,8 +102,8 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         if (result != null)
         {
             currentSessionService.SetLoadedFilePath(result.FilePath);
-            WindowManipulator.ChangeLoadedFilenameInWindowTitle(result.FilePath);
             currentSessionService.SetUserMadeChanges(false);
+            windowManipulatorService.UpdateTitle();
         }
     }
 
@@ -141,16 +142,17 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
             await vocabularyListService.RemoveAtAsync(SelectedVocabItemIndex);
         
         currentSessionService.SetUserMadeChanges(true);
+        windowManipulatorService.UpdateTitle();
     }
     
     [RelayCommand]
     private async Task DeleteAllFromList()
     {
         currentSessionService.SetLoadedFilePath(null);
-        WindowManipulator.ChangeLoadedFilenameInWindowTitle(null);
         await vocabularyListService.ClearAsync();
         
         currentSessionService.SetUserMadeChanges(true);
+        windowManipulatorService.UpdateTitle();
     }
 
     [RelayCommand]
@@ -161,6 +163,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         await vocabularyListService.SwapAsync(SelectedVocabItemIndex - 1, SelectedVocabItemIndex);
         
         currentSessionService.SetUserMadeChanges(true);
+        windowManipulatorService.UpdateTitle();
     }
 
     [RelayCommand]
@@ -172,6 +175,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
         SelectedVocabItemIndex++;
         
         currentSessionService.SetUserMadeChanges(true);
+        windowManipulatorService.UpdateTitle();
     }
 
     [RelayCommand]
@@ -179,6 +183,7 @@ public partial class VocabularyListViewModel(IVocabularyListService vocabularyLi
     {
         await vocabularyListService.UndoAsync();
         currentSessionService.SetUserMadeChanges(true);
+        windowManipulatorService.UpdateTitle();
     }
 
     private static async Task ShowNotetypeMessageBox()

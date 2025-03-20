@@ -39,6 +39,7 @@ internal class Program
             .AddSingleton<JishoTangoAssistantWindowViewModel>()
             .AddSingleton<JapaneseUserInputViewModel>()
             .AddSingleton<VocabularyListViewModel>()
+            .AddScoped<IWindowManipulatorService, WindowManipulatorService>()
             .AddScoped<ICurrentSessionRepository, CurrentSessionRepository>()
             .AddScoped<IVocabularyListRepository, VocabularyListRepository>()
             .AddScoped<ICurrentJapaneseUserInputSelectionService, CurrentJapaneseUserInputSelectionService>()

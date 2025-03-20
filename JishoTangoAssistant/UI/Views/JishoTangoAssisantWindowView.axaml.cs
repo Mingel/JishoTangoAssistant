@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Threading;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.UI.Elements;
@@ -13,15 +14,22 @@ namespace JishoTangoAssistant.UI.Views;
 public partial class JishoTangoAssistantWindowView : Window
 {
     private bool userWantsToQuit;
+    private IServiceProvider? serviceProvider;
 
     public JishoTangoAssistantWindowView()
     {
         InitializeComponent();
     }
 
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        serviceProvider = Application.Current?.Resources[typeof(IServiceProvider)] as IServiceProvider;
+        var windowManipulatorService = serviceProvider?.GetRequiredService<IWindowManipulatorService>();
+        windowManipulatorService?.UpdateTitle();
+    }
+    
     protected override async void OnClosing(WindowClosingEventArgs e)
     {
-        var serviceProvider = Application.Current?.Resources[typeof(IServiceProvider)] as IServiceProvider;
         var currentSessionService = serviceProvider?.GetRequiredService<ICurrentSessionService>();
 
         if (currentSessionService is null)

@@ -84,14 +84,20 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private readonly ICurrentSessionService currentSessionService;
     private readonly ICurrentJapaneseUserInputSelectionService currentSelectionService;
     private readonly IVocabularyListService vocabularyListService;
+    private readonly IWindowManipulatorService windowManipulatorService;
 
     private bool isProcessingInput;
 
-    public JapaneseUserInputViewModel(ICurrentSessionService currentSessionService, ICurrentJapaneseUserInputSelectionService currentSelectionService, IVocabularyListService vocabularyListService)
+    public JapaneseUserInputViewModel(
+        ICurrentSessionService currentSessionService,
+        ICurrentJapaneseUserInputSelectionService currentSelectionService,
+        IVocabularyListService vocabularyListService,
+        IWindowManipulatorService windowManipulatorService)
     {
         this.currentSessionService = currentSessionService;
         this.currentSelectionService = currentSelectionService;
         this.vocabularyListService = vocabularyListService;
+        this.windowManipulatorService = windowManipulatorService;
 
         Words = currentSelectionService.GetWords();
         OtherForms = currentSelectionService.GetOtherForms();
@@ -235,6 +241,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
 
         await vocabularyListService.AddAsync(addedItem);
         currentSessionService.SetUserMadeChanges(true);
+        windowManipulatorService.UpdateTitle();
     }
 
     [RelayCommand]
