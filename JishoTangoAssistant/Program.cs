@@ -8,6 +8,8 @@ using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.Core.Services;
 using JishoTangoAssistant.Infrastructure.ApiClients;
 using JishoTangoAssistant.Infrastructure.Persistence.Repositories;
+using JishoTangoAssistant.UI.ViewModels.VocabularyListViewModels;
+using JapaneseUserInputViewModel = JishoTangoAssistant.UI.ViewModels.JapaneseUserInputViewModels.JapaneseUserInputViewModel;
 
 namespace JishoTangoAssistant;
 

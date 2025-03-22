@@ -10,14 +10,33 @@
         <entry key="JishoTangoAssistant/UI/View/Styles/DataGridCellNoVisibleCellSelection.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/View/Styles/GroupBoxHeaderedContentControlStyle.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/View/VocabularyListView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/AdditionalCommentsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputView/WordSearchView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/AdditionalCommentsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/JapaneseUserInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JishoTangoAssisantWindow.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JishoTangoAssisantWindowView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/MeaningsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/MessageBox.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/OutputPanelView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/PreEnteredInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/SelectedInputInformationView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/Styles/DataGridCellNoVisibleCellSelection.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/Styles/Icons.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/Styles/SelectedInputInformationView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyItemAdditionView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListDetailsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListExportView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListLoadView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListSaveView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListDetailsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListSaveView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/WordSearchView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/WordSearchViewModel.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/WriteKanaView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/Views/JapaneseUserInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
       </map>
     </option>

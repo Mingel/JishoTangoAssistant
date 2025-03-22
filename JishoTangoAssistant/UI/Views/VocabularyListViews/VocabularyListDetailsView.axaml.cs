@@ -2,23 +2,21 @@ using System.Collections.Specialized;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using JishoTangoAssistant.Common.Collections;
 using JishoTangoAssistant.Core.Collections;
-using JishoTangoAssistant.Core.Models;
 
+namespace JishoTangoAssistant.UI.Views.VocabularyListViews;
 
-namespace JishoTangoAssistant.UI.Views;
-
-public partial class VocabularyListView : UserControl
+public partial class VocabularyListDetailsView : UserControl
 {
     private bool scrollToLastItemAfterLoading;
     private object? lastItem;
-
-    public VocabularyListView()
+    
+    public VocabularyListDetailsView()
     {
         InitializeComponent();
     }
-
+    
+    
     protected override void OnInitialized()
     {
         if (VocabularyItemsDataGrid.ItemsSource is ReadOnlyObservableVocabularyList vocabularyItems)
@@ -45,6 +43,20 @@ public partial class VocabularyListView : UserControl
         Focus();
         base.OnLoaded(e);
     }
+    
+    private void UpdateDeleteButtonVisibility(bool isDeleteAllButtonVisible)
+    {
+        DeleteSelectionButton.IsVisible = !isDeleteAllButtonVisible;
+        DeleteAllButton.IsVisible = isDeleteAllButtonVisible;
+    }
+
+    private void VocabularyItemsCollectionChangedHandler(object? sender, NotifyCollectionChangedEventArgs e) {
+        if (e is { Action: NotifyCollectionChangedAction.Add, NewItems.Count: >= 1 })
+        {
+            lastItem = e.NewItems[0]!;
+            scrollToLastItemAfterLoading = true;
+        }
+    }
 
     protected override void OnKeyDown(KeyEventArgs e)
     {
@@ -70,19 +82,5 @@ public partial class VocabularyListView : UserControl
     private void DownButtonClickHandler(object sender, RoutedEventArgs e)
     {
         VocabularyItemsDataGrid.Focus();
-    }
-
-    private void UpdateDeleteButtonVisibility(bool isDeleteAllButtonVisible)
-    {
-        DeleteSelectionButton.IsVisible = !isDeleteAllButtonVisible;
-        DeleteAllButton.IsVisible = isDeleteAllButtonVisible;
-    }
-
-    private void VocabularyItemsCollectionChangedHandler(object? sender, NotifyCollectionChangedEventArgs e) {
-        if (e is { Action: NotifyCollectionChangedAction.Add, NewItems.Count: >= 1 })
-        {
-            lastItem = e.NewItems[0]!;
-            scrollToLastItemAfterLoading = true;
-        }
     }
 }

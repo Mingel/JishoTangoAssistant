@@ -5,16 +5,17 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Avalonia.Styling;
 using JishoTangoAssistant.UI.Utils;
+using JishoTangoAssistant.UI.ViewModels.VocabularyListViewModels;
 
 namespace JishoTangoAssistant.UI.ViewModels;
 
 public partial class JishoTangoAssistantWindowViewModel(
-    JapaneseUserInputViewModel japaneseUserInputViewModel,
+    JapaneseUserInputViewModels.JapaneseUserInputViewModel japaneseUserInputViewModel,
     VocabularyListViewModel vocabularyListViewModel)
     : JishoTangoAssistantViewModelBase
 {
     [ObservableProperty]
-    private JapaneseUserInputViewModel japaneseUserInputViewModel = japaneseUserInputViewModel;
+    private JapaneseUserInputViewModels.JapaneseUserInputViewModel japaneseUserInputViewModel = japaneseUserInputViewModel;
     
     [ObservableProperty]
     private VocabularyListViewModel vocabularyListViewModel = vocabularyListViewModel;

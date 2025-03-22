@@ -46,6 +46,17 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
     public bool GetItemAdditionPossible() => selection.ItemAdditionPossible;
 #endregion
 
+    public bool IsSelectedWordAndFormIsKanaOnly()
+    {
+        return 0 <= selection.SelectedWordsIndex && selection.SelectedWordsIndex < selection.Words.Count
+                                                 && 0 <= selection.SelectedOtherFormsIndex &&
+                                                 selection.SelectedOtherFormsIndex < selection.OtherForms.Count
+                                                 && WritingSystemUtil.OnlyContainsKana(
+                                                     selection.Words[selection.SelectedWordsIndex])
+                                                 && WritingSystemUtil.OnlyContainsKana(
+                                                     selection.OtherForms[selection.SelectedOtherFormsIndex]);
+    }
+
     public async Task UpdateSelectionAsync(string preprocessedInput)
     {
         var allResults = await jishoWebService.GetResultAsync(preprocessedInput);
