@@ -1,6 +1,8 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 
 namespace JishoTangoAssistant.UI.Views.VocabularyListViews;
 
@@ -9,6 +11,13 @@ public partial class VocabularyListView : UserControl
     public VocabularyListView()
     {
         InitializeComponent();
+    }
+
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        if (this.GetVisualRoot() is JishoTangoAssistantWindowView root)
+            root.CurrentlyLoadedControlContent = this;
+        base.OnAttachedToVisualTree(e);
     }
 
     protected override void OnLoaded(RoutedEventArgs e)
