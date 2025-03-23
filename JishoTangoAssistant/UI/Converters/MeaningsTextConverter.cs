@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Avalonia.Data.Converters;
-using Avalonia.Input;
 
-namespace JishoTangoAssistant.UI.Converter;
+namespace JishoTangoAssistant.UI.Converters;
 
 public class MeaningsTextConverter : IValueConverter
 {

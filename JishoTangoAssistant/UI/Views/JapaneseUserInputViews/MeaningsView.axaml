@@ -2,13 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:converter="clr-namespace:JishoTangoAssistant.UI.Converter"
              xmlns:collections="clr-namespace:JishoTangoAssistant.Common.Collections"
              xmlns:data="clr-namespace:JishoTangoAssistant.Common.Data"
+             xmlns:converters="clr-namespace:JishoTangoAssistant.UI.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="JishoTangoAssistant.UI.Views.JapaneseUserInputViews.MeaningsView">
     <UserControl.Resources>
-        <converter:FlattenedIndexToCheckBoxHotKeyConverter x:Key="FlattenedIndexToCheckBoxHotKeyConverter"/>
+        <converters:FlattenedIndexToCheckBoxHotKeyConverter x:Key="FlattenedIndexToCheckBoxHotKeyConverter"/>
     </UserControl.Resources>
     <HeaderedContentControl Header="Meaning" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1" Height="NaN">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
