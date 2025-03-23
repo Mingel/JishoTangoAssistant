@@ -15,6 +15,13 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         contextOptionsBuilder.UseSqlite($"Data Source={DataSource}");
     }
+    
+    public void ResetAutoIncrementId()
+    {
+        ChangeTracker.Clear();
+        Database.ExecuteSql($"DELETE FROM VocabularyList");
+        Database.ExecuteSql($"DELETE FROM sqlite_sequence WHERE name = 'VocabularyList'");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

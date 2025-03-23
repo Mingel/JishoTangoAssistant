@@ -24,7 +24,11 @@ public class VocabularyListRepository : IVocabularyListRepository
 
     public async Task ReplaceVocabularyListAsync(IEnumerable<VocabularyItem> vocabularyItems, bool resetAutoIncrementId = true)
     {
+        // TODO For now, delete data in table and then re-insert, change later
+        if (resetAutoIncrementId)
+            dbContext.ResetAutoIncrementId();
         var vocabularyItemEntitiesList = vocabularyItems.Select(item => item.MapToEntity()).ToList();
+        
         await dbContext.VocabularyList.AddRangeAsync(vocabularyItemEntitiesList);
         await dbContext.SaveChangesAsync();
     }
