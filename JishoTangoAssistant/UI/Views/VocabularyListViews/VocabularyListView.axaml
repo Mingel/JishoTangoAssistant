@@ -2,7 +2,6 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:views="clr-namespace:JishoTangoAssistant.UI.Views"
 		xmlns:vocabularyListViews="clr-namespace:JishoTangoAssistant.UI.Views.VocabularyListViews"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 		x:Class="JishoTangoAssistant.UI.Views.VocabularyListViews.VocabularyListView"
@@ -18,7 +17,7 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<vocabularyListViews:VocabularyListDetailsView DataContext="{Binding VocabularyListDetailsViewModel}" Grid.Row="0"/>
+		<vocabularyListViews:VocabularyListDetailsView DataContext="{Binding VocabularyListDetailsViewModel}" Grid.Row="0" x:Name="VocabularyListDetailsView"/>
 
 		<Grid Grid.Row="1" x:Name="RightButtonsGrid">
 			<Grid.RowDefinitions>
@@ -31,7 +30,7 @@
 				<RowDefinition Height="5"/>
 			</Grid.RowDefinitions>
 
-			<views:VocabularyListLoadView DataContext="{Binding VocabularyListLoadViewModel}" Grid.Row="1"/>
+			<vocabularyListViews:VocabularyListLoadView DataContext="{Binding VocabularyListLoadViewModel}" Grid.Row="1"/>
 			<vocabularyListViews:VocabularyListSaveView DataContext="{Binding VocabularyListSaveViewModel}" Grid.Row="3"/>
 			<vocabularyListViews:VocabularyListExportView DataContext="{Binding VocabularyListExportViewModel}" Grid.Row="5"/>
 		</Grid>

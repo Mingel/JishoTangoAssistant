@@ -2,8 +2,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.Input;
-using JishoTangoAssistant.Common.Utils;
 using JishoTangoAssistant.Core.Interfaces;
+using JishoTangoAssistant.UI.Utils;
 
 namespace JishoTangoAssistant.UI.ViewModels.VocabularyListViewModels;
 

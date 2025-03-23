@@ -34,7 +34,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
     private WriteKanaViewModel WriteKanaViewModel { get; }
     private OutputPanelViewModel OutputPanelViewModel { get; }
     private MeaningsViewModel MeaningsViewModel { get; }
-    private JapaneseUserInputViewModels.AdditionalCommentsViewModel AdditionalCommentsViewModel { get; }
+    private AdditionalCommentsViewModel AdditionalCommentsViewModel { get; }
     private VocabularyItemAdditionViewModel VocabularyItemAdditionViewModel { get; }
     
     public void Receive(ChangePreEnteredInputViewVisibilityMessage message)

@@ -2,10 +2,10 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:views="clr-namespace:JishoTangoAssistant.UI.Views"
 		xmlns:japaneseUserInputViews="clr-namespace:JishoTangoAssistant.UI.Views.JapaneseUserInputViews"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-		x:Class="JishoTangoAssistant.UI.Views.JapaneseUserInputViews.JapaneseUserInputView">
+		x:Class="JishoTangoAssistant.UI.Views.JapaneseUserInputViews.JapaneseUserInputView"
+		Focusable="True">
 	<UserControl.Styles>
 		<StyleInclude Source="avares://JishoTangoAssistant/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
 	</UserControl.Styles>

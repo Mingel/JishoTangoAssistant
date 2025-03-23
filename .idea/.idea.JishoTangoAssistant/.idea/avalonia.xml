@@ -15,6 +15,7 @@
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputView/WordSearchView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/AdditionalCommentsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/JapaneseUserInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/MeaningsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JishoTangoAssisantWindow.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JishoTangoAssisantWindowView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/MeaningsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
@@ -33,7 +34,9 @@
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListSaveView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListDetailsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListLoadView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListSaveView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/WordSearchView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/WordSearchViewModel.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/WriteKanaView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
