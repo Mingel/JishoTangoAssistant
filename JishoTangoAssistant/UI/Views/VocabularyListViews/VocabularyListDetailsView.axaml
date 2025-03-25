@@ -1,0 +1,78 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:JishoTangoAssistant.UI.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JishoTangoAssistant.UI.Views.VocabularyListViews.VocabularyListDetailsView">
+	<UserControl.Resources>
+		<converters:MeaningsTextConverter x:Key="MeaningsTextConverter"/>
+	</UserControl.Resources>
+	
+	<HeaderedContentControl Header="Vocabulary List" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<Grid Height="NaN">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition MinHeight="100" Height="*"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Text="{Binding VocabularyList.Count, StringFormat='Number of entries: {0}', Mode=OneWay}"/>
+
+				<DataGrid Grid.Row="1" x:Name="VocabularyItemsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding VocabularyList}" SelectedIndex="{Binding SelectedVocabItemIndex}" IsReadOnly="True" SelectionMode="Single" CanUserSortColumns="True" CanUserReorderColumns="False" CanUserResizeColumns="False" VerticalScrollBarVisibility="Auto" ColumnWidth="*" FontSize="16">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Jap. Word" Binding="{Binding Word}" MinWidth="110" Width="100" CanUserSort="False"/>
+						<DataGridTextColumn Header="Show Reading" Binding="{Binding ShowReading}" CanUserSort="False" CanUserReorder="False" CanUserResize="False" Width="0" MaxWidth="0" IsVisible="False"/>
+						<DataGridTextColumn Header="Reading" Binding="{Binding Reading}" MinWidth="100" Width="100" CanUserSort="False"/>
+						<DataGridTextColumn Header="Meanings" Binding="{Binding Meanings, Converter={StaticResource MeaningsTextConverter}}" Width="*" CanUserSort="False"/>
+						<DataGridTextColumn Header="Comments (Japanese)" Binding="{Binding AdditionalCommentsJapanese}" Width="200" CanUserSort="False"/>
+					</DataGrid.Columns>
+				</DataGrid>
+
+				<Grid Grid.Row="3" x:Name="UpDownButtonsTableLayoutGrid">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="5"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+
+					<Button Grid.Column="0" x:Name="UpButton" Click="UpButtonClickHandler" Command="{Binding Path=GoUpCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<StackPanel Orientation="Horizontal">
+							<PathIcon Data="{StaticResource arrow_up_regular}" /> 
+						</StackPanel>
+					</Button>
+					<Button Grid.Column="2" x:Name="DownButton" Click="DownButtonClickHandler" Command="{Binding Path=GoDownCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+						<StackPanel Orientation="Horizontal">
+							<PathIcon Data="{StaticResource arrow_down_regular}" /> 
+						</StackPanel>
+					</Button>
+				</Grid>
+
+				<Button Grid.Row="5" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="True">
+					<StackPanel Orientation="Horizontal">
+						<PathIcon Data="{StaticResource delete_regular}" /> 
+						<TextBlock Text="Delete Selection" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					</StackPanel>
+				</Button>
+				<Button Grid.Row="5" x:Name="DeleteAllButton" Command="{Binding Path=DeleteAllFromListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="False">
+					<StackPanel Orientation="Horizontal">
+						<PathIcon Data="{StaticResource warning_regular}" />
+						<PathIcon Data="{StaticResource delete_regular}" /> 
+						<TextBlock Text="Delete All" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					</StackPanel>
+				</Button>
+				<Button Grid.Row="7" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z">
+					<StackPanel Orientation="Horizontal">
+						<PathIcon Data="{StaticResource arrow_undo_regular}" /> 
+						<TextBlock Text="Undo Last Action" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					</StackPanel>
+				</Button>
+			</Grid>
+		</HeaderedContentControl>
+</UserControl>

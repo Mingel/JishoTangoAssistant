@@ -54,4 +54,10 @@ public partial class MessageBox : Window
         if (isDefault)
             SelectedResult = result;
     }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        (App.GetMainWindow() as JishoTangoAssistantWindowView)?.FocusSelectedContentControlView();
+        base.OnClosed(e);
+    }
 }

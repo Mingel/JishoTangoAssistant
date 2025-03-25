@@ -1,24 +1,20 @@
 using System.Collections.Specialized;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
-using JishoTangoAssistant.Common.Collections;
 using JishoTangoAssistant.Core.Collections;
-using JishoTangoAssistant.Core.Models;
 
+namespace JishoTangoAssistant.UI.Views.VocabularyListViews;
 
-namespace JishoTangoAssistant.UI.Views;
-
-public partial class VocabularyListView : UserControl
+public partial class VocabularyListDetailsView : UserControl
 {
     private bool scrollToLastItemAfterLoading;
     private object? lastItem;
-
-    public VocabularyListView()
+    
+    public VocabularyListDetailsView()
     {
         InitializeComponent();
     }
-
+    
     protected override void OnInitialized()
     {
         if (VocabularyItemsDataGrid.ItemsSource is ReadOnlyObservableVocabularyList vocabularyItems)
@@ -41,38 +37,10 @@ public partial class VocabularyListView : UserControl
             VocabularyItemsDataGrid.SelectedItem = lastItem;
             scrollToLastItemAfterLoading = false;
         }
-
-        Focus();
         base.OnLoaded(e);
     }
-
-    protected override void OnKeyDown(KeyEventArgs e)
-    {
-        if (e.Key is Key.LeftShift or Key.RightShift)
-            UpdateDeleteButtonVisibility(true);
-
-        base.OnKeyDown(e);
-    }
-
-    protected override void OnKeyUp(KeyEventArgs e)
-    {
-        if (e.Key is Key.LeftShift or Key.RightShift)
-            UpdateDeleteButtonVisibility(false);
-
-        base.OnKeyUp(e);
-    }
-
-    private void UpButtonClickHandler(object sender, RoutedEventArgs e)
-    {
-        VocabularyItemsDataGrid.Focus();
-    }
-
-    private void DownButtonClickHandler(object sender, RoutedEventArgs e)
-    {
-        VocabularyItemsDataGrid.Focus();
-    }
-
-    private void UpdateDeleteButtonVisibility(bool isDeleteAllButtonVisible)
+    
+    public void UpdateDeleteButtonVisibility(bool isDeleteAllButtonVisible)
     {
         DeleteSelectionButton.IsVisible = !isDeleteAllButtonVisible;
         DeleteAllButton.IsVisible = isDeleteAllButtonVisible;
@@ -84,5 +52,15 @@ public partial class VocabularyListView : UserControl
             lastItem = e.NewItems[0]!;
             scrollToLastItemAfterLoading = true;
         }
+    }
+
+    private void UpButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        VocabularyItemsDataGrid.Focus();
+    }
+
+    private void DownButtonClickHandler(object sender, RoutedEventArgs e)
+    {
+        VocabularyItemsDataGrid.Focus();
     }
 }

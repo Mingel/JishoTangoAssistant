@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JishoTangoAssistant.UI.Views.VocabularyListViews.VocabularyListSaveView">
+    <Button x:Name="SaveAllButton" Command="{Binding Path=SaveListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+        <StackPanel Orientation="Horizontal">
+            <PathIcon Data="{StaticResource save_regular}" /> 
+            <TextBlock Text="Save List" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        </StackPanel>
+    </Button>
+</UserControl>

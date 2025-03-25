@@ -30,4 +30,62 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
 </ItemGroup>
+  <ItemGroup>
+    <Compile Update="UI\Views\VocabularyListViews\VocabularyListDetailsView.axaml.cs">
+      <DependentUpon>VocabularyListDetailsView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\VocabularyListViews\VocabularyListExportView.axaml.cs">
+      <DependentUpon>VocabularyListExportView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\VocabularyListViews\VocabularyListLoadView.axaml.cs">
+      <DependentUpon>VocabularyListLoadView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\VocabularyListViews\VocabularyListSaveView.axaml.cs">
+      <DependentUpon>VocabularyListSaveView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\VocabularyListViews\VocabularyListView.axaml.cs">
+      <DependentUpon>VocabularyListView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\AdditionalCommentsView.axaml.cs">
+      <DependentUpon>AdditionalCommentsView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\JapaneseUserInputView.axaml.cs">
+      <DependentUpon>JapaneseUserInputView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\MeaningsView.axaml.cs">
+      <DependentUpon>MeaningsView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\OutputPanelView.axaml.cs">
+      <DependentUpon>OutputPanelView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\PreEnteredInputView.axaml.cs">
+      <DependentUpon>PreEnteredInputView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\SelectedInputInformationView.axaml.cs">
+      <DependentUpon>SelectedInputInformationView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\VocabularyItemAdditionView.axaml.cs">
+      <DependentUpon>VocabularyItemAdditionView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\WordSearchView.axaml.cs">
+      <DependentUpon>WordSearchView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UI\Views\JapaneseUserInputViews\WriteKanaView.axaml.cs">
+      <DependentUpon>WriteKanaView.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

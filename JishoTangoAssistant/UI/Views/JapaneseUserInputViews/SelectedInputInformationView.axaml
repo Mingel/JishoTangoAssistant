@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JishoTangoAssistant.UI.Views.JapaneseUserInputViews.SelectedInputInformationView">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="3.3*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="3.3*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="3.3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" x:Name="WordLabel" VerticalAlignment="Center" Content="Word" MinWidth="45"/>
+        <ComboBox Grid.Column="1" x:Name="WordComboBox" SelectedIndex="{Binding SelectedIndexOfWords}" ItemsSource="{Binding Words}" FontSize="23" VerticalAlignment="Center" Height="42" HorizontalAlignment="Stretch" Margin="10,0,10,0"/>
+        <Label Grid.Column="2" x:Name="OtherFormsLabel" VerticalAlignment="Center" Content="Form"/>
+        <ComboBox Grid.Column="3" x:Name="OtherFormsComboBox" SelectedIndex="{Binding SelectedIndexOfOtherForms}" ItemsSource="{Binding OtherForms}" FontSize="23" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="42" Margin="10,0,10,0"/>
+        <Label Grid.Column="4" x:Name="ReadingLabel" VerticalAlignment="Center" Content="Reading"/>
+        <Label Grid.Column="5" x:Name="ReadingComboBox" VerticalAlignment="Center" Content="{Binding ReadingOutput}" FontSize="23" HorizontalAlignment="Stretch" Height="42" Margin="10,4,10,0"/>
+    </Grid>
+</UserControl>

@@ -1,12 +1,17 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.Utils;
+using JishoTangoAssistant.UI.Views.JapaneseUserInputViews;
+using JishoTangoAssistant.UI.Views.VocabularyListViews;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace JishoTangoAssistant.UI.Views;
@@ -20,6 +25,8 @@ public partial class JishoTangoAssistantWindowView : Window
     {
         InitializeComponent();
     }
+    
+    public UserControl? CurrentlyLoadedControlContent { get; set; }
 
     protected override void OnLoaded(RoutedEventArgs e)
     {
@@ -57,6 +64,19 @@ public partial class JishoTangoAssistantWindowView : Window
                                               "You have made unsaved changes. Do you really want to close the application?",
                                               MessageBoxButtons.YesNo));
         Dispatcher.UIThread.Post(() => CloseWindowAfterAsking(msgBoxResult == MessageBoxResult.Yes));
+    }
+    
+    public void FocusSelectedContentControlView()
+    {
+        switch (CurrentlyLoadedControlContent)
+        {
+            case JapaneseUserInputView { IsLoaded: true, IsFocused: false } japaneseUserInputView:
+                japaneseUserInputView.Focus();
+                break;
+            case VocabularyListView { IsLoaded: true, IsFocused: false } vocabularyListView:
+                vocabularyListView.Focus();
+                break;
+        }
     }
 
     private void CloseWindowAfterAsking(bool shouldClose)

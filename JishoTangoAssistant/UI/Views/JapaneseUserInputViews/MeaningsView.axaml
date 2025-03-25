@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:collections="clr-namespace:JishoTangoAssistant.Common.Collections"
+             xmlns:data="clr-namespace:JishoTangoAssistant.Common.Data"
+             xmlns:converters="clr-namespace:JishoTangoAssistant.UI.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JishoTangoAssistant.UI.Views.JapaneseUserInputViews.MeaningsView">
+    <UserControl.Resources>
+        <converters:FlattenedIndexToCheckBoxHotKeyConverter x:Key="FlattenedIndexToCheckBoxHotKeyConverter"/>
+    </UserControl.Resources>
+    <HeaderedContentControl Header="Meaning" BorderBrush="{DynamicResource DefaultBorderColor}" BorderThickness="1" Height="NaN">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid x:Name="MeaningGrid">
+                <ItemsControl ItemsSource="{Binding MeaningGroups}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="collections:ObservableSimilarMeaningGroup">
+                            <StackPanel Orientation="Vertical" x:Name="MeaningStackPanel">
+                                <ItemsControl ItemsSource="{Binding SimilarMeanings}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox x:DataType="data:AvailableMeaning" 
+                                                      HotKey="{Binding FlattenedIndex, Converter={StaticResource FlattenedIndexToCheckBoxHotKeyConverter}}" 
+                                                      Content="{Binding Value}" 
+                                                      IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                                                      Margin="5,5,7,5"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Top"
+                                                      Background="Transparent"
+                                                      CornerRadius="3"
+                                                      HorizontalContentAlignment="Left"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <DockPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
+    </HeaderedContentControl>
+</UserControl>

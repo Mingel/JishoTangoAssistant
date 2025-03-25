@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using JishoTangoAssistant.Common.Data;
+using JishoTangoAssistant.UI.Views;
 using Newtonsoft.Json;
 
-namespace JishoTangoAssistant.Common.Utils;
+namespace JishoTangoAssistant.UI.Utils;
 
 public static class FilePicker {
     public static async Task<FileInfo<IEnumerable<T>>?> LoadAsync<T>(string? title = null, IReadOnlyList<FilePickerFileType>? options = null, string? startLocationPath = null)
@@ -47,6 +48,9 @@ public static class FilePicker {
         await using var stream = await files[0].OpenReadAsync();
         using var streamReader = new StreamReader(stream);
         var fileContent = await streamReader.ReadToEndAsync();
+        
+        (App.GetMainWindow() as JishoTangoAssistantWindowView)?.FocusSelectedContentControlView();
+        
         return new FileInfo<string>(fileContent, filePath);
     }
     
@@ -85,6 +89,9 @@ public static class FilePicker {
         await using var stream = await file.OpenWriteAsync();
         await using var streamWriter = new StreamWriter(stream, Encoding.UTF8);
         await streamWriter.WriteAsync(content);
+
+        (App.GetMainWindow() as JishoTangoAssistantWindowView)?.FocusSelectedContentControlView();
+        
         return new FileInfo<string>(content, filePath);
     }
 }
