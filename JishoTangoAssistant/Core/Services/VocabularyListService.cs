@@ -46,6 +46,7 @@ public class VocabularyListService : IVocabularyListService
     public bool Contains(VocabularyItem item) => vocabularyList.Contains(item);
 
     public int Count() => vocabularyList.Count;
+    public VocabularyItem GetItem(int index) => vocabularyList[index];
 
     public async Task UndoAsync()
     {

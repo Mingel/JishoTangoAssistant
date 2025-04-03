@@ -14,6 +14,7 @@ public interface IVocabularyListService
     bool ContainsWord(string word);
     bool Contains(VocabularyItem item);
     int Count();
+    VocabularyItem GetItem(int index);
     Task UndoAsync();
     Task ClearAsync(bool resetAutoIncrementId = true);
     Task AddRangeAsync(IEnumerable<VocabularyItem> items, bool removeInfoAboutLastAddedItem = false);

@@ -79,6 +79,11 @@ public partial class JishoTangoAssistantWindowView : Window
         }
     }
 
+    public void SwitchToJapaneseUserInputEditView()
+    {
+        ViewTabControl.SelectedItem = DictionaryTabItem;
+    }
+
     private void CloseWindowAfterAsking(bool shouldClose)
     {
         userWantsToQuit = shouldClose;

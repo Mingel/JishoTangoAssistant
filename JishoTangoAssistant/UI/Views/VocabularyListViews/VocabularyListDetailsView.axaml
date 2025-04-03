@@ -21,6 +21,8 @@
 					<RowDefinition Height="5"/>
 					<RowDefinition MinHeight="20" Height="Auto"/>
 					<RowDefinition Height="5"/>
+					<RowDefinition MinHeight="20" Height="Auto"/>
+					<RowDefinition Height="5"/>
 				</Grid.RowDefinitions>
 
 				<TextBlock Text="{Binding VocabularyList.Count, StringFormat='Number of entries: {0}', Mode=OneWay}"/>
@@ -53,21 +55,28 @@
 						</StackPanel>
 					</Button>
 				</Grid>
+				
+				<Button Grid.Row="5" x:Name="EditActionButton" Command="{Binding Path=EditSelectedVocabularyItemCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+					<StackPanel Orientation="Horizontal">
+						<PathIcon Data="{StaticResource arrow_undo_regular}" /> 
+						<TextBlock Text="Edit selection" VerticalAlignment="Center" Margin="5,0,0,0"/>
+					</StackPanel>
+				</Button>
 
-				<Button Grid.Row="5" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="True">
+				<Button Grid.Row="7" x:Name="DeleteSelectionButton" Command="{Binding Path=DeleteFromListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="True">
 					<StackPanel Orientation="Horizontal">
 						<PathIcon Data="{StaticResource delete_regular}" /> 
 						<TextBlock Text="Delete Selection" VerticalAlignment="Center" Margin="5,0,0,0"/>
 					</StackPanel>
 				</Button>
-				<Button Grid.Row="5" x:Name="DeleteAllButton" Command="{Binding Path=DeleteAllFromListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="False">
+				<Button Grid.Row="7" x:Name="DeleteAllButton" Command="{Binding Path=DeleteAllFromListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsVisible="False">
 					<StackPanel Orientation="Horizontal">
 						<PathIcon Data="{StaticResource warning_regular}" />
 						<PathIcon Data="{StaticResource delete_regular}" /> 
 						<TextBlock Text="Delete All" VerticalAlignment="Center" Margin="5,0,0,0"/>
 					</StackPanel>
 				</Button>
-				<Button Grid.Row="7" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z">
+				<Button Grid.Row="9" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z">
 					<StackPanel Orientation="Horizontal">
 						<PathIcon Data="{StaticResource arrow_undo_regular}" /> 
 						<TextBlock Text="Undo Last Action" VerticalAlignment="Center" Margin="5,0,0,0"/>

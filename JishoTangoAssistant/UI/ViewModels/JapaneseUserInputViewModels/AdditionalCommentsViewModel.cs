@@ -5,7 +5,7 @@ using JishoTangoAssistant.UI.Messages;
 
 namespace JishoTangoAssistant.UI.ViewModels.JapaneseUserInputViewModels;
 
-public partial class AdditionalCommentsViewModel : JishoTangoAssistantViewModelBase, IRecipient<UpdateAllNonCollectionPropertiesMessage>
+public partial class AdditionalCommentsViewModel : JishoTangoAssistantViewModelBase, IRecipient<UpdateAllNonCollectionPropertiesMessage>, IRecipient<EditVocabularyItemMessage>
 {
     private readonly ICurrentJapaneseUserInputSelectionService currentSelectionService;
     private bool isProcessingInput;
@@ -16,7 +16,8 @@ public partial class AdditionalCommentsViewModel : JishoTangoAssistantViewModelB
     public AdditionalCommentsViewModel(ICurrentJapaneseUserInputSelectionService currentSelectionService)
     {
         this.currentSelectionService = currentSelectionService;
-        WeakReferenceMessenger.Default.Register(this);
+        WeakReferenceMessenger.Default.Register<UpdateAllNonCollectionPropertiesMessage>(this);
+        WeakReferenceMessenger.Default.Register<EditVocabularyItemMessage>(this);
     }
     
     partial void OnAdditionalCommentsJapaneseChanged(string value) 
@@ -34,5 +35,10 @@ public partial class AdditionalCommentsViewModel : JishoTangoAssistantViewModelB
         isProcessingInput = message.Value;
         AdditionalCommentsJapanese = currentSelectionService.GetAdditionalComments();
         isProcessingInput = false;
+    }
+
+    public void Receive(EditVocabularyItemMessage message)
+    {
+        AdditionalCommentsJapanese = message.Value.AdditionalCommentsJapanese ?? string.Empty;
     }
 }

@@ -7,7 +7,7 @@ using JishoTangoAssistant.UI.Messages;
 
 namespace JishoTangoAssistant.UI.ViewModels.JapaneseUserInputViewModels;
 
-public partial class SelectedInputInformationViewModel : JishoTangoAssistantViewModelBase, IRecipient<UpdateAllNonCollectionPropertiesMessage>
+public partial class SelectedInputInformationViewModel : JishoTangoAssistantViewModelBase, IRecipient<UpdateAllNonCollectionPropertiesMessage>, IRecipient<EditVocabularyItemMessage>
 {
     private readonly ICurrentJapaneseUserInputSelectionService currentSelectionService;
     private bool isProcessingInput;
@@ -94,5 +94,10 @@ public partial class SelectedInputInformationViewModel : JishoTangoAssistantView
         SelectedIndexOfOtherForms = currentSelectionService.GetSelectedOtherFormsIndex();
         ReadingOutput = currentSelectionService.GetReadingOutput();
         isProcessingInput = false;
+    }
+
+    public void Receive(EditVocabularyItemMessage message)
+    {
+        // TODO SelectedIndexOfWords = currentSelectionService.GetWords()
     }
 }

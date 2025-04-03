@@ -49,7 +49,7 @@
 
 			<DockPanel Grid.Row="1" Grid.Column="1" x:Name="UserIoTableLayoutPanel">
 				<TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="ViewTabControl">
-					<TabItem Header="Dictionary">
+					<TabItem Header="Dictionary" x:Name="DictionaryTabItem">
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="5"/>
@@ -64,7 +64,7 @@
 							<ContentControl Content="{Binding JapaneseUserInputViewModel}" Grid.Row="1" Grid.Column="1" x:Name="JapaneseUserInputView"/>
 						</Grid>
 					</TabItem>
-					<TabItem Header="Vocabulary List">
+					<TabItem Header="Vocabulary List" x:Name="VocabularyListTabItem">
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="5"/>

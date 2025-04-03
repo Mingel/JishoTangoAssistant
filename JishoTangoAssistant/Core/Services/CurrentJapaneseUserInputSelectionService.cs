@@ -21,6 +21,8 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
     private readonly CurrentJapaneseUserInputSelection selection = new();
     
     public IEnumerable<JishoDatum> LastRetrievedResults { get; set; } = [];
+    
+    public bool IsInEditMode { get; set; }
 
     #region selection-attributes
     public ObservableCollection<string> GetWords() => selection.Words;
@@ -57,7 +59,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
                                                      selection.OtherForms[selection.SelectedOtherFormsIndex]);
     }
 
-    public async Task UpdateSelectionAsync(string preprocessedInput)
+    public async Task UpdateSelectionAsync(string preprocessedInput, bool editMode = false)
     {
         var allResults = await jishoWebService.GetResultAsync(preprocessedInput);
         if (allResults == null || !allResults.Any()) // TODO move out of this service
@@ -128,6 +130,8 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
         StoreMeanings(result);
 
         selection.ItemAdditionPossible = true;
+
+        IsInEditMode = editMode;
     }
 
     private async Task HandleSearchErrorAsync(IEnumerable<JishoDatum>? allResults)
