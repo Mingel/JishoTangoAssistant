@@ -24,7 +24,7 @@ public interface ICurrentJapaneseUserInputSelectionService
     public void SetWriteInKana(bool value);
     public bool GetItemAdditionPossible();
     public bool IsSelectedWordAndFormIsKanaOnly();
-    Task UpdateSelectionAsync(string preprocessedInput, bool editMode = false);
+    Task UpdateSelectionAsync(string preprocessedInput, string? readingsOfResult = null, bool editMode = false);
     VocabularyItem? CreateVocabularyItem();
     void UpdateOtherForms();
     void UpdateReading();

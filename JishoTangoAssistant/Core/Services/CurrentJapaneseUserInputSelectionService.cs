@@ -59,7 +59,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
                                                      selection.OtherForms[selection.SelectedOtherFormsIndex]);
     }
 
-    public async Task UpdateSelectionAsync(string preprocessedInput, bool editMode = false)
+    public async Task UpdateSelectionAsync(string preprocessedInput, string? readingsOfResult = null, bool editMode = false)
     {
         var allResults = await jishoWebService.GetResultAsync(preprocessedInput);
         if (allResults == null || !allResults.Any()) // TODO move out of this service
@@ -245,7 +245,7 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
         }
     }
     
-    private static void GetIndicesOfInputInResult(string input, IEnumerable<JishoDatum> result, ref int resultIndex, ref int entryIndex)
+    private static void GetIndicesOfInputInResult(string input, IEnumerable<JishoDatum> result, ref int resultIndex, ref int entryIndex, string? readingsOfResult = null)
     {
         ArgumentNullException.ThrowIfNull(result);
 
@@ -254,9 +254,12 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
             var res = result.ElementAt(i);
             for (var j = 0; j < res.Japanese.Count(); j++)
             {
-                var entry = res.Japanese.ElementAt(j).Word;
+                var entry = res.Japanese.ElementAt(j);
                 
-                if (input != entry)
+                if (input != entry.Word)
+                    continue;
+                
+                if (!string.IsNullOrEmpty(readingsOfResult) && readingsOfResult != entry.Reading)
                     continue;
                 
                 resultIndex = i;

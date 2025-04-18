@@ -12,11 +12,13 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     public VocabularyListViewModel(
         IVocabularyListService vocabularyListService,
         ICurrentSessionService currentSessionService,
-        IWindowManipulatorService windowManipulatorService)
+        IWindowManipulatorService windowManipulatorService,
+        ICurrentJapaneseUserInputSelectionService currentSelectionService)
     {
         VocabularyListDetailsViewModel = new VocabularyListDetailsViewModel(vocabularyListService,
             currentSessionService,
-            windowManipulatorService);
+            windowManipulatorService,
+            currentSelectionService);
         VocabularyListLoadViewModel = new VocabularyListLoadViewModel(vocabularyListService,
             currentSessionService,
             windowManipulatorService);

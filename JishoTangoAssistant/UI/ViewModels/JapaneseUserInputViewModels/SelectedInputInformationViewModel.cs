@@ -36,7 +36,7 @@ public partial class SelectedInputInformationViewModel : JishoTangoAssistantView
         
         Words = currentSelectionService.GetWords();
         OtherForms = currentSelectionService.GetOtherForms();
-        WeakReferenceMessenger.Default.Register(this);
+        WeakReferenceMessenger.Default.Register<UpdateAllNonCollectionPropertiesMessage>(this);
     }
     
     partial void OnReadingOutputChanged(string value) => WeakReferenceMessenger.Default.Send(new UpdateVisualRelatedPropertiesMessage());
@@ -96,8 +96,14 @@ public partial class SelectedInputInformationViewModel : JishoTangoAssistantView
         isProcessingInput = false;
     }
 
-    public void Receive(EditVocabularyItemMessage message)
+    public async void Receive(EditVocabularyItemMessage message)
     {
-        // TODO SelectedIndexOfWords = currentSelectionService.GetWords()
+        await currentSelectionService.UpdateSelectionAsync(message.Value.Word, message.Value.Reading, true);
+        WeakReferenceMessenger.Default.Send(new UpdateAllNonCollectionPropertiesMessage(true));
+        WeakReferenceMessenger.Default.Send(new UpdateOutputTextMessage());
+        WeakReferenceMessenger.Default.Send(new UpdateVisualRelatedPropertiesMessage());
+        WeakReferenceMessenger.Default.Send(
+            new UpdateSelectedWordAndFormIsKanaOnlyPropertyMessage(currentSelectionService
+                .IsSelectedWordAndFormIsKanaOnly()));
     }
 }
