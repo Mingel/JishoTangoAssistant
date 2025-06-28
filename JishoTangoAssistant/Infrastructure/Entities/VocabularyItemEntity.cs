@@ -15,17 +15,17 @@ public record VocabularyItemEntity
     public string? AnkiGuid { get; set; }
     
     [MaxLength(200)]
-    public string Word { get; init; }
+    public string Word { get; set; }
     
-    public bool ShowReading { get; init; }
+    public bool ShowReading { get; set; }
 
     [MaxLength(500)]
-    public string Reading { get; init; }
+    public string Reading { get; set; }
 
-    public List<SimilarMeaningGroup> Meanings { get; init; }
+    public List<SimilarMeaningGroup> Meanings { get; set; }
 
     [MaxLength(2000)]
-    public string? AdditionalCommentsJapanese { get; init; }
+    public string? AdditionalCommentsJapanese { get; set; }
     
     public int Order { get; set; }
 
