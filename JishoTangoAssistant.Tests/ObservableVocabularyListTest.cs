@@ -191,13 +191,39 @@ public class ObservableVocabularyListTest
             
         // Act
         list.AddRange(itemsToAdd);
-            
+
         // Assert
         var containsWordValue1 = list.ContainsWord("食べる");
         var containsWordValue2 = list.ContainsWord("飲む");
         var containsWordValue3 = list.ContainsWord("ある");
         var containsWordValue4 = list.ContainsWord("いる");
         Assert.That(containsWordValue1, Is.True);
+        Assert.That(containsWordValue2, Is.True);
+        Assert.That(containsWordValue3, Is.True);
+        Assert.That(containsWordValue4, Is.True);
+    }
+
+    [Test]
+    public void LoadInitialDataTest()
+    {
+        // Arrange
+        list.Add(new VocabularyItem("食べる", false, "たべる", [["to eat"]]));
+        var itemsToAdd = new List<VocabularyItem>
+        {
+            new("飲む", false, "のむ", [["to drink"]]),
+            new("ある", true, "ある", [["to be"]]),
+            new("いる", true, "いる", [["to be"]])
+        };
+        
+        // Act
+        list.LoadInitialItems(itemsToAdd);
+
+        // Assert
+        var containsWordValue1 = list.ContainsWord("食べる");
+        var containsWordValue2 = list.ContainsWord("飲む");
+        var containsWordValue3 = list.ContainsWord("ある");
+        var containsWordValue4 = list.ContainsWord("いる");
+        Assert.That(containsWordValue1, Is.False);
         Assert.That(containsWordValue2, Is.True);
         Assert.That(containsWordValue3, Is.True);
         Assert.That(containsWordValue4, Is.True);

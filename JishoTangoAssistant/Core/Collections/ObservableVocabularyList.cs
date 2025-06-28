@@ -22,7 +22,7 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
 
     public ObservableVocabularyList() { }
     
-    public ObservableVocabularyList(IEnumerable<VocabularyItem> items) => AddRange(items, true);
+    public ObservableVocabularyList(IEnumerable<VocabularyItem> items) => LoadInitialItems(items);
 
     #region methods-interfaces
     public int Count => vocabularyList.Count;
@@ -61,6 +61,12 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
     public void Clear() => Clear(true);
 
     public void AddRange(IEnumerable<VocabularyItem> items, bool removeInfoAboutLastAddedItem = false) => AddRange(items, removeInfoAboutLastAddedItem, true);
+
+    public void LoadInitialItems(IEnumerable<VocabularyItem> items)
+    {
+        Clear();
+        AddRange(items, true, false);
+    }
 
     public bool Contains(VocabularyItem item)
     {
