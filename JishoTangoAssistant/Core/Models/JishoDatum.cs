@@ -32,7 +32,7 @@ public record JishoAttribution
     
     public bool JmNedict { get; init; }
     
-    public string DbPedia { get; init; }
+    public string DbPedia { get; init; } = string.Empty;
     
     public static JishoAttribution FromDto(JishoAttributionDto dto)
     {
@@ -47,9 +47,9 @@ public record JishoAttribution
 
 public record JishoJapaneseItem
 {
-    public string Word { get; init; }
+    public string Word { get; init; } = string.Empty;
     
-    public string Reading { get; init; }
+    public string Reading { get; init; } = string.Empty;
 
     public static JishoJapaneseItem FromDto(JishoJapaneseItemDto dto)
     {
