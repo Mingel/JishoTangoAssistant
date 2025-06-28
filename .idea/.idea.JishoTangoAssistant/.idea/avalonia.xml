@@ -16,7 +16,9 @@
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/AdditionalCommentsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/JapaneseUserInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/MeaningsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/OutputPanelView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/PreEnteredInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/VocabularyItemAdditionView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JapaneseUserInputViews/WordSearchView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JishoTangoAssisantWindow.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/JishoTangoAssisantWindowView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
