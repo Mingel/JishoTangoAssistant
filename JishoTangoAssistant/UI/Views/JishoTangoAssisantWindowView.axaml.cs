@@ -20,25 +20,19 @@ public partial class JishoTangoAssistantWindowView : Window
 {
     private bool userWantsToQuit;
     private IServiceProvider? serviceProvider;
-    private UserControl? currentUserControl;
 
     public JishoTangoAssistantWindowView()
     {
         InitializeComponent();
     }
+    
+    public UserControl? CurrentlyLoadedControlContent { get; set; }
 
     protected override void OnLoaded(RoutedEventArgs e)
     {
         serviceProvider = Application.Current?.Resources[typeof(IServiceProvider)] as IServiceProvider;
         var windowManipulatorService = serviceProvider?.GetRequiredService<IWindowManipulatorService>();
         windowManipulatorService?.UpdateTitle();
-        
-        currentUserControl = (ViewTabControl.SelectedItem as TabItem)?.GetLogicalDescendants()
-            .FirstOrDefault()?
-            .GetLogicalDescendants()
-            .FirstOrDefault(element => element.GetType() == typeof(ContentControl))?
-            .GetLogicalDescendants()
-            .FirstOrDefault() as UserControl;
     }
     
     protected override async void OnClosing(WindowClosingEventArgs e)
@@ -63,17 +57,6 @@ public partial class JishoTangoAssistantWindowView : Window
         base.OnClosing(e);
     }
 
-    private void OnTabSelectionChanged(object? sender, SelectionChangedEventArgs e)
-    {
-        if (sender is TabControl { SelectedItem: TabItem selectedTab })
-        {
-            currentUserControl = selectedTab.GetLogicalDescendants()
-                .FirstOrDefault(element => element.GetType() == typeof(ContentControl))?
-                .GetLogicalDescendants()
-                .FirstOrDefault() as UserControl; 
-        }
-    }
-
     private async Task AskForCloseWindow()
     {
         var msgBoxResult = await Dispatcher.UIThread.InvokeAsync(() =>
@@ -85,7 +68,7 @@ public partial class JishoTangoAssistantWindowView : Window
     
     public void FocusSelectedContentControlView()
     {
-        switch (currentUserControl)
+        switch (CurrentlyLoadedControlContent)
         {
             case JapaneseUserInputView { IsLoaded: true, IsFocused: false } japaneseUserInputView:
                 japaneseUserInputView.Focus();

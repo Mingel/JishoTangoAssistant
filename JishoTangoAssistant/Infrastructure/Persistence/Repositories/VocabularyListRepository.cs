@@ -25,6 +25,10 @@ public class VocabularyListRepository : IVocabularyListRepository
 
     public async Task ReplaceVocabularyListAsync(IEnumerable<VocabularyItem> vocabularyItems, bool resetAutoIncrementId = true)
     {
+        // TODO For now, delete data in table and then re-insert, change later
+        if (resetAutoIncrementId)
+            dbContext.ResetAutoIncrementId();
+        
         // TODO currently, in this implementation, vocabularyItems equals all items in memory, only effectively updating all items
         //      preferably, we want to split up the "writing to db" part to updating, adding and removing items to/in db
         var newItems = vocabularyItems.ToList();
