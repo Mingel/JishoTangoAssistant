@@ -38,6 +38,7 @@
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListSaveView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListDetailsView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
+        <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListExportView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListLoadView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListSaveView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/Views/VocabularyListViews/VocabularyListView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />

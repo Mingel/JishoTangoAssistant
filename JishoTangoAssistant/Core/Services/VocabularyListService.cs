@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Threading;
-using JishoTangoAssistant.Common.Collections;
 using JishoTangoAssistant.Core.Collections;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.Core.Models;
@@ -13,7 +12,6 @@ namespace JishoTangoAssistant.Core.Services;
 
 public class VocabularyListService : IVocabularyListService
 {
-    private const int DataPersistenceTimerInterval = 300; // in milliseconds
     private readonly IVocabularyListRepository repository;
     private readonly ReadOnlyObservableVocabularyList readOnlyVocabularyList;
     private readonly ObservableVocabularyList vocabularyList;
@@ -27,7 +25,7 @@ public class VocabularyListService : IVocabularyListService
         readOnlyVocabularyList = new ReadOnlyObservableVocabularyList(vocabularyList);
         dataPersistenceTimer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMilliseconds(DataPersistenceTimerInterval)
+            Interval = TimeSpan.FromMilliseconds(Constants.Constants.DataPersistenceTimerInterval)
         };
         dataPersistenceTimer.Tick += ReplaceVocabularyListHandlerAsync;
     }

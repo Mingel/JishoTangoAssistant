@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
@@ -28,8 +29,9 @@ public partial class VocabularyListExportViewModel : JishoTangoAssistantViewMode
         set
         {
             var exportSettings = currentSessionService.GetExportSettings();
-            var fontSize = value is < 6 or > 96 ? Constants.DefaultFontSize : value;
-            SetProperty(ref exportSettings.FontSize, fontSize);
+            var fontSize = Math.Clamp(value, Constants.MinFontSize, Constants.MaxFontSize);
+            if (fontSize != exportSettings.FontSize)
+                currentSessionService.SetExportSettings(exportSettings with { FontSize = fontSize });
         }
     }
     
