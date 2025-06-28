@@ -159,9 +159,11 @@ public class CurrentJapaneseUserInputSelectionService(IJishoWebService jishoWebS
         if (selection.SelectedOtherFormsIndex < 0) // nothing has been searched (or no search results found)
             return null;
         var meanings = selection.Meanings.Select(g => g.SimilarMeanings.Where(m => m.IsEnabled)
-                                                                                                                 .Select(m => m.Value))
-                                                              .Where(m => m.Any())
-                                                              .ToList();
+                                                                                                                  .Select(m => m.Value)
+                                                                                                                  .ToList()
+                                                                                                                  .AsEnumerable())
+                                                           .Where(m => m.Any())
+                                                           .ToList();
         var additionalComments = !string.IsNullOrWhiteSpace(selection.AdditionalComments) ? selection.AdditionalComments : null;
         var showReading = !selection.WriteInKana;
         var word = showReading ? selection.OtherForms.ElementAt(selection.SelectedOtherFormsIndex) : selection.ReadingOutput;
