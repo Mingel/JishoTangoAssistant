@@ -14,13 +14,16 @@ public record VocabularyItem
 {
     public VocabularyItem()
     {
+        Word = string.Empty;
+        Reading = string.Empty;
+        Meanings = [];
     }
     
     public VocabularyItem(string Word, 
         bool ShowReading, 
         string Reading, 
         List<SimilarMeaningGroup> Meanings, 
-         string? AdditionalCommentsJapanese = null)
+        string? AdditionalCommentsJapanese = null)
     {
         this.Word = Word;
         this.ShowReading = ShowReading;

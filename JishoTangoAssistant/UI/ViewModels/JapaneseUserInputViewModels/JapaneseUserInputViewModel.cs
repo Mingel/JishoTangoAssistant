@@ -22,10 +22,12 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         WriteKanaViewModel = new WriteKanaViewModel(currentSelectionService);
         OutputPanelViewModel = new OutputPanelViewModel(currentSelectionService, vocabularyListService);
         MeaningsViewModel = new MeaningsViewModel(currentSelectionService);
-        AdditionalCommentsViewModel = new JapaneseUserInputViewModels.AdditionalCommentsViewModel(currentSelectionService);
+        AdditionalCommentsViewModel = new AdditionalCommentsViewModel(currentSelectionService);
         VocabularyItemAdditionViewModel = new VocabularyItemAdditionViewModel(currentSelectionService, vocabularyListService, currentSessionService, windowManipulatorService);
 
         vocabularyListService.GetList().CollectionChanged += (_, _) => WeakReferenceMessenger.Default.Send(new UpdateVisualRelatedPropertiesMessage());
+        
+        WeakReferenceMessenger.Default.Register(this);
     }
     
     private WordSearchViewModel WordSearchViewModel { get; }
