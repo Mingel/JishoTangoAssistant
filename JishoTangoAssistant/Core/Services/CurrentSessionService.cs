@@ -15,14 +15,15 @@ public class CurrentSessionService : ICurrentSessionService
         currentSession = currentSessionRepository.GetCurrentSessionAsync().Result;
     }
     
-    public bool GetUserMadeChanges()
+    public bool GetUserMadeUnsavedChanges()
     {
-        return currentSession.UserMadeChanges;
+        return currentSession.UserMadeUnsavedChanges;
     }
 
-    public void SetUserMadeChanges(bool value)
+    public void SetUserMadeUnsavedChanges(bool value)
     {
-        currentSession.UserMadeChanges = value;
+        currentSession.UserMadeUnsavedChanges = value;
+        currentSessionRepository.UpdateUserMadeUnsavedChangesPropertyAsync(value);
     }
     
     public ExportSettings GetExportSettings()
@@ -33,7 +34,7 @@ public class CurrentSessionService : ICurrentSessionService
     public void SetExportSettings(ExportSettings value)
     {
         currentSession.ExportSettings = value;
-        currentSessionRepository.UpdatExportSettingsPropertyAsync(value);
+        currentSessionRepository.UpdateExportSettingsPropertyAsync(value);
     }
 
     public string? GetLoadedFilePath()

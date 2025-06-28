@@ -6,4 +6,6 @@ public abstract record Constants
 
     public const string CurrentSessionExportSettingsCustomFontSizePropertyName = "ExportSettings:CustomFontSize";
     public const string CurrentSessionLoadedFilePathPropertyName = "LoadedFilePath";
+
+    public const string CurrentSessionUserMadeUnsavedChanges = "UserMadeUnsavedChanges";
 }

@@ -2,7 +2,7 @@
 
 public record CurrentSession
 {
-    public bool UserMadeChanges { get; set; }
+    public bool UserMadeUnsavedChanges { get; set; }
 
     public ExportSettings ExportSettings { get; set; } = new();
 

@@ -63,7 +63,7 @@ public partial class VocabularyListLoadViewModel : JishoTangoAssistantViewModelB
             await vocabularyListService.ClearAsync();
         await vocabularyListService.AddRangeAsync(loadedVocabularyItems, true);
         currentSessionService.SetLoadedFilePath(loadedFileInfo?.FilePath);
-        currentSessionService.SetUserMadeChanges(false);
+        currentSessionService.SetUserMadeUnsavedChanges(false);
         windowManipulatorService.UpdateTitle();
     }
 }

@@ -51,7 +51,7 @@ public partial class JishoTangoAssistantWindowView : Window
             return;
         }
         
-        if (!currentSessionService.GetUserMadeChanges())
+        if (!currentSessionService.GetUserMadeUnsavedChanges())
             userWantsToQuit = true;
 
         if (!userWantsToQuit)

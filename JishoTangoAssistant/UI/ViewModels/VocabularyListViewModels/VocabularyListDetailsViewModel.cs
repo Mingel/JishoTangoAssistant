@@ -42,7 +42,7 @@ public partial class VocabularyListDetailsViewModel : JishoTangoAssistantViewMod
         if (0 <= SelectedVocabItemIndex && SelectedVocabItemIndex < VocabularyList.Count)
             await vocabularyListService.RemoveAtAsync(SelectedVocabItemIndex);
         
-        currentSessionService.SetUserMadeChanges(true);
+        currentSessionService.SetUserMadeUnsavedChanges(true);
         windowManipulatorService.UpdateTitle();
     }
     
@@ -52,7 +52,7 @@ public partial class VocabularyListDetailsViewModel : JishoTangoAssistantViewMod
         currentSessionService.SetLoadedFilePath(null);
         await vocabularyListService.ClearAsync();
         
-        currentSessionService.SetUserMadeChanges(true);
+        currentSessionService.SetUserMadeUnsavedChanges(true);
         windowManipulatorService.UpdateTitle();
     }
 
@@ -63,7 +63,7 @@ public partial class VocabularyListDetailsViewModel : JishoTangoAssistantViewMod
             return;
         await vocabularyListService.SwapAsync(SelectedVocabItemIndex - 1, SelectedVocabItemIndex);
         
-        currentSessionService.SetUserMadeChanges(true);
+        currentSessionService.SetUserMadeUnsavedChanges(true);
         windowManipulatorService.UpdateTitle();
     }
 
@@ -75,7 +75,7 @@ public partial class VocabularyListDetailsViewModel : JishoTangoAssistantViewMod
         await vocabularyListService.SwapAsync(SelectedVocabItemIndex, SelectedVocabItemIndex + 1);
         SelectedVocabItemIndex++;
         
-        currentSessionService.SetUserMadeChanges(true);
+        currentSessionService.SetUserMadeUnsavedChanges(true);
         windowManipulatorService.UpdateTitle();
     }
 
@@ -83,7 +83,7 @@ public partial class VocabularyListDetailsViewModel : JishoTangoAssistantViewMod
     private async Task UndoOperationOnVocabularyList()
     {
         await vocabularyListService.UndoAsync();
-        currentSessionService.SetUserMadeChanges(true);
+        currentSessionService.SetUserMadeUnsavedChanges(true);
         windowManipulatorService.UpdateTitle();
     }
 }

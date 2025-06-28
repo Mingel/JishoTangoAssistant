@@ -12,7 +12,7 @@ public class WindowManipulatorService(ICurrentSessionService currentSessionServi
             return;
 
         var filePath = currentSessionService.GetLoadedFilePath();
-        var changesMade = currentSessionService.GetUserMadeChanges();
+        var changesMade = currentSessionService.GetUserMadeUnsavedChanges();
 
         if (string.IsNullOrEmpty(filePath))
             mainWindow.Title = "JishoTangoAssistant";

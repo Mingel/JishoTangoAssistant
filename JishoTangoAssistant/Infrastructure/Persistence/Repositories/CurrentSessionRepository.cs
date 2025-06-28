@@ -22,14 +22,18 @@ public class CurrentSessionRepository : ICurrentSessionRepository
             .AsNoTracking().FirstOrDefaultAsync(property => property.Name == Constants.CurrentSessionExportSettingsCustomFontSizePropertyName);
         var loadedFilePathEntity = await dbContext.CurrentSession
             .AsNoTracking().FirstOrDefaultAsync(property => property.Name == Constants.CurrentSessionLoadedFilePathPropertyName);
+        var userMadeUnsavedChangesEntity = await dbContext.CurrentSession
+            .AsNoTracking().FirstOrDefaultAsync(property => property.Name == Constants.CurrentSessionUserMadeUnsavedChanges);
         
         int exportSettingsFontSize =
             int.TryParse(customFontSizeEntity?.Value, out exportSettingsFontSize) ? exportSettingsFontSize : Constants.DefaultFontSize;
         var loadedFilePath = loadedFilePathEntity?.Value;
+        bool userMadeUnsavedChanges = bool.TryParse(userMadeUnsavedChangesEntity?.Value, out userMadeUnsavedChanges) && userMadeUnsavedChanges;
         var currentSession = CreateInitialCurrentSession() with
         {
             ExportSettings = new ExportSettings { FontSize = exportSettingsFontSize },
             LoadedFilePath = loadedFilePath,
+            UserMadeUnsavedChanges = userMadeUnsavedChanges
         };
 
         var addedToDatabase = false;
@@ -51,6 +55,15 @@ public class CurrentSessionRepository : ICurrentSessionRepository
             });
             addedToDatabase = true;
         }
+        if (userMadeUnsavedChangesEntity == null)
+        {
+            await dbContext.CurrentSession.AddRangeAsync(new CurrentSessionPropertyEntity
+            {
+                Name = Constants.CurrentSessionUserMadeUnsavedChanges,
+                Value = userMadeUnsavedChanges.ToString()
+            });
+            addedToDatabase = true;
+        }
 
         if (addedToDatabase)
             await dbContext.SaveChangesAsync();
@@ -62,27 +75,30 @@ public class CurrentSessionRepository : ICurrentSessionRepository
     {
         return new CurrentSession
         {
-            UserMadeChanges = false,
+            UserMadeUnsavedChanges = false,
             ExportSettings = new ExportSettings(),
             LoadedFilePath = string.Empty,
         };
     }
+
+    public async Task UpdateExportSettingsPropertyAsync(ExportSettings value) =>
+        await UpdateSessionPropertyAsync(Constants.CurrentSessionExportSettingsCustomFontSizePropertyName, value.FontSize);
+
+    public async Task UpdateLoadedFilePathPropertyAsync(string value) =>
+        await UpdateSessionPropertyAsync(Constants.CurrentSessionLoadedFilePathPropertyName, value);
+
+    public async Task UpdateUserMadeUnsavedChangesPropertyAsync(bool value) =>
+        await UpdateSessionPropertyAsync(Constants.CurrentSessionUserMadeUnsavedChanges, value);
     
-    public async Task UpdatExportSettingsPropertyAsync(ExportSettings value)
+    private async Task UpdateSessionPropertyAsync<T>(string propertyName, T value)
     {
-        var exportSettingsFontSizeEntity = await dbContext.CurrentSession
-            .FirstOrDefaultAsync(property => property.Name == "ExportSettings:CustomFontSize");
-        if (exportSettingsFontSizeEntity != null) 
-            exportSettingsFontSizeEntity.Value = value.FontSize.ToString();
-        await dbContext.SaveChangesAsync();
-    }
-    
-    public async Task UpdateLoadedFilePathPropertyAsync(string value)
-    {
-        var loadedFilePathEntity = await dbContext.CurrentSession
-            .FirstOrDefaultAsync(property => property.Name == "LoadedFilePath");
-        if (loadedFilePathEntity != null) 
-            loadedFilePathEntity.Value = value;
-        await dbContext.SaveChangesAsync();
+        var entity = await dbContext.CurrentSession
+            .FirstOrDefaultAsync(property => property.Name == propertyName);
+
+        if (entity != null)
+        {
+            entity.Value = value?.ToString() ?? string.Empty;
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

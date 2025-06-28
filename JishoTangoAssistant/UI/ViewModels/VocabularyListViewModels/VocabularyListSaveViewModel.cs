@@ -39,7 +39,7 @@ public partial class VocabularyListSaveViewModel : JishoTangoAssistantViewModelB
         if (result != null)
         {
             currentSessionService.SetLoadedFilePath(result.FilePath);
-            currentSessionService.SetUserMadeChanges(false);
+            currentSessionService.SetUserMadeUnsavedChanges(false);
             windowManipulatorService.UpdateTitle();
         }
     }

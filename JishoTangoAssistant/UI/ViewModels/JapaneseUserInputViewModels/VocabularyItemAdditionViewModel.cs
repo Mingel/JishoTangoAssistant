@@ -41,7 +41,7 @@ public partial class VocabularyItemAdditionViewModel : JishoTangoAssistantViewMo
             return;
 
         await vocabularyListService.AddAsync(addedItem);
-        currentSessionService.SetUserMadeChanges(true);
+        currentSessionService.SetUserMadeUnsavedChanges(true);
         windowManipulatorService.UpdateTitle();
     }
     
