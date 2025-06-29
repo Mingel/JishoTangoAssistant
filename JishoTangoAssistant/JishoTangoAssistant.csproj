@@ -18,12 +18,15 @@
     <PackageReference Include="Avalonia.Desktop" Version="11.3.2" />
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.2" />
     <PackageReference Include="Avalonia.Themes.Simple" Version="11.3.2" />
-    <PackageReference Include="Avalonia.Svg.Skia" Version="11.3.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Svg.Controls.Skia.Avalonia" Version="11.3.0.1" />
+    
+    <!-- Temporarily added SkiaSharp.NativeAssets.Linux because Svg.Controls.Skia.Avalonia uses an outdated version of SkiaSharp.NativeAssets.Linux, to be removed later -->
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.116.1" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
