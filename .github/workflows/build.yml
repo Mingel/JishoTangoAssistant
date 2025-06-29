@@ -1,4 +1,4 @@
-name: JishoTangoAssistant Build and Upload
+name: JishoTangoAssistant Build
 on: 
   push:
     branches:
@@ -22,11 +22,11 @@ on:
       - "README.md"
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ "ubuntu-latest" ]
         dotnet-version: ['9.0']
+        runtime: ["win-x64", "linux-x64"]
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
@@ -39,17 +39,10 @@ jobs:
         run: dotnet build JishoTangoAssistant --no-restore --configuration Release
       - name: Test
         run: dotnet test --no-restore --configuration Release --verbosity normal
-      - name: Publish (Windows)
-        run: dotnet publish JishoTangoAssistant --no-restore --configuration Release --runtime win-x64 --property:PublishDir=publish/win-x64
-      - name: Upload to artifact (Windows)
+      - name: Publish for ${{ matrix.runtime }}
+        run: dotnet publish JishoTangoAssistant --no-restore --configuration Release --runtime ${{ matrix.runtime }} --property:PublishDir=publish/${{ matrix.runtime }}
+      - name: Upload artifact for ${{ matrix.runtime }}
         uses: actions/upload-artifact@v4
         with:
-          name: JishoTangoAssistant.exe
-          path: ./JishoTangoAssistant/publish/win-x64/JishoTangoAssistant.exe
-      - name: Publish (Linux)
-        run: dotnet publish JishoTangoAssistant --no-restore --configuration Release --runtime linux-x64 --property:PublishDir=publish/linux-x64
-      - name: Upload to artifact (Linux)
-        uses: actions/upload-artifact@v4
-        with:
-          name: JishoTangoAssistant
-          path: ./JishoTangoAssistant/publish/linux-x64/JishoTangoAssistant
+          name: JishoTangoAssistant-${{ matrix.runtime }}
+          path: ./JishoTangoAssistant/publish/${{ matrix.runtime }}/JishoTangoAssistant${{ matrix.runtime == 'win-x64' && '.exe' || '' }}
