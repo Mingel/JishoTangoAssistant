@@ -61,18 +61,18 @@
 					<Label Grid.Column="0" Margin="5,7,0,1" Content="Front → Back:"/>
 					<RadioButton Margin="0,1,0,1" Grid.Column="2" GroupName="cardDirection" IsChecked="{Binding JapaneseToEnglishDirection}">
 						<StackPanel Orientation="Horizontal">
-						<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+						<Svg Path="avares://JishoTangoAssistant/Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 						<TextBlock Text="→ Reading + " VerticalAlignment="Center" Margin="5,0,0,0"/>
-						<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-						<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+						<Svg Path="avares://JishoTangoAssistant/Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+						<Svg Path="avares://JishoTangoAssistant/Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 					</StackPanel>
 					</RadioButton>
 					<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}">
 						<StackPanel Orientation="Horizontal">
-							<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-							<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 							<TextBlock Text="→ " VerticalAlignment="Center" Margin="5,0,0,0"/>
-							<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 							<TextBlock Text="+ Reading" VerticalAlignment="Center" Margin="5,0,0,0"/>
 						</StackPanel>
 					</RadioButton>
