@@ -1,4 +1,4 @@
-name: JishoTangoAssistant Build
+name: JishoTangoAssistant Build and Upload
 on: 
   push:
     branches:
@@ -25,7 +25,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ "ubuntu-latest", "windows-latest" ]
+        os: [ "ubuntu-latest" ]
         dotnet-version: ['9.0']
     steps:
       - uses: actions/checkout@v4
@@ -39,71 +39,18 @@ jobs:
         run: dotnet build JishoTangoAssistant --no-restore --configuration Release --property:OutputPath=build/JishoTangoAssistant
       - name: Test
         run: dotnet test --no-restore --configuration Release --verbosity normal --property:TestResultsDirectory=build/tests
-      - name: Packaging workflow data as artifacts
-        run: mkdir deploy && cp -r JishoTangoAssistant/build/JishoTangoAssistant deploy/ && ls ./deploy/JishoTangoAssistant
+      - name: Publish (Windows)
+        run: dotnet publish JishoTangoAssistant --no-restore --configuration Release --runtime win-x64 --property:PublishDir=publish/win-x64
       - name: Upload to artifact (Windows)
         uses: actions/upload-artifact@v4
         with:
-          name: JishoTangoAssistant-${{ matrix.os }}
-          path: |
-            ./deploy/**
-            !./deploy/JishoTangoAssistant/runtimes/browser-wasm
-            !./deploy/JishoTangoAssistant/runtimes/linux-arm
-            !./deploy/JishoTangoAssistant/runtimes/linux-arm64
-            !./deploy/JishoTangoAssistant/runtimes/linux-armel
-            !./deploy/JishoTangoAssistant/runtimes/linux-mips64
-            !./deploy/JishoTangoAssistant/runtimes/linux-musl-arm
-            !./deploy/JishoTangoAssistant/runtimes/linux-musl-arm64
-            !./deploy/JishoTangoAssistant/runtimes/linux-ppc64le
-            !./deploy/JishoTangoAssistant/runtimes/linux-s390x
-            !./deploy/JishoTangoAssistant/runtimes/linux-x64
-            !./deploy/JishoTangoAssistant/runtimes/linux-x86
-            !./deploy/JishoTangoAssistant/runtimes/maccatalyst-arm64
-            !./deploy/JishoTangoAssistant/runtimes/maccatalyst-x64
-            !./deploy/JishoTangoAssistant/runtimes/osx
-            !./deploy/JishoTangoAssistant/runtimes/osx-arm64
-            !./deploy/JishoTangoAssistant/runtimes/osx-x64
-            !./deploy/JishoTangoAssistant/runtimes/browser-wasm/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-arm/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-arm64/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-armel/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-mips64/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-musl-arm/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-musl-arm64/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-ppc64le/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-s390x/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-x64/**
-            !./deploy/JishoTangoAssistant/runtimes/linux-x86/**
-            !./deploy/JishoTangoAssistant/runtimes/maccatalyst-arm64/**
-            !./deploy/JishoTangoAssistant/runtimes/maccatalyst-x64/**
-            !./deploy/JishoTangoAssistant/runtimes/osx/**
-            !./deploy/JishoTangoAssistant/runtimes/osx-arm64/**
-            !./deploy/JishoTangoAssistant/runtimes/osx-x64/**
+          name: JishoTangoAssistant.exe
+          path: ./JishoTangoAssistant/publish/win-x64/JishoTangoAssistant.exe
         if: matrix.os == 'windows-latest'
+      - name: Publish (Linux)
+        run: dotnet publish JishoTangoAssistant --no-restore --configuration Release --runtime linux-x64 --property:PublishDir=publish/linux-x64
       - name: Upload to artifact (Linux)
         uses: actions/upload-artifact@v4
         with:
-          name: JishoTangoAssistant-${{ matrix.os }}
-          path: |
-            ./deploy/**
-            !./deploy/JishoTangoAssistant/runtimes/browser-wasm
-            !./deploy/JishoTangoAssistant/runtimes/maccatalyst-arm64
-            !./deploy/JishoTangoAssistant/runtimes/maccatalyst-x64
-            !./deploy/JishoTangoAssistant/runtimes/osx
-            !./deploy/JishoTangoAssistant/runtimes/osx-arm64
-            !./deploy/JishoTangoAssistant/runtimes/osx-x64
-            !./deploy/JishoTangoAssistant/runtimes/win-arm
-            !./deploy/JishoTangoAssistant/runtimes/win-arm64
-            !./deploy/JishoTangoAssistant/runtimes/win-x64
-            !./deploy/JishoTangoAssistant/runtimes/win-x86
-            !./deploy/JishoTangoAssistant/runtimes/browser-wasm/**
-            !./deploy/JishoTangoAssistant/runtimes/maccatalyst-arm64/**
-            !./deploy/JishoTangoAssistant/runtimes/maccatalyst-x64/**
-            !./deploy/JishoTangoAssistant/runtimes/osx/**
-            !./deploy/JishoTangoAssistant/runtimes/osx-arm64/**
-            !./deploy/JishoTangoAssistant/runtimes/osx-x64/**
-            !./deploy/JishoTangoAssistant/runtimes/win-arm/**
-            !./deploy/JishoTangoAssistant/runtimes/win-arm64/**
-            !./deploy/JishoTangoAssistant/runtimes/win-x64/**
-            !./deploy/JishoTangoAssistant/runtimes/win-x86/**
-        if: matrix.os == 'ubuntu-latest'
+          name: JishoTangoAssistant
+          path: ./JishoTangoAssistant/publish/linux-x64/JishoTangoAssistant
