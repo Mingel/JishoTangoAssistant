@@ -22,7 +22,7 @@
 						<Label Grid.Column="0" x:Name="FontSizeLabel" Margin="5,4,0,0">
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Text="Font Size (" VerticalAlignment="Center"/>
-								<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+								<Svg Path="avares://JishoTangoAssistant/Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 								<TextBlock Text="):" VerticalAlignment="Center" Margin="1,0,0,0"/>
 							</StackPanel>
 						</Label>
@@ -32,10 +32,10 @@
 						<StackPanel Orientation="Horizontal">
 							<PathIcon Data="{StaticResource export_regular}" />
 							<TextBlock Text="Export to .csv (" VerticalAlignment="Center" Margin="5,0,0,0"/>
-							<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 							<TextBlock Text="→ Reading + " VerticalAlignment="Center" Margin="5,0,0,0"/>
-							<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-							<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 							<TextBlock Text=")" VerticalAlignment="Center" Margin="1,0,0,0"/>
 						</StackPanel>
 					</Button>
@@ -43,10 +43,10 @@
 						<StackPanel Orientation="Horizontal">
 							<PathIcon Data="{StaticResource export_regular}" />
 							<TextBlock Text="Export to .csv (" VerticalAlignment="Center" Margin="5,0,0,0"/>
-							<Svg Path="Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
-							<Svg Path="Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 							<TextBlock Text="→ " VerticalAlignment="Center" Margin="5,0,0,0"/>
-							<Svg Path="Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant/Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
 							<TextBlock Text="+ Reading)" VerticalAlignment="Center" Margin="5,0,0,0"/>
 						</StackPanel>
 					</Button>
