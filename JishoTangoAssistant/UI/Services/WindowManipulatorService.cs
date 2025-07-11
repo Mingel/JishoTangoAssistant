@@ -1,8 +1,8 @@
 using JishoTangoAssistant.Core.Interfaces;
 
-namespace JishoTangoAssistant.Core.Services;
+namespace JishoTangoAssistant.UI.Services;
 
-public class WindowManipulatorService(ICurrentSessionService currentSessionService) : IWindowManipulatorService
+public class WindowManipulatorService(ICurrentSessionService currentSessionService)
 {
     public void UpdateTitle()
     {

@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.Core.Models;
 using JishoTangoAssistant.UI.Elements;
+using JishoTangoAssistant.UI.Services;
 using JishoTangoAssistant.UI.Utils;
 
 namespace JishoTangoAssistant.UI.ViewModels.VocabularyListViewModels;
@@ -14,12 +15,12 @@ public partial class VocabularyListLoadViewModel : JishoTangoAssistantViewModelB
 {
     private readonly IVocabularyListService vocabularyListService;
     private readonly ICurrentSessionService currentSessionService;
-    private readonly IWindowManipulatorService windowManipulatorService;
+    private readonly WindowManipulatorService windowManipulatorService;
 
     public VocabularyListLoadViewModel(
         IVocabularyListService vocabularyListService,
         ICurrentSessionService currentSessionService,
-        IWindowManipulatorService windowManipulatorService)
+        WindowManipulatorService windowManipulatorService)
     {
         this.vocabularyListService = vocabularyListService;
         this.currentSessionService = currentSessionService;

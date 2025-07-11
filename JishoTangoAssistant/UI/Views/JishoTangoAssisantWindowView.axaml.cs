@@ -1,14 +1,12 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
 using Avalonia.Threading;
-using Avalonia.VisualTree;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.UI.Elements;
+using JishoTangoAssistant.UI.Services;
 using JishoTangoAssistant.UI.Utils;
 using JishoTangoAssistant.UI.Views.JapaneseUserInputViews;
 using JishoTangoAssistant.UI.Views.VocabularyListViews;
@@ -31,7 +29,7 @@ public partial class JishoTangoAssistantWindowView : Window
     protected override void OnLoaded(RoutedEventArgs e)
     {
         serviceProvider = Application.Current?.Resources[typeof(IServiceProvider)] as IServiceProvider;
-        var windowManipulatorService = serviceProvider?.GetRequiredService<IWindowManipulatorService>();
+        var windowManipulatorService = serviceProvider?.GetRequiredService<WindowManipulatorService>();
         windowManipulatorService?.UpdateTitle();
     }
     

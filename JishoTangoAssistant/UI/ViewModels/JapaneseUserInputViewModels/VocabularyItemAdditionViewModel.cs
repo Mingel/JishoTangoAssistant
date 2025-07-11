@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.Core.Models;
 using JishoTangoAssistant.UI.Messages;
+using JishoTangoAssistant.UI.Services;
 
 namespace JishoTangoAssistant.UI.ViewModels.JapaneseUserInputViewModels;
 
@@ -13,7 +14,7 @@ public partial class VocabularyItemAdditionViewModel : JishoTangoAssistantViewMo
     private readonly ICurrentJapaneseUserInputSelectionService currentSelectionService;
     private readonly IVocabularyListService vocabularyListService;
     private readonly ICurrentSessionService currentSessionService;
-    private readonly IWindowManipulatorService windowManipulatorService;
+    private readonly WindowManipulatorService windowManipulatorService;
     
     [ObservableProperty]
     private bool itemAdditionPossible;
@@ -22,7 +23,7 @@ public partial class VocabularyItemAdditionViewModel : JishoTangoAssistantViewMo
         ICurrentJapaneseUserInputSelectionService currentSelectionService,
         IVocabularyListService vocabularyListService,
         ICurrentSessionService currentSessionService,
-        IWindowManipulatorService windowManipulatorService)
+        WindowManipulatorService windowManipulatorService)
     {
         this.currentSelectionService = currentSelectionService;
         this.vocabularyListService = vocabularyListService;

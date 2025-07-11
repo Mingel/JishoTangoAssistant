@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Avalonia.Styling;
+using JishoTangoAssistant.UI.Services;
 using JishoTangoAssistant.UI.Utils;
 using JishoTangoAssistant.UI.ViewModels.VocabularyListViewModels;
 
@@ -11,7 +12,8 @@ namespace JishoTangoAssistant.UI.ViewModels;
 
 public partial class JishoTangoAssistantWindowViewModel(
     JapaneseUserInputViewModels.JapaneseUserInputViewModel japaneseUserInputViewModel,
-    VocabularyListViewModel vocabularyListViewModel)
+    VocabularyListViewModel vocabularyListViewModel,
+    SaveListService saveListService)
     : JishoTangoAssistantViewModelBase
 {
     [ObservableProperty]
@@ -20,6 +22,9 @@ public partial class JishoTangoAssistantWindowViewModel(
     [ObservableProperty]
     private VocabularyListViewModel vocabularyListViewModel = vocabularyListViewModel;
 
+    [RelayCommand]
+    private async Task SaveList() => await saveListService.PerformSave();
+    
     [RelayCommand]
     private void ToggleLightDarkMode()
     {

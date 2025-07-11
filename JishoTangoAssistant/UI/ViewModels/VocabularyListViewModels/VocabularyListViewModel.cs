@@ -1,4 +1,6 @@
 ﻿using JishoTangoAssistant.Core.Interfaces;
+using JishoTangoAssistant.Core.Services;
+using JishoTangoAssistant.UI.Services;
 
 namespace JishoTangoAssistant.UI.ViewModels.VocabularyListViewModels;
 
@@ -12,7 +14,8 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
     public VocabularyListViewModel(
         IVocabularyListService vocabularyListService,
         ICurrentSessionService currentSessionService,
-        IWindowManipulatorService windowManipulatorService)
+        WindowManipulatorService windowManipulatorService,
+        SaveListService saveListService)
     {
         VocabularyListDetailsViewModel = new VocabularyListDetailsViewModel(vocabularyListService,
             currentSessionService,
@@ -20,9 +23,7 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         VocabularyListLoadViewModel = new VocabularyListLoadViewModel(vocabularyListService,
             currentSessionService,
             windowManipulatorService);
-        VocabularyListSaveViewModel = new VocabularyListSaveViewModel(vocabularyListService,
-            currentSessionService,
-            windowManipulatorService);
+        VocabularyListSaveViewModel = new VocabularyListSaveViewModel(saveListService);
         VocabularyListExportViewModel = new VocabularyListExportViewModel(vocabularyListService,
             currentSessionService);
     }

@@ -8,6 +8,7 @@ using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.Core.Services;
 using JishoTangoAssistant.Infrastructure.ApiClients;
 using JishoTangoAssistant.Infrastructure.Persistence.Repositories;
+using JishoTangoAssistant.UI.Services;
 using JishoTangoAssistant.UI.ViewModels.VocabularyListViewModels;
 using JapaneseUserInputViewModel = JishoTangoAssistant.UI.ViewModels.JapaneseUserInputViewModels.JapaneseUserInputViewModel;
 
@@ -41,7 +42,8 @@ internal class Program
             .AddSingleton<JishoTangoAssistantWindowViewModel>()
             .AddSingleton<JapaneseUserInputViewModel>()
             .AddSingleton<VocabularyListViewModel>()
-            .AddScoped<IWindowManipulatorService, WindowManipulatorService>()
+            .AddSingleton<WindowManipulatorService>()
+            .AddSingleton<SaveListService>()
             .AddScoped<ICurrentSessionRepository, CurrentSessionRepository>()
             .AddScoped<IVocabularyListRepository, VocabularyListRepository>()
             .AddScoped<ICurrentJapaneseUserInputSelectionService, CurrentJapaneseUserInputSelectionService>()

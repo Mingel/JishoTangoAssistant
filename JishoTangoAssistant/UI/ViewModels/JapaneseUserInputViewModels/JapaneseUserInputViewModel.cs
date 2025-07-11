@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.UI.Messages;
+using JishoTangoAssistant.UI.Services;
 
 namespace JishoTangoAssistant.UI.ViewModels.JapaneseUserInputViewModels;
 
@@ -14,7 +15,7 @@ public partial class JapaneseUserInputViewModel : JishoTangoAssistantViewModelBa
         ICurrentSessionService currentSessionService,
         ICurrentJapaneseUserInputSelectionService currentSelectionService,
         IVocabularyListService vocabularyListService,
-        IWindowManipulatorService windowManipulatorService)
+        WindowManipulatorService windowManipulatorService)
     {
         WordSearchViewModel = new WordSearchViewModel(currentSelectionService);
         PreEnteredInputViewModel = new PreEnteredInputViewModel();

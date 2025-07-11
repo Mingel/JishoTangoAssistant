@@ -28,6 +28,10 @@
 			<Setter Property="Background" Value="{DynamicResource TabItemPointerOverBackground}"/>
 		</Style>
 	</Window.Styles>
+	
+	<Window.KeyBindings>
+		<KeyBinding Gesture="Ctrl+S" Command="{Binding SaveListCommand}" />
+	</Window.KeyBindings>
 
 	<DockPanel Background="{DynamicResource GeneralBackground}">
 		<Menu DockPanel.Dock="Top">

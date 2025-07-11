@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using JishoTangoAssistant.Core.Collections;
 using JishoTangoAssistant.Core.Interfaces;
+using JishoTangoAssistant.UI.Services;
 
 namespace JishoTangoAssistant.UI.ViewModels.VocabularyListViewModels;
 
@@ -10,7 +11,7 @@ public partial class VocabularyListDetailsViewModel : JishoTangoAssistantViewMod
 {
     private readonly IVocabularyListService vocabularyListService;
     private readonly ICurrentSessionService currentSessionService;
-    private readonly IWindowManipulatorService windowManipulatorService;
+    private readonly WindowManipulatorService windowManipulatorService;
 
     [ObservableProperty] 
     private int selectedVocabItemIndex;
@@ -18,7 +19,7 @@ public partial class VocabularyListDetailsViewModel : JishoTangoAssistantViewMod
     public VocabularyListDetailsViewModel(
         IVocabularyListService vocabularyListService,
         ICurrentSessionService currentSessionService,
-        IWindowManipulatorService windowManipulatorService)
+        WindowManipulatorService windowManipulatorService)
     {
         this.vocabularyListService = vocabularyListService;
         this.currentSessionService = currentSessionService;
