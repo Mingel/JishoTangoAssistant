@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JishoTangoAssistant.Common.Collections;
 using JishoTangoAssistant.Core.Collections;
 using JishoTangoAssistant.Core.Models;
 
@@ -13,6 +12,7 @@ public interface IVocabularyListService
     Task AddAsync(VocabularyItem item);
     bool ContainsWord(string word);
     bool Contains(VocabularyItem item);
+    bool SequenceEqual(IEnumerable<VocabularyItem> items);
     int Count();
     Task UndoAsync();
     Task ClearAsync(bool resetAutoIncrementId = true);

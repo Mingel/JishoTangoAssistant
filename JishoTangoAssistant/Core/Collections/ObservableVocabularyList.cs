@@ -322,10 +322,9 @@ public sealed class ObservableVocabularyList : IList<VocabularyItem>, INotifyCol
     }
     #endregion
 
-    public bool ContainsWord(string word)
-    {
-        return vocabularyDictionary.ContainsKey(word) && vocabularyDictionary[word].Count > 0;
-    }
+    public bool ContainsWord(string word) => vocabularyDictionary.ContainsKey(word) && vocabularyDictionary[word].Count > 0;
+
+    public bool SequenceEqual(IEnumerable<VocabularyItem> items) => vocabularyList.SequenceEqual(items);
 
     private void ChangeOrderStartingFrom(int startIndex, int increaseByValue)
     {

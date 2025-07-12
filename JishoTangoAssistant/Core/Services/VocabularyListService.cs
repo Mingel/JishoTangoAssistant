@@ -43,6 +43,8 @@ public class VocabularyListService : IVocabularyListService
 
     public bool Contains(VocabularyItem item) => vocabularyList.Contains(item);
 
+    public bool SequenceEqual(IEnumerable<VocabularyItem> items) => vocabularyList.SequenceEqual(items);
+
     public int Count() => vocabularyList.Count;
 
     public async Task UndoAsync()

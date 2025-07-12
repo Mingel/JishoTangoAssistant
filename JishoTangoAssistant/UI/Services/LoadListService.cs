@@ -1,11 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
+using JishoTangoAssistant.Common.Data;
 using JishoTangoAssistant.Core.Interfaces;
 using JishoTangoAssistant.Core.Models;
 using JishoTangoAssistant.UI.Elements;
 using JishoTangoAssistant.UI.Utils;
+using Newtonsoft.Json;
 
 namespace JishoTangoAssistant.UI.Services;
 
@@ -50,5 +53,26 @@ public class LoadListService(IVocabularyListService vocabularyListService, ICurr
         currentSessionService.SetLoadedFilePath(loadedFileInfo?.FilePath);
         currentSessionService.SetUserMadeUnsavedChanges(false);
         windowManipulatorService.UpdateTitle();
+    }
+
+    public async Task<IEnumerable<VocabularyItem>?> LoadFromFile(string absoluteFilePath)
+    {
+        var filePath = Uri.UnescapeDataString(absoluteFilePath);
+
+        if (!File.Exists(filePath))
+            return null;
+        
+        var fileTextContent = await File.ReadAllTextAsync(filePath);
+        
+        var loadedFileTextInfo = new FileInfo<string>(fileTextContent, filePath);
+        
+        var fileContent = loadedFileTextInfo.Content;
+        var content = JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
+
+        if (content == null)
+            return null;
+        
+        var loadedFileInfo = new FileInfo<IEnumerable<VocabularyItem>>(content, loadedFileTextInfo.FilePath);
+        return loadedFileInfo.Content;
     }
 }
