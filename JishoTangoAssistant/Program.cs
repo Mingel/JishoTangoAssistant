@@ -44,6 +44,7 @@ internal class Program
             .AddSingleton<VocabularyListViewModel>()
             .AddSingleton<WindowManipulatorService>()
             .AddSingleton<SaveListService>()
+            .AddSingleton<LoadListService>()
             .AddScoped<ICurrentSessionRepository, CurrentSessionRepository>()
             .AddScoped<IVocabularyListRepository, VocabularyListRepository>()
             .AddScoped<ICurrentJapaneseUserInputSelectionService, CurrentJapaneseUserInputSelectionService>()

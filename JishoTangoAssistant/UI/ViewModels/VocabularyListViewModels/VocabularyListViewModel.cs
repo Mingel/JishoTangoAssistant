@@ -15,14 +15,13 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         IVocabularyListService vocabularyListService,
         ICurrentSessionService currentSessionService,
         WindowManipulatorService windowManipulatorService,
-        SaveListService saveListService)
+        SaveListService saveListService,
+        LoadListService loadListService)
     {
         VocabularyListDetailsViewModel = new VocabularyListDetailsViewModel(vocabularyListService,
             currentSessionService,
             windowManipulatorService);
-        VocabularyListLoadViewModel = new VocabularyListLoadViewModel(vocabularyListService,
-            currentSessionService,
-            windowManipulatorService);
+        VocabularyListLoadViewModel = new VocabularyListLoadViewModel(loadListService);
         VocabularyListSaveViewModel = new VocabularyListSaveViewModel(saveListService);
         VocabularyListExportViewModel = new VocabularyListExportViewModel(vocabularyListService,
             currentSessionService);
