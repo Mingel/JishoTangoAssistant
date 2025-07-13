@@ -31,6 +31,7 @@
 	
 	<Window.KeyBindings>
 		<KeyBinding Gesture="Ctrl+S" Command="{Binding SaveListCommand}" />
+		<KeyBinding Gesture="Ctrl+Shift+S" Command="{Binding SaveAsCommand}" />
 	</Window.KeyBindings>
 
 	<DockPanel Background="{DynamicResource GeneralBackground}">

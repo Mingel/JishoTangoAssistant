@@ -8,4 +8,7 @@ public partial class VocabularyListSaveViewModel(SaveListService saveListService
 {
     [RelayCommand]
     private async Task SaveList() => await saveListService.PerformSave();
+    
+    [RelayCommand]
+    private async Task SaveAs() => await saveListService.PerformSaveAs();
 }

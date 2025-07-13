@@ -26,6 +26,9 @@ public partial class JishoTangoAssistantWindowViewModel(
     private async Task SaveList() => await saveListService.PerformSave();
     
     [RelayCommand]
+    private async Task SaveAs() => await saveListService.PerformSaveAs();
+    
+    [RelayCommand]
     private void ToggleLightDarkMode()
     {
         var app = Avalonia.Application.Current;

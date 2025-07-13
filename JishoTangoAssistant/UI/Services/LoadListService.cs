@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using JishoTangoAssistant.Common.Data;
@@ -16,7 +17,6 @@ public class LoadListService(IVocabularyListService vocabularyListService, ICurr
 {
     public async Task PerformLoad()
     {
-        
         bool? performOverwriting = null;
         if (vocabularyListService.Count() > 0)
         {
@@ -61,18 +61,16 @@ public class LoadListService(IVocabularyListService vocabularyListService, ICurr
 
         if (!File.Exists(filePath))
             return null;
-        
-        var fileTextContent = await File.ReadAllTextAsync(filePath);
+
+        await using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        using var streamReader = new StreamReader(stream, Encoding.UTF8);
+        var fileTextContent = await streamReader.ReadToEndAsync();
         
         var loadedFileTextInfo = new FileInfo<string>(fileTextContent, filePath);
         
         var fileContent = loadedFileTextInfo.Content;
         var content = JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
 
-        if (content == null)
-            return null;
-        
-        var loadedFileInfo = new FileInfo<IEnumerable<VocabularyItem>>(content, loadedFileTextInfo.FilePath);
-        return loadedFileInfo.Content;
+        return content;
     }
 }

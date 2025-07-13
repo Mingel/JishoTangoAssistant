@@ -56,7 +56,7 @@ public partial class JishoTangoAssistantWindowView : Window
             {
                 await vocabularyListService.ClearAsync();
                 await vocabularyListService.AddRangeAsync(loadedVocabularyItemList);
-                Console.WriteLine($"File in {currentSessionService.GetLoadedFilePath()} contains different data than in local database despite user not having changes made, local database content overwritten");
+                Console.WriteLine($"File {currentSessionService.GetLoadedFilePath()} contains different data than in local database despite user not having changes made, local database content overwritten");
                 return;
             }
         }
@@ -71,7 +71,7 @@ public partial class JishoTangoAssistantWindowView : Window
             if (vocabularyListService != null)
                 await vocabularyListService.ClearAsync();
             
-            Console.WriteLine($"File in {loadedFilePath} could not be loaded, data was reset to initial state");
+            Console.WriteLine($"File {loadedFilePath} could not be loaded, data was reset to initial state");
         }
     }
 
