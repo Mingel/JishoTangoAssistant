@@ -1,0 +1,109 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JishoTangoAssistant.Presentation.UI.Views.JapaneseUserInputViews.OutputPanelView">
+	
+	
+	<UserControl.Styles>
+		<StyleInclude Source="avares://JishoTangoAssistant.Presentation/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
+
+		<Style Selector="HeaderedContentControl#OutputContentControl">
+			<Setter Property="BorderBrush" Value="{DynamicResource DefaultBorderColor}"/>
+		</Style>
+		<Style Selector="HeaderedContentControl#OutputContentControl.sameMeaning">
+			<Setter Property="BorderBrush" Value="{DynamicResource SameMeaningColor}"/>
+		</Style>
+		<Style Selector="HeaderedContentControl#OutputContentControl.differentMeaning">
+			<Setter Property="BorderBrush" Value="{DynamicResource DifferentMeaningColor}"/>
+		</Style>
+	</UserControl.Styles>
+	
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="OutputBackground">#FFD3D3D3</SolidColorBrush>
+					
+					<SolidColorBrush x:Key="DifferentMeaningColor">Orange</SolidColorBrush>
+					<SolidColorBrush x:Key="SameMeaningColor">Red</SolidColorBrush>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<SolidColorBrush x:Key="OutputBackground">#FF333333</SolidColorBrush>
+					
+					<SolidColorBrush x:Key="DifferentMeaningColor">Orange</SolidColorBrush>
+					<SolidColorBrush x:Key="SameMeaningColor">Red</SolidColorBrush>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	
+	<StackPanel x:Name="OutputPanel">
+		<HeaderedContentControl x:Name="OutputContentControl" Height="165" Header="Resulting Card Preview"
+		Classes.sameMeaning="{Binding IsDuplicateAndHasSameMeaning}"
+		Classes.differentMeaning="{Binding IsDuplicateAndHasDifferentMeaning}"
+		BorderThickness="2">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="110"/>
+						<ColumnDefinition Width="10"/>
+						<ColumnDefinition Width="175"/>
+						<ColumnDefinition Width="55"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
+					<Label Grid.Column="0" Margin="5,7,0,1" Content="Front → Back:"/>
+					<RadioButton Margin="0,1,0,1" Grid.Column="2" GroupName="cardDirection" IsChecked="{Binding JapaneseToEnglishDirection}">
+						<StackPanel Orientation="Horizontal">
+						<Svg Path="avares://JishoTangoAssistant.Presentation/Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+						<TextBlock Text="→ Reading + " VerticalAlignment="Center" Margin="5,0,0,0"/>
+						<Svg Path="avares://JishoTangoAssistant.Presentation/Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+						<Svg Path="avares://JishoTangoAssistant.Presentation/Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+					</StackPanel>
+					</RadioButton>
+					<RadioButton Margin="0,1,0,1" Grid.Column="4" GroupName="cardDirection" IsChecked="{Binding EnglishToJapaneseDirection}">
+						<StackPanel Orientation="Horizontal">
+							<Svg Path="avares://JishoTangoAssistant.Presentation/Assets/united-kingdom-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant.Presentation/Assets/united-states-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<TextBlock Text="→ " VerticalAlignment="Center" Margin="5,0,0,0"/>
+							<Svg Path="avares://JishoTangoAssistant.Presentation/Assets/japan-flag-icon.svg" MaxWidth="22.3" MaxHeight="15.6" Css=".st0 { stroke: black; stroke-width: 2px; stroke-linejoin: round; paint-order: stroke; }" Margin="1,0,0,0"/>
+							<TextBlock Text="+ Reading" VerticalAlignment="Center" Margin="5,0,0,0"/>
+						</StackPanel>
+					</RadioButton>
+				</Grid>
+				<Rectangle Grid.Row="1" HorizontalAlignment="Stretch" Fill="DarkGray" Height="1"/>
+				<Grid Grid.Row="2">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="2*"/>
+					</Grid.ColumnDefinitions>
+					<Label Grid.Row="0" Grid.Column="0" Margin="5,7,0,0" Content="Front"/>
+					<Rectangle Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Fill="DarkGray" Width="1" Margin="6,0,0,0"/>
+					<Label Grid.Row="0" Grid.Column="2" Margin="5,7,0,0" Content="Back"/>
+					<DockPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+						<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+							<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource OutputBackground}" Margin="5,7,0,0" Text="{Binding OutputFrontSideText}" FontSize="16"/>
+						</ScrollViewer>
+					</DockPanel>
+					<Rectangle Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch" Fill="DarkGray" Width="1" Margin="6,0,0,0"/>
+					<DockPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+						<ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+							<TextBlock VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource OutputBackground}" Margin="5,7,0,0" Text="{Binding OutputBackSideText}" FontSize="16"/>
+						</ScrollViewer>
+					</DockPanel>
+				</Grid>
+			</Grid>
+		</HeaderedContentControl>
+	</StackPanel>
+</UserControl>

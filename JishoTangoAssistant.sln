@@ -5,7 +5,17 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant.Tests", "JishoTangoAssistant.Tests\JishoTangoAssistant.Tests.csproj", "{190435E5-25A0-464A-86A5-405EC3E3DA85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant", "JishoTangoAssistant\JishoTangoAssistant.csproj", "{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JishoTangoAssistant.Presentation", "JishoTangoAssistant.Presentation\JishoTangoAssistant.Presentation.csproj", "{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JishoTangoAssistant.Application", "JishoTangoAssistant.Application\JishoTangoAssistant.Application.csproj", "{B8861A6C-258D-45D5-A2F8-C3979C9DB5A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JishoTangoAssistant.Infrastructure", "JishoTangoAssistant.Infrastructure\JishoTangoAssistant.Infrastructure.csproj", "{4F16B7E5-04BA-4510-A27E-1A0DC893FE77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JishoTangoAssistant.Repositories", "JishoTangoAssistant.Repositories\JishoTangoAssistant.Repositories.csproj", "{23C482C4-1FBE-496D-935C-24E2EFFB6F37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JishoTangoAssistant.Shared", "JishoTangoAssistant.Shared\JishoTangoAssistant.Shared.csproj", "{65C3BB28-E991-44F3-83AF-28BF27709FE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JishoTangoAssistant.Domain", "JishoTangoAssistant.Domain\JishoTangoAssistant.Domain.csproj", "{D48891AD-67D0-469B-8293-AAA672BAFDA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +31,26 @@ Global
 		{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63CFAA27-4B91-4E8F-A756-C55FCC4D642C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8861A6C-258D-45D5-A2F8-C3979C9DB5A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8861A6C-258D-45D5-A2F8-C3979C9DB5A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8861A6C-258D-45D5-A2F8-C3979C9DB5A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8861A6C-258D-45D5-A2F8-C3979C9DB5A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F16B7E5-04BA-4510-A27E-1A0DC893FE77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F16B7E5-04BA-4510-A27E-1A0DC893FE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F16B7E5-04BA-4510-A27E-1A0DC893FE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F16B7E5-04BA-4510-A27E-1A0DC893FE77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23C482C4-1FBE-496D-935C-24E2EFFB6F37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C482C4-1FBE-496D-935C-24E2EFFB6F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C482C4-1FBE-496D-935C-24E2EFFB6F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C482C4-1FBE-496D-935C-24E2EFFB6F37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65C3BB28-E991-44F3-83AF-28BF27709FE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65C3BB28-E991-44F3-83AF-28BF27709FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65C3BB28-E991-44F3-83AF-28BF27709FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65C3BB28-E991-44F3-83AF-28BF27709FE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D48891AD-67D0-469B-8293-AAA672BAFDA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D48891AD-67D0-469B-8293-AAA672BAFDA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D48891AD-67D0-469B-8293-AAA672BAFDA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D48891AD-67D0-469B-8293-AAA672BAFDA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

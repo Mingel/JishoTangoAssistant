@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="JishoTangoAssistant.Presentation.UI.Views.JapaneseUserInputViews.VocabularyItemAdditionView">
+    <Grid x:Name="LeftButtonsGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="2" x:Name="AddButton" Command="{Binding Path=AddToListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Enter" IsEnabled="{Binding ItemAdditionPossible}" Click="AddToVocabularyListClickHandler">
+            <StackPanel Orientation="Horizontal">
+                <PathIcon Data="{StaticResource add_square_regular}" /> 
+                <TextBlock Text="Add to Vocabulary List" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>

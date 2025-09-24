@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\JishoTangoAssistant.Shared\JishoTangoAssistant.Shared.csproj" />
+        <ProjectReference Include="..\JishoTangoAssistant.Domain\JishoTangoAssistant.Domain.csproj" />
+        <ProjectReference Include="..\JishoTangoAssistant.Repositories\JishoTangoAssistant.Repositories.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Avalonia" Version="11.3.6" />
+    </ItemGroup>
+</Project>

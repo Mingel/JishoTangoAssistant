@@ -3,6 +3,12 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="JishoTangoAssistant.Presentation/App.axaml" value="JishoTangoAssistant.Presentation/JishoTangoAssistant.Presentation.csproj" />
+        <entry key="JishoTangoAssistant.Presentation/UI/Views/JapaneseUserInputViews/AdditionalCommentsView.axaml" value="JishoTangoAssistant.Presentation/JishoTangoAssistant.Presentation.csproj" />
+        <entry key="JishoTangoAssistant.Presentation/UI/Views/JapaneseUserInputViews/JapaneseUserInputView.axaml" value="JishoTangoAssistant.Presentation/JishoTangoAssistant.Presentation.csproj" />
+        <entry key="JishoTangoAssistant.Presentation/UI/Views/JapaneseUserInputViews/MeaningsView.axaml" value="JishoTangoAssistant.Presentation/JishoTangoAssistant.Presentation.csproj" />
+        <entry key="JishoTangoAssistant.Presentation/UI/Views/JishoTangoAssisantWindowView.axaml" value="JishoTangoAssistant.Presentation/JishoTangoAssistant.Presentation.csproj" />
+        <entry key="JishoTangoAssistant.Presentation/UI/Views/VocabularyListViews/VocabularyListView.axaml" value="JishoTangoAssistant.Presentation/JishoTangoAssistant.Presentation.csproj" />
         <entry key="JishoTangoAssistant/App.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/View/JapaneseUserInputView.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />
         <entry key="JishoTangoAssistant/UI/View/JishoTangoAssisantWindow.axaml" value="JishoTangoAssistant/JishoTangoAssistant.csproj" />

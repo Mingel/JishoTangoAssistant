@@ -1,0 +1,70 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:japaneseUserInputViews="clr-namespace:JishoTangoAssistant.Presentation.UI.Views.JapaneseUserInputViews"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		x:Class="JishoTangoAssistant.Presentation.UI.Views.JapaneseUserInputViews.JapaneseUserInputView"
+		Focusable="True">
+	<UserControl.Styles>
+		<StyleInclude Source="avares://JishoTangoAssistant.Presentation/UI/Views/Styles/GroupBoxHeaderedContentControlStyle.axaml"/>
+	</UserControl.Styles>
+	
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="DefaultBorderColor">DarkGray</SolidColorBrush>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<SolidColorBrush x:Key="DefaultBorderColor">DarkGray</SolidColorBrush>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	
+	<Grid Width="NaN" Height="NaN" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		
+		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="NaN" Height="NaN" IsVisible="{Binding !ShowPreEnteredInputList}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+
+			<Grid Grid.Row="0" x:Name="UserInputPanel" HorizontalAlignment="Stretch">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="5"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<japaneseUserInputViews:WordSearchView DataContext="{Binding WordSearchViewModel}" Grid.Row="0" Height="NaN"/>
+				<japaneseUserInputViews:SelectedInputInformationView DataContext="{Binding SelectedInputInformationViewModel}" Grid.Row="2" MinHeight="44"/>
+				<japaneseUserInputViews:MeaningsView DataContext="{Binding MeaningsViewModel}" Grid.Row="4" Height="NaN"/>
+				<japaneseUserInputViews:AdditionalCommentsView DataContext="{Binding AdditionalCommentsViewModel}" Grid.Row="6" Height="NaN"/>
+				<japaneseUserInputViews:WriteKanaView DataContext="{Binding WriteKanaViewModel}" Grid.Row="8" Height="NaN"/>
+				<japaneseUserInputViews:OutputPanelView DataContext="{Binding OutputPanelViewModel}" Grid.Row="10" Height="165"/>
+			</Grid>
+			<japaneseUserInputViews:VocabularyItemAdditionView DataContext="{Binding VocabularyItemAdditionViewModel}" Grid.Row="1"/>
+		</Grid>
+		
+		<Panel Width="NaN" Height="NaN" IsVisible="{Binding ShowPreEnteredInputList}">
+			<japaneseUserInputViews:PreEnteredInputView DataContext="{Binding PreEnteredInputViewModel}"/>
+		</Panel>
+	</Grid>
+</UserControl>
