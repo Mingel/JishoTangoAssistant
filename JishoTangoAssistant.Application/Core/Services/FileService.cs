@@ -59,9 +59,6 @@ public class FileService(IVocabularyListService vocabularyListService, ICurrentS
         await using var streamWriter = new StreamWriter(stream, Encoding.UTF8);
         await streamWriter.WriteAsync(content);
         
-        Console.WriteLine($"File {filePath} saved");
-
-        currentSessionService.SetLoadedFilePath(filePath);
-        currentSessionService.SetUserMadeUnsavedChanges(false);
+        Console.WriteLine($"Export to {filePath} successful");
     }
 }
