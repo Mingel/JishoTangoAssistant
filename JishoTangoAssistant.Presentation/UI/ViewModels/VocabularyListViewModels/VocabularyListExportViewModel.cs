@@ -1,11 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.Input;
 using JishoTangoAssistant.Application.Core.Interfaces;
-using JishoTangoAssistant.Application.Core.Utils;
 using JishoTangoAssistant.Presentation.UI.Enums;
+using JishoTangoAssistant.Presentation.UI.Services;
 using JishoTangoAssistant.Presentation.UI.Utils;
 using JishoTangoAssistant.Shared.Constants;
 
@@ -13,13 +12,13 @@ namespace JishoTangoAssistant.Presentation.UI.ViewModels.VocabularyListViewModel
 
 public partial class VocabularyListExportViewModel : JishoTangoAssistantViewModelBase
 {
-    private readonly IVocabularyListService vocabularyListService;
     private readonly ICurrentSessionService currentSessionService;
+    private readonly SaveListUiService saveListUiService;
 
-    public VocabularyListExportViewModel(IVocabularyListService vocabularyListService, ICurrentSessionService currentSessionService)
+    public VocabularyListExportViewModel(ICurrentSessionService currentSessionService, SaveListUiService saveListUiService)
     {
-        this.vocabularyListService = vocabularyListService;
         this.currentSessionService = currentSessionService;
+        this.saveListUiService = saveListUiService;
     }
     
     [Range(6, 96, ErrorMessage = "Value must be between 6 and 96, currently set to default value")]
@@ -49,17 +48,8 @@ public partial class VocabularyListExportViewModel : JishoTangoAssistantViewMode
 
     private async Task ExportCsv(bool toJapanese)
     {
-        var filePickerFilter = new[] {
-            new FilePickerFileType("CSV Files") { Patterns = ["*.csv"] }
-        };
-
-        var list = vocabularyListService.GetList();
-
-        var contentToExport = toJapanese ? VocabularyListExporter.EnglishToJapanese(list, currentSessionService.GetExportSettings()) : VocabularyListExporter.JapaneseToEnglish(list, currentSessionService.GetExportSettings());
-
-        var result = await FilePicker.SaveAsync(contentToExport, "Export vocabulary list as", filePickerFilter);
-
-        if (result != null)
+        var isSuccessful = await saveListUiService.PerformExportAsCsv(toJapanese);
+        if (isSuccessful)
             await ShowNotetypeMessageBox();
     }
 

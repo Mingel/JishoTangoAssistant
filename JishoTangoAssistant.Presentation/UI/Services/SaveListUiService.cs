@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.Messaging;
 using JishoTangoAssistant.Application.Core.Interfaces;
-using JishoTangoAssistant.Application.Core.Services;
+using JishoTangoAssistant.Application.Core.Utils;
 using JishoTangoAssistant.Presentation.UI.Messages;
 using JishoTangoAssistant.Presentation.UI.Utils;
 
@@ -22,7 +22,7 @@ public class SaveListUiService(IVocabularyListService vocabularyListService, ICu
         
         var startLocationPath = Path.GetDirectoryName(currentSessionService.GetLoadedFilePath());
         var suggestedFileName = Path.GetFileName(currentSessionService.GetLoadedFilePath());
-        var filePath = await FilePicker.SaveAsync(list, "Save vocabulary list as", filePickerFilter, startLocationPath, suggestedFileName);
+        var filePath = await FilePicker.GetFilePathForSaveAsync("Save vocabulary list as", filePickerFilter, startLocationPath, suggestedFileName);
 
         if (filePath != null)
         {
@@ -45,5 +45,25 @@ public class SaveListUiService(IVocabularyListService vocabularyListService, ICu
             await fileService.PerformSave(list, loadedFilePath);            
             WeakReferenceMessenger.Default.Send(new UpdateWindowTitleMessage());    
         }
+    }
+    
+    public async Task<bool> PerformExportAsCsv(bool toJapanese)
+    {
+        var list = vocabularyListService.GetList();
+        var contentToExport = toJapanese ? VocabularyListExporter.EnglishToJapanese(list, currentSessionService.GetExportSettings()) : VocabularyListExporter.JapaneseToEnglish(list, currentSessionService.GetExportSettings());
+
+        var filePickerFilter = new[] {
+            new FilePickerFileType("CSV Files") { Patterns = ["*.csv"] }
+        };
+        
+        var startLocationPath = Path.GetDirectoryName(currentSessionService.GetLoadedFilePath());
+        var suggestedFileName = Path.GetFileName(currentSessionService.GetLoadedFilePath());
+        var filePath = await FilePicker.GetFilePathForSaveAsync("Export vocabulary list as", filePickerFilter, startLocationPath, suggestedFileName);
+
+        if (filePath == null)
+            return false;
+        
+        await fileService.PerformExport(contentToExport, filePath);
+        return true;
     }
 }

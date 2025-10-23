@@ -54,7 +54,7 @@ public static class FilePicker {
     }
     
     // return null, if saving was not successful
-    public static async Task<string?> SaveAsync<T>(IEnumerable<T> items, string? title = null, IReadOnlyList<FilePickerFileType>? options = null, string? startLocationPath = null, string? suggestedFileName = null)
+    public static async Task<string?> GetFilePathForSaveAsync(string? title = null, IReadOnlyList<FilePickerFileType>? options = null, string? startLocationPath = null, string? suggestedFileName = null)
     {
         var mainWindow = App.GetMainWindow();
     

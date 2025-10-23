@@ -22,7 +22,6 @@ public partial class VocabularyListViewModel : JishoTangoAssistantViewModelBase
         VocabularyListLoadViewModel = new VocabularyListLoadViewModel(currentSessionService, vocabularyListService,
             fileService);
         VocabularyListSaveViewModel = new VocabularyListSaveViewModel(saveListUiService);
-        VocabularyListExportViewModel = new VocabularyListExportViewModel(vocabularyListService,
-            currentSessionService);
+        VocabularyListExportViewModel = new VocabularyListExportViewModel(currentSessionService, saveListUiService);
     }
 }

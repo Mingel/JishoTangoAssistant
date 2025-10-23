@@ -50,4 +50,18 @@ public class FileService(IVocabularyListService vocabularyListService, ICurrentS
         currentSessionService.SetLoadedFilePath(filePath);
         currentSessionService.SetUserMadeUnsavedChanges(false);
     }
+    
+    public async Task PerformExport(string content, string loadedFilePath)
+    {
+        ArgumentNullException.ThrowIfNull(content);
+        var filePath = Uri.UnescapeDataString(loadedFilePath);
+        await using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+        await using var streamWriter = new StreamWriter(stream, Encoding.UTF8);
+        await streamWriter.WriteAsync(content);
+        
+        Console.WriteLine($"File {filePath} saved");
+
+        currentSessionService.SetLoadedFilePath(filePath);
+        currentSessionService.SetUserMadeUnsavedChanges(false);
+    }
 }
