@@ -36,9 +36,6 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Svg.Controls.Skia.Avalonia" Version="11.3.6.2" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.6" />
-    
-    <!-- Temporarily added SkiaSharp.NativeAssets.Linux because Svg.Controls.Skia.Avalonia uses an outdated version of SkiaSharp.NativeAssets.Linux, to be removed later -->
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
