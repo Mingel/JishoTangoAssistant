@@ -67,7 +67,7 @@
 						<TextBlock Text="Delete All" VerticalAlignment="Center" Margin="5,0,0,0"/>
 					</StackPanel>
 				</Button>
-				<Button Grid.Row="7" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Z">
+				<Button Grid.Row="7" x:Name="UndoActionButton" Command="{Binding Path=UndoOperationOnVocabularyListCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" HotKey="Ctrl+Alt+Z">
 					<StackPanel Orientation="Horizontal">
 						<PathIcon Data="{StaticResource arrow_undo_regular}" /> 
 						<TextBlock Text="Undo Last Action" VerticalAlignment="Center" Margin="5,0,0,0"/>
