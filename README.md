@@ -11,8 +11,7 @@ JishoTangoAssistant is an application which can create custom vocabulary lists f
 
 To build and run the application, use the following commands from the root folder:
 ```
-cd JishoTangoAssistant
-dotnet run
+dotnet run --project JishoTangoAssistant.Presentation
 ```
 Alternatively, you can use an IDE like e.g. [Visual Studio](https://visualstudio.microsoft.com/vs/) to build and run the application.
 
