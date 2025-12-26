@@ -1,5 +1,4 @@
 ﻿using JishoTangoAssistant.Application.Core.Utils;
-using NUnit.Framework;
 
 namespace JishoTangoAssistant.Tests;
 

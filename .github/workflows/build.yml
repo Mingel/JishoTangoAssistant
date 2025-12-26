@@ -36,13 +36,13 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build JishoTangoAssistant --no-restore --configuration Release
+        run: dotnet build JishoTangoAssistant.Presentation --no-restore --configuration Release
       - name: Test
         run: dotnet test --no-restore --configuration Release --verbosity normal
       - name: Publish for ${{ matrix.runtime }}
-        run: dotnet publish JishoTangoAssistant --no-restore --configuration Release --runtime ${{ matrix.runtime }} --property:PublishDir=publish/${{ matrix.runtime }}
+        run: dotnet publish JishoTangoAssistant.Presentation --no-restore --configuration Release --runtime ${{ matrix.runtime }} --property:PublishDir=publish/${{ matrix.runtime }}
       - name: Upload artifact for ${{ matrix.runtime }}
         uses: actions/upload-artifact@v4
         with:
           name: JishoTangoAssistant-${{ matrix.runtime }}
-          path: ./JishoTangoAssistant/publish/${{ matrix.runtime }}/JishoTangoAssistant${{ matrix.runtime == 'win-x64' && '.exe' || '' }}
+          path: ./JishoTangoAssistant/publish/${{ matrix.runtime }}/JishoTangoAssistant.Presentation${{ matrix.runtime == 'win-x64' && '.exe' || '' }}
