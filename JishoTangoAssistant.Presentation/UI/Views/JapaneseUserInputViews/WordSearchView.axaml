@@ -37,12 +37,12 @@
 				<ColumnDefinition Width="Auto" MinWidth="25"/>
 			</Grid.ColumnDefinitions>
 			
-			<Button Grid.Column="0" x:Name="PreEnteredInputsPrevButton" Command="{Binding Path=PrevPreEnteredInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding PreEnteredInputNoPrevPossible}">
+			<Button Grid.Column="0" x:Name="PreEnteredInputsPrevButton" Command="{Binding Path=PrevPreEnteredInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding PreEnteredInputNoPrevPossible}" HotKey="Ctrl+Left">
 				<StackPanel Orientation="Horizontal">
 					<PathIcon Data="{StaticResource arrow_left_regular}" /> 
 				</StackPanel>
 			</Button>
-			<Button Grid.Column="1" x:Name="PreEnteredInputsNextButton" Command="{Binding Path=NextPreEnteredInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding PreEnteredInputNoNextPossible}">
+			<Button Grid.Column="1" x:Name="PreEnteredInputsNextButton" Command="{Binding Path=NextPreEnteredInputCommand}" Margin="0,1,0,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding PreEnteredInputNoNextPossible}" HotKey="Ctrl+Right">
 				<StackPanel Orientation="Horizontal">
 					<PathIcon Data="{StaticResource arrow_right_regular}" /> 
 				</StackPanel>
