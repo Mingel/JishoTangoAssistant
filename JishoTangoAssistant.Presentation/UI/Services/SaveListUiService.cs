@@ -19,9 +19,10 @@ public class SaveListUiService(IVocabularyListService vocabularyListService, ICu
         var filePickerFilter = new[] {
             new FilePickerFileType("JTA Files") { Patterns = ["*.jta"] }
         };
-        
-        var startLocationPath = Path.GetDirectoryName(currentSessionService.GetLoadedFilePath());
-        var suggestedFileName = Path.GetFileName(currentSessionService.GetLoadedFilePath());
+
+        var loadedFilePath = currentSessionService.GetLoadedFilePath();
+        var startLocationPath = Path.GetDirectoryName(loadedFilePath);
+        var suggestedFileName = Path.GetFileNameWithoutExtension(loadedFilePath);
         var filePath = await FilePicker.GetFilePathForSaveAsync("Save vocabulary list as", filePickerFilter, startLocationPath, suggestedFileName);
 
         if (filePath != null)
@@ -56,8 +57,9 @@ public class SaveListUiService(IVocabularyListService vocabularyListService, ICu
             new FilePickerFileType("CSV Files") { Patterns = ["*.csv"] }
         };
         
-        var startLocationPath = Path.GetDirectoryName(currentSessionService.GetLoadedFilePath());
-        var suggestedFileName = Path.GetFileName(currentSessionService.GetLoadedFilePath());
+        var loadedFilePath = currentSessionService.GetLoadedFilePath();
+        var startLocationPath = Path.GetDirectoryName(loadedFilePath);
+        var suggestedFileName = Path.GetFileNameWithoutExtension(loadedFilePath);
         var filePath = await FilePicker.GetFilePathForSaveAsync("Export vocabulary list as", filePickerFilter, startLocationPath, suggestedFileName);
 
         if (filePath == null)
