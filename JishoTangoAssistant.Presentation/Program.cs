@@ -25,12 +25,7 @@ internal class Program
         .StartWithClassicDesktopLifetime(args);
 
     // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp()
-    {
-        GC.KeepAlive(typeof(SvgImageExtension).Assembly);
-        GC.KeepAlive(typeof(Avalonia.Svg.Skia.Svg).Assembly);
-        return BuildAvaloniaAppWithServices(BuildServices());
-    }
+    public static AppBuilder BuildAvaloniaApp() => BuildAvaloniaAppWithServices(BuildServices());
 
     public static AppBuilder BuildAvaloniaAppWithServices(IServiceProvider serviceProvider)
         => AppBuilder.Configure(() => new App(serviceProvider))

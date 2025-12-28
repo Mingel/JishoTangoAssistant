@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using JishoTangoAssistant.Domain.Models.Common.Collections;
 
-namespace JishoTangoAssistant.Domain.Models.Core.Models;
+namespace JishoTangoAssistant.Domain.Core.Models;
 
 public class CurrentJapaneseUserInputSelection
 {

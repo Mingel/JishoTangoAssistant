@@ -36,8 +36,8 @@
 
 	<DockPanel Background="{DynamicResource GeneralBackground}">
 		<Menu DockPanel.Dock="Top">
-			<MenuItem Header="Toggle Light/Dark Mode" Command="{Binding Path=ToggleLightDarkModeCommand}"/>
-			<MenuItem Header="About" Command="{Binding Path=OpenAboutCommand}"/>
+			<MenuItem Header="Toggle Light/Dark Mode" Command="{Binding Path=ToggleLightDarkModeCommand}" Focusable="False"/>
+			<MenuItem Header="About" Command="{Binding Path=OpenAboutCommand}" Focusable="False"/>
 		</Menu>
 
 		<Grid>
