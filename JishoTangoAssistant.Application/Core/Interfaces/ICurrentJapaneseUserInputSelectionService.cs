@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using JishoTangoAssistant.Domain.Core.Models;
 using JishoTangoAssistant.Domain.Models.Common.Collections;
-using JishoTangoAssistant.Domain.Models.Core.Models;
 
 namespace JishoTangoAssistant.Application.Core.Interfaces;
 

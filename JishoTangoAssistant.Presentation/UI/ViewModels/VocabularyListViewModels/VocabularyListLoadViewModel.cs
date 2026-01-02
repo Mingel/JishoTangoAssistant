@@ -41,14 +41,14 @@ public partial class VocabularyListLoadViewModel(ICurrentSessionService currentS
         };
 
         var startLocationPath = Path.GetDirectoryName(currentSessionService.GetLoadedFilePath());
-        var loadedFileInfo = await FilePicker.LoadAsync<VocabularyItem>(filePickerTitle, filePickerFilter, startLocationPath);
-        var loadedVocabularyItems = loadedFileInfo?.Content;
+        var loadedFileInfo = await FilePicker.LoadAsync<JishoTangoAssistantProfile>(filePickerTitle, filePickerFilter, startLocationPath);
+        var loadedProfile = loadedFileInfo?.Content;
         
         // this case occurs if user cancels file dialog
-        if (loadedVocabularyItems == null)
+        if (loadedProfile == null)
             return;
         
-        await fileService.PerformLoad(loadedVocabularyItems, performOverwriting ?? false, loadedFileInfo?.FilePath ?? string.Empty);
+        await fileService.PerformLoad(loadedProfile, performOverwriting ?? false, loadedFileInfo?.FilePath ?? string.Empty);
         WeakReferenceMessenger.Default.Send(new UpdateWindowTitleMessage());
     }
 }

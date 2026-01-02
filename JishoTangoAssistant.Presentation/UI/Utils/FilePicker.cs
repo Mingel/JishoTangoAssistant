@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
+using JishoTangoAssistant.Domain.Common.Data;
 using JishoTangoAssistant.Domain.Models.Common.Data;
 using Newtonsoft.Json;
 using JishoTangoAssistantWindowView = JishoTangoAssistant.Presentation.UI.Views.JishoTangoAssistantWindowView;
@@ -11,7 +12,7 @@ using JishoTangoAssistantWindowView = JishoTangoAssistant.Presentation.UI.Views.
 namespace JishoTangoAssistant.Presentation.UI.Utils;
 
 public static class FilePicker {
-    public static async Task<FileInfo<IEnumerable<T>>?> LoadAsync<T>(string? title = null, IReadOnlyList<FilePickerFileType>? options = null, string? startLocationPath = null)
+    public static async Task<FileInfo<T>?> LoadAsync<T>(string? title = null, IReadOnlyList<FilePickerFileType>? options = null, string? startLocationPath = null)
     {
         var loadedFileInfo = await LoadAsync(title, options);
 
@@ -19,8 +20,8 @@ public static class FilePicker {
             return null;
         
         var fileContent = loadedFileInfo.Content;
-        var content = JsonConvert.DeserializeObject<T[]>(fileContent);
-        return content != null ? new FileInfo<IEnumerable<T>>(content, loadedFileInfo.FilePath) : null;
+        var content = JsonConvert.DeserializeObject<T>(fileContent);
+        return content != null ? new FileInfo<T>(content, loadedFileInfo.FilePath) : null;
     }
     
     public static async Task<FileInfo<string>?> LoadAsync(string? title = null, IReadOnlyList<FilePickerFileType>? options = null, string? startLocationPath = null)

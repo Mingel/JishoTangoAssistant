@@ -1,4 +1,4 @@
-using JishoTangoAssistant.Domain.Models.Core.Models;
+using JishoTangoAssistant.Domain.Core.Models;
 
 namespace JishoTangoAssistant.Repositories;
 

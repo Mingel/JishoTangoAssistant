@@ -8,6 +8,7 @@ public abstract record Constants
     public const int MaxFontSize = 96;
     public const int DefaultFontSize = 28;
 
+    public const string CurrentSessionExportSettingsAnkiDeckNamePropertyName = "ExportSettings:AnkiDeckName";
     public const string CurrentSessionExportSettingsCustomFontSizePropertyName = "ExportSettings:CustomFontSize";
     public const string CurrentSessionLoadedFilePathPropertyName = "LoadedFilePath";
 

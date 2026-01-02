@@ -1,6 +1,6 @@
 ﻿using System.Text;
+using JishoTangoAssistant.Domain.Core.Models;
 using JishoTangoAssistant.Domain.Models.Core.Collections;
-using JishoTangoAssistant.Domain.Models.Core.Models;
 
 namespace JishoTangoAssistant.Application.Core.Utils;
 
@@ -11,8 +11,8 @@ public static class VocabularyListExporter
     public static string JapaneseToEnglish(ReadOnlyObservableVocabularyList items, ExportSettings exportSettings)
     {
         var sb = new StringBuilder();
-
-        sb.Append(AddFileHeader());
+        var fileHeader = AddFileHeader(exportSettings);
+        sb.Append(fileHeader);
 
         foreach (var item in items)
         {
@@ -42,8 +42,8 @@ public static class VocabularyListExporter
     public static string EnglishToJapanese(ReadOnlyObservableVocabularyList items, ExportSettings exportSettings)
     {
         var sb = new StringBuilder();
-        
-        sb.Append(AddFileHeader());
+        var fileHeader = AddFileHeader(exportSettings);
+        sb.Append(fileHeader);
 
         foreach (var item in items)
         {
@@ -82,13 +82,15 @@ public static class VocabularyListExporter
         return result;
     }
 
-    private static string AddFileHeader()
+    private static string AddFileHeader(ExportSettings exportSettings)
     {
+        var deckLine = string.IsNullOrEmpty(exportSettings.AnkiDeckName) ? string.Empty : $"#deck:{exportSettings.AnkiDeckName}";
+        
         var result = "#separator:Semicolon" + Environment.NewLine +
                      "#html:true" + Environment.NewLine +
                      "#columns:ID;Front;Back" + Environment.NewLine +
                      "#guid column:1" + Environment.NewLine +
-                     "#deck:Basic" + Environment.NewLine;
+                     deckLine + Environment.NewLine;
         return result;
     }
 }

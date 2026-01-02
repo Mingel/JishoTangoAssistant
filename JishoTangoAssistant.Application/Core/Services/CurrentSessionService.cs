@@ -1,5 +1,5 @@
 using JishoTangoAssistant.Application.Core.Interfaces;
-using JishoTangoAssistant.Domain.Models.Core.Models;
+using JishoTangoAssistant.Domain.Core.Models;
 using JishoTangoAssistant.Repositories;
 
 namespace JishoTangoAssistant.Application.Core.Services;

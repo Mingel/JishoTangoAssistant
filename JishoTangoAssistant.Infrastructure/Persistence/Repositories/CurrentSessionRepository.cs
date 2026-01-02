@@ -1,4 +1,4 @@
-using JishoTangoAssistant.Domain.Models.Core.Models;
+using JishoTangoAssistant.Domain.Core.Models;
 using JishoTangoAssistant.Infrastructure.Entities;
 using JishoTangoAssistant.Repositories;
 using JishoTangoAssistant.Shared.Constants;
@@ -18,26 +18,28 @@ public class CurrentSessionRepository : ICurrentSessionRepository
 
     public async Task<CurrentSession> GetCurrentSessionAsync()
     {
-        var customFontSizeEntity = await dbContext.CurrentSession
+        var customFontSizeProperty = await dbContext.CurrentSession
             .AsNoTracking().FirstOrDefaultAsync(property => property.Name == Constants.CurrentSessionExportSettingsCustomFontSizePropertyName);
-        var loadedFilePathEntity = await dbContext.CurrentSession
+        var ankiDeckNameProperty = await dbContext.CurrentSession
+            .AsNoTracking().FirstOrDefaultAsync(property => property.Name == Constants.CurrentSessionExportSettingsAnkiDeckNamePropertyName);
+        var loadedFilePathProperty = await dbContext.CurrentSession
             .AsNoTracking().FirstOrDefaultAsync(property => property.Name == Constants.CurrentSessionLoadedFilePathPropertyName);
-        var userMadeUnsavedChangesEntity = await dbContext.CurrentSession
+        var userMadeUnsavedChangesProperty = await dbContext.CurrentSession
             .AsNoTracking().FirstOrDefaultAsync(property => property.Name == Constants.CurrentSessionUserMadeUnsavedChanges);
         
         int exportSettingsFontSize =
-            int.TryParse(customFontSizeEntity?.Value, out exportSettingsFontSize) ? exportSettingsFontSize : Constants.DefaultFontSize;
-        var loadedFilePath = loadedFilePathEntity?.Value;
-        bool userMadeUnsavedChanges = bool.TryParse(userMadeUnsavedChangesEntity?.Value, out userMadeUnsavedChanges) && userMadeUnsavedChanges;
+            int.TryParse(customFontSizeProperty?.Value, out exportSettingsFontSize) ? exportSettingsFontSize : Constants.DefaultFontSize;
+        var loadedFilePath = loadedFilePathProperty?.Value;
+        bool userMadeUnsavedChanges = bool.TryParse(userMadeUnsavedChangesProperty?.Value, out userMadeUnsavedChanges) && userMadeUnsavedChanges;
         var currentSession = CreateInitialCurrentSession() with
         {
-            ExportSettings = new ExportSettings { FontSize = exportSettingsFontSize },
+            ExportSettings = new ExportSettings { FontSize = exportSettingsFontSize, AnkiDeckName = ankiDeckNameProperty?.Value ?? string.Empty },
             LoadedFilePath = loadedFilePath,
             UserMadeUnsavedChanges = userMadeUnsavedChanges
         };
 
         var addedToDatabase = false;
-        if (customFontSizeEntity == null)
+        if (customFontSizeProperty == null)
         {
             await dbContext.CurrentSession.AddAsync(new CurrentSessionPropertyEntity
             {
@@ -46,7 +48,16 @@ public class CurrentSessionRepository : ICurrentSessionRepository
             });
             addedToDatabase = true;
         }
-        if (loadedFilePathEntity == null)
+        if (ankiDeckNameProperty == null)
+        {
+            await dbContext.CurrentSession.AddAsync(new CurrentSessionPropertyEntity
+            {
+                Name = Constants.CurrentSessionExportSettingsAnkiDeckNamePropertyName,
+                Value = ankiDeckNameProperty?.Value ?? string.Empty
+            });
+            addedToDatabase = true;
+        }
+        if (loadedFilePathProperty == null)
         {
             await dbContext.CurrentSession.AddAsync(new CurrentSessionPropertyEntity
             {
@@ -55,7 +66,7 @@ public class CurrentSessionRepository : ICurrentSessionRepository
             });
             addedToDatabase = true;
         }
-        if (userMadeUnsavedChangesEntity == null)
+        if (userMadeUnsavedChangesProperty == null)
         {
             await dbContext.CurrentSession.AddRangeAsync(new CurrentSessionPropertyEntity
             {
@@ -81,8 +92,13 @@ public class CurrentSessionRepository : ICurrentSessionRepository
         };
     }
 
-    public async Task UpdateExportSettingsPropertyAsync(ExportSettings value) =>
-        await UpdateSessionPropertyAsync(Constants.CurrentSessionExportSettingsCustomFontSizePropertyName, value.FontSize);
+    public async Task UpdateExportSettingsPropertyAsync(ExportSettings value)
+    {
+        await UpdateSessionPropertyAsync(Constants.CurrentSessionExportSettingsCustomFontSizePropertyName,
+            value.FontSize);
+        await UpdateSessionPropertyAsync(Constants.CurrentSessionExportSettingsAnkiDeckNamePropertyName,
+            value.AnkiDeckName);
+    }
 
     public async Task UpdateLoadedFilePathPropertyAsync(string value) =>
         await UpdateSessionPropertyAsync(Constants.CurrentSessionLoadedFilePathPropertyName, value);

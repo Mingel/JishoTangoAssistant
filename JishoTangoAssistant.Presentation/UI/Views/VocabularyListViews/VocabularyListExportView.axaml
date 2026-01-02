@@ -13,6 +13,8 @@
 						<RowDefinition Height="Auto"/>
 						<RowDefinition Height="5"/>
 						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="5"/>
+						<RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
 					<Grid Grid.Row="1">
 						<Grid.ColumnDefinitions>
@@ -28,7 +30,17 @@
 						</Label>
 						<NumericUpDown Grid.Column="1" x:Name="FontSizeNumericUpDown" MinWidth="110" Width="100" Text="{Binding FontSize}" FormatString="{}{0:#,0}" Value="28" Minimum="6" Maximum="96"/>
 					</Grid>
-					<Button Grid.Row="3" x:Name="ExportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapaneseToEnglishCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+					<Grid Grid.Row="3">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<Label Grid.Column="0" x:Name="AnkiDeckNameLabel" Margin="5,4,0,0">
+							<TextBlock Text="Anki Deck Name:" VerticalAlignment="Center" Margin="1,0,0,0"/>
+						</Label>
+						<TextBox Grid.Column="1" x:Name="AnkiDeckNameBox" Text="{Binding AnkiDeckName}" TextWrapping="Wrap" Height="32" VerticalContentAlignment="Center" Margin="3,0,0,0" Width="NaN" />
+					</Grid>
+					<Button Grid.Row="5" x:Name="ExportCsvJapToEngButton" Command="{Binding Path=ExportCsvJapaneseToEnglishCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
 						<StackPanel Orientation="Horizontal">
 							<PathIcon Data="{StaticResource export_regular}" />
 							<TextBlock Text="Export to .csv (" VerticalAlignment="Center" Margin="5,0,0,0"/>
@@ -39,7 +51,7 @@
 							<TextBlock Text=")" VerticalAlignment="Center" Margin="1,0,0,0"/>
 						</StackPanel>
 					</Button>
-					<Button Grid.Row="5" x:Name="ExportCsvEngToJapButton" Command="{Binding Path=ExportCsvEnglishToJapaneseCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
+					<Button Grid.Row="7" x:Name="ExportCsvEngToJapButton" Command="{Binding Path=ExportCsvEnglishToJapaneseCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center">
 						<StackPanel Orientation="Horizontal">
 							<PathIcon Data="{StaticResource export_regular}" />
 							<TextBlock Text="Export to .csv (" VerticalAlignment="Center" Margin="5,0,0,0"/>

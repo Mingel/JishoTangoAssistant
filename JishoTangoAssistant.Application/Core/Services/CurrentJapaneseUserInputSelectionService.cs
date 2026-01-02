@@ -3,7 +3,6 @@ using JishoTangoAssistant.Application.Core.Interfaces;
 using JishoTangoAssistant.Domain.Core.Models;
 using JishoTangoAssistant.Domain.Models.Common.Collections;
 using JishoTangoAssistant.Domain.Models.Common.Data;
-using JishoTangoAssistant.Domain.Models.Core.Models;
 using JishoTangoAssistant.Repositories;
 using WritingSystemUtil = JishoTangoAssistant.Application.Core.Utils.WritingSystemUtil;
 

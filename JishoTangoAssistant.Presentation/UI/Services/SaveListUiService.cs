@@ -5,6 +5,7 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.Messaging;
 using JishoTangoAssistant.Application.Core.Interfaces;
 using JishoTangoAssistant.Application.Core.Utils;
+using JishoTangoAssistant.Domain.Core.Models;
 using JishoTangoAssistant.Presentation.UI.Messages;
 using JishoTangoAssistant.Presentation.UI.Utils;
 
@@ -14,8 +15,6 @@ public class SaveListUiService(IVocabularyListService vocabularyListService, ICu
 {
     public async Task PerformSaveAs()
     {
-        var list = vocabularyListService.GetList();
-
         var filePickerFilter = new[] {
             new FilePickerFileType("JTA Files") { Patterns = ["*.jta"] }
         };
@@ -27,7 +26,8 @@ public class SaveListUiService(IVocabularyListService vocabularyListService, ICu
 
         if (filePath != null)
         {
-            await fileService.PerformSave(list, filePath);            
+            var profile = CreateProfile();
+            await fileService.PerformSave(profile, filePath);            
             WeakReferenceMessenger.Default.Send(new UpdateWindowTitleMessage());
         }
     }
@@ -42,8 +42,8 @@ public class SaveListUiService(IVocabularyListService vocabularyListService, ICu
         }
         else
         {
-            var list = vocabularyListService.GetList();
-            await fileService.PerformSave(list, loadedFilePath);            
+            var profile = CreateProfile();
+            await fileService.PerformSave(profile, loadedFilePath);            
             WeakReferenceMessenger.Default.Send(new UpdateWindowTitleMessage());    
         }
     }
@@ -67,5 +67,14 @@ public class SaveListUiService(IVocabularyListService vocabularyListService, ICu
         
         await fileService.PerformExport(contentToExport, filePath);
         return true;
+    }
+    
+    private JishoTangoAssistantProfile CreateProfile()
+    {
+        return new JishoTangoAssistantProfile()
+        {
+            VocabularyItems = vocabularyListService.GetList(),
+            ExportSettings = currentSessionService.GetExportSettings(),
+        };
     }
 }

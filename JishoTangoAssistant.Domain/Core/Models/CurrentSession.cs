@@ -1,4 +1,4 @@
-﻿namespace JishoTangoAssistant.Domain.Models.Core.Models;
+﻿namespace JishoTangoAssistant.Domain.Core.Models;
 
 public record CurrentSession
 {

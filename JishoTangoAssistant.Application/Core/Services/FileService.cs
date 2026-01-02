@@ -1,23 +1,23 @@
 using System.Text;
 using JishoTangoAssistant.Application.Core.Interfaces;
+using JishoTangoAssistant.Domain.Common.Data;
 using JishoTangoAssistant.Domain.Core.Models;
-using JishoTangoAssistant.Domain.Models.Common.Data;
 using Newtonsoft.Json;
 
 namespace JishoTangoAssistant.Application.Core.Services;
 
 public class FileService(IVocabularyListService vocabularyListService, ICurrentSessionService currentSessionService) : IFileService
 {
-    public async Task PerformLoad(IEnumerable<VocabularyItem> loadedVocabularyItems, bool performOverwriting, string filePath)
+    public async Task PerformLoad(JishoTangoAssistantProfile loadedProfile, bool performOverwriting, string filePath)
     {
         if (performOverwriting)
             await vocabularyListService.ClearAsync();
-        await vocabularyListService.AddRangeAsync(loadedVocabularyItems, true);
+        await vocabularyListService.AddRangeAsync(loadedProfile.VocabularyItems, true);
         currentSessionService.SetLoadedFilePath(filePath);
         currentSessionService.SetUserMadeUnsavedChanges(false);
     }
 
-    public async Task<IEnumerable<VocabularyItem>?> LoadFromFile(string absoluteFilePath)
+    public async Task<JishoTangoAssistantProfile?> LoadFromFile(string absoluteFilePath)
     {
         var filePath = Uri.UnescapeDataString(absoluteFilePath);
 
@@ -31,14 +31,14 @@ public class FileService(IVocabularyListService vocabularyListService, ICurrentS
         var loadedFileTextInfo = new FileInfo<string>(fileTextContent, filePath);
         
         var fileContent = loadedFileTextInfo.Content;
-        var content = JsonConvert.DeserializeObject<VocabularyItem[]>(fileContent);
+        var content = JsonConvert.DeserializeObject<JishoTangoAssistantProfile>(fileContent);
 
         return content;
     }
     
-    public async Task PerformSave(IEnumerable<VocabularyItem> list, string loadedFilePath)
+    public async Task PerformSave(JishoTangoAssistantProfile profile, string loadedFilePath)
     {
-        var content = JsonConvert.SerializeObject(list, Formatting.Indented);
+        var content = JsonConvert.SerializeObject(profile, Formatting.Indented);
         ArgumentNullException.ThrowIfNull(content);
         var filePath = Uri.UnescapeDataString(loadedFilePath);
         await using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);

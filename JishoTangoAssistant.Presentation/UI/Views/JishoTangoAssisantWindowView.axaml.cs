@@ -48,8 +48,9 @@ public partial class JishoTangoAssistantWindowView : Window
         var loadSuccessful = false;
         if (currentSessionService?.GetUserMadeUnsavedChanges() == false && !string.IsNullOrEmpty(loadedFilePath) && fileService != null)
         {
-            var loadedVocabularyItems = await fileService.LoadFromFile(loadedFilePath);
-            loadSuccessful = loadedVocabularyItems != null;
+            var loadedProfile = await fileService.LoadFromFile(loadedFilePath);
+            loadSuccessful = loadedProfile != null;
+            var loadedVocabularyItems = loadedProfile?.VocabularyItems;
             var loadedVocabularyItemList = loadedVocabularyItems?.ToList();
 
             if (loadedVocabularyItemList != null && vocabularyListService?.SequenceEqual(loadedVocabularyItemList) == false)

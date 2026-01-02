@@ -1,9 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using JishoTangoAssistant.Application.Core.Interfaces;
 using JishoTangoAssistant.Presentation.UI.Enums;
+using JishoTangoAssistant.Presentation.UI.Messages;
 using JishoTangoAssistant.Presentation.UI.Services;
 using JishoTangoAssistant.Presentation.UI.Utils;
 using JishoTangoAssistant.Shared.Constants;
@@ -29,8 +32,29 @@ public partial class VocabularyListExportViewModel : JishoTangoAssistantViewMode
         {
             var exportSettings = currentSessionService.GetExportSettings();
             var fontSize = Math.Clamp(value, Constants.MinFontSize, Constants.MaxFontSize);
-            if (fontSize != exportSettings.FontSize)
-                currentSessionService.SetExportSettings(exportSettings with { FontSize = fontSize });
+            
+            if (fontSize == exportSettings.FontSize) 
+                return;
+            
+            currentSessionService.SetExportSettings(exportSettings with { FontSize = fontSize });
+            currentSessionService.SetUserMadeUnsavedChanges(true);
+            WeakReferenceMessenger.Default.Send(new UpdateWindowTitleMessage());
+        }
+    }
+
+    private string AnkiDeckName
+    {
+        get => currentSessionService.GetExportSettings().AnkiDeckName;
+        set
+        {
+            var exportSettings = currentSessionService.GetExportSettings();
+            
+            if (value == exportSettings.AnkiDeckName)
+                return;
+            
+            currentSessionService.SetExportSettings(exportSettings with { AnkiDeckName = value });
+            currentSessionService.SetUserMadeUnsavedChanges(true);
+            WeakReferenceMessenger.Default.Send(new UpdateWindowTitleMessage());
         }
     }
     
