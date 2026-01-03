@@ -1,6 +1,5 @@
 using System;
 using Avalonia;
-using Avalonia.Svg.Skia;
 using JishoTangoAssistant.Application.Core.Interfaces;
 using JishoTangoAssistant.Application.Core.Services;
 using JishoTangoAssistant.Infrastructure.ApiClients;

@@ -49,6 +49,7 @@ public partial class VocabularyListLoadViewModel(ICurrentSessionService currentS
             return;
         
         await fileService.PerformLoad(loadedProfile, performOverwriting ?? false, loadedFileInfo?.FilePath ?? string.Empty);
+        WeakReferenceMessenger.Default.Send(new UpdateExportSettingsMessage());
         WeakReferenceMessenger.Default.Send(new UpdateWindowTitleMessage());
     }
 }

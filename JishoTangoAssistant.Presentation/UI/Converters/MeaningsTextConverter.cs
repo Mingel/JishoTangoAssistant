@@ -8,7 +8,7 @@ namespace JishoTangoAssistant.Presentation.UI.Converters;
 
 public class MeaningsTextConverter : IValueConverter
 {
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not List<IEnumerable<string>> meaningGroups)
             return string.Empty;
@@ -18,7 +18,7 @@ public class MeaningsTextConverter : IValueConverter
 
     }
 
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not string meaningsText) 
             return new List<IEnumerable<string>>();

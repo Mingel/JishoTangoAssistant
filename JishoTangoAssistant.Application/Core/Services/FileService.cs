@@ -14,6 +14,7 @@ public class FileService(IVocabularyListService vocabularyListService, ICurrentS
             await vocabularyListService.ClearAsync();
         await vocabularyListService.AddRangeAsync(loadedProfile.VocabularyItems, true);
         currentSessionService.SetLoadedFilePath(filePath);
+        currentSessionService.SetExportSettings(loadedProfile.ExportSettings);
         currentSessionService.SetUserMadeUnsavedChanges(false);
     }
 

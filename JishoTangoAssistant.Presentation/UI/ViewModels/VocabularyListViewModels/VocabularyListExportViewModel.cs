@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using JishoTangoAssistant.Application.Core.Interfaces;
@@ -13,7 +12,7 @@ using JishoTangoAssistant.Shared.Constants;
 
 namespace JishoTangoAssistant.Presentation.UI.ViewModels.VocabularyListViewModels;
 
-public partial class VocabularyListExportViewModel : JishoTangoAssistantViewModelBase
+public partial class VocabularyListExportViewModel : JishoTangoAssistantViewModelBase, IRecipient<UpdateExportSettingsMessage>
 {
     private readonly ICurrentSessionService currentSessionService;
     private readonly SaveListUiService saveListUiService;
@@ -22,6 +21,7 @@ public partial class VocabularyListExportViewModel : JishoTangoAssistantViewMode
     {
         this.currentSessionService = currentSessionService;
         this.saveListUiService = saveListUiService;
+        WeakReferenceMessenger.Default.Register(this);
     }
     
     [Range(6, 96, ErrorMessage = "Value must be between 6 and 96, currently set to default value")]
@@ -81,5 +81,11 @@ public partial class VocabularyListExportViewModel : JishoTangoAssistantViewMode
     {
         await MessageBoxUtil.CreateAndShowAsync("Information", "Export complete!",
             MessageBoxButtons.Ok);
+    }
+
+    public void Receive(UpdateExportSettingsMessage message)
+    {
+        OnPropertyChanged(nameof(FontSize));
+        OnPropertyChanged(nameof(AnkiDeckName));
     }
 }
